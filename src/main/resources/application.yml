@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db.wepli.today:3306/wepli?serverTimezone=Asia/Seoul
+    username: weplisql
+    password: bit123!@#
+  servlet:
+    multipart:
+      max-file-size:
+        10MB
