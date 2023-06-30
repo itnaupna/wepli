@@ -9,10 +9,11 @@ spring:
       max-file-size:
         10MB
 
-server:
-  port:
-    443
 
+server:
+  port: 443
+  port.http: 8080
+  
   ssl:
     key-store: classpath:keystore.p12
     key-store-type: PKCS12
