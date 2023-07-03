@@ -2,7 +2,7 @@ import React from 'react';
 
 function PlayStation(props) {
     return (
-        <div>
+        <div style={{color:"white"}}>
             라이브스테이션입니다.
         </div>
     );
