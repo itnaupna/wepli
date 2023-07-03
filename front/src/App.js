@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
+import PlayListMain from "./PlayListMain/PlayListMain";
 
 function App() {
   const [msg, setMsg] = useState('fail');
@@ -27,6 +28,7 @@ function App() {
         >
           Learn React
         </a>
+      <PlayListMain/>
       </header>
     </div>
   );
