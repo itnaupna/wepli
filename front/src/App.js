@@ -6,14 +6,13 @@ import MainSection from "./main/MainJs/MainSection";
 
 function App() {
 
-  
-
-
   return (
     <div className="App">
-      <MainSection/>
+       <MainSection/> 
     </div>
   );
 }
+
+
 
 export default App;
