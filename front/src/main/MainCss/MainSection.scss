@@ -1,9 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans:wght@400&display=swap%22");
+
+:root {
+  /* fonts */
+  --font-black-han-sans: "Black Han Sans";
+
+  /* font sizes */
+  --font-size-6xl: 1.56rem;
+  --font-size-16xl: 2.19rem;
+  --font-size-lgi: 1.19rem;
+  --font-size-51xl: 4.38rem;
+  --font-size-21xl: 2.5rem;
+  --font-size-xl: 1.25rem;
+
+  /* Colors */
+  --color-darkgray: #a1a1a6;
+  --color-white: #fff;
+  --color-palevioletred: #f68aae;
+
+  /* border radiuses */
+  --br-21xl: 40px;
+}
+
 .div {
   position: absolute;
   top: calc(50% - 548px);
   left: 14.06rem;
   display: inline-block;
   width: 16.5rem;
+  font-size: var(--font-size-21xl);
 }
 .group-child {
   border-radius: var(--br-21xl);
@@ -355,29 +379,10 @@
   text-align: center;
   font-size: var(--font-size-51xl);
   color: var(--color-white);
-  font-family: var(--font-black-han-sans);
+  font-family: "Black Han Sans";
 }
 
-:root {
-  /* fonts */
-  --font-black-han-sans: "Black Han Sans";
 
-  /* font sizes */
-  --font-size-6xl: 1.56rem;
-  --font-size-16xl: 2.19rem;
-  --font-size-lgi: 1.19rem;
-  --font-size-51xl: 4.38rem;
-  --font-size-21xl: 2.5rem;
-  --font-size-xl: 1.25rem;
-
-  /* Colors */
-  --color-darkgray: #a1a1a6;
-  --color-white: #fff;
-  --color-palevioletred: #f68aae;
-
-  /* border radiuses */
-  --br-21xl: 40px;
-}
 
 body{
   background: black;
