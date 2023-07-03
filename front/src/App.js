@@ -3,13 +3,18 @@ import './App.css';
 
 
 import MainSection from "./main/MainJs/MainSection";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import PlayListMain from "./PlayListMain/PlayListMain";
 
 function App() {
 
   return (
-    <div className="App">
-       <MainSection/> 
-    </div>
+      <BrowserRouter>
+          <Routes>
+              <Route path="/" element={<MainSection/>}/>
+              <Route path="/PlayListMain" element={<PlayListMain/>}/>
+          </Routes>
+      </BrowserRouter>
   );
 }
 
