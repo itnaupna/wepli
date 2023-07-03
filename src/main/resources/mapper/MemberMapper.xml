@@ -2,15 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.mapper.MemberMapper">
 
-    <insert id="JoinMember" parameterType="MemberDto"> 
+    <insert id="insertJoinMember" parameterType="MemberDto"> 
         insert into tblMember (email,pw,nick) values (#{email},#{pw},#{nick})
     </insert>
 
-    <select id="CheckEmailExists" parameterType="string">
+    <select id="selectCheckEmailExists" parameterType="string">
         select count(*) from tblMember where email=#{email}
     </select>
 
-    <select id="CheckNickExists" parameterType="string">
+    <select id="selectCheckNickExists" parameterType="string">
         select count(*) from tblMember where nick=#{nick}
     </select>
+
+    <select id="selectCheckPassword" parameterType="string">
+            select count(*) from  tblMember where pw=#{pw}
+    </select>
+
 </mapper>

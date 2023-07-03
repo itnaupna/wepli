@@ -8,7 +8,8 @@ import com.bit.dto.MemberDto;
 
 @Mapper
 public interface MemberMapper {
-    public int JoinMember(MemberDto mDto);
-    public int CheckEmailExists(String email);
-    public int CheckNickExists(String nick);
+    public int insertJoinMember(MemberDto mDto);
+    public int selectCheckEmailExists(String email);
+    public int selectCheckNickExists(String nick);
+    public int selectCheckPassword(String pw);
 }

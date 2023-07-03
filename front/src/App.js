@@ -44,6 +44,9 @@ function App() {
     )
   }
 
+  
+
+
   return (
     <div className="App">
       {msg}<br/>
@@ -52,7 +55,9 @@ function App() {
     <input value={pw} onChange={(e)=>{setPw(e.target.value)}}/><br/>
     <input value={nick} onChange={(e)=>{setNick(e.target.value)}} onBlur={handleCheckNickExists}/><br/>
     <button onClick={handleClickSubmit}>전송</button>
-    <div id="naver_id_login">dd</div>
+	
+	
+    <div id="naver_id_login"><a href='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=oRBFMp9zex4PSfyb5R3J&state=1234&redirect_uri=http://localhost/api/naverlogin' target='_blank' rel="noreferrer">dd</a> nvl</div>
     </div>
   );
 }

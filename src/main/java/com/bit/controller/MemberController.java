@@ -16,6 +16,7 @@ public class MemberController {
     @Autowired
     MemberService mService;
 
+    //회원가입 api
     @PostMapping("/member")
     public ResponseEntity<?> postMember(MemberDto mDto) {
 
@@ -26,21 +27,22 @@ public class MemberController {
         }
     }
 
+    //이메일 중복체크. 중복이면 true
     @GetMapping("/email")
     public boolean getEmail(String email){
-
         return mService.checkEmailExists(email);
     }
 
+    //닉네임 중복체크. 중복이면 true
     @GetMapping("/nick")
     public boolean getNick(String nick){
-
         return mService.checkNickExists(nick);
     }
 
-    
-    
-
-
+    //비밀번호만 확인
+    @PostMapping("/checkPassword")
+    public boolean checkPassword(String pass){
+        return true;
+    }
 
 }

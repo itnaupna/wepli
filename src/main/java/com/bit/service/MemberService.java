@@ -21,7 +21,7 @@ public class MemberService {
     // 회원가입
     public boolean joinMember(MemberDto mDto) {
         try {
-            return memberMapper.JoinMember(mDto) > 0;
+            return memberMapper.insertJoinMember(mDto) > 0;
         } catch (Exception e) {
             return false;
         }
@@ -29,14 +29,21 @@ public class MemberService {
 
     // 이메일 중복검사
     public boolean checkEmailExists(String email) {
-        return memberMapper.CheckEmailExists(email) > 0;
+        return memberMapper.selectCheckEmailExists(email) > 0;
     }
 
     // 닉네임 중복검사
     public boolean checkNickExists(String nick) {
-        return memberMapper.CheckNickExists(nick) > 0;
+        return memberMapper.selectCheckNickExists(nick) > 0;
     }
 
+
+    // 비밀번호 검사
+    public boolean checkPassword(String pw){
+        return memberMapper.selectCheckPassword(pw)>0;
+    }
+
+    
     // // 랜덤 키값 생성용 메서드
     // public String generateState() {
     //     SecureRandom random = new SecureRandom();
