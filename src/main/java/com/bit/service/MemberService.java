@@ -1,16 +1,10 @@
 package com.bit.service;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.net.URLEncoder;
-import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.bit.dto.MemberDto;
 import com.bit.mapper.MemberMapper;
@@ -59,13 +53,13 @@ public class MemberService {
     //                 .queryParam("state", URLEncoder.encode("1234", "UTF-8"))
     //                 .build();
     //     } catch (UnsupportedEncodingException e) {
-    //         // TODO Auto-generated catch block
     //         e.printStackTrace();
     //     }
 
     //     return "";
     // }
     
+    // 메일, 문자인증 여부에따라 권한 부여
     public Map<String, String> AuthLevelCheck(String nick) {
         MemberDto auth = memberMapper.AuthLevelCheck(nick);
         

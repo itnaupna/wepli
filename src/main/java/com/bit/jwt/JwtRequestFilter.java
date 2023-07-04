@@ -14,7 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,6 +26,7 @@ import com.bit.service.MemberService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +41,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private JwtTokenProvider jwtTokenProvider;
 
     // 인증에서 제외할 url
-    private static final List<String> EXCLUD_URL = Collections.unmodifiableList(
+    private static final List<String> EXCLUDE_URL = Collections.unmodifiableList(
         Arrays.asList(
             "/api/login",
             "/api/member",
@@ -78,11 +83,39 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             logger.warn("JWT Token does not begin with Bearer String");
         }
         if(nick != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // db에서 메일, 문자 인증 받았는지 여부에 따라 권한 부여
             MemberService ms = new MemberService();
             Map<String, String> auth = ms.AuthLevelCheck(nick);
+
+            GrantedAuthority authority = new SimpleGrantedAuthority(auth.get("auth"));
+            // List 타입인 이유는 권한이 여러개일수도 있어서
+            List<GrantedAuthority> authorities = Collections.singletonList(authority);
+            if(jwtTokenProvider.validateToken(jwtToken, auth)) {
+                UsernamePasswordAuthenticationToken authenticationToken = 
+                    new UsernamePasswordAuthenticationToken(auth.get("nick"), null, authorities);
+
+                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
         }
-        
+
+        //  accessToken 인증 후 refreshToken 재발급이 필요한 경우 재발급
+        try {
+            if(nick != null) {
+                jwtTokenProvider.reGenerateRefreshToken(nick);
+            }
+        }catch (Exception e) {
+			log.error("[JwtRequestFilter] refreshToken 재발급 체크 중 문제 발생 : {}", e.getMessage());
+		}
+
+        filterChain.doFilter(request,response);
     }
+
+    // Filter에서 제외할 URL 설정
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+		return EXCLUDE_URL.stream().anyMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
+	}
 
     
 }
