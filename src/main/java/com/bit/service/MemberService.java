@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,5 +65,20 @@ public class MemberService {
 
     //     return "";
     // }
+    
+    public Map<String, String> AuthLevelCheck(String nick) {
+        MemberDto auth = memberMapper.AuthLevelCheck(nick);
+        
+        Map<String, String> map = new HashMap<>();
+        map.put("nick", nick);
+        if(auth.getEmailconfirm() >= 1 || auth.getPhoneconfirm() >= 1) { 
+            map.put("auth", "auth2");
+            return map;
+        } else {
+            map.put("auth", "auth");
+            return map;
+        }
+    }
 
+    
 }

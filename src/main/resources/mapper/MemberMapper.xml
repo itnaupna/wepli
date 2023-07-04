@@ -13,4 +13,8 @@
     <select id="CheckNickExists" parameterType="string">
         select count(*) from tblMember where nick=#{nick}
     </select>
+
+    <select id="AuthLevelCheck" parameterType="string" resultType="MemberDto">
+        select emailconfirm, phoneconfirm from tblMember where nick = #{nick}
+    </select>
 </mapper>
