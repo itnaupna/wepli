@@ -1,0 +1,267 @@
+.live-station-main {
+    position: absolute;
+    background-color: rgba(252, 243, 243, 0.48);
+    width: 92.06rem;
+    height: 67.5rem;
+    overflow: hidden;
+    left: 50%;
+    top:0;
+    transform: translateX(-50%);
+  }
+  .live-station-main-parent {
+    position: relative;
+    width: 100%;
+    height: 67.5rem;
+  }
+  .live-station-main-child-0{
+    position: absolute;
+    background-color: black;
+    width: 66.625rem;
+    height: 47.625rem;
+    top:0;
+    right: 0;
+    bottom:0;
+    left: 0;
+    margin: auto;
+    padding:30px;
+    border:10px solid green;
+    float: left;
+    display: inline-flex;
+}
+
+.live-station-main-child-1{
+    width: 44.75rem;
+    height: 47.625rem;
+    background-color: skyblue;
+    border:1px solid white;
+}
+.live-station-main-child-2{
+    width: 23.625rem;
+    height: 47.625rem;
+    background-color: aquamarine;
+    border: 1px solid white;
+}
+.live-screen{
+  position: absolute;
+  width: 41.875rem;
+  height: 39.0625rem;
+  border-radius: 0.125rem;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: #D61C1C;
+  margin:auto;
+  top:0;
+  bottom: 0;
+  left: 2.5rem;
+  display: inline-flex;
+  padding: auto;
+}
+.player-ui{
+  width: 41.875rem;
+  height: 2.6875rem;
+  border:1px solid white;
+  background-color: orange;
+  margin:auto;
+  left: 2rem;
+  bottom: 0;
+  top:44.5rem;
+  position: absolute;
+  left: 2.5rem;
+}
+.player-setting{
+  border: 1px solid white;
+  background-color: blue;
+  width: 2.125rem;
+  height: 2.1875rem;
+  flex-shrink: 0;
+  position: absolute;
+  margin: auto;
+  left: 2.5rem;
+  top:0;
+  bottom: 0;
+}
+.player-list{
+  border: 1px solid white;
+  background-color: blue;
+  width: 2.125rem;
+  height: 2.1875rem;
+  position: absolute;
+  top: 0;
+  bottom:0;
+  margin:auto;
+  left: 8.0rem;
+}
+.player-sound{
+  border:1px solid white;
+  background-color: blue;
+  width: 2.125rem;
+  height: 2.1875rem;
+  position: absolute;
+  margin: auto;
+  left:13.0rem;
+  top:0;
+  bottom:0;
+}
+.player-soundbar{
+  border:1px solid white;
+  background-color: blue;
+  width: 18.375rem;
+  height: 0.9375rem;
+  flex-shrink: 0;
+  top: 0;
+  bottom:0;
+  position: absolute;
+  margin:auto;
+  left:17.0rem;
+}
+.player-share{
+  border:1px solid white;
+  background-color: blue;
+  width: 2.125rem;
+  height: 2.1875rem;
+  position: absolute;
+  margin: auto;
+  top:0;
+  bottom:0;
+  left:38.5rem;
+}
+.Lmenu-bar{
+  border:1px solid white;
+  background-color: blue;
+  position:absolute;
+  margin:auto;
+  top:2.0rem;
+  width:23.0rem;
+  height: 2.25rem;
+
+}
+.Lmenu-chat{
+  border:1px solid white;
+  background-color: blueviolet;
+  position: absolute;
+  margin: auto;
+  top:0;
+  bottom:0;
+  left: 2.5rem;
+  width: 2.5rem;
+  height: 100%;
+}
+.Lmenu-playlist{
+  border:1px solid skyblue;
+  background-color: blueviolet;
+  position: absolute;
+  margin: auto;
+  top:0;
+  bottom:0;
+  left: 7.5rem;
+  width: 2.5rem;
+  height: 2.1875rem;
+}
+.Lmenu-user{
+  border:1px solid skyblue;
+  background-color: blueviolet;
+  position: absolute;
+  margin: auto;
+  top:0;
+  bottom:0;
+  left: 12.5rem;
+  width: 2.5rem;
+  height: 2.1875rem;
+}
+.Lmenu-watched{
+  border:1px solid skyblue;
+  background-color: blueviolet;
+  position: absolute;
+  margin: auto;
+  top:0;
+  bottom:0;
+  left: 17.5rem;
+  width: 2.5rem;
+  height: 2.1875rem;
+
+}
+.chat-room{
+  border:1px solid white;
+  background-color: green;
+  position: absolute;
+  margin:auto;
+  top:0;
+  bottom: 0;
+  left: 45.5rem;
+  width: 23.0rem;
+  height: 40.0rem;
+  text-align: center;
+}
+.chat-content{
+  border:1px solid white;
+  background-color: bisque;
+  position: absolute;
+  margin:auto;
+  top:0;
+  width: 23.0rem;
+  height: 3.0rem;
+
+}
+.Lchat-image{
+  border:1px solid skyblue;
+  background-color: blueviolet;
+  position: absolute;
+  margin: auto;
+  top:0;
+  bottom: 0;
+  width: 2.5rem;
+  height: 2.1875rem;
+}
+.Luser-info{
+  border: 1px solid black;
+  position: absolute;
+  margin: 0;
+  top:0.45rem;
+  bottom: 0;
+  width: 20.0rem;
+  height: 2.1875rem;
+}
+.Luser-name{
+  border:1px solid blue;
+  position: absolute;
+  margin: 0;
+  top:0;
+  left: 2.5rem;
+  width:3.5rem;
+  height: 1rem;
+  vertical-align:middle;
+  font-size: 0.9rem;
+}
+.Ltext{
+  border:1px solid red;
+  position: absolute;
+  margin:auto;
+  top:0;
+  bottom: 0;
+  left: 6.19rem;
+  width: 13.6rem;
+  height: 2.1875rem;
+}
+.chat-input{
+  border:1px solid blue;
+  background-color: bisque;
+  position: absolute;
+  margin:auto;
+  bottom: 0;
+  width: 23.0rem;
+  height: 3.0rem;
+}
+.send-message{
+  border:1px solid blue;
+  background-color: blue;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  width: 2.125rem;
+  height: 2.1875rem;
+  right: 0;
+}
+
+
+
+
