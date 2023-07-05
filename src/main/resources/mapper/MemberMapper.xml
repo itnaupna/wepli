@@ -3,7 +3,7 @@
 <mapper namespace="com.bit.mapper.MemberMapper">
 
     <insert id="insertJoinMember" parameterType="MemberDto"> 
-        insert into tblMember (email,pw,nick) values (#{email},#{pw},#{nick})
+        insert into tblMember (email,pw,nick) values (#{email},sha2(#{pw},256),#{nick})
     </insert>
 
     <select id="selectCheckEmailExists" parameterType="string">
@@ -14,8 +14,80 @@
         select count(*) from tblMember where nick=#{nick}
     </select>
 
-    <select id="selectCheckPassword" parameterType="string">
-            select count(*) from  tblMember where pw=#{pw}
+    <select id="selectMemberDto" parameterType="string" resultType="MemberDto">
+        select * from tblMember where email=#{email}
     </select>
 
+    <select id="selectCheckPasswordByEmail" parameterType="MemberDto">
+        select count(*) from tblMember where email=#{email} and pw=sha2(#{pw},256)
+    </select>
+
+    <select id="selectCheckEmailConfirm" parameterType="string">
+        select emailconfirm from tblMember where email=#{email}
+    </select>
+
+    <select id="selectCheckPhoneConfirm" parameterType="string">
+        select phoneconfirm from tblMember where email=#{email}
+    </select>
+
+    <update id="updateEmailConfirm" parameterType="string">
+        update tblMember set emailconfirm=1 where email=#{email}
+    </update>
+    <update id="updatePhoneConfirm" parameterType="string">
+        update tblMember set phoneconfirm=1 where email=#{email}
+    </update>
+    <update id="updateNick" parameterType="Map">
+        update tblMember set nick=#{nick} where email=#{email}    
+    </update>
+    <update id="updatePw" parameterType="Map">
+        update tblMember set pw=sha2(#{pw},256) where email=#{email}
+    </update>
+    <delete id="deleteMember" parameterType="MemberDto">
+        delete from tblMember where email=#{email} and pw=sha2(#{pw},256)
+    </delete>
+    <update id="updateDesc" parameterType="MemberDto">
+        update tblMember set desc=#{desc} where email=#{email}
+    </update>
+    <update id="updateImg" parameterType="MemberDto">
+        update tblMember set img=#{img} where email=#{email}
+    </update>
+    <select id="selectBlacklist" parameterType="string" resultType="List">
+        select target from tblBlack where black=#{black}
+    </select>
+    <insert id="insertBlacklist" parameterType="Map">
+        insert into tblBlack values (#{black},#{target})
+    </insert>
+    <delete id="deleteBlacklist" parameterType="Map">
+        delete from tblBlack where black=#{black} and target=#{target}
+    </delete>
+    <select id="selectBlackOpt" parameterType="string" resultType="Map">
+        select hidechat, mute from tblBlackOpt where nick=#{nick}
+    </select>
+    <update id="updateBlackOpt" parameterType="Map">
+        update tblBlackOpt set hidechat=#{hidechat}, mute=#{mute} where nick=#{nick}
+    </update>
+    <select id="selectFollowlist" parameterType="string" resultType="List">
+        select target from tblFollow where follow=#{follow}
+    </select>
+    <insert id="insertFollowlist" parameterType="Map">
+        insert into tblFollow values (follow=#{follow},target=#{target})
+    </insert>
+    <delete id="deleteFollowlist" parameterType="Map">
+        delete from tblFollow where follow=#{follow} and target=#{target}
+    </delete>
+
+    <select id="selectCheckPhoneExists" parameterType="string">
+        select count(*) from tblMember where phone=#{phone}
+    </select>
+
+    <select id="selectMypageDto" parameterType="string">
+        select * from vwMypage where nick=#{nick}
+    </select>
+    
+
+    <select id="selectCheckPasswordByNick" parameterType="MemberDto">
+        select count(*) from tblMember where nick=#{nick} and pw=sha2(#{pw},256)
+    </select>
+
+    
 </mapper>

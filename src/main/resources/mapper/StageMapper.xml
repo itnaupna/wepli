@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.mapper.StageMapper">
+
+
+    <delete id="deleteStage" parameterType="tring">
+        delete from tblStage where nick=#{nick}
+    </delete>
+
+
+    <update id="updateStage" parameterType="StageDto">
+        update tblStage 
+        set address=#{address}, title=#{title}, desc=#{desc}, genre=#{genre}, tag=#{tag}, img=#{img}, pw=#{pw}, maxlength=#{maxlength}, skipratio=#{skipratio} 
+        where nick=#{nick}
+    </update>
+
+
+    <select id="selectStageOneByMasterNick" parameterType="string" resultType="StageDto">
+        select * from tblStage where nick=#{nick}
+    </select>
+
+
+    <select id="selectStageOneByAddress" parameterType="string" resultType="StageDto">
+        select * from tblStage where address=#{address}
+    </select>
+
+
+    <select id="selectStageAll" resultType="StageDto">
+        select * from tblStage order by makeday desc;    
+    </select>
+
+
+    <insert id="insertStage" parameterType="StageDto">
+        insert into tblStage
+        values (#{address},#{title},#{desc},#{genre},#{tag},#{nick},default,#{img},#{pw},#{maxlength},#{skipratio})
+    </insert>
+
+</mapper>
