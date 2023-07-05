@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({ "com.bit.*", "naver.cloud" })
+@ComponentScan({ "com.bit.*", "naver.cloud", "jwt.*" })
 @MapperScan({ "com.bit.mapper" })
 public class WepliApplication {
 
