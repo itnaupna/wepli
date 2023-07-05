@@ -5,8 +5,7 @@ import './App.css';
 import MainSection from "./main/MainJs/MainSection";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import PlayListMain from "./PlayListMain/PlayListMain";
-import PlayStation from "./PlayStation/PlayStationJs/PlayStation";
-
+import PlayStage from './PlayStation/PlayStageJS/PlayStage';
 function App() {
 
   return (
@@ -14,7 +13,7 @@ function App() {
           <Routes>
               <Route path="/" element={<MainSection/>}/>
               <Route path="/PlayListMain" element={<PlayListMain/>}/>
-              <Route path="/PlayStation" element={<PlayStation/>}/>
+              <Route path="/PlayStage" element={<PlayStage/>}/>
           </Routes>
       </BrowserRouter>
   );
