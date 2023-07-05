@@ -17,4 +17,11 @@
     <select id="AuthLevelCheck" parameterType="string" resultType="MemberDto">
         select emailconfirm, phoneconfirm from tblMember where nick = #{nick}
     </select>
+
+    <select id="Login" parameterType="Map" resultType="int">
+        select exists(select * from tblMember where email = #{email} and pw = #{pw})
+    </select>
+    <select id="getNickNmae" parameterType="String" resultType="String">
+        select nick from tblMember where email = #{email}
+    </select>
 </mapper>

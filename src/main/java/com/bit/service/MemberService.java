@@ -60,10 +60,10 @@ public class MemberService {
     // }
     
     // 메일, 문자인증 여부에따라 권한 부여
-    public Map<String, String> AuthLevelCheck(String nick) {
+    public Map<String, Object> AuthLevelCheck(String nick) {
         MemberDto auth = memberMapper.AuthLevelCheck(nick);
         
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("nick", nick);
         if(auth.getEmailconfirm() >= 1 || auth.getPhoneconfirm() >= 1) { 
             map.put("auth", "auth2");
@@ -72,6 +72,20 @@ public class MemberService {
             map.put("auth", "auth");
             return map;
         }
+    }
+
+    // 로그인
+    public int Login(String email, String pw) {
+        Map<String, String> login = new HashMap<>();
+        login.put("email", email);
+        login.put("pw", pw);
+
+        return memberMapper.Login(login);
+    }
+
+    // email로 nick 가져오기
+    public String getNickNmae(String email) {
+        return memberMapper.getNickNmae(email);
     }
 
     

@@ -43,6 +43,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     // 인증에서 제외할 url
     private static final List<String> EXCLUDE_URL = Collections.unmodifiableList(
         Arrays.asList(
+            "/api/test",
             "/api/login",
             "/api/member",
             "/api/playlist/getList",
@@ -67,6 +68,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             jwtToken = token.substring(7);
 
             try {
+                // token 디코딩 후 nick 추출
                 nick = jwtTokenProvider.getUsernameFromToken(jwtToken);
             } catch (SignatureException e) {
 				log.error("Invalid JWT signature: {}", e.getMessage());
@@ -85,17 +87,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if(nick != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // db에서 메일, 문자 인증 받았는지 여부에 따라 권한 부여
             MemberService ms = new MemberService();
-            Map<String, String> auth = ms.AuthLevelCheck(nick);
+            Map<String, Object> auth = ms.AuthLevelCheck(nick);
 
-            GrantedAuthority authority = new SimpleGrantedAuthority(auth.get("auth"));
+            String authValue = String .valueOf(auth.get("auth"));
+            GrantedAuthority authority = new SimpleGrantedAuthority(authValue);
             // List 타입인 이유는 권한이 여러개일수도 있어서
             List<GrantedAuthority> authorities = Collections.singletonList(authority);
             if(jwtTokenProvider.validateToken(jwtToken, auth)) {
                 UsernamePasswordAuthenticationToken authenticationToken = 
                     new UsernamePasswordAuthenticationToken(auth.get("nick"), null, authorities);
 
-                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
 
@@ -110,6 +113,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request,response);
     }
+
+    
 
     // Filter에서 제외할 URL 설정
 	@Override
