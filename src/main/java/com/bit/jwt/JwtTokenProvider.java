@@ -1,4 +1,4 @@
-package jwt;
+package com.bit.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -39,7 +39,7 @@ public class JwtTokenProvider {
         //key= Keys.hmacShaKeyFor(encodedKey.getBytes());
 	}
 	// jwt 토큰 생성
-	public static String generateToken(Authentication authentication,String userId) {
+	public static String generateToken(Authentication authentication,String email) {
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_TIME);
 
@@ -47,12 +47,13 @@ public class JwtTokenProvider {
 				.setSubject((String) authentication.getPrincipal()) // 사용자
 				.setIssuedAt(new Date()) // 현재 시간 기반으로 생성
 				.setExpiration(expiryDate) // 만료 시간 세팅
-				.claim("userId", userId)
-                
+				//.claim("nick", nick)
+				.claim("email", email)
 				// 사용할 암호화 알고리즘, signature에 들어갈 secret 값 세팅
 				.signWith(secretKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
+
 
 	// Jwt 토큰에서 아이디 추출
 	public static String getUserIdFromJWT(String token) {
@@ -67,7 +68,8 @@ public class JwtTokenProvider {
 		log.info("subject:"+claims.getSubject());
 		log.info("Audience:"+claims.getAudience());
 		log.info("expire:"+claims.getExpiration().toString());
-		log.info("userName:"+claims.get("userName"));
+		//log.info("nick:"+claims.get("nick"));
+		log.info("email"+claims.get("email"));
 
 		return claims.getSubject();
 	}

@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,15 @@ public class MemberService {
         return memberMapper.CheckNickExists(nick) > 0;
     }
 
+    // 로그인
+    public int getLogin(String email, String pw) {
+		Map<String,String> map = new HashMap<>();
+		map.put("email", email);
+		map.put("pw", pw);
+		return memberMapper.getLogin(map);
+	}
+   
+
     // // 랜덤 키값 생성용 메서드
     // public String generateState() {
     //     SecureRandom random = new SecureRandom();
@@ -63,5 +74,10 @@ public class MemberService {
 
     //     return "";
     // }
+
+    // 로그인
+
+	
+
 
 }

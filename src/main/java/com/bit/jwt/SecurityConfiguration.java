@@ -1,4 +1,4 @@
-package com.bit.config;
+package com.bit.jwt;
 
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import jwt.JwtAuthenticationEntryPoint;
-import jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
@@ -58,15 +56,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		// 인증 제외 url
 		.antMatchers("/").permitAll()
+		.antMatchers("/api/test").permitAll() // 
+		.antMatchers("/api/**").permitAll() // 
         .antMatchers("/stage").permitAll()   // url 임시
         .antMatchers("/stage/room").permitAll()  // url 임시
         .antMatchers("/playlist").permitAll()  // url 임시
         .antMatchers("/playlist/detail").permitAll()  // url 임시
-        .antMatchers("**/a2/**").hasRole("auth2") // auth2
+        .antMatchers("/api/lv0/**").hasRole("auth2") // auth2
+        .antMatchers("/api/**/lv2/**").hasRole("auth2") // auth2
 		 
-		// 그 외 전부 인증 적용
-        .anyRequest()
-        .authenticated()
+		// 그 외 인증 필요
+		.antMatchers("/**")
+		.authenticated()
 
 		// 시큐리티는 기본적으로 세션을 사용
 		// 여기서는 세션을 사용하지 않기 때문에 세션 설정을 Stateless 로 설정

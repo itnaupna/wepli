@@ -1,5 +1,7 @@
 package com.bit.mapper;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 
@@ -11,4 +13,5 @@ public interface MemberMapper {
     public int JoinMember(MemberDto mDto);
     public int CheckEmailExists(String email);
     public int CheckNickExists(String nick);
+    public int getLogin(Map<String, String> map);
 }

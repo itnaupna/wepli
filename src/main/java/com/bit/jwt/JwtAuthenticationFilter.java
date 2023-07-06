@@ -1,4 +1,4 @@
-package jwt;
+package com.bit.jwt;
 
 import java.io.IOException;
 import javax.servlet.FilterChain;
@@ -24,11 +24,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       try {
         String jwt = getJwtFromRequest(request); //request에서 jwt 토큰을 꺼낸다.
         if (StringUtils.isNotEmpty(jwt) && JwtTokenProvider.validateToken(jwt)) {
-          String userId = JwtTokenProvider.getUserIdFromJWT(jwt); //jwt에서 사용자 id를 꺼낸다.
+          String email = JwtTokenProvider.getUserIdFromJWT(jwt); //jwt에서 사용자 id를 꺼낸다.
 
-          log.info("userId : " + userId);
+          log.info("email : " + email);
 
-          UserAuthentication authentication = new UserAuthentication(userId, null, null); //id를 인증한다.
+          UserAuthentication authentication = new UserAuthentication(email, null, null); //id를 인증한다.
           authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)); //기본적으로 제공한 details 세팅
 
           SecurityContextHolder.getContext()

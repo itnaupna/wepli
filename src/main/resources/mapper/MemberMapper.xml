@@ -13,4 +13,8 @@
     <select id="CheckNickExists" parameterType="string">
         select count(*) from tblMember where nick=#{nick}
     </select>
+
+    <select id="getLogin" parameterType="Map" resultType="int">
+        select count(*) from tblMember where email=#{email} and pw=#{pw}
+    </select>
 </mapper>

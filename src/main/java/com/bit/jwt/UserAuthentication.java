@@ -1,4 +1,4 @@
-package jwt;
+package com.bit.jwt;
 
 import java.util.List;
 
