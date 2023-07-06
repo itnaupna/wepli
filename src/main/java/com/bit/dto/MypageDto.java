@@ -1,5 +1,9 @@
 package com.bit.dto;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data

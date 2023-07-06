@@ -46,7 +46,7 @@
         delete from tblMember where email=#{email} and pw=sha2(#{pw},256)
     </delete>
     <update id="updateDesc" parameterType="MemberDto">
-        update tblMember set desc=#{desc} where email=#{email}
+        update tblMember set `desc`=#{desc} where email=#{email}
     </update>
     <update id="updateImg" parameterType="MemberDto">
         update tblMember set img=#{img} where email=#{email}

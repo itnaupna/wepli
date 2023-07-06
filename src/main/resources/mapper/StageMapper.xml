@@ -2,15 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.mapper.StageMapper">
 
-
-    <delete id="deleteStage" parameterType="tring">
+    <delete id="deleteStage" parameterType="string">
         delete from tblStage where nick=#{nick}
     </delete>
 
 
     <update id="updateStage" parameterType="StageDto">
         update tblStage 
-        set address=#{address}, title=#{title}, desc=#{desc}, genre=#{genre}, tag=#{tag}, img=#{img}, pw=#{pw}, maxlength=#{maxlength}, skipratio=#{skipratio} 
+        set address=#{address}, title=#{title}, `desc`=#{desc}, genre=#{genre}, tag=#{tag}, img=#{img}, pw=#{pw}, maxlength=#{maxlength}, skipratio=#{skipratio} 
         where nick=#{nick}
     </update>
 
@@ -25,8 +24,19 @@
     </select>
 
 
-    <select id="selectStageAll" resultType="StageDto">
-        select * from tblStage order by makeday desc;    
+    <select id="selectStageAll" parameterType="hashMap" resultType="StageDto">
+    SELECT ts.address, ts.title, ts.desc, ts.genre, ts.tag, ts.nick, ts.makeday, ts.img, CASE WHEN ts.pw IS NOT NULL THEN 1 ELSE NULL END AS pw, ts.maxlength, ts.skipratio
+    FROM tblStage ts
+    WHERE ts.nick NOT IN (
+        SELECT tf.target
+        FROM tblFollow tf
+        WHERE tf.follow = #{nick}
+    )
+    AND ts.nick NOT IN (
+        SELECT tb.target
+        FROM tblBlack tb
+        WHERE tb.black = #{nick}
+    ) order by makeday desc limit #{curr},#{cpp}
     </select>
 
 
@@ -34,5 +44,49 @@
         insert into tblStage
         values (#{address},#{title},#{desc},#{genre},#{tag},#{nick},default,#{img},#{pw},#{maxlength},#{skipratio})
     </insert>
+
+
+    <select id="selectSearchByNick" parameterType="string" resultType="StageDto">
+          select * from tblStage where nick like concat ('%', #{nick} ,'%')
+    </select>
+
+
+    <select id="selectSearchByTitle" parameterType="string" resultType="StageDto">
+          select * from tblStage where title like concat ('%', #{title} ,'%')
+    </select>
+
+
+    <select id="selectSearchByGenre" parameterType="list" resultType="StageDto">
+        select * from tblStage 
+        where 
+        <foreach collection="list" item="genre" separator=" OR ">
+            genre LIKE CONCAT('%', #{genre}, '%')
+        </foreach>
+    </select>
+
+
+    <select id="selectSearchByTag"  parameterType="list" resultType="StageDto">
+        select * from tblStage 
+        where 
+        <foreach collection="list" item="tag" separator=" OR ">
+            tag LIKE CONCAT('%', #{tag}, '%')
+        </foreach>
+    </select>
+
+
+    <select id="selectCheckStagePw">
+        select count(*) from tblStage where address=#{address} and pw=#{pw}
+    </select>
+
+
+    <select id="selectFollowStage">
+        SELECT ts.address, ts.title, ts.desc, ts.genre, ts.tag, ts.nick, ts.makeday, ts.img, CASE WHEN ts.pw IS NOT NULL THEN 1 ELSE NULL END AS pw, ts.maxlength, ts.skipratio
+        FROM tblStage ts
+        WHERE ts.nick IN (
+            SELECT tf.target
+            FROM tblFollow tf
+            WHERE tf.follow = #{nick}
+        ) order by makeday desc;
+    </select>
 
 </mapper>

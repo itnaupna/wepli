@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.mapper.SongMapper">
+
+
+
+    <insert id="insertSong" parameterType="SongDto">
+        insert into tblSongs 
+        (playlistID, title, img, songlength, genre, tag, singer, songaddress, songorigin) 
+        values
+        (#{playlistID}, #{title}, #{img}, #{songlength}, #{genre}, #{tag}, #{singer}, #{songaddress}, #{songorigin})
+    </insert>
+
+
+    <select id="selectSong" parameterType="int" resultType="SongDto">
+        select * from tblSongs where idx=#{idx}
+    </select>
+
+
+    <select id="selectSongsInPli" parameterType="int" resultType="SongDto">
+        select * from tblSongs where playlistID=#{playlistID}          
+    </select>
+
+
+    <update id="updateSong" parameterType="SongDto">
+        update tblSongs
+        set playlistID=#{playlistID}, title=#{title}, img=#{img}, songlength=#{songlength}, genre=#{genre}, tag=#{tag}, singer=#{singer}, songaddress=#{songaddress}, songorigin=#{songorigin}  
+        where idx=#{idx}
+    </update>
+
+
+    <delete id="deleteSong" parameterType="int">
+          delete from tblSongs where idx=#{idx}
+    </delete>
+
+</mapper>

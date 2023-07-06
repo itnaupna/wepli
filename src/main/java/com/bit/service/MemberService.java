@@ -19,6 +19,7 @@ public class MemberService {
     // 회원가입
     public boolean joinMember(MemberDto mDto) {
         try {
+            if(mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length()<1) return false;
             return memberMapper.insertJoinMember(mDto) > 0;
         } catch (Exception e) {
             return false;
