@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,31 +18,31 @@ import com.bit.dto.MypageDto;
 import com.bit.service.MemberService;
 
 @RestController
-@RequestMapping("/api/m")
+@RequestMapping("/api")
 public class MemberController {
     @Autowired
     MemberService mService;
 
     // 회원가입 api
-    @PostMapping("/member")
-    public boolean postMember(MemberDto mDto) {
+    @PostMapping("/lv0/m/member")
+    public boolean postMember(@RequestBody MemberDto mDto) {
         return mService.joinMember(mDto);
     }
 
     // 이메일 중복체크. 중복이면 true
-    @GetMapping("/email")
+    @GetMapping("/lv0/m/email")
     public boolean getEmail(String email) {
         return mService.checkEmailExists(email);
     }
 
     // 닉네임 중복체크. 중복이면 true
-    @GetMapping("/nick")
+    @GetMapping("/lv0/m/nick")
     public boolean getNick(String nick) {
         return mService.checkNickExists(nick);
     }
 
     // 전번 중복체크
-    @GetMapping("/phone")
+    @GetMapping("/lv0/m/phone")
     public boolean getPhone(String phone) {
         return mService.checkPhoneExists(phone);
     }
@@ -49,108 +50,109 @@ public class MemberController {
     // // 유저정보 받아오기
     // @GetMapping("/member")
     // public MemberDto getMember(String email) {
-    //     return mService.getMemberDto(email);
+    // return mService.getMemberDto(email);
     // }
 
     // 비밀번호만 확인
-    @PostMapping("/checkPassword")
-    public boolean postCheckPassword(MemberDto mDto) {
+    @PostMapping("/lv1/m/checkPassword")
+    public boolean postCheckPassword(@RequestBody MemberDto mDto) {
         return mService.checkPassword(mDto);
     }
 
     // // 이메일 인증여부 확인
     // @GetMapping("/checkemail")
     // public boolean getCheckEmailConfirm(String email) {
-    //     return mService.checkEmailConfirm(email);
+    // return mService.checkEmailConfirm(email);
     // }
 
     // // 전화 인증여부 확인
     // @GetMapping("/checkphone")
     // public boolean getCheckPhoneConfirm(String email) {
-    //     return mService.checkPhoneConfirm(email);
+    // return mService.checkPhoneConfirm(email);
     // }
 
     // 닉넴 변경
-    @PatchMapping("/nick")
-    public boolean patchNick(String email, String nick) {
+    @PatchMapping("/lv1/m/nick")
+    public boolean patchNick(@RequestBody String email, @RequestBody String nick) {
         return mService.changeNick(email, nick);
     }
 
     // 비번 변경
-    @PatchMapping("/pw")
-    public boolean patchPw(String email, String oldPw, String newPw) {
+    @PatchMapping("/lv1/m/pw")
+    public boolean patchPw(@RequestBody String email, @RequestBody String oldPw, @RequestBody String newPw) {
         return mService.changePassword(email, oldPw, newPw);
     }
 
     // 탈퇴
-    @DeleteMapping("/member")
-    public boolean deleteMember(MemberDto mDto) {
+    @DeleteMapping("/lv1/m/member")
+    public boolean deleteMember(@RequestBody MemberDto mDto) {
         return mService.deleteMember(mDto);
     }
 
     // 자기소개 변경
-    @PatchMapping("/desc")
-    public boolean patchDesc(MemberDto mDto) {
+    @PatchMapping("/lv1/m/desc")
+    public boolean patchDesc(@RequestBody MemberDto mDto) {
         return mService.updateDesc(mDto);
     }
 
     // 프사 변경
-    @PatchMapping("/img")
-    public boolean patchImg(MemberDto mDto) {
+    @PatchMapping("/lv1/m/img")
+    public boolean patchImg(@RequestBody MemberDto mDto) {
         return mService.updateImg(mDto);
     }
 
-    // // 블랙리스트 받아오기
-    // @GetMapping("/blacklist")
-    // public List<String> getBlackList(String nick) {
-    //     return mService.getBlackList(nick);
-    // }
+    // 블랙리스트 받아오기
+    @GetMapping("/lv2/m/blacklist")
+    public List<String> getBlackList(String nick) {
+    return mService.getBlackList(nick);
+    }
 
     // 블랙리스트 추가
-    @PostMapping("/blacklist")
-    public boolean postBlacklist(String nick, String target) {
+    // 블랙추가시 팔로우 해제되어야 함
+    @PostMapping("/lv2/m/blacklist")
+    public boolean postBlacklist(@RequestBody String nick, @RequestBody String target) {
         return mService.insertBlacklist(nick, target);
     }
 
     // 블랙리스트 삭제
-    @DeleteMapping("/blacklist")
-    public boolean deleteBlacklist(String nick, String target) {
+    @DeleteMapping("/lv2/m/blacklist")
+    public boolean deleteBlacklist(@RequestBody String nick, @RequestBody String target) {
         return mService.deleteBlacklist(nick, target);
     }
 
     // // 블랙리스트 옵션 얻기
     // @GetMapping("/blackopt")
     // public Map<String, Integer> getBlackopt(String nick) {
-    //     return mService.selectBlackOpt(nick);
+    // return mService.selectBlackOpt(nick);
     // }
 
     // 블랙리스트 옵션 수정
-    @PutMapping("/blackopt")
-    public boolean putBlackopt(String nick, int hidechat, int mute) {
+    @PutMapping("/lv2/m/blackopt")
+    public boolean putBlackopt(@RequestBody String nick, @RequestBody int hidechat, @RequestBody int mute) {
         return mService.updateBlackOpt(nick, hidechat, mute);
     }
 
-    // // 팔로우 리스트 얻기
-    // @GetMapping("/follow")
-    // public List<String> getFollow(String nick) {
-    //     return mService.selectFollowList(nick);
-    // }
+    // 팔로우 리스트 얻기
+    @GetMapping("/lv2/m/follow")
+    public List<String> getFollow(String nick) {
+    return mService.selectFollowList(nick);
+    }
 
     // 팔로우 추가
-    @PostMapping("/follow")
-    public boolean postFollow(String nick, String target) {
+    @PostMapping("/lv2/m/follow")
+    public boolean postFollow(@RequestBody String nick, @RequestBody String target) {
         return mService.insertFollowlist(nick, target);
     }
 
     // 팔로우 삭제
-    @DeleteMapping("/follow")
-    public boolean deleteFollow(String nick, String target) {
+    @DeleteMapping("/lv2/m/follow")
+    public boolean deleteFollow(@RequestBody String nick, @RequestBody String target) {
         return mService.deleteFollowlist(nick, target);
     }
 
-    //마이페이지 데이터 일괄
-    @GetMapping("/mypage")
-    public MypageDto getMypageDto(String nick){
+    // 마이페이지 데이터 일괄
+    @GetMapping("/lv1/m/mypage")
+    public MypageDto getMypageDto(String nick) {
         return mService.selectMypageDto(nick);
     }
 
