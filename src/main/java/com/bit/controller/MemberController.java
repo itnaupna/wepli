@@ -1,7 +1,6 @@
 package com.bit.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -108,7 +107,6 @@ public class MemberController {
     }
 
     // 블랙리스트 추가
-    // 블랙추가시 팔로우 해제되어야 함
     @PostMapping("/lv2/m/blacklist")
     public boolean postBlacklist(@RequestBody String nick, @RequestBody String target) {
         return mService.insertBlacklist(nick, target);
@@ -138,6 +136,17 @@ public class MemberController {
     return mService.selectFollowList(nick);
     }
 
+    //TODO : 블랙유저 팔로우시, 그 반대일경우에 대해 처리
+    /*
+        1. 해당 유저가 블랙상태인지 검사
+        2-1. 블랙상태라면 블랙상태라고 안내 후 팔로우시 블랙상태가 해제된다고 알림. 동의시 진행, 미동의시 종료
+        2-2. 블랙상태가 아니라면 진행
+        3. 팔로우 상태인지 검사
+        4-1. 팔로우 상태면 팔로우 해제
+        4-2. 팔로우 상태가 아니라면 팔로우 추가
+        5. 종료
+    */
+    //TODO : togglePlaylist 형식으로 로직변경
     // 팔로우 추가
     @PostMapping("/lv2/m/follow")
     public boolean postFollow(@RequestBody String nick, @RequestBody String target) {

@@ -7,7 +7,7 @@
     </insert>
 
     <select id="selectCheckEmailExists" parameterType="string">
-        select count(*) from tblMember where email=#{email}
+        select count(*) from tblMember where email=#{email} 
     </select>
 
     <select id="selectCheckNickExists" parameterType="string">

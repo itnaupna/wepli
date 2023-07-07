@@ -19,7 +19,8 @@ public class MemberService {
     // 회원가입
     public boolean joinMember(MemberDto mDto) {
         try {
-            if(mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length()<1) return false;
+            if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1)
+                return false;
             return memberMapper.insertJoinMember(mDto) > 0;
         } catch (Exception e) {
             return false;
@@ -171,7 +172,7 @@ public class MemberService {
         return memberMapper.deleteFollowlist(data) > 0;
     }
 
-    public MypageDto selectMypageDto(String nick){
+    public MypageDto selectMypageDto(String nick) {
         return memberMapper.selectMypageDto(nick);
     }
 
@@ -195,7 +196,6 @@ public class MemberService {
     // .queryParam("state", URLEncoder.encode("1234", "UTF-8"))
     // .build();
     // } catch (UnsupportedEncodingException e) {
-    // // TODO Auto-generated catch block
     // e.printStackTrace();
     // }
 

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
-public class PliComment {
+public class PliCommentDto {
     private int idx;
     private String writer;
     private String content;

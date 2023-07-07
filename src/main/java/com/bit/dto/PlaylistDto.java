@@ -3,7 +3,6 @@ package com.bit.dto;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -19,6 +18,6 @@ public class PlaylistDto {
     private String nick;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private Timestamp makeday;
-    private List<SongDto> songs;
-    private List<PliComment> comments;
+    private int likescount;
+    private int commentscount;
 }

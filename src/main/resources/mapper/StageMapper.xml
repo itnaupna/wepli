@@ -47,17 +47,17 @@
 
 
     <select id="selectSearchByNick" parameterType="string" resultType="StageDto">
-          select * from tblStage where nick like concat ('%', #{nick} ,'%')
+          select * from tblStage ts where nick like concat ('%', #{nick} ,'%')
     </select>
 
 
     <select id="selectSearchByTitle" parameterType="string" resultType="StageDto">
-          select * from tblStage where title like concat ('%', #{title} ,'%')
+          select * from tblStage ts where title like concat ('%', #{title} ,'%')
     </select>
 
 
     <select id="selectSearchByGenre" parameterType="list" resultType="StageDto">
-        select * from tblStage 
+        select * from tblStage ts 
         where 
         <foreach collection="list" item="genre" separator=" OR ">
             genre LIKE CONCAT('%', #{genre}, '%')
@@ -66,7 +66,7 @@
 
 
     <select id="selectSearchByTag"  parameterType="list" resultType="StageDto">
-        select * from tblStage 
+        select * from tblStage ts 
         where 
         <foreach collection="list" item="tag" separator=" OR ">
             tag LIKE CONCAT('%', #{tag}, '%')

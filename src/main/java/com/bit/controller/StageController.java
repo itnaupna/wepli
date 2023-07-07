@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +29,6 @@ public class StageController {
     //스테이지 검색
     //0-제목, 1-닉넴, 2-장르, 3-태그
     //장르와 태그는 , (쉼표)로 구분
-    //TODO : 블랙리스트는 제외해야함
     @GetMapping("/lv0/s/search")
     public List<StageDto> getSearch(int type, String queryString){
         return sService.SearchStages(type, queryString);
