@@ -9,11 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.bit.dto.TokenDto;
 import com.bit.jwt.JwtTokenProvider;
@@ -40,31 +36,46 @@ public class LoginController {
     @Autowired
     TokenService tokenService;
 
+	@GetMapping("/lv1/auth1")
+	public String auth1() {
+		return "auth1";
+	}
+
+	@GetMapping("/lv2/auth2")
+	public String auth2() {
+		return "auth2";
+	}
     // login 요청
-    @PostMapping("/login")
+    @PostMapping("/lv0/login")
     public Map<String, String> access(@RequestBody Map<String, String> emailPW, 
     HttpServletRequest request, HttpServletResponse response) throws Exception {
         // email, pw 맞으면 1 아니면 0
         int accessChk = memberService.Login(emailPW.get("email"), emailPW.get("pw"));
-
+		log.info(String.valueOf(accessChk));
         Map<String, String> returnMap = new HashMap<>();
         if(accessChk == 0) {
             returnMap.put("result", "fail");
             return returnMap;
         } else {
-            String nick = memberService.getNickNmae(emailPW.get("email"));
+            String nick = memberService.getNickName(emailPW.get("email"));
+			log.info(nick);
             Map<String, Object> auth = memberService.AuthLevelCheck(nick);
+			auth.remove("nick");
+//			System.out.println(auth.get("roles"));
+			// log.info(nick);
 
             // 토큰 생성
             Map<String, String> tokens = jwtTokenProvider.generateTokenSet(nick, auth);
             String accessToken = URLEncoder.encode(tokens.get("accessToken"), "utf-8");
 		    String refreshToken = URLEncoder.encode(tokens.get("refreshToken"), "utf-8");
 
+
             log.info("[JWT 발급] accessToken : " + accessToken);
 		    log.info("[JWT 발급] refreshToken : " + refreshToken);
-
+			jwtTokenProvider.getUsernameFromToken(accessToken);
+			jwtTokenProvider.getUsernameFromToken(refreshToken);
             // JWT 쿠키 저장(쿠키 명 : token)
-            Cookie cookie = new Cookie("token", "Bearer " + accessToken);
+            Cookie cookie = new Cookie("token", "Bearer" + accessToken);
             cookie.setPath("/");
             cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
             // httoOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정

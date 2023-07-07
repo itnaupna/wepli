@@ -66,10 +66,10 @@ public class MemberService {
         Map<String, Object> map = new HashMap<>();
         map.put("nick", nick);
         if(auth.getEmailconfirm() >= 1 || auth.getPhoneconfirm() >= 1) { 
-            map.put("auth", "auth2");
+            map.put("roles", "auth2");
             return map;
         } else {
-            map.put("auth", "auth");
+            map.put("roles", "auth");
             return map;
         }
     }
@@ -84,8 +84,8 @@ public class MemberService {
     }
 
     // email로 nick 가져오기
-    public String getNickNmae(String email) {
-        return memberMapper.getNickNmae(email);
+    public String getNickName(String email) {
+        return memberMapper.getNickName(email);
     }
 
     

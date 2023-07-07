@@ -36,16 +36,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable() // csrf 보안 비활성화
+        http.cors().and().csrf().disable() // csrf 보안 비활성화
             .antMatcher("/**").authorizeRequests()
 
-            .antMatchers("/").permitAll()
             .antMatchers("/api/test").permitAll()
-            .antMatchers("/stage").permitAll()   // 상의 후 url 경로 수정
-            .antMatchers("/stage/room").permitAll() // 상의 후 url 경로 수정
-            .antMatchers("/playlist").permitAll() // 상의 후 url 경로 수정
-            .antMatchers("/playlist/detail").permitAll() // 상의 후 url 경로 수정
-            // .antMatchers("**/a2/**").hasRole("auth2") // auth2 문자 or 이메일 인증을 받은 사람만 허용가능 api
+            .antMatchers("/api/lv0/**").permitAll()
+            .antMatchers("/api/lv2/**").hasRole("auth2") // auth2 문자 or 이메일 인증을 받은 사람만 허용가능 api
 
             // 위에 해당하지 않는 url은 security 인증 적용
             .anyRequest()

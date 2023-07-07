@@ -15,5 +15,5 @@ public interface MemberMapper {
     public int CheckNickExists(String nick);
     public MemberDto AuthLevelCheck(String nick);
     public int Login(Map<String, String> map);
-    public String getNickNmae(String email);
+    public String getNickName(String email);
 }

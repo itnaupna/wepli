@@ -2,10 +2,7 @@ package com.bit.jwt;
 
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,6 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.bit.service.MemberService;
@@ -35,38 +33,39 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
+
+    private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
 	
 	// 실제 JWT 검증을 실행하는 Provider
 	@Autowired 
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private MemberService ms;
+
     // 인증에서 제외할 url
     private static final List<String> EXCLUDE_URL = Collections.unmodifiableList(
         Arrays.asList(
             "/api/test",
-            "/api/login",
-            "/api/member",
-            "/api/playlist/getList",
-            "/api/playlist/getDetail",
-            "/api/stage/getList",
-            "/api/stage/getRoom"
+            "/api/lv0/**"
         ));
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // jwt cookie 사용 시 해당 코드를 사용하여 쿠키에서 토큰을 받아오도록 함
+//         jwt cookie 사용 시 해당 코드를 사용하여 쿠키에서 토큰을 받아오도록 함
         String token = Arrays.stream(request.getCookies())
-            .filter(c -> c.getName().equals("wepli"))
-            .findFirst() .map(Cookie::getValue)
+            .filter(c -> c.getName().equals("token"))
+            .findFirst().map(Cookie::getValue)
             .orElse(null);
+        log.info("token{}", token);
 
         String nick = null;
         String jwtToken = null;
 
         // Bearer token인 경우 JWT 토큰 유효성검사 진행
         if(token != null && token.startsWith("Bearer")) {
-            jwtToken = token.substring(7);
-
+            jwtToken = token.substring(6);
+            log.info("jwttoken{}", jwtToken);
             try {
                 // token 디코딩 후 nick 추출
                 nick = jwtTokenProvider.getUsernameFromToken(jwtToken);
@@ -86,16 +85,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         if(nick != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // db에서 메일, 문자 인증 받았는지 여부에 따라 권한 부여
-            MemberService ms = new MemberService();
             Map<String, Object> auth = ms.AuthLevelCheck(nick);
 
-            String authValue = String .valueOf(auth.get("auth"));
-            GrantedAuthority authority = new SimpleGrantedAuthority(authValue);
+            String authValue = String .valueOf(auth.get("roles"));
+//            GrantedAuthority authority = new SimpleGrantedAuthority(authValue);
             // List 타입인 이유는 권한이 여러개일수도 있어서
-            List<GrantedAuthority> authorities = Collections.singletonList(authority);
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(authValue));
+
             if(jwtTokenProvider.validateToken(jwtToken, auth)) {
-                UsernamePasswordAuthenticationToken authenticationToken = 
-                    new UsernamePasswordAuthenticationToken(auth.get("nick"), null, authorities);
+                UsernamePasswordAuthenticationToken authenticationToken =
+                            new UsernamePasswordAuthenticationToken(auth.get("nick"), null, authorities);
 
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -114,13 +114,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
-    
-
     // Filter에서 제외할 URL 설정
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-		return EXCLUDE_URL.stream().anyMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
+        String servletPath = request.getServletPath();
+		return EXCLUDE_URL.stream().anyMatch(pattern -> PATH_MATCHER.match(pattern, servletPath));
 	}
-
-    
 }

@@ -16,7 +16,7 @@ public class MemberController {
     @Autowired
     MemberService mService;
 
-    @PostMapping("/member")
+    @PostMapping("/lv0/member")
     public ResponseEntity<?> postMember(MemberDto mDto) {
 
         if (mService.joinMember(mDto)) {
@@ -26,13 +26,13 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/email")
+    @GetMapping("/lv0/email")
     public boolean getEmail(String email){
 
         return mService.checkEmailExists(email);
     }
 
-    @GetMapping("/nick")
+    @GetMapping("/lv0/nick")
     public boolean getNick(String nick){
 
         return mService.checkNickExists(nick);

@@ -22,7 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class JwtTokenProvider {
-    
+
+    // @Value("{jwt.token.secret}")
     private static String secret = "wepli";
 
     // 30 분
@@ -35,7 +36,9 @@ public class JwtTokenProvider {
 
     // token으로 사용자 속성정보 조회
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-	    final Claims claims = getAllClaimsFromToken(token);
+	    Claims claims = getAllClaimsFromToken(token);
+		T result = claimsResolver.apply(claims);
+		log.info("Claim from token: {}", String.valueOf(result));
 	    return claimsResolver.apply(claims);
 	}
 
@@ -127,34 +130,35 @@ public class JwtTokenProvider {
     // JWT refreshToken 만료체크 후 재발급
 	public Boolean reGenerateRefreshToken(String nick) throws Exception {
 		log.info("[reGenerateRefreshToken] refreshToken 재발급 요청");
-		
-		// DB에서 refreshToken 정보 조회
-        TokenService tokenService = new TokenService();
-        TokenDto tDto = tokenService.getToken(nick);
-		// ... DB 조회 부분
-		
-		// refreshToken 정보가 존재하지 않는 경우
-		if(tDto == null) {
-			log.info("[reGenerateRefreshToken] refreshToken 정보가 존재하지 않습니다.");
+//
+//		// DB에서 refreshToken 정보 조회
+//        TokenService tokenService = new TokenService();
+//        TokenDto tDto = tokenService.getToken(nick);
+//
+//		// ... DB 조회 부분
+//
+//		// refreshToken 정보가 존재하지 않는 경우
+//		if(tDto == null) {
+//			log.info("[reGenerateRefreshToken] refreshToken 정보가 존재하지 않습니다.");
+//			return false;
+//		}
+//
+//		// refreshToken 만료 여부 체크
+//		try {
+//			String refreshToken = tDto.getToken().substring(7);
+//			Jwts.parser().setSigningKey(secret).parseClaimsJws(refreshToken);
+//			log.info("[reGenerateRefreshToken] refreshToken이 만료되지 않았습니다.");
+//			return true;
+//		} catch(ExpiredJwtException e) { // refreshToken이 만료된 경우 재발급
+//			tDto.setToken("Bearer " + generateRefreshToken(nick));
+//			// DB에서 refreshToken 정보 수정
+//            tokenService.updateToken(nick, tDto.getToken());
+//			log.info("[reGenerateRefreshToken] refreshToken 재발급 완료 : {}", "Bearer " + generateRefreshToken(nick));
+//			return true;
+//		} catch(Exception e) { // 그 외 예외처리
+//			log.error("[reGenerateRefreshToken] refreshToken 재발급 중 문제 발생 : {}", e.getMessage());
 			return false;
-		}
-		
-		// refreshToken 만료 여부 체크
-		try {
-			String refreshToken = tDto.getToken().substring(7);
-			Jwts.parser().setSigningKey(secret).parseClaimsJws(refreshToken);
-			log.info("[reGenerateRefreshToken] refreshToken이 만료되지 않았습니다.");
-			return true;
-		} catch(ExpiredJwtException e) { // refreshToken이 만료된 경우 재발급
-			tDto.setToken("Bearer " + generateRefreshToken(nick));
-			// DB에서 refreshToken 정보 수정
-            tokenService.updateToken(nick, tDto.getToken());
-			log.info("[reGenerateRefreshToken] refreshToken 재발급 완료 : {}", "Bearer " + generateRefreshToken(nick));
-			return true;
-		} catch(Exception e) { // 그 외 예외처리
-			log.error("[reGenerateRefreshToken] refreshToken 재발급 중 문제 발생 : {}", e.getMessage());
-			return false;
-		}
+//		}
 	}
 
     // 토근 검증
