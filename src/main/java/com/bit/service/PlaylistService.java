@@ -20,8 +20,12 @@ public class PlaylistService {
     @Autowired
     PlaylistMapper pMapper;
 
-    public List<PlaylistDto> selectPublicPlaylist(boolean orderByDay){
-        return pMapper.selectPublicPlaylist(orderByDay);
+    public List<PlaylistDto> selectPublicPlaylist(boolean orderByDay, int curr, int cpp){
+        Map<String,Object> data = new HashMap<>();
+        data.put("orderByDay",orderByDay);
+        data.put("curr",(curr-1)*cpp);
+        data.put("cpp",cpp);
+        return pMapper.selectPublicPlaylist(data);
     }
 
     public List<PlaylistDto> selectLikePli(String nick){
@@ -29,6 +33,7 @@ public class PlaylistService {
     }
 
     public boolean insertPlaylist(PlaylistDto data){
+        //TODO : 미인증 회원일경우 공개로 추가할 수 없도록 강제해야함
         return pMapper.insertPlaylist(data)>0;
     }
 
@@ -101,14 +106,18 @@ public class PlaylistService {
     }
 
     public boolean updatePlaylist(PlaylistDto data){
+        //TODO : 미인증 회원일경우 공개여부 검증
         return pMapper.updatePlaylist(data)>0;
     }
 
     public boolean deletePlaylist(int idx){
+        //TODO : 소유주 정보에 대한 검증이 필요한지 확인
         return pMapper.deletePlaylist(idx)>0;
     }
 
     public PlaylistDto selectFirstPlaylist(String nick){
+        //대표 플레이리스트를 불러오긴 하는데... 50명이면 50번 호출. 이게맞나?
+        //TODO : SQL 로직에 대해 DB부하가 많이 예상됨
         return pMapper.selectFirstPlaylist(nick);
     }
 

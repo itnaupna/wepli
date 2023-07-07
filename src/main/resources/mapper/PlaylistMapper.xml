@@ -46,13 +46,13 @@
     </insert>
 
 
-    <select id="selectPublicPlaylist" resultType="PlaylistDto">
+    <select id="selectPublicPlaylist" parameterType="hashMap" resultType="PlaylistDto">
         <choose>
             <when test="orderByDay">
-                SELECT * FROM vwPlaylist ORDER BY makeday DESC
+                SELECT * FROM vwPlaylist where isPublic=1 ORDER BY makeday DESC limit #{curr},#{cpp}
             </when>
             <otherwise>
-                SELECT * FROM vwPlaylist ORDER BY likesCount DESC
+                SELECT * FROM vwPlaylist where isPublic=1 ORDER BY likesCount DESC limit #{curr},#{cpp}
             </otherwise>
         </choose>
     </select>
@@ -65,23 +65,23 @@
 
     <insert id="insertPlaylist" parameterType="PlaylistDto">
           insert into tblPlaylist (title, desc, genre, tag, img, isPublic, nick)
-          values (#{title},#{desc},#{genre},#{tag},#{img},#{isPublic},#{nick});
+          values (#{title},#{desc},#{genre},#{tag},#{img},#{isPublic},#{nick})
     </insert>
 
 
     <select id="selectSearchByTitle" parameterType="string" resultType="PlaylistDto">
-          select * from vwPlaylist where title like concat ('%',#{title},'%');
+          select * from vwPlaylist where ispublic=1 and title like concat ('%',#{title},'%')
     </select>
 
 
     <select id="selectSearchByNick" parameterType="string" resultType="PlaylistDto">
-          select * from vwPlaylist where nick like concat ('%',#{nick},'%');
+          select * from vwPlaylist where ispublic=1 and nick like concat ('%',#{nick},'%')
     </select>
 
 
     <select id="selectSearchByGenre">
         select * from vwPlaylist 
-        where 
+        where ispublic=1 and 
         <foreach collection="list" item="genre" separator=" OR ">
             genre LIKE CONCAT('%', #{genre}, '%')
         </foreach>
@@ -90,7 +90,7 @@
 
     <select id="selectSearchByTag">
         select * from vwPlaylist 
-        where 
+        where ispublic=1 and 
         <foreach collection="list" item="tag" separator=" OR ">
             tag LIKE CONCAT('%', #{tag}, '%')
         </foreach>
@@ -109,7 +109,7 @@
 
 
     <select id="selectFirstPlaylist" parameterType="string">
-          SELECT * FROM vwPlaylist WHERE nick=#{nick} ORDER BY likescount DESC LIMIT 1;
+          SELECT * FROM vwPlaylist WHERE ispublic=1 and nick=#{nick} ORDER BY likescount DESC LIMIT 1;
     </select>
 
 

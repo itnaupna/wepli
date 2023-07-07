@@ -16,7 +16,7 @@ public interface PlaylistMapper {
     public PlaylistDto selectPlaylist(int idx);
 
     // 공개된 플레이리스트 목록 가져오기
-    public List<PlaylistDto> selectPublicPlaylist(boolean orderByDay);
+    public List<PlaylistDto> selectPublicPlaylist(Map<String, Object> data);
 
     // 좋아요 누른 플레이리스트 가져오기
     public List<PlaylistDto> selectLikePli(String nick);
