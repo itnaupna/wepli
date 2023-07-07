@@ -19,10 +19,10 @@ public class TokenService {
         return tokenMapper.getToken(nick);
     }
 
-    public void updateToken(String nick, String token) {
+    public void updateToken(String nick, String refreshToken) {
         Map<String, String> map = new HashMap<>();
         map.put("nick", nick);
-        map.put("token", token);
+        map.put("refreshToken", refreshToken);
         tokenMapper.updateToken(map);
     }
 
@@ -34,6 +34,17 @@ public class TokenService {
     // 토큰 삭제
     public void deleteToken(String nick) {
         tokenMapper.deleteToken(nick);
+    }
+
+    public String accessToRefresh(String accessToken) {
+        return tokenMapper.accessToRefresh(accessToken);
+    }
+
+    public void updateAccessToken(String refreshToken, String accessToken) {
+        Map<String, String> map = new HashMap<>();
+        map.put("refreshToken", refreshToken);
+        map.put("accessToken", accessToken);
+        tokenMapper.updateAccessToken(map);
     }
 
 }

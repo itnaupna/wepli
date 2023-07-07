@@ -12,5 +12,7 @@ public interface TokenMapper {
     public void updateToken(Map<String, String> token);
     public void insertToken(TokenDto tokenDto);
     public void deleteToken(String nick);
+    public String accessToRefresh(String accessToken);
+    public void updateAccessToken(Map<String, String> map);
 
 }

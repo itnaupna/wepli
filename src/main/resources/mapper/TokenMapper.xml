@@ -7,14 +7,22 @@
     </select>
 
     <update id="updateToken" parameterType="Map">
-        update from tblToken set token = #{token} where nick = #{nick}        
+        update tblToken set refreshToken = #{refreshToken} where nick = #{nick}
     </update>
 
     <insert id="insertToken" parameterType="TokenDto">
-        insert into tblToken values(#{nick}, #{token})
+        insert into tblToken values(#{nick}, #{refreshToken}, #{accessToken})
     </insert>
 
     <delete id="deleteToken" parameterType="String">
         delete from tblToken where nick = #{nick}
     </delete>
+
+    <select id="accessToRefresh" parameterType="String" resultType="String">
+        select refreshToken from tblToken where accessToken = #{accessToken}
+    </select>
+
+    <update id="updateAccessToken" parameterType="Map">
+        update tblToken set accessToken = #{accessToken} where refreshToken = #{refreshToken}
+    </update>
 </mapper>

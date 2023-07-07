@@ -2,6 +2,7 @@ package com.bit.jwt;
 
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.*;
 
 import javax.servlet.FilterChain;
@@ -10,6 +11,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bit.service.TokenService;
+import org.apache.el.parser.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,6 +46,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private MemberService ms;
 
+    @Autowired
+    private TokenService ts;
+
     // 인증에서 제외할 url
     private static final List<String> EXCLUDE_URL = Collections.unmodifiableList(
         Arrays.asList(
@@ -57,10 +63,61 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             .filter(c -> c.getName().equals("token"))
             .findFirst().map(Cookie::getValue)
             .orElse(null);
-        log.info("token{}", token);
+        log.info("token: {}", token);
 
         String nick = null;
         String jwtToken = null;
+
+        String refreshToken = ts.accessToRefresh(token);
+
+        // refreshToken이 존재하는 경우 검증
+        boolean tokenFl = false;
+        String nickChk = "";
+        try {
+            refreshToken = refreshToken.substring(6);
+            nickChk = jwtTokenProvider.getUsernameFromToken(refreshToken);
+            tokenFl = true;
+        } catch (SignatureException e) {
+            log.error("Invalid JWT signature: {}", e.getMessage());
+        } catch (MalformedJwtException e) {
+            log.error("Invalid JWT token: {}", e.getMessage());
+        } catch (ExpiredJwtException e) {
+            log.error("JWT token is expired: {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            log.error("JWT token is unsupported: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            log.error("JWT claims string is empty: {}", e.getMessage());
+        }
+        // refreshToken 사용이 불가능한 경우
+        if (!tokenFl) {
+            // refreshToken 정보 조회 실패 시 기존에 존재하는 refreshToken 정보 삭제
+            log.info("[doFilterInternal] - refreshToken not used");
+            ts.deleteToken(nick);
+        }
+        // refreshToken 인증 성공인 경우 accessToken 재발급
+        String accessToken = null;
+        Map<String, Object> rules = null;
+        if (nickChk != null && !nickChk.equals("")) {
+            // 권한 map 저장
+            rules = ms.AuthLevelCheck(nickChk);
+            rules.remove("nick");
+            // JWT 발급
+            String tokens = jwtTokenProvider.generateAccessToken(nickChk, rules);
+            accessToken = URLEncoder.encode(tokens, "utf-8");
+            ts.updateAccessToken("Bearer" + refreshToken, "Bearer" + accessToken);
+            log.info("[JWT regen] accessToken : " + accessToken);
+
+            // JWT 쿠키 저장(쿠키 명 : token)
+            Cookie cookie = new Cookie("token", "Bearer" + accessToken);
+            cookie.setPath("/");
+            cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
+            // httoOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+            log.info("[doFilterInternal] accessToken Regen");
+        } else {
+            log.info("[doFilterInternal] accessToken Regen error");
+        }
 
         // Bearer token인 경우 JWT 토큰 유효성검사 진행
         if(token != null && token.startsWith("Bearer")) {
@@ -69,13 +126,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 // token 디코딩 후 nick 추출
                 nick = jwtTokenProvider.getUsernameFromToken(jwtToken);
+
+
             } catch (SignatureException e) {
 				log.error("Invalid JWT signature: {}", e.getMessage());
 			} catch (MalformedJwtException e) {
 				log.error("Invalid JWT token: {}", e.getMessage());
 			} catch (ExpiredJwtException e) {
-				log.error("JWT token is expired: {}", e.getMessage());
-			} catch (UnsupportedJwtException e) {
+                log.error("JWT token is expired: {}", e.getMessage());
+            } catch (UnsupportedJwtException e) {
 				log.error("JWT token is unsupported: {}", e.getMessage());
 			} catch (IllegalArgumentException e) {
 				log.error("JWT claims string is empty: {}", e.getMessage());
@@ -88,15 +147,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             Map<String, Object> auth = ms.AuthLevelCheck(nick);
 
             String authValue = String .valueOf(auth.get("roles"));
-//            GrantedAuthority authority = new SimpleGrantedAuthority(authValue);
+            log.info("inter auth: {}", authValue);
             // List 타입인 이유는 권한이 여러개일수도 있어서
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(authValue));
 
-            if(jwtTokenProvider.validateToken(jwtToken, auth)) {
-                UsernamePasswordAuthenticationToken authenticationToken =
-                            new UsernamePasswordAuthenticationToken(auth.get("nick"), null, authorities);
-
+            if(jwtTokenProvider.validateToken(jwtToken)) {
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(auth.get("nick"), null, authorities);
+                log.info("usevalidateToken: {}", authenticationToken);
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }

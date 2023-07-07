@@ -66,10 +66,10 @@ public class MemberService {
         Map<String, Object> map = new HashMap<>();
         map.put("nick", nick);
         if(auth.getEmailconfirm() >= 1 || auth.getPhoneconfirm() >= 1) { 
-            map.put("roles", "auth2");
+            map.put("roles", "ROLE_auth2");
             return map;
         } else {
-            map.put("roles", "auth");
+            map.put("roles", "ROLE_auth");
             return map;
         }
     }

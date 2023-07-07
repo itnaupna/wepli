@@ -37,7 +37,10 @@ public class LoginController {
     TokenService tokenService;
 
 	@GetMapping("/lv1/auth1")
-	public String auth1() {
+	public String auth1(@CookieValue String token) {
+		log.info("accessToken: {}", token);
+
+		jwtTokenProvider.getUsernameFromToken(token.substring(6));
 		return "auth1";
 	}
 
@@ -84,7 +87,8 @@ public class LoginController {
 
             TokenDto rDto = new TokenDto();
             rDto.setNick(nick);
-            rDto.setToken("Bearer" + refreshToken);
+            rDto.setRefreshToken("Bearer" + refreshToken);
+			rDto.setAccessToken("Bearer" + accessToken);
             tokenService.insertToken(rDto);
 
             // local storage 사용 시 해당 return map에 access token 정보를 함께 반환해주면 됨
@@ -93,85 +97,4 @@ public class LoginController {
             return returnMap;
         }
     }
-
-    // JWT 토큰 재발급
-	@PostMapping("/access/refresh")
-	public Map<String, Object> jwtTokenRefresh(@RequestParam String nick, 
-    HttpServletRequest request, HttpServletResponse response) throws Exception{
-		Map<String, Object> returnMap = new HashMap<String, Object>();
-		String refreshToken = null;
-		String nickChk = "";
-		
-		// refreshToken 정보 조회
-		TokenDto tDto = tokenService.getToken(nick);
-        		
-		// token 정보가 존재하지 않는 경우
-		if(tDto == null) {
-			returnMap.put("result", "fail");
-			returnMap.put("msg", "refresh token 정보가 존재하지 않습니다.");
-			return returnMap;
-		}
-		// token 정보가 존재하는 경우
-		else {
-			refreshToken = tDto.getToken();
-		}
-		
-		// refreshToken이 존재하는 경우 검증
-		boolean tokenFl = false;
-		try {
-			refreshToken = refreshToken.substring(7);
-			nickChk = jwtTokenProvider.getUsernameFromToken(refreshToken);
-			tokenFl = true;
-		} catch (SignatureException e) {
-			log.error("Invalid JWT signature: {}", e.getMessage());
-		} catch (MalformedJwtException e) {
-			log.error("Invalid JWT token: {}", e.getMessage());
-		} catch (ExpiredJwtException e) {
-			log.error("JWT token is expired: {}", e.getMessage());
-		} catch (UnsupportedJwtException e) {
-			log.error("JWT token is unsupported: {}", e.getMessage());
-		} catch (IllegalArgumentException e) {
-			log.error("JWT claims string is empty: {}", e.getMessage());
-		}
-		
-		// refreshToken 사용이 불가능한 경우
-		if(!tokenFl) {
-			returnMap.put("result", "fail");
-			returnMap.put("msg", "refresh token이 만료되었거나 정보가 존재하지 않습니다.");
-			
-			// refreshToken 정보 조회 실패 시 기존에 존재하는 refreshToken 정보 삭제
-			tokenService.deleteToken(nick);
-			return returnMap;
-		}
-		
-		// refreshToken 인증 성공인 경우 accessToken 재발급
-		if(nickChk != null && !nickChk.equals("")) {
-			// 권한 map 저장
-			Map<String, Object> rules = memberService.AuthLevelCheck(nick);
-			
-			// JWT 발급
-			String tokens = jwtTokenProvider.generateAccessToken(nick, rules);
-			String accessToken = URLEncoder.encode(tokens, "utf-8");
-			
-			log.info("[JWT 재발급] accessToken : " + accessToken);
-			
-			// JWT 쿠키 저장(쿠키 명 : token)
-			Cookie cookie = new Cookie("token", "Bearer " + accessToken);
-			cookie.setPath("/");
-			cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
-			// httoOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
-			cookie.setHttpOnly(true);
-			response.addCookie(cookie);
-			
-			returnMap.put("result", "success");
-			returnMap.put("msg", "JWT가 발급되었습니다.");
-		}else {
-			returnMap.put("result", "fail");
-			returnMap.put("msg", "access token 발급 중 문제가 발생했습니다.");
-			return returnMap;
-		}
-		
-		return returnMap;
-	}
-
 }

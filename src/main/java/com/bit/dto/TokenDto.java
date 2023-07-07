@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class TokenDto {
     private String nick;
-    private String token;
+    private String refreshToken;
+    private String accessToken;
 }
