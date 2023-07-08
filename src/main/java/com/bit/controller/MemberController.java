@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bit.dto.MemberDto;
 import com.bit.dto.MypageDto;
+import com.bit.dto.UserConfirmDto;
 import com.bit.service.MemberService;
+import com.bit.service.UserConfirmService;
 
 @RestController
 @RequestMapping("/api")
 public class MemberController {
     @Autowired
     MemberService mService;
+    @Autowired
+    UserConfirmService uService;
 
     // 회원가입 api
     @PostMapping("/lv0/m/member")
@@ -46,16 +50,24 @@ public class MemberController {
         return mService.checkPhoneExists(phone);
     }
 
-    // // 유저정보 받아오기
-    // @GetMapping("/member")
-    // public MemberDto getMember(String email) {
-    // return mService.getMemberDto(email);
-    // }
-
     // 비밀번호만 확인
-    @PostMapping("/lv1/m/checkPassword")
+    @PostMapping("/lv1/m/checkpassword")
     public boolean postCheckPassword(@RequestBody MemberDto mDto) {
         return mService.checkPassword(mDto);
+    }
+
+    // 인증코드 생성
+    // 0-이메일, 1-전화
+    @PostMapping("/lv1/m/requestcode")
+    public boolean postRequestCode(@RequestBody UserConfirmDto data){
+        return uService.RequestCode(data.getType(),data.getKey());
+    }
+
+    // 인증코드 검증
+    // 0-이메일, 1-전화
+    @PostMapping("/lv1/m/verifycode")
+    public boolean postVerifyCode(@RequestBody UserConfirmDto data){
+        return uService.VerifyCode(data.getType(),data.getKey(),data.getCode());
     }
 
     // // 이메일 인증여부 확인

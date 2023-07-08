@@ -12,6 +12,8 @@ import lombok.Data;
 @Data
 public class NaverConfig {
 	//properties 파일 읽어오도록 구성.
+	String smsKey;
+	String smsSender;
 	String accessKey;
 	String secretKey;
 	String regionName;

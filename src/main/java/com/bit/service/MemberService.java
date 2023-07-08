@@ -11,6 +11,8 @@ import com.bit.dto.MemberDto;
 import com.bit.dto.MypageDto;
 import com.bit.mapper.MemberMapper;
 
+import naver.cloud.NcpObjectStorageService;
+
 @Service
 public class MemberService {
     @Autowired
@@ -70,10 +72,15 @@ public class MemberService {
         return memberMapper.updateEmailConfirm(email) > 0;
     }
 
+
+    
+
     // 전화번호 인증
     public boolean phoneConfirm(String email) {
+        
         // TODO : 전화 인증 알고리즘 추가
         return memberMapper.updatePhoneConfirm(email) > 0;
+
     }
 
     // 닉넴 변경

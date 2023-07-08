@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -13,6 +12,8 @@ function App() {
     mypage: "/api/lv1/m/mypage",
     fstage: "/api/lv2/s/fstage",
     stagesearch: "/api/lv0/s/search",
+    requestcode: "/api/lv1/m/requestcode",
+    verifycode: "/api/lv1/m/verifycode",
   }
 
   const [msg, setMsg] = useState('fail');
@@ -130,6 +131,29 @@ function App() {
     }
   }
 
+  const [verifyKey, setVerifyKey] = useState('');
+  const [verifyCode, setVerifyCode] = useState('');
+  const [verifyType, setVerifyType] = useState(0);
+  const [resultRV, setResultRV] = useState(false);
+  const [resultVerify, setResultVerify] = useState(false);
+  const handleRequestCode = async () => {
+    try {
+      const res = await axios.post(TESTURL.requestcode, { type: verifyType, key: verifyKey });
+      setResultRV(res.data);
+    } catch (error) {
+      alert(error);
+    }
+  }
+  const handleVerifyCode = async ()=>{
+    try{
+      const res = await axios.post(TESTURL.verifycode,{type:verifyType,key:verifyKey,code:verifyCode});
+      setResultVerify(res.data);
+    }catch(error){
+      alert(error);
+    }
+  }
+
+
 
   return (
     <div className="App">
@@ -208,6 +232,29 @@ function App() {
               {item.title} / {item.nick} / {item.genre} / {item.tag}
             </div>) :
           <div>검색결과가 없습니다.</div>}
+      </div>
+      <div style={{ border: '3px solid cyan', margin: '15px' }}>
+        인증코드 발송
+        <select defaultValue={verifyType} onChange={(e) => setVerifyType(e.target.selectedIndex.toString())}>
+          <option>이메일(미작동)</option>
+          <option>문자</option>
+        </select>
+        <input placeholder='수신자' value={verifyKey} onChange={(e) => setVerifyKey(e.target.value)} />
+        <button onClick={handleRequestCode}>발송</button>
+        {
+          resultRV ?
+            "발송성공" :
+            "발송실패 또는 내역없음"
+        }
+        <hr />
+        인증코드 검증
+        <input placeholder='코드' value={verifyCode} onChange={(e) => setVerifyCode(e.target.value)} />
+        <button onClick={handleVerifyCode}>검증</button>
+        {
+          resultVerify?
+          "인증성공":
+          "인증실패"
+        }
       </div>
     </div>
   );
