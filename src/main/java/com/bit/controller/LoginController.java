@@ -16,17 +16,12 @@ import com.bit.jwt.JwtTokenProvider;
 import com.bit.service.MemberService;
 import com.bit.service.TokenService;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api")
 @Slf4j
 public class LoginController {
-    // jwt 성공하면 가입시 token table에 nick insert하는것 의논 이유 -> login시
     @Autowired
     JwtTokenProvider jwtTokenProvider;
     
@@ -96,5 +91,15 @@ public class LoginController {
             returnMap.put("msg", "JWT 발급 성공");
             return returnMap;
         }
+    }
+
+    @PostMapping("/lv0/logout")
+    public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        log.info(nick);
+        tokenService.deleteToken(nick);
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
     }
 }

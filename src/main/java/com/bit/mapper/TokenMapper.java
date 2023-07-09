@@ -14,5 +14,4 @@ public interface TokenMapper {
     public void deleteToken(String nick);
     public String accessToRefresh(String accessToken);
     public void updateAccessToken(Map<String, String> map);
-
 }

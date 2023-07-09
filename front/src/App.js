@@ -5,6 +5,8 @@ import axios from 'axios';
 function App() {
   const [msg, setMsg] = useState('fail');
   const [emailPw, setEmailPw] = useState({email: "", pw: ""});
+  const [token, setToken] = useState("");
+
 
   useEffect(()=>{
     axios.get("/api/test")
@@ -51,6 +53,13 @@ function App() {
     })
   }
 
+  const handleLogout = () => {
+    axios.post("/api/lv0/logout")
+    .then(res => {
+      console.log("33");
+    })
+  }
+
   return (
     <div className="App">
       {msg}<br/>
@@ -69,7 +78,7 @@ function App() {
         {emailPw.email}<br/>
         {emailPw.pw}<br/>
       <button type="button" onClick={handleAccess}>로그인</button>
-      
+      <button type="button" onClick={handleLogout}>로그아웃</button>
     </div>
   );
 }
