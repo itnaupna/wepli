@@ -2,119 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '../PlayStageCss/PlayStageList.css';
 import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
+
+
 function PlayStageList(props) {
-    const Stages = [
-        {
-            idx:0,
-            image:<img src='../PlayStageImage/IDK.png' alt='엥'/>,
-            username: '최용주',
-            usercount:50,
-            title:'에옹',
-            currentsong:'켈시켈'
-        },
-        {
-            idx:1,
-            image:<img src='../PlayStageImage/IDK.png' alt='엥'/>,
-            username:'박성준',
-            usercount:40,
-            title:'백엔드 재밌다',
-            currentsong:'레포데송'
-        },
-        {
-            idx:2,
-            image:<img src='../PlayStageImage/IDK.png' alt='엥'/>,
-            username:'상혁',
-            usercount:100,
-            title:'프론트 하실 분',
-            currentsong:'우엉어엉'
+ 
 
-        },
-        {
-            idx:3,
-            image:<img src='../PlayStageImage/IDK.png' alt='엥'/>,
-            username:'4',
-            usercount:100,
-            title:'프론트 하실 분',
-            currentsong:'우엉어엉'
-
-        },
-        {
-            idx:4,
-            image:<img src='../PlayStageImage/IDK.png' alt='엥'/>,
-            username:'5',
-            usercount:100,
-            title:'프론트 하실 분',
-            currentsong:'우엉어엉'
-
-        },
-        {
-            idx:5,
-            image:<img src='../PlayStageImage/IDK.png' alt='엥'/>,
-            username:'6',
-            usercount:100,
-            title:'프론트 하실 분',
-            currentsong:'우엉어엉'
-
-        },
-        {
-            idx:7,
-            image:<img src='../PlayStageImage/IDK.png' alt='엥'/>,
-            username:'7',
-            usercount:100,
-            title:'프론트 하실 분',
-            currentsong:'우엉어엉'
-
-        }
-
-    ];
-    const [stages,setStages]=useState(Stages);
-    const [hasNextPage,setHasNextPage] = useState(true);
-    const page =useRef(1);
-    const [ref, inView]= useInView();
-    
-    const fetch = useCallback(async ()=>{
-        try{
-            const response = await axios.get<Stages>('http://localhost:3000/PlayStageList');
-            const {data} = response;
-        if(Array.isArray(data)){
-            setStages((preStages)=>[...preStages, ...data]);
-            setHasNextPage(data.length ===10);
-            if(data.length){
-                page.current +=1;
-            }
-        }
-    }catch(err){
-        console.log(err);
-    }
-
-    },[]);
-
-    useEffect(()=>{
-        // console.log(inView, hasNextPage);
-        if(inView && hasNextPage){
-            fetch();
-        }
-    },[fetch,hasNextPage, inView]);
-    useEffect(()=>{
-        const observer = new IntersectionObserver(
-            (entries)=>{
-                entries.forEach((entry)=>{
-                    if(entry.isIntersecting && hasNextPage){
-                        fetch();
-                    }
-                });
-            },
-            {threshold:1}
-        );
-        if(ref.current){
-            observer.observe(ref.current);
-        }
-        return () =>{
-            if(ref.current){
-                observer.unobserve(ref.current);
-            }
-        };
-    },[fetch,hasNextPage,ref]);
     return (
         <div className='Lbackground'>
             <div className='Side-Bar'>
@@ -161,35 +53,22 @@ function PlayStageList(props) {
                 </div>
                 
                 <div className='Bsection-LiveList' >
-                    {stages?.map((Stages)=>(
-           
-                        <section className='room-item' key={Stages.idx}>
-                            <figure className='roomImage'>
-                                {Stages.image}
-                            </figure>
-                            <div className='user-count'>
-                                {Stages.usercount}
-                            </div>
-                            <header>
-                                <div className='description'>
-                                    {Stages.title}
-                                </div>
-                                <div className='user-info'>
-                                    {Stages.username}
-                                </div>
-                            </header>
-                            <div className='current-song'>
-                                    {Stages.currentsong}
-                            </div>
-                        </section>
-                    
-                    ))}
-                    
-
+                {data.map((item, address) => (
+        <div key={address}>
+          {data.length - 1 === address ? (
+            // 맨 마지막 요소에 ref
+            <div ref={ref}>{item.nick}</div>
+          ) : (
+            <div>{item.nick}</div>
+          )}
+        </div>
+      ))}
                 </div>
             </div>
         </div>
     );
+    
 }
+
 
 export default PlayStageList;
