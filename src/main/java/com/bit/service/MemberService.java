@@ -1,14 +1,22 @@
 package com.bit.service;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CookieValue;
 
 import com.bit.dto.MemberDto;
 import com.bit.dto.MypageDto;
+import com.bit.dto.TokenDto;
+import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.MemberMapper;
 
 import naver.cloud.NcpObjectStorageService;
@@ -17,6 +25,10 @@ import naver.cloud.NcpObjectStorageService;
 public class MemberService {
     @Autowired
     MemberMapper memberMapper;
+     @Autowired
+    JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    TokenService tokenService;
 
     // 회원가입
     public boolean joinMember(MemberDto mDto) {
@@ -72,12 +84,9 @@ public class MemberService {
         return memberMapper.updateEmailConfirm(email) > 0;
     }
 
-
-    
-
     // 전화번호 인증
     public boolean phoneConfirm(String email) {
-        
+
         // TODO : 전화 인증 알고리즘 추가
         return memberMapper.updatePhoneConfirm(email) > 0;
 
@@ -179,44 +188,82 @@ public class MemberService {
         return memberMapper.deleteFollowlist(data) > 0;
     }
 
+    // 닉넴으로 마이페이지 정보 불러오기
     public MypageDto selectMypageDto(String nick) {
         return memberMapper.selectMypageDto(nick);
     }
-    
 
-    // // 랜덤 키값 생성용 메서드
-    // public String generateState() {
-    // SecureRandom random = new SecureRandom();
-    // return new BigInteger(130, random).toString(32);
-    // }
+   
 
-    // public String getNaverAuthUrl(String type) {
-    // String baseUrl = "";
-    // String clientId = "";
-    // String redirectUrl = "";
+    //로그인 시도.
+    public Map<String, Object> Login(String email, String pw, HttpServletRequest request,
+            HttpServletResponse response) {
+        Map<String, Object> result = new HashMap<>();
+        try {
 
-    // try {
-    // UriComponents uComponents = UriComponentsBuilder
-    // .fromUriString(baseUrl + "/" + type)
-    // .queryParam("response_type", "code")
-    // .queryParam("client_id", clientId)
-    // .queryParam("redirect_url", URLEncoder.encode(redirectUrl, "UTF-8"))
-    // .queryParam("state", URLEncoder.encode("1234", "UTF-8"))
-    // .build();
-    // } catch (UnsupportedEncodingException e) {
-    // e.printStackTrace();
-    // }
+            Map<String, String> data = new HashMap<>();
+            data.put("email", email);
+            data.put("pw", pw);
+            boolean boolLogin = memberMapper.selectLogin(data) > 0;
+            if (boolLogin) {
+                // 로긴 성공하면
+                Map<String, Object> claims = new HashMap<>();
+                MypageDto userDto = memberMapper.selectMypageDtoByEmail(email);
+                claims.put("roles",
+                        userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
 
-    // return "";
-    // }
-    
+                Map<String, String> tokens = jwtTokenProvider.generateTokenSet(userDto.getNick(), claims);
+                String accessToken = URLEncoder.encode(tokens.get("accessToken"), "utf-8");
+                String refreshToken = URLEncoder.encode(tokens.get("refreshToken"), "utf-8");
+
+                Cookie cookie = new Cookie("token", "Bearer" + accessToken);
+                cookie.setPath("/");
+                cookie.setMaxAge(60 * 60 * 24 * 1);
+                cookie.setHttpOnly(true);
+                response.addCookie(cookie);
+
+                TokenDto tokenDto = new TokenDto();
+                tokenDto.setNick(userDto.getNick());
+                tokenDto.setAccessToken(accessToken);
+                tokenDto.setRefreshToken(refreshToken);
+                tokenService.insertToken(tokenDto);
+
+                result.put("result", "true");
+                result.put("data", userDto);
+
+            } else {
+                // 로긴 실패하면
+                result.put("result", "false");
+            }
+
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("result", "error");
+            result.put("ecode",e.getMessage());
+            return result;
+        }
+    }
+
+    //로그아웃 시도
+    public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response){
+        Cookie cookie = new Cookie("token", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        tokenService.deleteToken(nick);
+    }
+
     // 메일, 문자인증 여부에따라 권한 부여
+    //TODO : 삭제예정
     public Map<String, Object> AuthLevelCheck(String nick) {
         MemberDto auth = memberMapper.AuthLevelCheck(nick);
-        
+
         Map<String, Object> map = new HashMap<>();
         map.put("nick", nick);
-        if(auth.getEmailconfirm() >= 1 || auth.getPhoneconfirm() >= 1) { 
+        if (auth.getEmailconfirm() >= 1 || auth.getPhoneconfirm() >= 1) {
             map.put("roles", "ROLE_auth2");
             return map;
         } else {
@@ -226,18 +273,18 @@ public class MemberService {
     }
 
     // 로그인
-    public int Login(String email, String pw) {
-        Map<String, String> login = new HashMap<>();
-        login.put("email", email);
-        login.put("pw", pw);
+    // public boolean Login(String email, String pw) {
+    // Map<String, String> login = new HashMap<>();
+    // login.put("email", email);
+    // login.put("pw", pw);
 
-        return memberMapper.Login(login);
-    }
+    // return memberMapper.selectLogin(login)==0;
+    // }
 
     // email로 nick 가져오기
+    // TODO : 삭제예정
     public String getNickName(String email) {
         return memberMapper.getNickName(email);
     }
 
-    
 }

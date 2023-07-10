@@ -26,6 +26,11 @@
         select emailconfirm from tblMember where email=#{email}
     </select>
 
+    <select id="selectLogin" parameterType="Map" resultType="int">
+        select count(*) from tblMember where email=#{email} and pw=sha2(#{pw},256)
+    </select>
+        
+
     <select id="selectCheckPhoneConfirm" parameterType="string">
         select phoneconfirm from tblMember where email=#{email}
     </select>
@@ -84,13 +89,16 @@
         select * from vwMypage where nick=#{nick}
     </select>
     
+    <select id="selectMypageDtoByEmail" parameterType="string">
+        select * from vwMypage where email=#{email}
+    </select>
+    
 
     <select id="selectCheckPasswordByNick" parameterType="MemberDto">
         select count(*) from tblMember where nick=#{nick} and pw=sha2(#{pw},256)
     </select>
 
     
-</mapper>
     <select id="AuthLevelCheck" parameterType="string" resultType="MemberDto">
         select emailconfirm, phoneconfirm from tblMember where nick = #{nick}
     </select>

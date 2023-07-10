@@ -61,14 +61,13 @@ public interface MemberMapper {
     public int deleteFollowlist(Map<String,String> data);
     //마이페이지 필요데이터 읽기(뷰)
     public MypageDto selectMypageDto(String nick);
-
-
-
+    public MypageDto selectMypageDtoByEmail(String email);
+    //로그인
+    public int selectLogin(Map<String, String> Map);
     
 
-    public int JoinMember(MemberDto mDto);
-    public int CheckEmailExists(String email);
-    public int CheckNickExists(String nick);
+
+    //TODO : 하위 3종 삭제예정 (sql문 역시)
     public MemberDto AuthLevelCheck(String nick);
     public int Login(Map<String, String> map);
     public String getNickName(String email);

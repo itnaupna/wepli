@@ -14,6 +14,8 @@ function App() {
     stagesearch: "/api/lv0/s/search",
     requestcode: "/api/lv1/m/requestcode",
     verifycode: "/api/lv1/m/verifycode",
+    login:"/api/lv0/m/login",
+    logout:"/api/lv0/m/logout",
   }
 
   const [msg, setMsg] = useState('fail');
@@ -138,6 +140,7 @@ function App() {
   const [verifyType, setVerifyType] = useState(0);
   const [resultRV, setResultRV] = useState(false);
   const [resultVerify, setResultVerify] = useState(false);
+
   const handleRequestCode = async () => {
     try {
       const res = await axios.post(TESTURL.requestcode, { type: verifyType, key: verifyKey });
@@ -158,14 +161,14 @@ function App() {
 
 
   const handleAccess = () => {
-    axios.post("/api/lv0/login", emailPw)
+    axios.post(TESTURL.login, emailPw)
     .then(res => {
-      console.log("22");
+      console.log(res.data);
     })
   }
 
   const handleLogout = () => {
-    axios.post("/api/lv0/logout")
+    axios.post(TESTURL.logout)
     .then(res => {
       console.log("33");
     })

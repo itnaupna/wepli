@@ -1,8 +1,15 @@
 package com.bit.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -70,18 +77,6 @@ public class MemberController {
         return uService.VerifyCode(data.getType(),data.getKey(),data.getCode());
     }
 
-    // // 이메일 인증여부 확인
-    // @GetMapping("/checkemail")
-    // public boolean getCheckEmailConfirm(String email) {
-    // return mService.checkEmailConfirm(email);
-    // }
-
-    // // 전화 인증여부 확인
-    // @GetMapping("/checkphone")
-    // public boolean getCheckPhoneConfirm(String email) {
-    // return mService.checkPhoneConfirm(email);
-    // }
-
     // 닉넴 변경
     @PatchMapping("/lv1/m/nick")
     public boolean patchNick(@RequestBody String email, @RequestBody String nick) {
@@ -130,12 +125,6 @@ public class MemberController {
         return mService.deleteBlacklist(nick, target);
     }
 
-    // // 블랙리스트 옵션 얻기
-    // @GetMapping("/blackopt")
-    // public Map<String, Integer> getBlackopt(String nick) {
-    // return mService.selectBlackOpt(nick);
-    // }
-
     // 블랙리스트 옵션 수정
     @PutMapping("/lv2/m/blackopt")
     public boolean putBlackopt(@RequestBody String nick, @RequestBody int hidechat, @RequestBody int mute) {
@@ -177,4 +166,17 @@ public class MemberController {
         return mService.selectMypageDto(nick);
     }
 
+    //로그인
+    @PostMapping("/lv0/m/login")
+    public Map<String, Object> access(@RequestBody Map<String, String> data, HttpServletRequest request, HttpServletResponse response){
+            return mService.Login(data.get("email"), data.get("pw"), request, response);
+    }
+
+    //로그아웃
+    //TODO : 로그아웃시 엑세스토큰이 만료되어있으면 해당 유저의 리프레시 토큰이 삭제가 안되는점 수정
+    @PostMapping("/lv0/m/logout")
+    public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) {
+        
+        mService.logout(token, request, response);
+    }
 }

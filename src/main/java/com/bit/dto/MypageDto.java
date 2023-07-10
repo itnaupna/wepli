@@ -18,7 +18,10 @@ public class MypageDto {
     private int hidechat;
     private int mute;
     private String lstfollow;
-    private String lstpli;
+    //private String lstpli;
+    /*
+     * (select json_arrayagg(json_object('idx',`tblPlaylist`.`idx`,'title',`tblPlaylist`.`title`,'ispublic',`tblPlaylist`.`isPublic`,'makeday',`tblPlaylist`.`makeday`)) from `tblPlaylist` where (`tblPlaylist`.`nick` = `tblMember`.`nick`)) AS `lstpli`,
+     */
     private String stagetitle;
     private String stageaddress;
 }
