@@ -182,6 +182,7 @@ public class MemberService {
     public MypageDto selectMypageDto(String nick) {
         return memberMapper.selectMypageDto(nick);
     }
+    
 
     // // 랜덤 키값 생성용 메서드
     // public String generateState() {
@@ -208,5 +209,35 @@ public class MemberService {
 
     // return "";
     // }
+    
+    // 메일, 문자인증 여부에따라 권한 부여
+    public Map<String, Object> AuthLevelCheck(String nick) {
+        MemberDto auth = memberMapper.AuthLevelCheck(nick);
+        
+        Map<String, Object> map = new HashMap<>();
+        map.put("nick", nick);
+        if(auth.getEmailconfirm() >= 1 || auth.getPhoneconfirm() >= 1) { 
+            map.put("roles", "ROLE_auth2");
+            return map;
+        } else {
+            map.put("roles", "ROLE_auth");
+            return map;
+        }
+    }
 
+    // 로그인
+    public int Login(String email, String pw) {
+        Map<String, String> login = new HashMap<>();
+        login.put("email", email);
+        login.put("pw", pw);
+
+        return memberMapper.Login(login);
+    }
+
+    // email로 nick 가져오기
+    public String getNickName(String email) {
+        return memberMapper.getNickName(email);
+    }
+
+    
 }

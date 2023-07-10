@@ -17,6 +17,8 @@ function App() {
   }
 
   const [msg, setMsg] = useState('fail');
+  const [emailPw, setEmailPw] = useState({email: "", pw: ""});
+  const [token, setToken] = useState("");
   useEffect(() => {
     axios.get(TESTURL.test)
       .then(res => setMsg(res.data));
@@ -155,6 +157,20 @@ function App() {
 
 
 
+  const handleAccess = () => {
+    axios.post("/api/lv0/login", emailPw)
+    .then(res => {
+      console.log("22");
+    })
+  }
+
+  const handleLogout = () => {
+    axios.post("/api/lv0/logout")
+    .then(res => {
+      console.log("33");
+    })
+  }
+
   return (
     <div className="App">
       {msg}<br />
@@ -256,6 +272,23 @@ function App() {
           "인증실패"
         }
       </div>
+      {msg}<br/>
+
+    <input value={email} onChange={(e)=>{setEmail(e.target.value)}} onBlur={handleCheckEmailExists}/><br/>
+    <input value={pw} onChange={(e)=>{setPw(e.target.value)}}/><br/>
+    <input value={nick} onChange={(e)=>{setNick(e.target.value)}} onBlur={handleCheckNickExists}/><br/>
+    <button onClick={handleClickSubmit}>전송</button>
+    <div id="naver_id_login">dd</div>
+      <input type="text"  onChange={(e)=>{setEmailPw({
+        ...emailPw,
+        email: e.target.value})}}></input>
+      <input type="password"  onChange={(e)=>{setEmailPw({
+        ...emailPw,
+        pw: e.target.value})}}></input><br/>
+        {emailPw.email}<br/>
+        {emailPw.pw}<br/>
+      <button type="button" onClick={handleAccess}>로그인</button>
+      <button type="button" onClick={handleLogout}>로그아웃</button>
     </div>
   );
 }
