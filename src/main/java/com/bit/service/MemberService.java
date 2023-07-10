@@ -19,7 +19,7 @@ import com.bit.dto.TokenDto;
 import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.MemberMapper;
 
-import naver.cloud.NcpObjectStorageService;
+// import naver.cloud.NcpObjectStorageService;
 
 @Service
 public class MemberService {

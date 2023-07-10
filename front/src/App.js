@@ -20,7 +20,8 @@ function App() {
 
   const [msg, setMsg] = useState('fail');
   const [emailPw, setEmailPw] = useState({email: "", pw: ""});
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
+  //미사용이라 주석처리해둠. 사용시 해제할것
   useEffect(() => {
     axios.get(TESTURL.test)
       .then(res => setMsg(res.data));
