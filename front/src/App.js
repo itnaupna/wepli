@@ -25,7 +25,7 @@ function App() {
   useEffect(() => {
     axios.get(TESTURL.test)
       .then(res => setMsg(res.data));
-  }, []);
+  }, [TESTURL.test]);
 
   const [nick, setNick] = useState("");
   const [pw, setPw] = useState("");
