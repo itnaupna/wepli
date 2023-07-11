@@ -1,0 +1,555 @@
+.likerankinglistframe::-webkit-scrollbar{
+    display: none;
+}
+.bgimg-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120rem;
+    height: 60.56rem;
+    object-fit: cover;
+}
+.likerankingtitle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 31.25rem;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
+}
+.rankinglistbg,
+.rankinglistitembg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-11xl);
+    background-color: var(--color-gray-100);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    width: 31.25rem;
+    height: 37.5rem;
+}
+.rankinglistitembg {
+    border-radius: var(--br-xl);
+    background-color: var(--color-white);
+    width: 25rem;
+    height: 5rem;
+}
+.playlistmain01ranking {
+    position: absolute;
+    top: 0.94rem;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.88rem;
+    height: 1.88rem;
+}
+.playlistmain01playercover-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3.75rem;
+    height: 3.75rem;
+    object-fit: cover;
+}
+.playlistmain01playertitle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    width: 10rem;
+    height: 1.63rem;
+}
+.playlistmain01playertitles {
+    position: absolute;
+    top: 0.5rem;
+    left: 0;
+    width: 10rem;
+    height: 1.63rem;
+    font-size: var(--font-size-mid);
+    font-family: var(--font-bm-hanna_ttf);
+}
+.playlistmain01nickname,
+.playlistmain01nicknames {
+    position: absolute;
+    left: 0;
+    width: 8.13rem;
+    height: 1.31rem;
+}
+.playlistmain01nickname {
+    top: 0;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+}
+.playlistmain01nicknames {
+    top: 2.13rem;
+}
+.playlistmain01createday {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    width: 5.8rem;
+    height: 1.32rem;
+}
+.playlistmain01createdays {
+    position: absolute;
+    top: 0;
+    left: 10.45rem;
+    width: 5.8rem;
+    height: 1.32rem;
+    font-size: var(--font-size-4xs);
+    color: var(--color-gray-200);
+}
+.playlistmain01count,
+.playlistmain01likecounts {
+    position: absolute;
+    top: 0;
+    width: 1.88rem;
+    height: 1.25rem;
+}
+.playlistmain01count {
+    left: 0;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.playlistmain01likecounts {
+    left: 0.63rem;
+}
+.playlistmain01hearticon {
+    position: absolute;
+    height: 50%;
+    width: 25%;
+    top: 25%;
+    right: 75%;
+    bottom: 25%;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+.playlistmain01like {
+    position: absolute;
+    top: 1.31rem;
+    left: 13.44rem;
+    width: 2.5rem;
+    height: 1.25rem;
+    text-align: center;
+}
+.playlistmain01cate {
+    position: relative;
+}
+.playlistmain01taglayout {
+    position: absolute;
+    top: 3.19rem;
+    right: 0.63rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--gap-3xs);
+    text-align: center;
+    font-size: var(--font-size-4xs);
+    font-family: var(--font-bm-hanna_ttf);
+}
+.rankinglistitemin,
+.rankinglistiteminfo {
+    position: absolute;
+    top: 0;
+    left: 4.38rem;
+    width: 16.25rem;
+    height: 3.75rem;
+}
+.rankinglistitemin {
+    left: 2.81rem;
+    width: 20.63rem;
+    text-align: left;
+    font-size: var(--font-size-smi);
+    font-family: var(--font-bm-hanna-air);
+}
+.rankinglistitem {
+    position: absolute;
+    top: 0.63rem;
+    left: 1.25rem;
+    width: 23.44rem;
+    height: 3.75rem;
+}
+.rankinglistitems,
+.rankinglistitems1 {
+    position: absolute;
+    top: 23.13rem;
+    left: 3.13rem;
+    width: 25rem;
+    height: 5rem;
+}
+.rankinglistitems1 {
+    top: 36.88rem;
+}
+.rankinglistitems2,
+.rankinglistitems3,
+.rankinglistitems4 {
+    position: absolute;
+    top: 30rem;
+    left: 3.13rem;
+    width: 25rem;
+    height: 5rem;
+}
+.rankinglistitems3,
+.rankinglistitems4 {
+    top: 16.25rem;
+}
+.rankinglistitems4 {
+    top: 9.38rem;
+}
+.likerankinglistframe {
+    top: 0;
+    border-radius: var(--br-xl);
+    overflow-y: auto;
+}
+.likerankinglist,
+.likerankinglistframe,
+.likerankinglistwapper {
+    position: absolute;
+    left: 0;
+    width: 31.25rem;
+    height: 37.5rem;
+}
+.likerankinglistwapper {
+    top: 0;
+}
+.likerankinglist {
+    top: 3.13rem;
+    font-size: var(--font-size-lg);
+    color: var(--color-black);
+}
+.likerankingwapper {
+    position: absolute;
+    top: 14.31rem;
+    left: 8.75rem;
+    width: 31.25rem;
+    height: 40.63rem;
+    color: var(--color-white);
+}
+.followliketoggle-icon {
+    position: absolute;
+    top: 0.56rem;
+    left: 24.69rem;
+    width: 3.13rem;
+    height: 1.56rem;
+}
+.playlistmain01followtoggles1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-transform: capitalize;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    width: 2.5rem;
+    height: 1.56rem;
+}
+.playlistmain01followtoggles {
+    position: absolute;
+    top: 0.56rem;
+    left: 22.19rem;
+    width: 2.5rem;
+    height: 1.56rem;
+}
+.playlistmain01playercovers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3.75rem;
+    height: 3.75rem;
+}
+.rankinglistitems8,
+.rankinglistitems9 {
+    position: absolute;
+    top: 16.25rem;
+    left: 3.56rem;
+    width: 25rem;
+    height: 5rem;
+}
+.rankinglistitems9 {
+    top: 23.13rem;
+}
+.mylikelistframe {
+    top: 0;
+    border-radius: var(--br-xl);
+    height: 37.5rem;
+    overflow-y: auto;
+    text-align: center;
+    font-size: var(--font-size-lg);
+    font-family: var(--font-black-han-sans);
+}
+.mylikelist,
+.mylikelistframe,
+.mylikewappertitle {
+    position: absolute;
+    left: 0;
+    width: 31.25rem;
+}
+.mylikelist {
+    top: 3.13rem;
+    height: 37.5rem;
+}
+.mylikewappertitle {
+    top: 0;
+    font-size: var(--font-size-21xl);
+    font-family: var(--font-black-han-sans);
+    color: var(--color-white);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
+}
+.mylikewapper {
+    position: absolute;
+    top: 7.5rem;
+    left: 45rem;
+    width: 31.25rem;
+    height: 40.63rem;
+    text-align: left;
+    font-size: var(--font-size-smi);
+    font-family: var(--font-kbo-dia-gothic);
+}
+.playlistmain01followprofillimg-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-11xl);
+    width: 3.75rem;
+    height: 3.75rem;
+    object-fit: cover;
+}
+.playlistmain01followjoin,
+.playlistmain01follownickname {
+    position: absolute;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+}
+.playlistmain01follownickname {
+    top: 1.06rem;
+    left: 0;
+    font-size: var(--font-size-mid);
+    font-family: var(--font-bm-hanna_ttf);
+    width: 10rem;
+    height: 1.63rem;
+}
+.playlistmain01followjoin {
+    top: 0;
+    left: 10.45rem;
+    color: var(--color-gray-200);
+    width: 5.8rem;
+    height: 1.32rem;
+}
+.follow,
+.follownum {
+    position: absolute;
+    top: 0;
+    width: 1.56rem;
+    height: 0.94rem;
+}
+.follownum {
+    left: 0;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+}
+.follow {
+    left: 1.19rem;
+}
+.followrankinglsitfollowicons {
+    position: absolute;
+    height: 100%;
+    width: 34.09%;
+    top: 0;
+    right: 65.91%;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+.playlistmain01follow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2.75rem;
+    height: 0.94rem;
+}
+.playlistmain01playlistcount {
+    position: absolute;
+    top: 0;
+    left: 1.13rem;
+    width: 1.56rem;
+    height: 0.94rem;
+}
+.followrankinglsitmusicicon {
+    position: absolute;
+    height: 100%;
+    width: 34.88%;
+    top: 0;
+    right: 65.12%;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+.playlistmain01followcount {
+    position: absolute;
+    top: 0;
+    left: 2.94rem;
+    width: 2.69rem;
+    height: 0.94rem;
+}
+.playlistmain01followitems {
+    position: absolute;
+    top: 2.81rem;
+    left: 10.31rem;
+    width: 5.63rem;
+    height: 0.94rem;
+}
+.followrankinglsititemsin {
+    position: absolute;
+    top: 0;
+    left: 2.81rem;
+    width: 20.63rem;
+    height: 3.75rem;
+    text-align: left;
+    font-size: var(--font-size-4xs);
+    font-family: var(--font-bm-hanna-air);
+}
+.followrankinglsititems {
+    position: absolute;
+    top: 2.5rem;
+    left: 3.13rem;
+    width: 25rem;
+    height: 5rem;
+}
+.followtoptitle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: var(--font-size-21xl);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 31.25rem;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
+}
+.followrankingwapper {
+    position: absolute;
+    top: 14.31rem;
+    left: 81.25rem;
+    width: 31.25rem;
+    height: 40.63rem;
+    font-size: var(--font-size-lg);
+}
+.playlistmainbuttonbody {
+    position: absolute;
+    top: 3.13rem;
+    left: 10rem;
+    border-radius: var(--br-xl);
+    background: linear-gradient(-87.12deg, #b6d6ff, #d0e0f4 50.53%, #eae9e9);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    width: 10rem;
+    height: 3.13rem;
+    transform: rotate(-180deg);
+    transform-origin: 0 0;
+}
+.playlistmainbuttontitle {
+    position: absolute;
+    top: 0.63rem;
+    left: 1.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6.25rem;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
+}
+.playlistmainbutton {
+    position: absolute;
+    top: 0;
+    left: 23.13rem;
+    width: 10rem;
+    height: 3.13rem;
+}
+.playlistmainbuttontitle1 {
+    position: absolute;
+    top: 0.63rem;
+    left: 3.54rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.91rem;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
+}
+.playlistmainbutton1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10rem;
+    height: 3.13rem;
+}
+.playlistmainbuttontitle2 {
+    position: absolute;
+    top: 0.63rem;
+    left: 1.63rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6.75rem;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
+}
+.playlistmainbutton2 {
+    position: absolute;
+    top: 0;
+    left: 11.88rem;
+    width: 10rem;
+    height: 3.13rem;
+}
+.playlistmainbuttonlist {
+    position: absolute;
+    top: 3.75rem;
+    left: 83.13rem;
+    width: 33.13rem;
+    height: 3.13rem;
+    font-size: var(--font-size-5xl);
+    color: var(--color-white);
+}
+.playlistmainranking {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120rem;
+    height: 60.56rem;
+}
+.playlistmain01 {
+    position: relative;
+    width: 100%;
+    height: 60.56rem;
+    text-align: center;
+    font-size: var(--font-size-21xl);
+    color: var(--color-black);
+    font-family: var(--font-black-han-sans);
+}

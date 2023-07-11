@@ -1,0 +1,243 @@
+.bg,
+.logotext,
+.wepli {
+    position: absolute;
+    top: 0;
+}
+.bg {
+    left: 0;
+    background-color: #ff8935;
+    width: 37.5rem;
+    height: 37rem;
+}
+.logotext,
+.wepli {
+    width: 7.03rem;
+}
+.wepli {
+    left: 0;
+    letter-spacing: -0.01em;
+    display: inline-block;
+}
+.logotext {
+    left: 24.9rem;
+    height: 2.94rem;
+}
+.playlist,
+.secondtext {
+    position: absolute;
+    left: 0;
+    width: 33.89rem;
+}
+.playlist {
+    top: 0;
+    letter-spacing: -0.02em;
+    display: inline-block;
+}
+.secondtext {
+    top: 2.94rem;
+    height: 8.44rem;
+    font-size: 6.88rem;
+}
+.albumtitletext {
+    position: absolute;
+    top: 1.38rem;
+    left: 1.84rem;
+    width: 34.46rem;
+    height: 11.38rem;
+}
+.albumcenter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 37.5rem;
+    height: 37rem;
+}
+.album2-3-icon {
+    top: 0;
+    left: 0;
+    height: 24.19rem;
+    object-fit: cover;
+}
+.album2-3-icon,
+.albumimg,
+.albummainsection {
+    position: absolute;
+    width: 37.5rem;
+}
+.albumimg {
+    top: 12.81rem;
+    left: 0;
+    height: 24.19rem;
+}
+.albummainsection {
+    top: 1.81rem;
+    left: 4.38rem;
+    height: 37rem;
+}
+.p {
+    margin: 0;
+}
+.div,
+.mainsectionhashtag {
+    position: absolute;
+    width: 1.88rem;
+}
+.div {
+    top: 0;
+    left: 0;
+    display: inline-block;
+}
+.mainsectionhashtag {
+    top: 32.25rem;
+    left: 1.25rem;
+    height: 6.56rem;
+    font-size: 2.13rem;
+    font-family: "BM Hanna Air";
+}
+.mainround-child {
+    top: calc(50% - 325px);
+    left: calc(50% - 370px);
+    border: 2px solid #c6c6c6;
+    box-sizing: border-box;
+}
+.mainround,
+.mainround-child,
+.mainsection2-1group {
+    position: absolute;
+    width: 46.25rem;
+    height: 40.63rem;
+}
+.mainround {
+    top: calc(50% - 325px);
+    left: calc(50% - 370px);
+}
+.mainsection2-1group {
+    top: 12.75rem;
+    left: 0.63rem;
+}
+.make,
+.topsubtitle {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.make {
+    font-weight: 500;
+}
+.topsubtitle {
+    width: 20.81rem;
+    height: 6.88rem;
+}
+.div1 {
+    top: 0;
+    font-weight: 500;
+    display: inline-block;
+}
+.div1,
+.mainsection2toptext,
+.toptitle {
+    position: absolute;
+    left: 0;
+    width: 39.81rem;
+}
+.toptitle {
+    top: 7.19rem;
+    height: 3.19rem;
+    font-size: 3.19rem;
+}
+.mainsection2toptext {
+    top: 0;
+    height: 10.38rem;
+    font-size: 6.88rem;
+    font-family: "KBO Dia Gothic";
+}
+.leftsection {
+    position: absolute;
+    top: 1.88rem;
+    left: 0;
+    width: 46.88rem;
+    height: 53.38rem;
+}
+.bottomtitle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24.31rem;
+    height: 6.88rem;
+}
+.bottomsubtitle {
+    position: absolute;
+    top: 7.19rem;
+    left: 0;
+    width: 37.19rem;
+    height: 3.19rem;
+    font-size: 3.19rem;
+}
+.mainsection2bottomtext {
+    position: absolute;
+    top: 41.75rem;
+    left: 3.94rem;
+    width: 37.19rem;
+    height: 10.38rem;
+}
+.mainsectionhashtag2 {
+    position: absolute;
+    top: 32.25rem;
+    left: 1.25rem;
+    width: 1.88rem;
+    height: 6.56rem;
+}
+.bg1,
+.mainsection2 {
+    position: absolute;
+    width: 37.5rem;
+    height: 37rem;
+}
+.bg1 {
+    top: 0;
+    left: 0;
+    background-color: #ff3535;
+}
+.mainsection2 {
+    top: 1.81rem;
+    left: 4.38rem;
+    font-size: 2.38rem;
+    font-family: "BM Dohyeon";
+}
+.mainsection2-2group {
+    position: absolute;
+    top: calc(50% - 417px);
+    left: calc(50% - 370px);
+    width: 46.25rem;
+    height: 40.63rem;
+    font-size: 2.13rem;
+    font-family: "BM Hanna Air";
+}
+.rightsection {
+    position: absolute;
+    top: 0;
+    left: 60.06rem;
+    width: 46.25rem;
+    height: 52.13rem;
+    font-size: 6.88rem;
+    font-family: "KBO Dia Gothic";
+}
+.mainsection {
+    position: absolute;
+    top: 2.19rem;
+    left: 8.75rem;
+    width: 106.31rem;
+    height: 55.25rem;
+}
+.mainwrapper2 {
+    position: relative;
+    background-color: #fff;
+    width: 100%;
+    height: 61rem;
+    overflow: hidden;
+    text-align: left;
+    font-size: 2.38rem;
+    color: #000;
+    font-family: "BM Dohyeon";
+}

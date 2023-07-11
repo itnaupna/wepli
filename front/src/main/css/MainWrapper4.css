@@ -1,0 +1,170 @@
+@import url("https://fonts.googleapis.com/css2?family=KBO+Dia+Gothic:wght@500&display=swap");
+.we-make-playlist {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    font-weight: 500;
+    display: inline-block;
+}
+.we-make-playlist-wrapper {
+    position: absolute;
+    height: 71.84%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 28.16%;
+    left: 0;
+}
+.share {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: 500;
+}
+.group-parent,
+.share-wrapper {
+    position: absolute;
+    height: 42.72%;
+    width: 16.6%;
+    top: 57.28%;
+    right: 83.4%;
+    bottom: 0;
+    left: 0;
+    font-size: 2.75rem;
+}
+.group-parent {
+    height: 10.63%;
+    width: 40.26%;
+    top: 83.9%;
+    right: 50.95%;
+    bottom: 5.47%;
+    left: 8.79%;
+    font-size: 4.63rem;
+}
+.playlist-ranking-wrapper {
+    position: absolute;
+    height: 62.71%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 37.29%;
+    left: 0;
+}
+.group-container,
+.top-3-wrapper {
+    position: absolute;
+    height: 37.29%;
+    width: 17.05%;
+    top: 62.71%;
+    right: 6.23%;
+    bottom: 0;
+    left: 76.72%;
+    font-size: 2.75rem;
+}
+.group-container {
+    height: 12.18%;
+    width: 41.37%;
+    top: 6.71%;
+    right: 0.53%;
+    bottom: 81.11%;
+    left: 58.11%;
+    font-size: 4.63rem;
+}
+.album2-3-icon {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+}
+.firstrankimg {
+    position: absolute;
+    height: 51.6%;
+    width: 26.32%;
+    top: 24.25%;
+    right: 36.84%;
+    bottom: 24.15%;
+    left: 36.84%;
+}
+.icons,
+.secondrankimg,
+.thirdrankingimg {
+    position: absolute;
+    height: 30.96%;
+    width: 15.79%;
+    top: 34.57%;
+    right: 71.84%;
+    bottom: 34.47%;
+    left: 12.37%;
+}
+.icons,
+.thirdrankingimg {
+    right: 12.37%;
+    left: 71.84%;
+}
+.icons {
+    height: 100%;
+    width: 27.91%;
+    top: 0;
+    right: 72.09%;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+.seondrankcount {
+    position: absolute;
+    top: 16.67%;
+    left: 39.53%;
+    font-weight: 500;
+}
+.secondrankingtext {
+    position: absolute;
+    height: 2.48%;
+    width: 4.53%;
+    top: 30.03%;
+    right: 83.11%;
+    bottom: 67.49%;
+    left: 12.37%;
+}
+.firstrankcount {
+    position: absolute;
+    top: 8.33%;
+    left: 39.53%;
+    font-weight: 500;
+}
+.firstrankingtext,
+.thirdrankingtext {
+    position: absolute;
+    height: 2.48%;
+    width: 4.53%;
+    top: 19.71%;
+    right: 58.63%;
+    bottom: 77.81%;
+    left: 36.84%;
+}
+.thirdrankingtext {
+    top: 30.03%;
+    right: 23.63%;
+    bottom: 67.49%;
+    left: 71.84%;
+}
+.mainwrapper4-1 {
+    position: relative;
+    background-color: #fff;
+    width: 100%;
+    height: 61rem;
+    overflow: hidden;
+    text-align: left;
+    font-size: 1.25rem;
+    color: #000;
+    font-family: "KBO Dia Gothic";
+}

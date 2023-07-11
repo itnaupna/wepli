@@ -1,13 +1,69 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  monospace;
+}
+
+@font-face {
+  font-family: 'BMDOHYEON';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'BMHANNAAir';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/BMHANNAAir.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'KBO-Dia-Gothic_bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff') format('woff');
+  font-weight: 700;
+  font-syle: normal;
+}
+
+:root {
+
+  --font-black-han-sans: "Black Han Sans";
+  --font-bm-hanna_ttf: "BM HANNA_TTF";
+  --font-bm-hanna-air: "BM Hanna Air";
+  --font-kbo-dia-gothic: "KBO Dia Gothic";
+  --font-bm-dohyeon: "BMDOHYEON";
+
+
+  --font-size-5xl: 1.5rem;
+  --font-size-21xl: 2.5rem;
+  --font-size-7xs: 0.38rem;
+  --font-size-4xs: 0.56rem;
+  --font-size-smi: 0.81rem;
+  --font-size-2xs: 0.69rem;
+  --font-size-mid: 1.06rem;
+  --font-size-lg: 1.13rem;
+  --font-size-5xs: 0.5rem;
+
+
+  --color-white: #fff;
+  --color-black: #000;
+  --color-lightsteelblue: #b6d6ff;
+  --color-gray-100: rgba(255, 255, 255, 0.4);
+  --color-gray-200: rgba(0, 0, 0, 0.5);
+  --color-chocolate: #ff8e3c;
+
+
+  --gap-3xs: 0.63rem;
+
+
+  --br-xl: 20px;
+  --br-31xl: 50px;
+  --br-11xl: 30px;
+  --br-12xs: 1px;
 }
