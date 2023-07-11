@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.mapper.PlaylistMapper">
+
+    <select id="selectPliComments" parameterType="hashMap" resultType="PliCommentDto">
+          select * from tblPlaylistComment where playlistID=#{playlistID} order by writeday desc limit #{curr}, #{cpp}
+    </select>
+
+
+    <insert id="insertPliComment" parameterType="PliCommentDto">
+          insert into tblPlaylistComment
+          (writer,content,playlistID)
+          values
+          (#{writer},#{content},#{playlistID})
+    </insert>
+
+
+    <update id="updatePliComment" parameterType="PliCommentDto">
+          update tblPlaylistComment
+          set content=#{content} 
+          where idx=#{idx}
+    </update>
+
+
+    <delete id="deletePliComment" parameterType="int">
+          delete from tblPlaylistComment where idx=#{idx}
+    </delete>
+
+
+    <select id="selectPlaylist" parameterType="int" resultType="PlaylistDto">
+          select * from vwPlaylist where idx=#{idx}
+    </select>
+
+
+    <select id="selectLike" parameterType="hashMap" resultType="map">
+        select count(*) from tblPlaylistLike where user=#{user} and playlistID=#{playlistID}
+    </select>
+
+    <delete id="deleteLike" parameterType="hashMap">
+        delete from tblPlaylistLike where user=#{user} and playlistID=#{playlistID}
+    </delete>
+
+    <insert id="insertLike" parameterType="hashMap">
+        insert into tblPlaylistLike
+        values (#{user},#{playlistID})
+    </insert>
+
+
+    <select id="selectPublicPlaylist" parameterType="hashMap" resultType="PlaylistDto">
+        <choose>
+            <when test="orderByDay">
+                SELECT * FROM vwPlaylist where isPublic=1 ORDER BY makeday DESC limit #{curr},#{cpp}
+            </when>
+            <otherwise>
+                SELECT * FROM vwPlaylist where isPublic=1 ORDER BY likesCount DESC limit #{curr},#{cpp}
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <select id="selectLikePli" parameterType="string" resultType="PlaylistDto">
+        SELECT * FROM vwPlaylist WHERE idx IN (SELECT playlistID FROM tblPlaylistLike WHERE `user`=#{nick})
+    </select>
+
+
+    <insert id="insertPlaylist" parameterType="PlaylistDto">
+          insert into tblPlaylist (title, desc, genre, tag, img, isPublic, nick)
+          values (#{title},#{desc},#{genre},#{tag},#{img},#{isPublic},#{nick})
+    </insert>
+
+
+    <select id="selectSearchByTitle" parameterType="string" resultType="PlaylistDto">
+          select * from vwPlaylist where ispublic=1 and title like concat ('%',#{title},'%')
+    </select>
+
+
+    <select id="selectSearchByNick" parameterType="string" resultType="PlaylistDto">
+          select * from vwPlaylist where ispublic=1 and nick like concat ('%',#{nick},'%')
+    </select>
+
+
+    <select id="selectSearchByGenre">
+        select * from vwPlaylist 
+        where ispublic=1 and 
+        <foreach collection="list" item="genre" separator=" OR ">
+            genre LIKE CONCAT('%', #{genre}, '%')
+        </foreach>
+    </select>
+
+
+    <select id="selectSearchByTag">
+        select * from vwPlaylist 
+        where ispublic=1 and 
+        <foreach collection="list" item="tag" separator=" OR ">
+            tag LIKE CONCAT('%', #{tag}, '%')
+        </foreach>
+    </select>
+
+
+    <update id="updatePlaylist" parameterType="PlaylistDto">
+          update tblPlaylit set title=#{title}, `desc`=#{desc}, genre=#{genre}, tag=#{tag},img=#{img}, isPublic=#{isPublic}
+          where idx=#{idx}
+    </update>
+
+
+    <delete id="deletePlaylist" parameterType="int">
+          delete from tblPlaylist where idx=#{idx}
+    </delete>
+
+
+    <select id="selectFirstPlaylist" parameterType="string">
+          SELECT * FROM vwPlaylist WHERE ispublic=1 and nick=#{nick} ORDER BY likescount DESC LIMIT 1;
+    </select>
+
+
+    <insert id="insertSong" parameterType="SongDto">
+        insert into tblSongs 
+            (playlistID, title, img, songlength, genre, tag, singer, songaddress, songorigin) 
+        values
+            (#{playlistID}, #{title}, #{img}, #{songlength}, #{genre}, #{tag}, #{singer}, #{songaddress}, #{songorigin})
+    </insert>
+
+
+    <select id="selectSong" parameterType="int" resultType="SongDto">
+          select * from tblSongs where idx=#{idx}
+    </select>
+
+
+    <select id="selectSongsAll" parameterType="int" resultType="SongDto">
+        select * from tblSongs where playlistID=#{playlistID}          
+    </select>
+
+
+    <update id="updateSong" parameterType="SongDto">
+        update tblSongs
+        set playlistID=#{playlistID}, title=#{title}, img=#{img}, songlength=#{songlength}, genre=#{genre}, tag=#{tag}, singer=#{singer}, songaddress=#{songaddress}, songorigin=#{songorigin}  
+        where idx=#{idx}
+    </update>
+
+
+    <delete id="deleteSong" parameterType="int">
+          delete from tblSongs where idx=#{idx}
+    </delete>
+    
+    
+
+
+</mapper>

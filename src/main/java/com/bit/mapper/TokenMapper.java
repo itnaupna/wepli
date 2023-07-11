@@ -9,10 +9,9 @@ import com.bit.dto.TokenDto;
 @Mapper
 public interface TokenMapper {
     public TokenDto getToken(String nick);
-    public void updateToken(Map<String, String> token);
-    public void insertToken(TokenDto tokenDto);
+    public void updateToken(TokenDto tDto);
+    public void insertToken(String nick);
     public void deleteToken(String nick);
     public String accessToRefresh(String accessToken);
     public void updateAccessToken(Map<String, String> map);
-
 }

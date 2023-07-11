@@ -11,8 +11,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bit.dto.MypageDto;
+import com.bit.mapper.MemberMapper;
 import com.bit.service.TokenService;
-import org.apache.el.parser.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,16 +39,16 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
-	
-	// 실제 JWT 검증을 실행하는 Provider
-	@Autowired 
+
+    // 실제 JWT 검증을 실행하는 Provider
+    @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    private MemberService ms;
+    private TokenService ts;
 
     @Autowired
-    private TokenService ts;
+    private MemberService memberService;
 
     // 인증에서 제외할 url
     private static final List<String> EXCLUDE_URL = Collections.unmodifiableList(
@@ -63,119 +64,107 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             .filter(c -> c.getName().equals("token"))
             .findFirst().map(Cookie::getValue)
             .orElse(null);
+
         log.info("token: {}", token);
 
         String nick = null;
-        String jwtToken = null;
-
-        String refreshToken = ts.accessToRefresh(token);
-
-        // refreshToken이 존재하는 경우 검증
-        boolean tokenFl = false;
-        String nickChk = "";
-        try {
-            refreshToken = refreshToken.substring(6);
-            nickChk = jwtTokenProvider.getUsernameFromToken(refreshToken);
-            tokenFl = true;
-        } catch (SignatureException e) {
-            log.error("Invalid JWT signature: {}", e.getMessage());
-        } catch (MalformedJwtException e) {
-            log.error("Invalid JWT token: {}", e.getMessage());
-        } catch (ExpiredJwtException e) {
-            log.error("JWT token is expired: {}", e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            log.error("JWT token is unsupported: {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            log.error("JWT claims string is empty: {}", e.getMessage());
-        }
-        // refreshToken 사용이 불가능한 경우
-        if (!tokenFl) {
-            // refreshToken 정보 조회 실패 시 기존에 존재하는 refreshToken 정보 삭제
-            log.info("[doFilterInternal] - refreshToken not used");
-            ts.deleteToken(nick);
-        }
-        // refreshToken 인증 성공인 경우 accessToken 재발급
         String accessToken = null;
-        Map<String, Object> rules = null;
-        if (nickChk != null && !nickChk.equals("")) {
-            // 권한 map 저장
-            rules = ms.AuthLevelCheck(nickChk);
-            rules.remove("nick");
-            // JWT 발급
-            String tokens = jwtTokenProvider.generateAccessToken(nickChk, rules);
-            accessToken = URLEncoder.encode(tokens, "utf-8");
-            ts.updateAccessToken("Bearer" + refreshToken, "Bearer" + accessToken);
-            log.info("[JWT regen] accessToken : " + accessToken);
+        Map<String, Object> rules = new HashMap<>();
+        String authValue = "";
+        MypageDto userDto;
+        // access token이 만료되었을경우
+        if(jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
+            log.info("[doFilterInternal] expired");
+            String refreshToken = ts.accessToRefresh(token);
+            log.info("doFilterInternal refToken before -> {}",refreshToken);
+            refreshToken = refreshToken.substring(6);
+            log.info("doFilterInternal refToken after -> {}",refreshToken);
+            // refreshToken이 존재하는 경우 검증
+            boolean refreshTokenChk = jwtTokenProvider.validateToken(refreshToken);
+            if(refreshTokenChk) {
+                nick = jwtTokenProvider.getUsernameFromToken(refreshToken);
+                // refreshToken 인증 성공인 경우 accessToken 재발급
+                // 권한 map 저장
+                userDto = memberService.selectMypageDto(nick);
+                System.out.println(userDto);
+                rules.put("roles",
+                        userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
+                // JWT 발급
+                String getToken = jwtTokenProvider.generateAccessToken(nick, rules);
+                log.info(getToken);
+                accessToken = URLEncoder.encode(getToken, "utf-8");
+                ts.updateAccessToken("Bearer" + refreshToken, "Bearer" + accessToken);
+                log.info("[JWT regen] accessToken : {}", accessToken);
 
-            // JWT 쿠키 저장(쿠키 명 : token)
-            Cookie cookie = new Cookie("token", "Bearer" + accessToken);
-            cookie.setPath("/");
-            cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
-            // httoOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
-            cookie.setHttpOnly(true);
-            response.addCookie(cookie);
-            log.info("[doFilterInternal] accessToken Regen");
+                Cookie[] cookies = request.getCookies();
+                for (int i = 0; i < cookies.length; i++) {
+                    if (cookies[i].getName().equals("token")) {
+                        cookies[i].setValue("Bearer" + accessToken);
+                        break;
+                    }
+                }
+                // JWT 쿠키 저장(쿠키 명 : token)
+                Cookie cookie = new Cookie("token", "Bearer" + accessToken);
+                cookie.setPath("/");
+                cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
+                // httoOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
+                cookie.setHttpOnly(true);
+
+                response.addCookie(cookie);
+                log.info("[reGenerateAccessToken] accessToken Regen");
+
+            // refreshToken 사용이 불가능한 경우
+            } else {
+                log.warn("accessToken Refresh Fail");
+            }
         } else {
-            log.info("[doFilterInternal] accessToken Regen error");
-        }
-
-        // Bearer token인 경우 JWT 토큰 유효성검사 진행
-        if(token != null && token.startsWith("Bearer")) {
-            jwtToken = token.substring(6);
-            log.info("jwttoken{}", jwtToken);
-            try {
-                // token 디코딩 후 nick 추출
-                nick = jwtTokenProvider.getUsernameFromToken(jwtToken);
-
-
-            } catch (SignatureException e) {
-				log.error("Invalid JWT signature: {}", e.getMessage());
-			} catch (MalformedJwtException e) {
-				log.error("Invalid JWT token: {}", e.getMessage());
-			} catch (ExpiredJwtException e) {
-                log.error("JWT token is expired: {}", e.getMessage());
-            } catch (UnsupportedJwtException e) {
-				log.error("JWT token is unsupported: {}", e.getMessage());
-			} catch (IllegalArgumentException e) {
-				log.error("JWT claims string is empty: {}", e.getMessage());
-			}
-        } else {
-            logger.warn("JWT Token does not begin with Bearer String");
+            // Bearer token인 경우 JWT 토큰 유효성 검사 진행
+            if (token != null && token.startsWith("Bearer")) {
+                accessToken = token.substring(6);
+                log.info("token: {}", accessToken);
+                try {
+                    nick = jwtTokenProvider.getUsernameFromToken(accessToken);
+                    // db에서 메일, 문자 인증 받았는지 여부에 따라 권한 부여
+                    userDto = memberService.selectMypageDto(nick);
+                    System.out.println(userDto);
+                    rules.put("roles",
+                            userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
+                } catch (SignatureException e) {
+                    log.error("Invalid JWT signature: {}", e.getMessage());
+                } catch (MalformedJwtException e) {
+                    log.error("Invalid JWT token: {}", e.getMessage());
+                } catch (UnsupportedJwtException e) {
+                    log.error("JWT token is unsupported: {}", e.getMessage());
+                } catch (IllegalArgumentException e) {
+                    log.error("JWT claims string is empty: {}", e.getMessage());
+                }
+            } else {
+                logger.warn("JWT Token does not begin with Bearer String");
+            }
         }
         if(nick != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // db에서 메일, 문자 인증 받았는지 여부에 따라 권한 부여
-            Map<String, Object> auth = ms.AuthLevelCheck(nick);
 
-            String authValue = String .valueOf(auth.get("roles"));
+//                   String authValue = String.valueOf(rules.get("roles"));
+            authValue = String.valueOf(rules.get("roles"));
             log.info("inter auth: {}", authValue);
             // List 타입인 이유는 권한이 여러개일수도 있어서
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(authValue));
 
-            if(jwtTokenProvider.validateToken(jwtToken)) {
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(auth.get("nick"), null, authorities);
+            if(jwtTokenProvider.validateToken(accessToken)) {
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(nick, null, authorities);
                 log.info("usevalidateToken: {}", authenticationToken);
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
-
-        //  accessToken 인증 후 refreshToken 재발급이 필요한 경우 재발급
-        try {
-            if(nick != null) {
-                jwtTokenProvider.reGenerateRefreshToken(nick);
-            }
-        }catch (Exception e) {
-			log.error("[JwtRequestFilter] refreshToken 재발급 체크 중 문제 발생 : {}", e.getMessage());
-		}
-
         filterChain.doFilter(request,response);
     }
 
     // Filter에서 제외할 URL 설정
-	@Override
-	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String servletPath = request.getServletPath();
-		return EXCLUDE_URL.stream().anyMatch(pattern -> PATH_MATCHER.match(pattern, servletPath));
-	}
+        return EXCLUDE_URL.stream().anyMatch(pattern -> PATH_MATCHER.match(pattern, servletPath));
+    }
 }
