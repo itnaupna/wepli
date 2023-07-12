@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 
@@ -22,8 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtTokenProvider {
 
-    // @Value("{jwt.token.secret}")
-    private static String secret = "wepli";
+    @Value("${jwt.token.secret}")
+    private String secret;
 
     // 30 분
     public static final long JWT_TOKEN_VALIDITY = 1000 * 60 * 30;
@@ -43,7 +43,7 @@ public class JwtTokenProvider {
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
 	    Claims claims = getAllClaimsFromToken(token);
 		T result = claimsResolver.apply(claims);
-		log.info("Claim from token: {}", String.valueOf(result));
+		// log.info("Claim from token: {}", String.valueOf(result));
 	    return claimsResolver.apply(claims);
 	}
 

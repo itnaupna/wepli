@@ -18,29 +18,26 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bit.dto.MemberDto;
 import com.bit.dto.MypageDto;
 import com.bit.dto.UserConfirmDto;
+import com.bit.service.ImgUploadService;
 import com.bit.service.MemberService;
 import com.bit.service.UserConfirmService;
 
 @RestController
 @RequestMapping("/api")
-@Slf4j
 public class MemberController {
     @Autowired
     MemberService mService;
     @Autowired
     UserConfirmService uService;
     @Autowired
-    JwtTokenProvider jwtTokenProvider;
+    ImgUploadService imgUploadService;
 
     // 회원가입 api
-    //TODO : 가입시 token 테이블에 빈 컬럼 생성 이유 ->
-    //(로그아웃 하지않고 ref토큰 만료시 재로그인 불가 가입시 한번 nick , "", "" 인서트 해준 후)
-    // 그 이후에는 update로 처리
-    // insert into tblToken values(#{nick} "", "")
     @PostMapping("/lv0/m/member")
     public boolean postMember(@RequestBody MemberDto mDto) {
         return mService.joinMember(mDto);
@@ -109,10 +106,11 @@ public class MemberController {
     }
 
     // 프사 변경
-    @PatchMapping("/lv1/m/img")
-    public boolean patchImg(@RequestBody MemberDto mDto) {
-        return mService.updateImg(mDto);
-    }
+    // TODO : 밑에 새로 만들었는데 따로 사용할 일 있을지 체크
+    // @PatchMapping("/lv1/m/img")
+    // public boolean patchImg(@RequestBody MemberDto mDto) {
+    //     return mService.updateImg(mDto);
+    // }
 
     // 블랙리스트 받아오기
     @GetMapping("/lv2/m/blacklist")
@@ -186,9 +184,16 @@ public class MemberController {
     }
 
     //로그아웃
-    //TODO : 로그아웃시 엑세스토큰이 만료되어있으면 해당 유저의 리프레시 토큰이 삭제가 안되는점 수정
+    //TODO : 로그아웃시 엑세스토큰이 만료되어있으면 해당 유저의 리프레시 토큰이 삭제가 안되는점 수정(완료)
     @PostMapping("/lv1/m/logout")
     public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) throws Exception {
         mService.logout(token, request, response);
+    }
+
+
+    // 프로필 사진 변경
+    @PostMapping("lv1/m/profile")
+    public String postProfileImg(@CookieValue String token, MultipartFile upload) {
+        return imgUploadService.uploadImg(token, "profile", upload);
     }
 }

@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bit.dto.PlaylistDto;
 import com.bit.dto.PliCommentDto;
 import com.bit.dto.SongDto;
+import com.bit.service.ImgUploadService;
 import com.bit.service.PlaylistService;
 
 @RestController
@@ -21,6 +23,9 @@ public class PlaylistController {
 
     @Autowired
     PlaylistService pService;
+
+    @Autowired
+    ImgUploadService imgUploadService;
     
     @GetMapping("/lv0/p/list")
     public List<PlaylistDto> getList(boolean orderByDay, int curr, int cpp){
@@ -52,6 +57,11 @@ public class PlaylistController {
         return pService.updatePlaylist(data);
     }
 
+    @PostMapping("lv1/p/profile")
+    public String changePlaylistImg(int idx, MultipartFile upload) {
+        return imgUploadService.uploadImg(idx, "playlist", upload);
+    }
+
     @DeleteMapping("/lv1/p/list")
     public boolean deleteList(int idx){
         return pService.deletePlaylist(idx);
@@ -80,6 +90,11 @@ public class PlaylistController {
     @DeleteMapping("/lv1/p/song")
     public boolean deleteSong(int idx){
         return pService.deleteSong(idx);
+    }
+
+    @PostMapping("lv1/song/profile")
+    public String changeSongImg(int idx, MultipartFile upload) {
+        return imgUploadService.uploadImg(idx, "songimg", upload);
     }
 
     @GetMapping("/lv0/p/comments")

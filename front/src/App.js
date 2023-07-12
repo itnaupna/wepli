@@ -16,7 +16,13 @@ function App() {
     verifycode: "/api/lv1/m/verifycode",
     login:"/api/lv0/m/login",
     logout:"/api/lv1/m/logout",
+    memberProfile:"/api/lv1/m/profile",
+    stageProfile:"/api/lv1/s/profile",
+    pliProfile: "api/lv1/p/profile",
+    songProfile: "api/lv1/song/profile"
   }
+  
+  const bucketUrl = process.env.REACT_APP_BUCKET_URL;
 
   const [msg, setMsg] = useState('fail');
   const [emailPw, setEmailPw] = useState({email: "", pw: ""});
@@ -174,6 +180,65 @@ function App() {
       console.log("33");
     })
   }
+  const [memberImg, setMemberImg] = useState();
+  const [stageImg, setStageImg] = useState();
+  const [pliImg, setPliImg] = useState();
+  const [musicImg, setMusicImg] = useState();
+  const memberProfileChange = (e) => {
+    const uploadFile = new FormData();
+    uploadFile.append("upload", e.target.files[0]);
+    console.log(e.target.files[0]);
+    axios({
+      method: "post",
+      url: TESTURL.memberProfile,
+      data: uploadFile,
+      headers: {"Content-Type" : "multipart/form-data"}
+    }).then(res => {
+      setMemberImg(res.data);
+    })
+  }
+
+  const stageProfileChange = (e) => {
+    const uploadFile = new FormData();
+    uploadFile.append("upload", e.target.files[0]);
+    axios({
+      method: "post",
+      url: TESTURL.stageProfile,
+      data: uploadFile,
+      headers: {"Content-Type" : "multipart/form-data"}
+    }).then(res => {
+      setStageImg(res.data);
+    })
+  }
+  const pliProfileChange = (e) => {
+    const uploadFile = new FormData();
+    uploadFile.append("upload", e.target.files[0]);
+    uploadFile.append("idx", 1);
+    for (var entries of uploadFile.keys()) console.log(entries + " -> " + uploadFile.get(entries));
+    axios({
+      method: "post",
+      url: TESTURL.pliProfile,
+      data: uploadFile,
+      headers: {"Content-Type" : "multipart/form-data"}
+    }).then(res => {
+      setPliImg(res.data);
+    })
+  }
+  const musicProfileChange = (e) => {
+    const uploadFile = new FormData();
+    uploadFile.append("upload", e.target.files[0]);
+    uploadFile.append("idx", 1);
+    console.log(e.target.files[0]);
+    for (var entries of uploadFile.keys()) console.log(entries + " -> " + uploadFile.get(entries));
+    axios({
+      method: "post",
+      url: TESTURL.songProfile,
+      data: uploadFile,
+      headers: {"Content-Type" : "multipart/form-data"}
+    }).then(res => {
+      setMusicImg(res.data);
+    })
+  }
 
   return (
     <div className="App">
@@ -194,7 +259,7 @@ function App() {
           </div>
         )}
       </div>
-      <div style={{ border: '3px solid red', margin: '15px' }}>
+      <div style={{ border: '3px solid red', margin: '15px'}}>
         특정 유저 시점 스테이지 출력(블랙, 팔로우)<br />
         페이지 : <input placeholder='페이지' value={curr} onChange={(e) => { setCurr(+e.target.value) }} /> &nbsp;
         페이지당 : <input placeholder='페이지당 갯수' value={cpp} onChange={(e) => { setCpp(+e.target.value) }} /><br />
@@ -293,6 +358,22 @@ function App() {
         {emailPw.pw}<br/>
       <button type="button" onClick={handleAccess}>로그인</button>
       <button type="button" onClick={handleLogout}>로그아웃</button>
+      <div style={{border: "1px solid purple", margin: "15px"}}>
+        회원 프사<input type="file" onChange={memberProfileChange}/><br/>
+        스테이지 썸네일<input type="file" onChange={stageProfileChange}/><br/>
+        플리 썸네일<input type="file" onChange={pliProfileChange}/><br/>
+        음악별 썸네일<input type="file" onChange={musicProfileChange}/><br/>
+      </div>
+      <div style={{border: "1px solid blue", margin: "15px"}}>
+        <span>member</span>
+        <img alt="" src={`${bucketUrl}${memberImg}`}/><br/>
+        <span>stage</span>
+        <img alt="" src={`${bucketUrl}${stageImg}`}/><br/>
+        <span>playlist</span>
+        <img alt="" src={`${bucketUrl}${pliImg}`}/><br/>
+        <span>music</span>
+        <img alt="" src={`${bucketUrl}${musicImg}`}/><br/>
+      </div>
     </div>
   );
 }

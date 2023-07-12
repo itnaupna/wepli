@@ -13,6 +13,9 @@
         where nick=#{nick}
     </update>
 
+    <update id="updateImg" parameterType="Map">
+        update tblStage set img = #{img} where nick = #{nick}
+    </update>
 
     <select id="selectStageOneByMasterNick" parameterType="string" resultType="StageDto">
         select * from tblStage where nick=#{nick}
@@ -61,7 +64,7 @@
         where 
         <foreach collection="list" item="genre" separator=" OR ">
             genre LIKE CONCAT('%', #{genre}, '%')
-        </foreach>
+        </foreach> 
     </select>
 
 

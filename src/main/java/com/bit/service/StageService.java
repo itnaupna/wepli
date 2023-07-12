@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.bit.dto.MemberDto;
 import com.bit.dto.StageDto;
+import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.MemberMapper;
 import com.bit.mapper.StageMapper;
 
@@ -20,9 +21,20 @@ public class StageService {
     StageMapper sMapper;
     @Autowired
     MemberMapper mMapper;
+    @Autowired
+    BlacklistService blacklistService;
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
 
     public boolean insertStage(StageDto sDto) {
         return sMapper.insertStage(sDto) > 0;
+    }
+
+    public void updateImg(String nick, String img) {
+        Map<String, String> nickAndImg = new HashMap<>();
+        nickAndImg.put("nick", nick);
+        nickAndImg.put("img", img);
+        sMapper.updateImg(nickAndImg);
     }
 
     public List<StageDto> selectStageAll(String nick, int curr, int cpp) {
@@ -65,7 +77,16 @@ public class StageService {
         return sMapper.selectCheckStagePw(data) > 0;
     }
 
-    public List<StageDto> SearchStages(int type, String queryString) {
+    public List<StageDto> SearchStages(int type, String queryString, String token) {
+        Map<String, List<Object>> stageAndBlack = new HashMap<>();
+
+        if(token != null && !token.equals("")) {
+            String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+            List<String> blackTarget = blacklistService.selectBlackTarget(nick);
+            stageAndBlack.put("black", blackTarget);
+        }
+
+        
         switch (type) {
             case 0:
                 return selectSearchByTitle(queryString);

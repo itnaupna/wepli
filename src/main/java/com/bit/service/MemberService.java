@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.javassist.compiler.ast.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -135,7 +136,10 @@ public class MemberService {
     }
 
     // 프사 변경
-    public boolean updateImg(MemberDto mDto) {
+    public boolean updateImg(String nick, String img) {
+        MemberDto mDto = new MemberDto();
+        mDto.setNick(nick);
+        mDto.setImg(img);
         return memberMapper.updateImg(mDto) > 0;
     }
 

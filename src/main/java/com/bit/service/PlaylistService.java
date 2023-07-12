@@ -20,6 +20,10 @@ public class PlaylistService {
     @Autowired
     PlaylistMapper pMapper;
 
+    public PlaylistDto selectPlaylist(int idx) {
+        return pMapper.selectPlaylist(idx);
+    }
+
     public List<PlaylistDto> selectPublicPlaylist(boolean orderByDay, int curr, int cpp){
         Map<String,Object> data = new HashMap<>();
         data.put("orderByDay",orderByDay);
@@ -110,6 +114,13 @@ public class PlaylistService {
         return pMapper.updatePlaylist(data)>0;
     }
 
+    public void updatePlayListImg(int idx, String img) {
+        PlaylistDto pDto = new PlaylistDto();
+        pDto.setIdx(idx);
+        pDto.setImg(img);
+        pMapper.updatePlayListImg(pDto);
+    }
+
     public boolean deletePlaylist(int idx){
         //TODO : 소유주 정보에 대한 검증이 필요한지 확인
         return pMapper.deletePlaylist(idx)>0;
@@ -137,6 +148,13 @@ public class PlaylistService {
         return pMapper.updateSong(data)>0;
     }
 
+    public void updateSongImg(int idx, String img) {
+        SongDto sDto = new SongDto();
+        sDto.setIdx(idx);
+        sDto.setImg(img);
+        pMapper.updateSongImg(sDto);
+    }
+
     public boolean deleteSong(int idx){
         return pMapper.deleteSong(idx)>0;
     }
@@ -155,6 +173,7 @@ public class PlaylistService {
     public boolean updatePliComment(PliCommentDto data){
         return pMapper.updatePliComment(data)>0;
     }
+
     public boolean deletePliComment(int idx){
         return pMapper.deletePliComment(idx)>0;
     }

@@ -63,7 +63,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             .findFirst().map(Cookie::getValue)
             .orElse(null);
 
-        log.info("token: {}", token);
+        // log.info("token: {}", token);
 
         String nick = null;
         String accessToken = null;
@@ -74,7 +74,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if(jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
             log.info("[doFilterInternal] expired");
             String refreshToken = ts.accessToRefresh(token);
-            log.info("doFilterInternal refToken before -> {}",refreshToken);
             refreshToken = refreshToken.substring(6);
             log.info("doFilterInternal refToken after -> {}",refreshToken);
             // refreshToken이 존재하는 경우 검증
@@ -84,7 +83,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 // refreshToken 인증 성공인 경우 accessToken 재발급
                 // 권한 map 저장
                 userDto = memberService.selectMypageDto(nick);
-                System.out.println(userDto);
                 rules.put("roles",
                         userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
                 // JWT 발급
@@ -92,7 +90,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 log.info(getToken);
                 accessToken = URLEncoder.encode(getToken, "utf-8");
                 ts.updateAccessToken("Bearer" + refreshToken, "Bearer" + accessToken);
-                log.info("[JWT regen] accessToken : {}", accessToken);
+                // log.info("[JWT regen] accessToken : {}", accessToken);
 
                 Cookie[] cookies = request.getCookies();
                 for (int i = 0; i < cookies.length; i++) {
@@ -119,12 +117,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             // Bearer token인 경우 JWT 토큰 유효성 검사 진행
             if (token != null && token.startsWith("Bearer")) {
                 accessToken = token.substring(6);
-                log.info("token: {}", accessToken);
+                // log.info("token: {}", accessToken);
                 try {
                     nick = jwtTokenProvider.getUsernameFromToken(accessToken);
                     // db에서 메일, 문자 인증 받았는지 여부에 따라 권한 부여
                     userDto = memberService.selectMypageDto(nick);
-                    System.out.println(userDto);
                     rules.put("roles",
                             userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
                 } catch (SignatureException e) {
@@ -142,16 +139,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         if(nick != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-//                   String authValue = String.valueOf(rules.get("roles"));
             authValue = String.valueOf(rules.get("roles"));
-            log.info("inter auth: {}", authValue);
             // List 타입인 이유는 권한이 여러개일수도 있어서
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(authValue));
 
             if(jwtTokenProvider.validateToken(accessToken)) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(nick, null, authorities);
-                log.info("usevalidateToken: {}", authenticationToken);
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }

@@ -54,7 +54,7 @@
         update tblMember set `desc`=#{desc} where email=#{email}
     </update>
     <update id="updateImg" parameterType="MemberDto">
-        update tblMember set img=#{img} where email=#{email}
+        update tblMember set img=#{img} where nick=#{nick}
     </update>
     <select id="selectBlacklist" parameterType="string" resultType="List">
         select target from tblBlack where black=#{black}

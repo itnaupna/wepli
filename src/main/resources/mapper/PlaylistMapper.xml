@@ -98,10 +98,13 @@
 
 
     <update id="updatePlaylist" parameterType="PlaylistDto">
-          update tblPlaylit set title=#{title}, `desc`=#{desc}, genre=#{genre}, tag=#{tag},img=#{img}, isPublic=#{isPublic}
+          update tblPlaylist set title=#{title}, `desc`=#{desc}, genre=#{genre}, tag=#{tag},img=#{img}, isPublic=#{isPublic}
           where idx=#{idx}
     </update>
 
+    <update id="updatePlayListImg" parameterType="PlaylistDto">
+        update tblPlaylist set img = #{img} where idx = #{idx}
+    </update>
 
     <delete id="deletePlaylist" parameterType="int">
           delete from tblPlaylist where idx=#{idx}
@@ -137,6 +140,9 @@
         where idx=#{idx}
     </update>
 
+    <update id="updateSongImg" parameterType="SongDto">
+        update tblSongs set img = #{img} where idx = #{idx}
+    </update>
 
     <delete id="deleteSong" parameterType="int">
           delete from tblSongs where idx=#{idx}

@@ -22,6 +22,6 @@ mybatis:
   mapper-locations:
   - /mapper/**/*.xml
 
-# jwt:
-#   token:
-#     secret: wepli
+jwt:
+  token:
+    secret: wepli

@@ -44,6 +44,9 @@ public interface PlaylistMapper {
     // 플리 수정
     public int updatePlaylist(PlaylistDto data);
 
+    // 플리 썸네일 수정
+    public void updatePlayListImg(PlaylistDto idxAndImg);
+
     // 플리 삭제
     public int deletePlaylist(int idx);
 
@@ -58,6 +61,9 @@ public interface PlaylistMapper {
     public List<SongDto> selectSongsAll(int playlistID);
 
     public int updateSong(SongDto data);
+
+    // 음악별 썸네일 수정
+    public void updateSongImg(SongDto idxAndImg);
 
     public int deleteSong(int idx);
 
