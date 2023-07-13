@@ -1,77 +1,164 @@
-@import url("https://fonts.googleapis.com/css2?family=KBO+Dia+Gothic:wght@500&display=swap");
-.we-make-playlist {
+.mainwrapperbottomtitletext {
     position: absolute;
-    width: 100%;
-    top: 0;
+    bottom: 0;
     left: 0;
     font-weight: 500;
     display: inline-block;
+    width: 47.81rem;
 }
-.we-make-playlist-wrapper {
+.mainwrapperbottomtitletextsect {
     position: absolute;
-    height: 71.84%;
-    width: 100%;
-    top: 0;
-    right: 0;
-    bottom: 28.16%;
+    bottom: 1.81rem;
     left: 0;
+    width: 47.81rem;
+    height: 4.63rem;
 }
-.share {
+.mainwrapperbottomsubtext {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     font-weight: 500;
 }
-.group-parent,
-.share-wrapper {
+.mainwrapperbottomsubtextsectio {
     position: absolute;
-    height: 42.72%;
-    width: 16.6%;
-    top: 57.28%;
-    right: 83.4%;
     bottom: 0;
     left: 0;
+    width: 7.94rem;
+    height: 2.75rem;
     font-size: 2.75rem;
 }
-.group-parent {
-    height: 10.63%;
-    width: 40.26%;
-    top: 83.9%;
-    right: 50.95%;
-    bottom: 5.47%;
-    left: 8.79%;
-    font-size: 4.63rem;
-}
-.playlist-ranking-wrapper {
+.mainwrapper4bottomtextgroup {
     position: absolute;
-    height: 62.71%;
-    width: 100%;
+    bottom: 0;
+    left: 0;
+    width: 47.81rem;
+    height: 6.44rem;
+}
+.mainwrappertoptitletext {
+    position: absolute;
     top: 0;
     right: 0;
-    bottom: 37.29%;
-    left: 0;
+    font-weight: 500;
+    display: inline-block;
+    width: 49.13rem;
 }
-.group-container,
-.top-3-wrapper {
+.mainwrappertoptitletextsection {
     position: absolute;
-    height: 37.29%;
-    width: 17.05%;
-    top: 62.71%;
-    right: 6.23%;
-    bottom: 0;
-    left: 76.72%;
+    top: 0;
+    right: 0;
+    width: 49.13rem;
+    height: 4.63rem;
+}
+.mainwrappertopsubtext {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-weight: 500;
+}
+.mainwrappertopsubtextsection {
+    position: absolute;
+    top: 4.63rem;
+    right: 3.06rem;
+    width: 8.38rem;
+    height: 2.75rem;
     font-size: 2.75rem;
 }
-.group-container {
-    height: 12.18%;
-    width: 41.37%;
-    top: 6.71%;
-    right: 0.53%;
-    bottom: 81.11%;
-    left: 58.11%;
-    font-size: 4.63rem;
+.mainwrapper4toptextgroup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 49.13rem;
+    height: 7.38rem;
 }
-.album2-3-icon {
+.mainwrapper4secondrankimg-icon {
+    position: absolute;
+    width: 100%;
+    top: calc(50% - 150px);
+    right: 0;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    height: 18.75rem;
+    object-fit: cover;
+}
+.mainwrapper4secondrankimggroup {
+    position: absolute;
+    width: 100%;
+    top: calc(50% - 128px);
+    right: 0;
+    left: 0;
+    height: 18.75rem;
+}
+.mainwrapper4seondheart-icon {
+    position: absolute;
+    top: calc(50% - 12px);
+    left: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    overflow: hidden;
+}
+.mainwrapper4secondrankingtext {
+    position: absolute;
+    top: calc(50% - 8px);
+    left: 2.13rem;
+    font-weight: 500;
+}
+.mainwrapper4secondrankingtextg {
+    position: absolute;
+    top: calc(50% - 172px);
+    left: 0;
+    width: 5.38rem;
+    height: 1.5rem;
+}
+.mainwrapper4secondrankgroup {
+    position: absolute;
+    width: 20.83%;
+    top: 6.25rem;
+    right: 79.17%;
+    left: 0;
+    height: 21.5rem;
+}
+.mainwrapper4firstrankimg-icon {
+    position: absolute;
+    width: 100%;
+    top: calc(50% - 250px);
+    right: 0;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    height: 31.25rem;
+    object-fit: cover;
+}
+.mainwrapper4firstrankimggroup {
+    position: absolute;
+    width: 100%;
+    top: calc(50% - 228px);
+    right: 0;
+    left: 0;
+    height: 31.25rem;
+}
+.mainwrapper4firstrankingtext {
+    position: absolute;
+    top: calc(50% - 10px);
+    left: 2.13rem;
+    font-weight: 500;
+}
+.mainwrapper4firstrankingtextgr {
+    position: absolute;
+    top: calc(50% - 272px);
+    left: 0;
+    width: 5.38rem;
+    height: 1.5rem;
+}
+.mainwrapper4firstrankgroup {
+    position: absolute;
+    width: 34.72%;
+    top: 0;
+    right: 32.29%;
+    left: 32.99%;
+    height: 34rem;
+}
+.mainwrapper4thirdrankimg-icon {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -84,87 +171,71 @@
     max-height: 100%;
     object-fit: cover;
 }
-.firstrankimg {
+.mainwrapper4thirdrankimggroup {
     position: absolute;
-    height: 51.6%;
-    width: 26.32%;
-    top: 24.25%;
-    right: 36.84%;
-    bottom: 24.15%;
-    left: 36.84%;
-}
-.icons,
-.secondrankimg,
-.thirdrankingimg {
-    position: absolute;
-    height: 30.96%;
-    width: 15.79%;
-    top: 34.57%;
-    right: 71.84%;
-    bottom: 34.47%;
-    left: 12.37%;
-}
-.icons,
-.thirdrankingimg {
-    right: 12.37%;
-    left: 71.84%;
-}
-.icons {
-    height: 100%;
-    width: 27.91%;
-    top: 0;
-    right: 72.09%;
+    height: 87.21%;
+    width: 100%;
+    top: 12.79%;
+    right: 0;
     bottom: 0;
     left: 0;
-    max-width: 100%;
-    overflow: hidden;
+}
+.mainwrapper4thirdheart-icon {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
     max-height: 100%;
+    width: 1.5rem;
+    overflow: hidden;
 }
-.seondrankcount {
-    position: absolute;
-    top: 16.67%;
-    left: 39.53%;
-    font-weight: 500;
-}
-.secondrankingtext {
-    position: absolute;
-    height: 2.48%;
-    width: 4.53%;
-    top: 30.03%;
-    right: 83.11%;
-    bottom: 67.49%;
-    left: 12.37%;
-}
-.firstrankcount {
+.mainwrapper4thirdrankingtext {
     position: absolute;
     top: 8.33%;
-    left: 39.53%;
+    left: 2.13rem;
     font-weight: 500;
 }
-.firstrankingtext,
-.thirdrankingtext {
+.mainwrapper4thirdrankingtextgr {
     position: absolute;
-    height: 2.48%;
-    width: 4.53%;
-    top: 19.71%;
-    right: 58.63%;
-    bottom: 77.81%;
-    left: 36.84%;
+    height: 6.98%;
+    top: 0;
+    bottom: 93.02%;
+    left: 0;
+    width: 5.38rem;
 }
-.thirdrankingtext {
-    top: 30.03%;
-    right: 23.63%;
-    bottom: 67.49%;
-    left: 71.84%;
+.mainwrapper4thirdrankgroup {
+    position: absolute;
+    width: 20.83%;
+    top: 6.25rem;
+    right: 0;
+    left: 79.17%;
+    height: 21.5rem;
 }
-.mainwrapper4-1 {
+.mainwrapper4rankingsection {
+    position: absolute;
+    width: 82.62%;
+    top: 9.63rem;
+    right: 8.72%;
+    left: 8.66%;
+    height: 34rem;
+    font-size: 1.25rem;
+}
+.mainwrapper4group {
+    position: absolute;
+    bottom: 3.69rem;
+    left: 5.56rem;
+    width: 108.94rem;
+    height: 53.19rem;
+}
+.mainwrapper4 {
     position: relative;
     background-color: #fff;
     width: 100%;
-    height: 61rem;
+    height: 60.56rem;
     overflow: hidden;
     text-align: left;
-    font-size: 1.25rem;
+    font-size: 4.63rem;
     color: #000;
     font-family: "KBO Dia Gothic";
 }

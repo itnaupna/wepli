@@ -1,54 +1,56 @@
-.musicplayerbarbody,
-.musicplayercover-icon {
+.musicplayerbgimg-icon {
     position: absolute;
-    height: 100%;
-    width: 100%;
     top: 0;
-    right: 0;
-    bottom: 0;
     left: 0;
-}
-.musicplayercover-icon {
-    max-width: 100%;
-    overflow: hidden;
-    max-height: 100%;
+    width: 120rem;
+    height: 5.88rem;
     object-fit: cover;
 }
-.musicplayerbarbody {
-    background-color: rgba(252, 216, 255, 0.1);
+.musicplayerbgeffect {
+    background-color: rgba(217, 217, 217, 0.1);
     backdrop-filter: blur(80px);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
 }
-.endvoulmebar,
-.startvoulmebar {
+.musicplayerbg,
+.musicplayerbgeffect {
     position: absolute;
-    top: 0.19rem;
-    left: 0;
-    border-radius: 4.5px;
-    background-color: #f0f0f0;
-    width: 0.19rem;
-    height: 15.44rem;
-    transform: rotate(-90deg);
-    transform-origin: 0 0;
-}
-.startvoulmebar {
-    background-color: #000;
-    height: 5.44rem;
-}
-.musicplayervolume,
-.musicplayervoulmebar {
-    position: absolute;
-    width: 15.44rem;
-    height: 0.19rem;
-}
-.musicplayervoulmebar {
     top: 0;
     left: 0;
+    width: 120rem;
+    height: 5.88rem;
 }
-.musicplayervolume {
-    top: 3rem;
-    left: 98.31rem;
+.albumcover-icon {
+    position: absolute;
+    top: calc(50% - 40px);
+    left: 0;
+    border-radius: 15px;
+    width: 8.75rem;
+    height: 5rem;
+    object-fit: cover;
+}
+.singer,
+.songsname {
+    position: absolute;
+    height: 32.5%;
+    top: 20%;
+    left: 10rem;
+    line-height: 120%;
+    display: inline-block;
+    width: 25.66rem;
+}
+.singer {
+    height: 21.25%;
+    top: 58.75%;
+    font-size: 0.84rem;
+    font-family: "SF Pro Text";
+    color: rgba(0, 0, 0, 0.7);
+    width: 21.7rem;
+}
+.musicplayersonginfo {
+    position: absolute;
+    top: calc(50% - 43px);
+    left: 4.38rem;
+    width: 35.66rem;
+    height: 5rem;
 }
 .musicplayershuffleiconbody {
     position: relative;
@@ -65,125 +67,65 @@
     width: 2.38rem;
     height: 2.38rem;
 }
+.musicplayerplaybar,
+.musicplayerplaybuttonbody {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 .musicplayerplaybuttonbody {
     border-radius: 99.17px;
     background-color: #121212;
     width: 3.75rem;
     height: 3.75rem;
-    display: flex;
-    flex-direction: row;
     padding: 0.52rem;
     box-sizing: border-box;
-    align-items: center;
     justify-content: center;
-}
-.soundonicon {
-    position: relative;
-    width: 2.13rem;
-    height: 2.13rem;
-    overflow: hidden;
-    flex-shrink: 0;
-    left: 24rem;
 }
 .musicplayerplaybar {
     position: absolute;
     top: calc(50% - 30.23px);
     left: calc(50% - 170.5px);
     width: 21.38rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: flex-start;
     gap: 2.63rem;
 }
-.singer,
-.songsname {
+.musicplayervolume-icon {
     position: absolute;
-    height: 32.5%;
-    width: 71.89%;
-    top: 18.75%;
-    left: 28.11%;
-    line-height: 120%;
-    display: inline-block;
+    top: 2.06rem;
+    right: 1.88rem;
+    width: 19rem;
+    height: 2.13rem;
 }
-.singer {
-    height: 21.25%;
-    width: 60.8%;
-    top: 57.5%;
-    font-size: 0.84rem;
-    font-family: "SF Pro Text";
-    color: rgba(240, 240, 240, 0.7);
-}
-.albumcover-icon {
+.musicplayerbody,
+.musicplayerheader {
     position: absolute;
-    top: calc(50% - 40px);
-    left: calc(50% - 285.55px);
-    border-radius: 15px;
-    width: 8.75rem;
-    height: 5rem;
-    object-fit: cover;
-}
-.musicplayerinfo {
-    position: absolute;
-    height: 80%;
-    width: 30.87%;
-    top: 11%;
-    right: 65.45%;
-    bottom: 9%;
-    left: 3.68%;
-}
-.musicplayerframe,
-.musicplayerheadloadingframe {
-    position: absolute;
-    width: 115.63rem;
-    height: 6.25rem;
+    width: 100%;
+    top: 0;
+    right: 0;
+    left: 0;
     overflow: hidden;
 }
-.musicplayerheadloadingframe {
-    top: 0;
-    left: 0;
+.musicplayerbody {
+    border-top: 6px solid #a4a4a4;
+    box-sizing: border-box;
+    height: 6.25rem;
+}
+.musicplayerheader {
+    background-color: #0085ff;
+    height: 0.38rem;
 }
 .musicplayerframe {
-    top: calc(50% - 50px);
-    left: calc(50% - 925px);
-    background-color: #fff;
-    border-top: 5px solid rgba(240, 240, 240, 0.7);
-    box-sizing: border-box;
-}
-.musicplayerstartbar {
-    position: absolute;
-    top: calc(50% - 2.5px);
-    left: calc(50% - 313.68px);
-    border-radius: 50px;
-    background-color: #0085ff;
-    border: 0.3px solid #06f;
-    box-sizing: border-box;
-    width: 39.21rem;
-    height: 0.31rem;
-}
-.headloading,
-.musicplayerlodingbar {
-    position: absolute;
-    top: calc(50% - 49.8px);
-    left: calc(50% - 925px);
-    width: 39.21rem;
-    height: 0.31rem;
-}
-.headloading {
-    top: calc(50% - 50px);
-    width: 115.63rem;
-    height: 6.25rem;
-}
-.musicplayerframes {
     position: fixed;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    width: 115.5rem;
+    z-index: 999;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    width:96.4%;
     height: 6.25rem;
+    overflow: hidden;
     text-align: left;
     font-size: 1.38rem;
     color: #000;
     font-family: "BM Dohyeon";
-    z-index: 999;
-    bottom: 0;
-    right: 0;
 }

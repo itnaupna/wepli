@@ -322,8 +322,9 @@
     width: 31.25rem;
     height: 40.63rem;
     text-align: left;
+
     font-size: var(--font-size-smi);
-    font-family: var(--font-kbo-dia-gothic);
+    font-family: 'IBM Plex Sans KR'
 }
 .playlistmain01followprofillimg-icon {
     position: absolute;

@@ -1,214 +1,146 @@
-@font-face {
-    font-family: 'BMDOHYEON';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'BMHANNAAir';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/BMHANNAAir.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'KBO-Dia-Gothic_bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff') format('woff');
-    font-weight: 700;
-    font-style: normal;
-}
-
-
-body {
-    margin: 0;
-    line-height: normal;
-}
-:root {
-    /* fonts /
-    --font-black-han-sans: "Black Han Sans";
-    --font-bm-hanna_ttf: "BM HANNA_TTF";
-    --font-bm-hanna-air: "BM Hanna Air";
-    --font-kbo-dia-gothic: "KBO Dia Gothic";
-    --font-bm-dohyeon: "BMDOHYEON";
-
-    / font sizes /
-    --font-size-5xl: 1.5rem;
-    --font-size-21xl: 2.5rem;
-    --font-size-7xs: 0.38rem;
-    --font-size-4xs: 0.56rem;
-    --font-size-smi: 0.81rem;
-    --font-size-2xs: 0.69rem;
-    --font-size-mid: 1.06rem;
-    --font-size-lg: 1.13rem;
-    --font-size-5xs: 0.5rem;
-
-    / Colors /
-    --color-white: #fff;
-    --color-black: #000;
-    --color-lightsteelblue: #b6d6ff;
-    --color-gray-100: rgba(255, 255, 255, 0.4);
-    --color-gray-200: rgba(0, 0, 0, 0.5);
-    --color-chocolate: #ff8e3c;
-
-    / Gaps /
-    --gap-3xs: 0.63rem;
-
-    / border radiuses */
-    --br-xl: 20px;
-    --br-31xl: 50px;
-    --br-11xl: 30px;
-    --br-12xs: 1px;
-}
-
-.icon {
+.main3dimg-icon {
     object-fit: cover;
 }
-.icon,
-.maincenterbackimg {
+.main3dimg-icon,
+.mainbackground3dimg {
     position: absolute;
     top: calc(50% - 325.73px);
     left: calc(50% - 370.14px);
     width: 46.27rem;
     height: 40.72rem;
 }
-.bit-team-3 {
+.teamnametext {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: calc(50% - 9px);
+    left: calc(50% - 61px);
     letter-spacing: 0.2em;
     text-transform: uppercase;
     font-weight: 800;
 }
-.jam-juk-ja {
+.mainteamnamegroup {
     position: absolute;
-    top: 0;
-    left: 0;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    font-weight: 800;
-}
-.mainbottomtext {
-    position: absolute;
-    top: 38.56rem;
-    left: 1.19rem;
+    top: calc(50% + 291.27px);
+    left: calc(50% - 351.14px);
     width: 7.63rem;
     height: 1.13rem;
     text-align: center;
     font-size: 0.94rem;
-    color: #000;
     font-family: Montserrat;
 }
-.centerwaterimg-icon,
-.playbar-icon {
+.mainplaybargroup-icon {
+    position: absolute;
+    top: calc(50% + 227.27px);
+    left: calc(50% - 125.14px);
+    width: 15.56rem;
+    height: 2.31rem;
+}
+.mainbackgroundwavegroup2-icon {
     position: absolute;
     top: calc(50% - 271.73px);
     left: calc(50% - 311.14px);
     width: 38.81rem;
     height: 33.94rem;
 }
-.playbar-icon {
-    top: calc(50% + 227.27px);
-    left: calc(50% - 125.14px);
-    width: 15.56rem;
-    height: 2.31rem;
-}
-.playlist {
-    letter-spacing: -0.04em;
-    display: inline-block;
-}
-.playlist,
-.plioutlinetext {
+.playlistinlinetextsection,
+.playlisttextsecond {
     position: absolute;
-    top: 0;
-    left: 0;
+    left: calc(50% - 155px);
     width: 19.38rem;
     height: 4.88rem;
 }
-.playlist1,
-.plieinlinetext {
-    position: absolute;
-    left: 0;
-    width: 19.38rem;
-    height: 5rem;
-}
-.playlist1 {
-    top: 0;
+.playlisttextsecond {
+    top: calc(50% - 39px);
     letter-spacing: -0.04em;
     display: inline-block;
 }
-.plieinlinetext {
-    top: 1.81rem;
+.playlistinlinetextsection {
+    top: calc(50% - 54.5px);
+}
+.playlistoutlinetextsection,
+.playlisttextfirst {
+    position: absolute;
+    left: calc(50% - 155px);
+    width: 19.38rem;
+    height: 5rem;
+}
+.playlisttextfirst {
+    top: calc(50% - 40px);
+    letter-spacing: -0.04em;
+    display: inline-block;
+}
+.playlistoutlinetextsection {
+    top: calc(50% - 25.5px);
     color: rgba(249, 255, 233, 0.81);
 }
-.centershadowtext {
+.playlistshadowgroup {
     position: absolute;
-    top: 18.56rem;
-    left: 20.56rem;
+    top: calc(50% - 28.73px);
+    left: calc(50% - 41.14px);
     width: 19.38rem;
     height: 6.81rem;
     color: #d4ff00;
 }
-.stage,
-.stageinlinetext {
+.stageinlinetextsection,
+.stagetextsecond {
     position: absolute;
-    left: 0;
+    left: calc(50% - 119px);
     width: 14.88rem;
     height: 5rem;
 }
-.stage {
-    top: 0;
+.stagetextsecond {
+    top: calc(50% - 40px);
     letter-spacing: -0.04em;
     display: inline-block;
 }
-.stageinlinetext {
-    top: 2.38rem;
+.stageinlinetextsection {
+    top: calc(50% - 21px);
 }
-.stage2 {
+.stage {
     margin: 0;
 }
-.stage1,
-.stageoutlinetext {
+.stageoutlinetextsection,
+.stagetextfirst {
     position: absolute;
-    top: 0;
-    left: 0;
+    left: calc(50% - 119px);
     width: 14.88rem;
     height: 4.88rem;
 }
-.stage1 {
+.stagetextfirst {
+    top: calc(50% - 39px);
     letter-spacing: -0.04em;
     display: inline-block;
 }
-.stageoutlinetext {
+.stageoutlinetextsection {
+    top: calc(50% - 59px);
     color: #d4ff00;
 }
-.bottomshadowtext {
+.stageshadowgroup {
     position: absolute;
-    top: 24.63rem;
-    left: 8.13rem;
+    top: calc(50% + 68.27px);
+    left: calc(50% - 240.14px);
     width: 14.88rem;
     height: 7.38rem;
+    color: rgba(249, 255, 233, 0.81);
 }
-.we-share-we,
-.wepli {
+.mainlogotextgroup {
     position: absolute;
-    display: inline-block;
-}
-.wepli {
     top: calc(50% - 76px);
     left: calc(50% - 215px);
     line-height: 5rem;
     text-transform: uppercase;
-    font-weight: 800;
+    display: inline-block;
     width: 22rem;
     height: 5.5rem;
 }
-.we-share-we {
+.mainslogantextgroup {
+    position: absolute;
     top: calc(50% + 24px);
     left: calc(50% - 213px);
     font-size: 2.63rem;
-    font-family: "BM Dohyeon";
+    display: inline-block;
     width: 26.75rem;
 }
-.maintoptext {
+.mainlogoslogangroup {
     position: absolute;
     top: calc(50% - 282.73px);
     left: calc(50% - 327.14px);
@@ -216,12 +148,12 @@ body {
     height: 9.5rem;
     font-size: 5.63rem;
     color: #fff;
-    font-family: Montserrat;
+    font-family: "BM Dohyeon";
 }
-.maincentersection {
+.mainwrapper1section {
     position: absolute;
-    top: calc(50% - 326.5px);
-    left: calc(50% - 370px);
+    top: calc(50% - 372.5px);
+    left: calc(50% - 370.14px);
     width: 46.27rem;
     height: 40.72rem;
 }
@@ -254,13 +186,13 @@ body {
     width: 64.06rem;
     height: 1rem;
 }
-.loading,
-.loadingbar {
+.mainwrapperloadingbar,
+.mainwrapperloadinicon {
     position: absolute;
     left: calc(50% - 500px);
     width: 62.5rem;
 }
-.loading {
+.mainwrapperloadinicon {
     top: calc(50% - 12px);
     display: flex;
     flex-direction: row;
@@ -269,30 +201,29 @@ body {
     align-items: center;
     justify-content: center;
 }
-.loadingbar {
-    top: calc(50% + 395.5px);
+.mainwrapperloadingbar {
+    top: calc(50% + 349.96px);
     height: 1.5rem;
     text-align: right;
     font-size: 1rem;
-    color: #000;
     font-family: "Nunito Sans";
 }
-.maincenterround,
-.maincenterround-child {
+.centerborderdesign,
+.mainborderbordergroup {
     position: absolute;
     left: calc(50% - 370px);
     width: 46.25rem;
     height: 40.63rem;
 }
-.maincenterround-child {
+.centerborderdesign {
     top: calc(50% - 325px);
     border: 3px solid #fff;
     box-sizing: border-box;
 }
-.maincenterround {
-    top: calc(50% - 326.5px);
+.mainborderbordergroup {
+    top: calc(50% - 371.5px);
 }
-.mainwrapper {
+.mainwrapper1 {
     position: relative;
     background: linear-gradient(
             135.26deg,
@@ -302,10 +233,10 @@ body {
             #47bdff
     );
     width: 100%;
-    height: 61rem;
+    height: 60.56rem;
     overflow: hidden;
     text-align: left;
     font-size: 5.38rem;
-    color: rgba(249, 255, 233, 0.81);
+    color: #000;
     font-family: Epilogue;
 }
