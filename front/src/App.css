@@ -1,3 +1,3 @@
-.MainWrappers::-webkit-scrollbar{
+body::-webkit-scrollbar{
     display: none;
 }

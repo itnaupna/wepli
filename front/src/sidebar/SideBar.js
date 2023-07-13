@@ -11,7 +11,7 @@ function SideBar(props) {
 
     const handleListClick = () => {
         //플레이리스트 이동
-        navigate('/mypage')
+        navigate('/RankingPage')
     };
 
     const handleHomeClick = () => {
