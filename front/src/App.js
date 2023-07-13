@@ -33,7 +33,7 @@ function App() {
               <Route path="/PlayListMain" element={<PlayListMain/>}/>
               <Route path="/RankingPage" element={<PlayListMain01PlayListRangkingMain/>}/>
               <Route path="/PlayListSearch" element={<PlayListMain02PlayListSearchMain/>}/>
-              <Route  path="/PlayListMyPli" element={<PlayListMain03MyPlayListMain/>}/>
+              <Route path="/PlayListMyPli" element={<PlayListMain03MyPlayListMain/>}/>
               <Route path="/PlayListDetail" element={<PlayListDetail/>}/>
               <Route path="/PlayStage" element={<PlayStage/>}/>
               <Route path="/PlayStageList" element={<PlayStageList/>}/>
