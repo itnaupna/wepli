@@ -60,19 +60,19 @@ public class TokenService {
     }
 
     // 토큰 발급 로직
-    public Map<String, Object> generateToken(Map<String, String> data, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Map<String, Object> generateToken(Map<String, String> data, long reqTokenValidity, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> result = new HashMap<>();
         Map<String, Object> claims = new HashMap<>();
         MypageDto userDto = memberMapper.selectMypageDtoByEmail(data.get("email"));
         claims.put("roles",
             userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
 
-        Map<String, String> tokens = jwtTokenProvider.generateTokenSet(userDto.getNick(), claims);
+        Map<String, String> tokens = jwtTokenProvider.generateTokenSet(userDto.getNick(), claims, reqTokenValidity);
         String accessToken = URLEncoder.encode(tokens.get("accessToken"), "utf-8");
         String refreshToken = URLEncoder.encode(tokens.get("refreshToken"), "utf-8");
         Cookie cookie = new Cookie("token", "Bearer" + accessToken);
         cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24 * 60);
+        cookie.setMaxAge(60 * 60 * 24 * 30);
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
 
