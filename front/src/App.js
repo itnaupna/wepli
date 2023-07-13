@@ -18,6 +18,7 @@ import PlayListDetail from "./PlayListMain/PlayListDetail";
 import MainSection from "./main/MainJs/MainSection";
 import PlayStage from './PlayStation/PlayStageJS/PlayStage';
 import PlayStageList from './PlayStation/PlayStageJS/PlayStageList';
+import TestPage from './TestPage';
 function App() {
 // <<<<<<< HEAD
 
@@ -27,6 +28,7 @@ function App() {
           {/*<MusicPlayerBar/>*/}
           <Routes>
               <Route path="/" element={<MainPage/>}/>
+              <Route path="/test" element={<TestPage/>}/>
               <Route path="/mypage" element={<MypageMain/>}/>
               <Route path="/PlayListMain" element={<PlayListMain/>}/>
               <Route path="/RankingPage" element={<PlayListMain01PlayListRangkingMain/>}/>
