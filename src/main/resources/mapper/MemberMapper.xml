@@ -100,5 +100,4 @@
     <select id="CheckMemberExists" parameterType="MemberDto" resultType="int">
         select exists(select * from tblMember where email = #{email} and socialtype = #{socialtype})
     </select>
-
 </mapper>
