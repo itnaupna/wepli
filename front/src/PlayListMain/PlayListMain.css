@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    line-height: normal;
+}
+
+.container {
+    transition: all 0.5s;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+}
+
+.box {
+    width: 25%; /* 4개의 박스가 있으므로 25%로 설정 */
+    height: 100vh;
+    font-size: 100px;
+    line-height: 100vh;
+    text-align: center;
+    /*border: 10px solid;*/
+    box-sizing: border-box;
+}
+
+@media (max-width: 1000px) {
+    /* 화면 너비가 1000px 이하인 경우 */
+    .container {
+        flex-direction: column;
+        overflow-x: scroll;
+    }
+
+    .box {
+        width: 100%;
+        height: auto;
+    }
+}
+
+.image-3 {
+    position: relative;
+    width: 100%;
+    height: 60.56rem;
+    background-image: url(../MainIMG/BackIMG.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+

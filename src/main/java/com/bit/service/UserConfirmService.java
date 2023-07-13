@@ -104,7 +104,6 @@ public class UserConfirmService {
         Map<String, String> data = new HashMap<>();
         data.put("email", email);
         data.put("code", code);
-
         if (uMapper.selectVerifyEmail(data) > 0) {
             uMapper.deleteEmailCode(email);
             return uMapper.updateVerifyEmailConfirm(email) > 0;
