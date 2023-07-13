@@ -72,7 +72,7 @@ public class TokenService {
         String refreshToken = URLEncoder.encode(tokens.get("refreshToken"), "utf-8");
         Cookie cookie = new Cookie("token", "Bearer" + accessToken);
         cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24 * 1);
+        cookie.setMaxAge(60 * 60 * 24 * 60);
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
 

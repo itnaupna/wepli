@@ -65,6 +65,31 @@ function App() {
         res => console.log(res.data)
       )
   }
+
+  const checkEmailExists = async (e) => {
+    try {
+        const response = await axios.get(TESTURL.email, { params: { email }} );
+        if (response.data) {
+            alert('이메일이 이미 사용 중입니다.');
+        } else {
+            alert('사용 가능한 이메일입니다.');
+        }
+    } catch (error) {
+        console.error('오류가 발생했습니다.', error);
+    }
+};
+const checkNick = async (e) => {
+  try {
+      const response = await axios.get(TESTURL.nick, { params: { nick }} );
+      if (response.data) {
+          alert('이미 사용 중인 닉네임!.');
+      } else {
+          alert('가능한 닉네임!');
+      }
+  } catch (error) {
+      console.error('오류가 발생했습니다.', error);
+  }
+};
   const [curr, setCurr] = useState(1);
   const [cpp, setCpp] = useState(5);
 
@@ -269,9 +294,13 @@ function App() {
       {msg}<br />
       <div style={{ border: '3px solid blue', margin: '15px' }}>
         회원가입<br />
-        <input placeholder='이메일' value={email} onChange={(e) => { setEmail(e.target.value) }} onBlur={handleCheckEmailExists} /><br />
+        <input placeholder='이메일' value={email} onChange={(e) => { setEmail(e.target.value) }} onBlur={handleCheckEmailExists} />
+        <button onClick={checkEmailExists}>중복체크</button>
+        <br />
         <input placeholder='비번' value={pw} onChange={(e) => { setPw(e.target.value) }} /><br />
-        <input placeholder='닉넴' value={nick} onChange={(e) => { setNick(e.target.value) }} onBlur={handleCheckNickExists} /><br />
+        <input placeholder='닉넴' value={nick} onChange={(e) => { setNick(e.target.value) }} onBlur={handleCheckNickExists} />
+        <button onClick={checkNick}>중복체크</button>
+        <br />
         <button onClick={handleClickSubmit}>전송</button>
       </div>
       <div style={{ border: '3px solid green', margin: '15px', display: 'none' }}>
