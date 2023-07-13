@@ -11,7 +11,17 @@ import MusicPlayerBar from "./musicbar/MusicPlayerBar";
 import PlayListMain03MyPlayListMain from "./PlayListMain/PlayListMain03MyPlayListMain";
 import PlayListDetail from "./PlayListMain/PlayListDetail";
 
+// import { useEffect, useState } from 'react';
+// import axios from 'axios';
+
+
+import MainSection from "./main/MainJs/MainSection";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import PlayListMain from "./PlayListMain/PlayListMain";
+import PlayStage from './PlayStation/PlayStageJS/PlayStage';
+import PlayStageList from './PlayStation/PlayStageJS/PlayStageList';
 function App() {
+// <<<<<<< HEAD
 
   return (
       <BrowserRouter>
@@ -25,9 +35,13 @@ function App() {
               <Route path="/PlayListSearch" element={<PlayListMain02PlayListSearchMain/>}/>
               <Route  path="/PlayListMyPli" element={<PlayListMain03MyPlayListMain/>}/>
               <Route path="/PlayListDetail" element={<PlayListDetail/>}/>
+              <Route path="/PlayStage" element={<PlayStage/>}/>
+              <Route path="/PlayStageList" element={<PlayStageList/>}/>
           </Routes>
       </BrowserRouter>
   );
 }
+
+
 
 export default App;
