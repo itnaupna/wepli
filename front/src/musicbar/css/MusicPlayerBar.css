@@ -1,0 +1,131 @@
+.musicplayerbgimg-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120rem;
+    height: 5.88rem;
+    object-fit: cover;
+}
+.musicplayerbgeffect {
+    background-color: rgba(217, 217, 217, 0.1);
+    backdrop-filter: blur(80px);
+}
+.musicplayerbg,
+.musicplayerbgeffect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120rem;
+    height: 5.88rem;
+}
+.albumcover-icon {
+    position: absolute;
+    top: calc(50% - 40px);
+    left: 0;
+    border-radius: 15px;
+    width: 8.75rem;
+    height: 5rem;
+    object-fit: cover;
+}
+.singer,
+.songsname {
+    position: absolute;
+    height: 32.5%;
+    top: 20%;
+    left: 10rem;
+    line-height: 120%;
+    display: inline-block;
+    width: 25.66rem;
+}
+.singer {
+    height: 21.25%;
+    top: 58.75%;
+    font-size: 0.84rem;
+    font-family: "SF Pro Text";
+    color: rgba(0, 0, 0, 0.7);
+    width: 21.7rem;
+}
+.musicplayersonginfo {
+    position: absolute;
+    top: calc(50% - 43px);
+    left: 4.38rem;
+    width: 35.66rem;
+    height: 5rem;
+}
+.musicplayershuffleiconbody {
+    position: relative;
+    width: 1.56rem;
+    height: 1.56rem;
+}
+.musicplayerpreviousiconbody {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+}
+.musicplayerplaybutton-icon {
+    position: relative;
+    width: 2.38rem;
+    height: 2.38rem;
+}
+.musicplayerplaybar,
+.musicplayerplaybuttonbody {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.musicplayerplaybuttonbody {
+    border-radius: 99.17px;
+    background-color: #121212;
+    width: 3.75rem;
+    height: 3.75rem;
+    padding: 0.52rem;
+    box-sizing: border-box;
+    justify-content: center;
+}
+.musicplayerplaybar {
+    position: absolute;
+    top: calc(50% - 30.23px);
+    left: calc(50% - 170.5px);
+    width: 21.38rem;
+    justify-content: flex-start;
+    gap: 2.63rem;
+}
+.musicplayervolume-icon {
+    position: absolute;
+    top: 2.06rem;
+    right: 1.88rem;
+    width: 19rem;
+    height: 2.13rem;
+}
+.musicplayerbody,
+.musicplayerheader {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    right: 0;
+    left: 0;
+    overflow: hidden;
+}
+.musicplayerbody {
+    border-top: 6px solid #a4a4a4;
+    box-sizing: border-box;
+    height: 6.25rem;
+}
+.musicplayerheader {
+    background-color: #0085ff;
+    height: 0.38rem;
+}
+.musicplayerframe {
+    position: fixed;
+    z-index: 999;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    width:96.4%;
+    height: 6.25rem;
+    overflow: hidden;
+    text-align: left;
+    font-size: 1.38rem;
+    color: #000;
+    font-family: "BM Dohyeon";
+}

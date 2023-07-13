@@ -1,0 +1,306 @@
+.mainwrapper2rightinfoengtext {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: 500;
+}
+.mainwrapper2leftinfoengtextgro {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20.81rem;
+    height: 6.88rem;
+}
+.mainwrapper2leftinfokoreantext1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: 500;
+    display: inline-block;
+    width: 39.81rem;
+}
+.mainwrapper2leftinfokoreantext {
+    position: absolute;
+    top: 7.19rem;
+    left: 0;
+    width: 39.81rem;
+    height: 3.19rem;
+    font-size: 3.19rem;
+}
+.mainwrapper2leftinfotextgroup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 39.81rem;
+    height: 10.38rem;
+}
+.mainwrapper2leftborder {
+    border: 2px solid #c6c6c6;
+    box-sizing: border-box;
+}
+.mainwrapper2leftborder,
+.mainwrapper2leftbordergroup {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 46.25rem;
+    height: 40.63rem;
+}
+.p {
+    margin: 0;
+}
+.mainwrapper2lefthashtag {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: inline-block;
+    width: 1.88rem;
+}
+.mainwrapper2leftgrouphashtag {
+    position: absolute;
+    bottom: 1.81rem;
+    left: 1.25rem;
+    width: 1.88rem;
+    height: 6.56rem;
+}
+.mainwrapper2leftalbumcolorsect {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #ff8935;
+    width: 37.5rem;
+    height: 37rem;
+}
+.mainwrapper2logotext1 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    letter-spacing: -0.01em;
+    display: inline-block;
+    width: 7.03rem;
+}
+.mainwrapper2logotext {
+    position: absolute;
+    bottom: 8.44rem;
+    left: 27.43rem;
+    width: 7.03rem;
+    height: 2.94rem;
+}
+.mainwrapper2leftplaylisttext {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    letter-spacing: -0.02em;
+    display: inline-block;
+    width: 33.89rem;
+}
+.mainwrapper2leftplaylisttextgr {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 33.89rem;
+    height: 8.44rem;
+    font-size: 6.88rem;
+}
+.mainwrapper2leftalbumcovertext {
+    position: absolute;
+    bottom: 24.25rem;
+    left: 1.84rem;
+    width: 34.46rem;
+    height: 11.38rem;
+}
+.mainwrapper2leftalbumcolorgrou {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 37.5rem;
+    height: 37rem;
+}
+.mainwrapper2leftalbumimg-icon {
+    object-fit: cover;
+}
+.mainwrapper2leftalbumimg-icon,
+.mainwrapper2leftalbumimgsectio {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 37.5rem;
+    height: 24.19rem;
+}
+.mainwrapper2leftalbumsection {
+    position: absolute;
+    bottom: 1.81rem;
+    left: 4.38rem;
+    width: 37.5rem;
+    height: 37rem;
+    font-size: 2.38rem;
+    font-family: "BM Dohyeon";
+}
+.mainwrapper2leftalbumgroup {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 46.25rem;
+    height: 40.63rem;
+    font-size: 2.13rem;
+    font-family: "BM Hanna Air";
+}
+.mainwrapper2legtgroup {
+    position: relative;
+    width: 46.25rem;
+    height: 55.63rem;
+}
+.mainwrapper2rightinfoengtext1 {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-weight: 500;
+}
+.mainwrapper2rightinfoengtextgr {
+    position: absolute;
+    right: 12.88rem;
+    bottom: 3.5rem;
+    width: 24.31rem;
+    height: 6.88rem;
+}
+.mainwrapper2rightinfokoreantex {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 37.19rem;
+    height: 3.19rem;
+    font-size: 3.19rem;
+}
+.mainwrapper2rightinfotextgroup {
+    position: absolute;
+    right: 5.19rem;
+    bottom: 0;
+    width: 37.19rem;
+    height: 10.38rem;
+}
+.mainwrapper2rigthborder {
+    border: 2px solid #c6c6c6;
+    box-sizing: border-box;
+}
+.mainwrapper2rigthborder,
+.mainwrapper2rigthbordergroup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 46.25rem;
+    height: 40.63rem;
+}
+.mainwrapper2righthashtag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 1.88rem;
+}
+.mainwrapper2rigthgrouphashtag {
+    position: absolute;
+    top: 32.25rem;
+    right: 43.13rem;
+    width: 1.88rem;
+    height: 6.56rem;
+}
+.mainwrapper2rightalbumcolorsec {
+    background-color: #ff3535;
+}
+.mainwrapper2rightalbumcolorgro,
+.mainwrapper2rightalbumcolorsec {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 37.5rem;
+    height: 37rem;
+}
+.mainwrapper2logotext2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    letter-spacing: -0.01em;
+    display: inline-block;
+    width: 7.03rem;
+}
+.mainwrapper2logotextgroup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 7.03rem;
+    height: 2.94rem;
+}
+.mainwrapper2playlisttext {
+    position: absolute;
+    top: 0;
+    right: 0;
+    letter-spacing: -0.02em;
+    display: inline-block;
+    width: 33.89rem;
+}
+.mainwrapper2playlisttextgroup {
+    position: absolute;
+    top: 2.94rem;
+    right: 0.57rem;
+    width: 33.89rem;
+    height: 8.44rem;
+    font-size: 6.88rem;
+}
+.mainwrapper2albumcovertextgrou {
+    position: absolute;
+    top: 1.38rem;
+    right: 1.2rem;
+    width: 34.46rem;
+    height: 11.38rem;
+}
+.mainwrapper2albumimg-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 37.5rem;
+    height: 24.19rem;
+    object-fit: cover;
+}
+.mainwrapper2albumimgsection {
+    position: absolute;
+    top: 12.81rem;
+    right: 0;
+    width: 37.5rem;
+    height: 24.19rem;
+}
+.mainwrapper2rigthalbumsection {
+    position: absolute;
+    top: 1.81rem;
+    right: 4.38rem;
+    width: 37.5rem;
+    height: 37rem;
+    font-size: 2.38rem;
+    font-family: "BM Dohyeon";
+}
+.mainwrapper2rightalbumgroup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 46.25rem;
+    height: 40.63rem;
+    font-size: 2.13rem;
+    font-family: "BM Hanna Air";
+}
+.mainwrapper2-8 {
+    position: relative;
+    background-color: #fff;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 2.38rem 5.31rem;
+    align-items: flex-start;
+    justify-content: space-between;
+    min-width: 56.88rem;
+    text-align: left;
+    font-size: 6.88rem;
+    color: #000;
+    font-family: "KBO Dia Gothic";
+}
