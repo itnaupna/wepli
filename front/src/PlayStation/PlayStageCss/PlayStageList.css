@@ -23,8 +23,8 @@
     height: 32.875rem;
     border-radius: 1.875rem;
     /* background: rgba(255, 255, 255, 0.40); */
-    background: rgba(255, 255, 255, 0.40);
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    /* background: rgba(255, 255, 255, 0.40); */
+    /* box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25); */
     position: absolute;
     top:3.50rem;
     margin: auto;
@@ -54,23 +54,114 @@
     text-align: center;
     line-height: 3.3125rem;
 }
+.newStage-Button{
+     position: absolute;
+    margin:auto;
+    top:0;
+    bottom:0;
+    border-radius: 1.875rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.40);
+    /* box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25); */
+    width: 15vw;
+    height: 30vh;
+    left: 22.0vb;
+    cursor: pointer;
+}
+.newStage-Icon{
+    color: #4147d5;
+}
+.LiveOn-Icon{
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  transform: translate(-50%,-50%);
+  width: 160px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 20px;
+  text-align: center;
+  font-family: sans-serif;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: #ccc;
+}
+.LiveOn-Icon:before{
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background: rgba(65, 71, 213, 1);
+  color: #fff;
+  transition: 0.5s;
+  transform-origin: bottom;
+  transform: translatey(-100%) rotatex(90deg);
+}
+.LiveOn-Icon:hover:before
+{
+  transform: translatey(0) rotatex(0deg);
+}
+
+.LiveOn-Icon:after{
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background: rgba(65, 71, 213, 1);
+  color: #fff;
+  transition: 0.5s;
+  transform-origin: top;
+  transform: translatey(0) rotatex(0deg);
+}
+.LiveOn-Icon:hover:after
+{
+  transform: translatey(100%) rotatex(90deg);
+}
 .Tsection-Rside{
     width: 58.125rem;
     height: 32.875rem;
-    border-radius: 1.875rem;
-    background: rgba(255, 255, 255, 0.40);
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    /* border-radius: 1.875rem;
+    background: rgba(255, 255, 255, 0.40); */
+    /* box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25); */
     margin: auto;
     /* border:1px solid red; */
 }
-.Tsection-SearchBar{
-    width: 50.125rem;
-    height: 4.1875rem;
-    border-radius: 1.875rem;
-    fill: rgba(255, 255, 255, 0.40);
+.Tsection-SelectBar{
+    width: 10.74925rem;
+    height: 3.125rem;
+    position: absolute;
+    margin: auto;
+    top:0;
+    bottom: 0;
+    left: 1.6rem;
+    flex-shrink: 0;
+    border-radius: 1.25rem;
+    background: #FFF;
     box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    appearance: none;
+    background:url('../PlayStageImage/Icon/ArrowDown.svg') no-repeat right 0.1rem center ;
+    background-size: 1.0rem;
+    cursor: pointer;
+    outline: none;
+}   
+.Tsection-SearchBar{
+    width: 34.875rem;
+    height: 4.1875rem;
+    position:absolute;
+    border-radius: 1.875rem;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    fill: rgba(255, 255, 255, 0.40);
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.25));
+    left: 69.5rem;
 }
+/* 돋보기 아이콘css */
 .Tsection-SearchBarIcon{
     width: 2.25rem;
     height: 2.5rem;
@@ -78,25 +169,51 @@
     top: 0;
     bottom: 0;
     margin: auto;
-    left:46.90rem;
+    right: 5rem;
+    z-index: 99;
 }
 .Tsection-InputArea{
-    width: 44.5rem;
-    height: 2.3125rem;
+    width: 18.96931rem;
+    height: 3.125rem;
     flex-shrink: 0;
-    fill: rgba(255, 255, 255, 0.40);
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.25));
-    border-radius: 1.875rem;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.50);
+    border-radius: 1.25rem;
+    background: #FFF;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
     top:0;
     bottom:0;
     position: absolute;
     margin: auto;
-    left:1.50rem;
+    left:13.50rem;
     vertical-align: middle;
     resize:none;
-    background-color: transparent;
     border:none;
+}
+.InputPlace{
+    width: 15.96931rem;
+    height: 2.125rem;
+    flex-shrink: 0;
+    border-radius: 1.25rem;
+    top:0;
+    bottom:0;
+    position: absolute;
+    margin: auto;
+    left:2.5rem;
+    vertical-align: middle;
+    resize:none;
+    border:none;
+    outline: none!important;
+
+}
+.InputPlace:foucus{
+    outline: none!important;
+}
+.Tsection-SearchBarIcon{
+    width: 1.89694rem;
+    height: 1.875rem;
+    position: absolute;
+    left: 0.1rem;
+    flex-shrink: 0;
+    color:rgba(25, 29, 33, 1);
 }
 .Tsection-InputArea:focus{
     outline: none;
@@ -125,13 +242,17 @@
     top:5.5rem;
     left: 55.5rem;
 }
+
+
+
+
 /* 스테이지 바텀섹션 */
 .Lmain-Bsection{
     width: 106.125rem;
     /* height: 18rem; */
     border-radius: 1.875rem;
-    background: rgba(255, 255, 255, 0.40);
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    /* background: rgba(255, 255, 255, 0.40); */
+    /* box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25); */
     position: absolute;
     top:66.5rem;
     bottom: 5.0rem;

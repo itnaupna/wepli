@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useInView } from 'react-intersection-observer';
-import Loading from "./Loading";
 import '../PlayStageCss/PlayStageList.css';
 import Slide from '../PlayStageJS/Slide.js';
-
+import ArrowDown from '../PlayStageImage/Icon/ArrowDown.svg';
+import Search from '../PlayStageImage/Icon/SearchIcon.svg';
 
 function PlayStageList(props) {
 
@@ -50,29 +50,44 @@ function PlayStageList(props) {
     
     console.log(stages);
 
+
+
+
   return (
     <div className='Lbackground'>
       <div className='Side-Bar'></div>
       <div className='Lmain-Tsection'>
         <div className='Tsection-Lside'>
           <div className='TL-MyStage'>MyStage</div>
+          { 
+            1===2
+            ?
+            <a className="LiveOn-Icon" href="/"  data-text="Live On">Live On</a>
+
+            :
+            <button className="newStage-Button">
+              <svg xmlns="http://www.w3.org/2000/svg" className='newStage-Icon'viewBox="0 0 24 24" fill="none">
+                <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#4147d5"/>
+              </svg>
+            </button>
+          }
+          
         </div>
         <div className='Tsection-Rside'>
           <div className='Tsection-SearchBar'>
+              <select className='Tsection-SelectBar'>
+                <option>방장</option>
+                <option defaultValue>제목</option>
+                <option>태그</option>
+                <option>장르</option>
+              </select>
             <div className='Tsection-InputBar'>
-              <input type='text' className='Tsection-InputArea'></input>
-              <span className='Tsection-InputArea-Icon'>
-                <svg xmlns="http://www.w3.org/2000/svg" className='Tsection-InputArea-Icon' viewBox="0 0 17 14" fill="none">
-                  <path d="M1.58535 2.39752C2.96443 5.53235 6.45873 12.9835 8.51391 12.9789C10.5691 12.9742 14.0296 5.50729 15.3945 2.36624C15.6776 1.71461 15.195 1.00156 14.4845 1.00317L2.48909 1.03034C1.7786 1.03195 1.29925 1.74718 1.58535 2.39752Z" fill="#D7E0FF" stroke="#4147D5" strokeWidth="1.5" />
-                </svg>
-              </span>
+              <img src={Search} alt='' className="Tsection-SearchBarIcon"/>
+              <div className="Tsection-InputArea">
+              <input type='text' className="InputPlace">
+              </input>
+              </div>
             </div>
-            <svg className='Tsection-SearchBarIcon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37 41" fill="none">
-              <path d="M8 40C11.3137 40 14 37.0899 14 33.5C14 29.9101 11.3137 27 8 27C4.68629 27 2 29.9101 2 33.5C2 37.0899 4.68629 40 8 40Z" fill="#D7E0FF" stroke="#4147D5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M30.5 37C33.5376 37 36 34.0899 36 30.5C36 26.9101 33.5376 24 30.5 24C27.4624 24 25 26.9101 25 30.5C25 34.0899 27.4624 37 30.5 37Z" fill="#D7E0FF" stroke="#4147D5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M36 30.8338V14M14 19.8753L14 34" stroke="#4147D5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M14 20V10.2009C14 9.32876 14.5649 8.55666 15.3971 8.29575C17.7414 7.56073 20.1424 6.83016 22.598 6.15815C26.0838 5.20419 29.5142 4.41352 32.8269 3.64998C33.2474 3.55305 33.6836 3.41729 34.1245 3.29489C35.1528 3.00944 36 3.84268 36 4.90989V13.9546C35.6333 14.0708 35.2651 14.1877 34.8953 14.3051C31.6354 15.3403 28.2596 16.4122 24.7738 17.3662C21.288 18.3202 17.8576 19.1108 14.5449 19.8744C14.3629 19.9163 14.1813 19.9582 14 20Z" fill="#D7E0FF" stroke="#4147D5" strokeWidth="1.5" />
-            </svg>
           </div>
           <div className='Tsection-FollowStage'>
             <div className='TL-MyStage'>FollowStage</div>

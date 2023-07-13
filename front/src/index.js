@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-//import App from './App';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Router from './Router';
 
@@ -12,7 +12,7 @@ root.render(
   //   <Router />
   // </React.StrictMode>
   <div>
-    <Router/>
+    <App/>
   </div>
 );
 
