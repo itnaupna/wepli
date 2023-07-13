@@ -8,17 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.bit.dto.MemberDto;
 import com.bit.dto.MypageDto;
@@ -91,8 +82,8 @@ public class MemberController {
 
     // 비번 변경
     @PatchMapping("/lv1/m/pw")
-    public boolean patchPw(@CookieValue String token, String oldPw, String newPw) {
-        return mService.changePassword(token, oldPw, newPw);
+    public boolean patchPw(@CookieValue String token, String oldPw, String newPw, HttpServletResponse response) {
+        return mService.changePassword(token, oldPw, newPw, response);
     }
 
     // 탈퇴
@@ -175,11 +166,12 @@ public class MemberController {
 
     //로그인
     @PostMapping("/lv0/m/login")
-    public Map<String, Object> access(@RequestBody Map<String, String> data, HttpServletRequest request, HttpServletResponse response){
-            return mService.Login(data, request, response); 
+    public Map<String, Object> access(String email, String pw,@RequestParam(required = false) boolean autoLogin,
+     HttpServletRequest request, HttpServletResponse response){
+            return mService.Login(email, pw, autoLogin, request, response); 
     }
 
-    // 소셜 로그인
+    // 소셜 로그인 파라미터 -> email,socialtype
     @PostMapping("/lv0/social")
     public Map<String, Object> socialLogin(@RequestBody Map<String, String> data, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mService.socialLogin(data, request, response);

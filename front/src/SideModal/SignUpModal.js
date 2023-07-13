@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./css/SignUpModal.css";
 import arrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
@@ -8,6 +8,10 @@ function SignUpModal({setSignUpModalOpen}) {
     const closeFindIdModal = () => {
         setSignUpModalOpen(false);
     }
+
+    // const [nick, setNick] = useState("");
+    // const [pw, setPw] = useState("");
+    // const [email, setEmail] = useState("");
     return (
         <div>
             <div className="signupmodalframe" onClick={closeFindIdModal}></div>

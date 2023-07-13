@@ -31,10 +31,14 @@ public class MemberService {
     @Autowired
     TokenService tokenService;
 
+    public final long JWT_TOKEN_VALIDITY_ONEDAY = 1000 * 60 * 60 * 24;
+
     // 회원가입
     public boolean joinMember(MemberDto mDto) {
+        System.out.println(mDto);
         try {
             mDto.setEmailconfirm(mDto.getSocialtype() == null ? 0 : 1);
+            log.info("{}",mDto.getEmailconfirm());
             if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1) {
                 return false;
             } else {
@@ -43,6 +47,7 @@ public class MemberService {
             }
             
         } catch (Exception e) {
+            log.error("error -> {}", e.getMessage());
             return false;
         }
     }
@@ -114,7 +119,7 @@ public class MemberService {
     }
 
     // 비밀번호 변경
-    public boolean changePassword(String token, String oldPw, String newPw) {
+    public boolean changePassword(String token, String oldPw, String newPw, HttpServletResponse response) {
         MemberDto mDto = new MemberDto();
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         mDto.setNick(nick);
@@ -127,7 +132,12 @@ public class MemberService {
         Map<String, String> data = new HashMap<>();
         data.put("nick", nick);
         data.put("pw", newPw);
-        return memberMapper.updatePw(data) > 0;
+        memberMapper.updatePw(data);
+        Cookie cookie = new Cookie("token", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return true;
     }
 
     // 회원 탈퇴
@@ -212,15 +222,19 @@ public class MemberService {
 
 
     //로그인 시도.
-    public Map<String, Object> Login(Map<String, String> data, HttpServletRequest request,
-            HttpServletResponse response) {
+    public Map<String, Object> Login(String email, String pw, boolean autoLogin,
+     HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
+        Map<String, String> data = new HashMap<>();
+        data.put("email", email);
+        data.put("pw", pw);
         try {
             boolean boolLogin = memberMapper.selectLogin(data) > 0;
             if (boolLogin) {
                 log.info("success");
                 // 로긴 성공하면
-                result = tokenService.generateToken(data, request, response);
+                result = tokenService.generateToken(data, 
+                autoLogin ? (JWT_TOKEN_VALIDITY_ONEDAY * 30) : JWT_TOKEN_VALIDITY_ONEDAY, request, response);
 
             } else {
                 // 로긴 실패하면 -> 회원이 아님
@@ -243,13 +257,21 @@ public class MemberService {
         Map<String, Object> result = new HashMap<>();
         try {
 
-            boolean boolLogin = memberMapper.CheckMemberExists(data) > 0;
-            if (boolLogin) {
-                // 로긴 성공하면
-                result = tokenService.generateToken(data, request, response);
+            boolean emailExists = memberMapper.selectCheckEmailExists(data.get("email")) > 0;
+            if (emailExists) {
+                boolean boolLogin = memberMapper.CheckMemberExists(data) > 0;
+                if(boolLogin) {
+                    // 로긴 성공하면
+                    result = tokenService.generateToken(data, JWT_TOKEN_VALIDITY_ONEDAY, request, response);
+                } else {
+                    // 로긴 실패하면 -> 요청 소셜이 아닌 다른 루트로 가입된 이메일 
+                    log.info("socialLogin -> duplicate");
+                    response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                }
             } else {
                 // 로긴 실패하면 -> 에러 가입된 소셜회원 없음 -> 소셜 회원가입으로 이동
-                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                log.info("socialLogin -> Non-members");
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
 
             return result;

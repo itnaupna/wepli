@@ -11,6 +11,7 @@ import LoginModal from "../SideModal/LoginModal";
 import FindIdModal from "../SideModal/FindIdModal";
 import FindPassModal from "../SideModal/FindPassModal";
 import SignUpModal from "../SideModal/SignUpModal";
+import axios from "axios";
 
 
 function SideBar(props) {
@@ -41,6 +42,27 @@ function SideBar(props) {
     const handleStageClick = () => {
         navigate('/Test01');
     };
+
+    // const onLogoutSubmit = (e) => {
+    //     e.preventDefault();
+    //     const url = "/api/lv1/m/logout";
+    //     axios.post(url)
+    //         .then(res => {
+    //             const {success} = res.data;
+    //             console.log(res.data);
+    //             if (success) {
+    //                 console.log("굿");
+    //             } else {
+    //                 // 실패
+    //                 console.log("ㄷㄷ");
+    //                 alert("ㅁㄹ");
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.log("에러에러에러에ㅓ레어레", error);
+    //         });
+    //     document.location.href = '/'
+    // }
 
     return (
         <div className="weplisidebar">
@@ -77,6 +99,8 @@ function SideBar(props) {
                 <div className="homeoutlinebox"/>
                 <img className="stageicon1" alt="" src={stage} onClick={handleStageClick}/>
             </div>
+            <button >로그아웃</button>
+
         </div>
     );
 }
