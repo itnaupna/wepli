@@ -6,18 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bit.jwt.JwtTokenProvider;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bit.dto.MemberDto;
@@ -63,8 +53,8 @@ public class MemberController {
 
     // 비밀번호만 확인
     @PostMapping("/lv1/m/checkpassword")
-    public boolean postCheckPassword(@RequestBody MemberDto mDto) {
-        return mService.checkPassword(mDto);
+    public boolean postCheckPassword(@CookieValue String token, @RequestBody String pw) {
+        return mService.checkPassword(token, pw);
     }
 
     // 인증코드 생성
@@ -89,8 +79,8 @@ public class MemberController {
 
     // 비번 변경
     @PatchMapping("/lv1/m/pw")
-    public boolean patchPw(@RequestBody String email, @RequestBody String oldPw, @RequestBody String newPw) {
-        return mService.changePassword(email, oldPw, newPw);
+    public boolean patchPw(@CookieValue String token, String oldPw, String newPw) {
+        return mService.changePassword(token, oldPw, newPw);
     }
 
     // 탈퇴
@@ -106,7 +96,7 @@ public class MemberController {
     }
 
     // 프사 변경
-    // TODO : 밑에 새로 만들었는데 따로 사용할 일 있을지 체크
+    // TODO : (확인) 밑에 새로 만들었는데 따로 사용할 일 있을지 체크
     // @PatchMapping("/lv1/m/img")
     // public boolean patchImg(@RequestBody MemberDto mDto) {
     //     return mService.updateImg(mDto);
@@ -184,7 +174,7 @@ public class MemberController {
     }
 
     //로그아웃
-    //TODO : 로그아웃시 엑세스토큰이 만료되어있으면 해당 유저의 리프레시 토큰이 삭제가 안되는점 수정(완료)
+    //TODO : (확인) 로그아웃시 엑세스토큰이 만료되어있으면 해당 유저의 리프레시 토큰이 삭제가 안되는점 수정
     @PostMapping("/lv1/m/logout")
     public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) throws Exception {
         mService.logout(token, request, response);

@@ -49,31 +49,68 @@
     </insert>
 
 
-    <select id="selectSearchByNick" parameterType="string" resultType="StageDto">
-          select * from tblStage ts where nick like concat ('%', #{nick} ,'%')
-    </select>
-
-
-    <select id="selectSearchByTitle" parameterType="string" resultType="StageDto">
-          select * from tblStage ts where title like concat ('%', #{title} ,'%')
-    </select>
-
-
-    <select id="selectSearchByGenre" parameterType="list" resultType="StageDto">
+    <select id="selectSearchByNick" parameterType="Map" resultType="StageDto">
         select * from tblStage ts 
-        where 
+        where (
+        <foreach collection="list" item="nick" separator=" OR ">
+            nick LIKE CONCAT('%', #{nick}, '%')
+        </foreach> 
+        )
+        <if test="black != null">
+            and nick not in (
+            <foreach collection="black" item="item" separator=", ">
+                #{item}
+            </foreach>
+            )
+        </if>
+    </select>
+
+    <select id="selectSearchByTitle" parameterType="Map" resultType="StageDto">
+        select * from tblStage ts 
+        where (
+        <foreach collection="list" item="title" separator=" OR ">
+            title LIKE CONCAT('%', #{title}, '%')
+        </foreach> 
+        )
+        <if test="black != null">
+            and nick not in (
+            <foreach collection="black" item="item" separator=", ">
+                #{item}
+            </foreach>
+            )
+        </if>
+    </select>
+
+    <select id="selectSearchByGenre" parameterType="Map" resultType="StageDto">
+        select * from tblStage ts 
+        where (
         <foreach collection="list" item="genre" separator=" OR ">
             genre LIKE CONCAT('%', #{genre}, '%')
         </foreach> 
+        )
+        <if test="black != null">
+            and nick not in (
+            <foreach collection="black" item="item" separator=", ">
+                #{item}
+            </foreach>
+            )
+        </if>
     </select>
 
-
-    <select id="selectSearchByTag"  parameterType="list" resultType="StageDto">
+    <select id="selectSearchByTag" parameterType="Map" resultType="StageDto">
         select * from tblStage ts 
-        where 
+        where (
         <foreach collection="list" item="tag" separator=" OR ">
             tag LIKE CONCAT('%', #{tag}, '%')
-        </foreach>
+        </foreach> 
+        )
+        <if test="black != null">
+            and nick not in (
+            <foreach collection="black" item="item" separator=", ">
+                #{item}
+            </foreach>
+            )
+        </if>
     </select>
 
 

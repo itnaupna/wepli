@@ -36,8 +36,8 @@ public class StageController {
     //0-제목, 1-닉넴, 2-장르, 3-태그
     //장르와 태그는 , (쉼표)로 구분
     @GetMapping("/lv0/s/search")
-    public List<StageDto> getSearch(int type, String queryString){
-        return sService.SearchStages(type, queryString);
+    public List<StageDto> getSearch(@CookieValue(required = false) String token, int type, String queryString) {
+        return sService.SearchStages(type, queryString, token);
     }
 
     // //특정 닉네임 스테이지 가져오기

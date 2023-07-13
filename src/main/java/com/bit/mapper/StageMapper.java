@@ -28,14 +28,14 @@ public interface StageMapper {
 
     public int selectCheckStagePw(Map<String, String> data);
 
-    public List<StageDto> selectSearchByNick(String nick);
+    public List<StageDto> selectSearchByNick(Map<String, List<String>> nickAndBlack);
 
-    public List<StageDto> selectSearchByTitle(String title);
+    public List<StageDto> selectSearchByTitle(Map<String, List<String>> titleAndBlack);
 
-    public List<StageDto> selectSearchByGenre(List<String> genres);
+    public List<StageDto> selectSearchByGenre(Map<String, List<String>> genreAndBlack);
 
-    public List<StageDto> selectSearchByTag(List<String> tags);
+    public List<StageDto> selectSearchByTag(Map<String, List<String>> tagAndBlack);
 
-    // TODO : 검색시 블랙리스트 제외
+    // TODO : (확인) 검색시 블랙리스트 제외 
 
 }

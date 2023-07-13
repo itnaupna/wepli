@@ -8,7 +8,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.javassist.compiler.ast.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberService {
     @Autowired
     MemberMapper memberMapper;
-     @Autowired
+    @Autowired
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     TokenService tokenService;
@@ -71,8 +70,12 @@ public class MemberService {
     }
 
     // 비밀번호 확인
-    public boolean checkPassword(MemberDto mDto) {
-        return memberMapper.selectCheckPasswordByEmail(mDto) > 0;
+    public boolean checkPassword(String token, String pw) {
+        MemberDto mDto = new MemberDto();
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        mDto.setNick(nick);
+        mDto.setPw(pw);
+        return memberMapper.selectCheckPasswordByNick(mDto) > 0;
     }
 
     // 이메일 인증여부 확인
@@ -111,15 +114,18 @@ public class MemberService {
     }
 
     // 비밀번호 변경
-    public boolean changePassword(String email, String oldPw, String newPw) {
+    public boolean changePassword(String token, String oldPw, String newPw) {
         MemberDto mDto = new MemberDto();
-        mDto.setEmail(email);
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        mDto.setNick(nick);
         mDto.setPw(oldPw);
-        if (!checkPassword(mDto))
+
+        if (memberMapper.selectCheckPasswordByNick(mDto) == 0) {
             return false;
+        }
 
         Map<String, String> data = new HashMap<>();
-        data.put("email", email);
+        data.put("nick", nick);
         data.put("pw", newPw);
         return memberMapper.updatePw(data) > 0;
     }
@@ -217,8 +223,8 @@ public class MemberService {
                 result = tokenService.generateToken(data, request, response);
 
             } else {
-                // 로긴 실패하면
-                result.put("result", "false");
+                // 로긴 실패하면 -> 회원이 아님
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
 
             return result;
@@ -242,8 +248,8 @@ public class MemberService {
                 // 로긴 성공하면
                 result = tokenService.generateToken(data, request, response);
             } else {
-                // 로긴 실패하면
-                result.put("result", "false");
+                // 로긴 실패하면 -> 에러 가입된 소셜회원 없음 -> 소셜 회원가입으로 이동
+                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
 
             return result;
@@ -270,24 +276,6 @@ public class MemberService {
         cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
-
-
-        // tokenService.deleteToken(nick);
-    }
-
-    // 로그인
-    // public boolean Login(String email, String pw) {
-    // Map<String, String> login = new HashMap<>();
-    // login.put("email", email);
-    // login.put("pw", pw);
-
-    // return memberMapper.selectLogin(login)==0;
-    // }
-
-    // email로 nick 가져오기
-    // TODO : 삭제예정
-    public String getNickName(String email) {
-        return memberMapper.getNickName(email);
     }
 
 }

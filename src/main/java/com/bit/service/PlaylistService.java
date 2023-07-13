@@ -7,18 +7,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bit.dto.MypageDto;
 import com.bit.dto.PlaylistDto;
 import com.bit.dto.PliCommentDto;
 import com.bit.dto.SongDto;
+import com.bit.jwt.JwtTokenProvider;
+import com.bit.mapper.BlacklistMapper;
+import com.bit.mapper.MemberMapper;
 import com.bit.mapper.PlaylistMapper;
 
 @Service
 public class PlaylistService {
     @Autowired
     PlaylistMapper pMapper;
+
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    BlacklistMapper blacklistMapper;
+
+    @Autowired
+    MemberMapper memberMapper;
 
     public PlaylistDto selectPlaylist(int idx) {
         return pMapper.selectPlaylist(idx);
@@ -36,48 +51,127 @@ public class PlaylistService {
         return pMapper.selectLikePli(nick);
     }
 
-    public boolean insertPlaylist(PlaylistDto data){
-        //TODO : 미인증 회원일경우 공개로 추가할 수 없도록 강제해야함
-        return pMapper.insertPlaylist(data)>0;
+    // 미인증회원 검증절차
+    public boolean uncertifiMemberChk(String nick) {
+        MypageDto mDto = memberMapper.selectMypageDto(nick);
+        boolean authChk = mDto.getEmailconfirm() + mDto.getPhoneconfirm() > 0 ?
+            true : false;
+        return authChk;
+        
     }
 
-    public List<PlaylistDto> SearchStages(int type, String queryString) {
+    //TODO : (확인) 미인증 회원일경우 공개로 추가할 수 없도록 강제해야함
+    public boolean insertPlaylist(PlaylistDto data, HttpServletResponse response){
+        if(uncertifiMemberChk(data.getNick())) {
+            return pMapper.insertPlaylist(data)>0;
+        } else {
+            if(data.getIsPublic() == 0) {
+                return pMapper.insertPlaylist(data)>0;
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return false;
+            }
+        }
+    }
+
+    //TODO : (확인) 미인증 회원일경우 공개여부 검증
+    public boolean updatePlaylist(PlaylistDto data, HttpServletResponse response){
+        if(uncertifiMemberChk(data.getNick())) {
+            return pMapper.updatePlaylist(data)>0;
+        } else {
+            if(data.getIsPublic() == 0) {
+                return pMapper.insertPlaylist(data)>0;
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return false;
+            }
+        }
+    }
+
+        public void updatePlayListImg(int idx, String img) {
+        PlaylistDto pDto = new PlaylistDto();
+        pDto.setIdx(idx);
+        pDto.setImg(img);
+        pMapper.updatePlayListImg(pDto);
+    }
+
+    public List<PlaylistDto> SearchStages(int type, String queryString, String token) {
         switch (type) {
             case 0:
-                return selectSearchByTitle(queryString);
+                return selectSearchByTitle(queryString, token);
             case 1:
-                return selectSearchByNick(queryString);
+                return selectSearchByNick(queryString, token);
             case 2:
-                return selectSearchByGenre(queryString);
+                return selectSearchByGenre(queryString, token);
             case 3:
-                return selectSearchByTag(queryString);
+                return selectSearchByTag(queryString, token);
             default:
                 return null;
         }
     }
 
-    public List<PlaylistDto> selectSearchByNick(String nick) {
-        return pMapper.selectSearchByNick(nick);
+    public List<PlaylistDto> selectSearchByTitle(String queryString, String token) {
+        Map<String, List<String>> searchAndBlack = new HashMap<>();
+
+        if(token != null && !token.equals("")) {
+            String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+            List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+            searchAndBlack.put("black", blackTarget);
+        }
+        List<String> queryStrings = Arrays.stream(queryString.split(","))
+            .map(String::trim)
+            .filter(str -> !str.isEmpty())
+            .collect(Collectors.toList());
+        searchAndBlack.put("list", queryStrings);
+        return pMapper.selectSearchByTitle(searchAndBlack);
     }
 
-    public List<PlaylistDto> selectSearchByTitle(String title) {
-        return pMapper.selectSearchByTitle(title);
+    public List<PlaylistDto> selectSearchByNick(String queryString, String token) {
+        Map<String, List<String>> searchAndBlack = new HashMap<>();
+
+        if(token != null && !token.equals("")) {
+            String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+            List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+            searchAndBlack.put("black", blackTarget);
+        }
+        List<String> queryStrings = Arrays.stream(queryString.split(","))
+            .map(String::trim)
+            .filter(str -> !str.isEmpty())
+            .collect(Collectors.toList());
+        searchAndBlack.put("list", queryStrings);
+        return pMapper.selectSearchByNick(searchAndBlack);
     }
 
-    public List<PlaylistDto> selectSearchByGenre(String queryString) {
+    public List<PlaylistDto> selectSearchByGenre(String queryString, String token) {
+        Map<String, List<String>> searchAndBlack = new HashMap<>();
+
+        if(token != null && !token.equals("")) {
+            String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+            List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+            searchAndBlack.put("black", blackTarget);
+        }
         List<String> queryStrings = Arrays.stream(queryString.split(","))
                 .map(String::trim)
                 .filter(str -> !str.isEmpty())
                 .collect(Collectors.toList());
-        return pMapper.selectSearchByGenre(queryStrings);
+        searchAndBlack.put("list", queryStrings);
+        return pMapper.selectSearchByGenre(searchAndBlack);
     }
 
-    public List<PlaylistDto> selectSearchByTag(String queryString) {
+    public List<PlaylistDto> selectSearchByTag(String queryString, String token) {
+        Map<String, List<String>> searchAndBlack = new HashMap<>();
+
+        if(token != null && !token.equals("")) {
+            String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+            List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+            searchAndBlack.put("black", blackTarget);
+        }
         List<String> queryStrings = Arrays.stream(queryString.split(","))
                 .map(String::trim)
                 .filter(str -> !str.isEmpty())
                 .collect(Collectors.toList());
-        return pMapper.selectSearchByTag(queryStrings);
+        searchAndBlack.put("list", queryStrings);
+        return pMapper.selectSearchByTag(searchAndBlack);
     }
 
     public List<Object> togglePlaylist(String nick, int playlistID){
@@ -109,21 +203,17 @@ public class PlaylistService {
         }
     }
 
-    public boolean updatePlaylist(PlaylistDto data){
-        //TODO : 미인증 회원일경우 공개여부 검증
-        return pMapper.updatePlaylist(data)>0;
-    }
+    public boolean deletePlaylist(String token, int idx){
+        //TODO : (확인) 소유주 정보에 대한 검증이 필요한지 확인
+        String nick = jwtTokenProvider.getUsernameFromToken(token);
+        String pliNick = pMapper.selectPlaylist(idx).getNick();
 
-    public void updatePlayListImg(int idx, String img) {
-        PlaylistDto pDto = new PlaylistDto();
-        pDto.setIdx(idx);
-        pDto.setImg(img);
-        pMapper.updatePlayListImg(pDto);
-    }
-
-    public boolean deletePlaylist(int idx){
-        //TODO : 소유주 정보에 대한 검증이 필요한지 확인
-        return pMapper.deletePlaylist(idx)>0;
+        
+        if(nick.equals(pliNick)) {
+            return pMapper.deletePlaylist(idx)>0;
+        } else {
+            throw new RuntimeException("소유주가 아님");
+        }        
     }
 
     public PlaylistDto selectFirstPlaylist(String nick){

@@ -67,10 +67,4 @@ public interface MemberMapper {
     // 소셜로그인
     public int CheckMemberExists(Map<String, String> data);
     
-
-
-    //TODO : 하위 3종 삭제예정 (sql문 역시)
-    public MemberDto AuthLevelCheck(String nick);
-    public int Login(Map<String, String> map);
-    public String getNickName(String email);
 }

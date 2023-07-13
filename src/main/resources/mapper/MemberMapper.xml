@@ -18,8 +18,12 @@
         select * from tblMember where email=#{email}
     </select>
 
-    <select id="selectCheckPasswordByEmail" parameterType="MemberDto">
-        select count(*) from tblMember where email=#{email} and pw=sha2(#{pw},256)
+    <select id="selectCheckPasswordByEmail" parameterType="MemberDto" resultType="int">
+        select count(*) from tblMember where nick=#{nick} and pw=sha2(#{pw},256)
+    </select>
+
+    <select id="selectCheckPasswordByNick" parameterType="MemberDto" resultType="int">
+        select count(*) from tblMember where nick=#{nick} and pw=sha2(#{pw},256)
     </select>
 
     <select id="selectCheckEmailConfirm" parameterType="string">
@@ -45,7 +49,7 @@
         update tblMember set nick=#{nick} where email=#{email}    
     </update>
     <update id="updatePw" parameterType="Map">
-        update tblMember set pw=sha2(#{pw},256) where email=#{email}
+        update tblMember set pw=sha2(#{pw},256) where nick=#{nick}
     </update>
     <delete id="deleteMember" parameterType="MemberDto">
         delete from tblMember where email=#{email} and pw=sha2(#{pw},256)
@@ -91,24 +95,6 @@
     
     <select id="selectMypageDtoByEmail" parameterType="string">
         select * from vwMypage where email=#{email}
-    </select>
-    
-
-    <select id="selectCheckPasswordByNick" parameterType="MemberDto">
-        select count(*) from tblMember where nick=#{nick} and pw=sha2(#{pw},256)
-    </select>
-
-    
-    <select id="AuthLevelCheck" parameterType="string" resultType="MemberDto">
-        select emailconfirm, phoneconfirm from tblMember where nick = #{nick}
-    </select>
-
-    <select id="Login" parameterType="Map" resultType="int">
-        select exists(select * from tblMember where email = #{email} and pw = #{pw})
-    </select>
-
-    <select id="getNickName" parameterType="String" resultType="String">
-        select nick from tblMember where email = #{email}
     </select>
 
     <select id="CheckMemberExists" parameterType="MemberDto" resultType="int">

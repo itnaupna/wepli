@@ -42,7 +42,6 @@ public class JwtTokenProvider {
     // token으로 사용자 속성정보 조회
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
 	    Claims claims = getAllClaimsFromToken(token);
-		T result = claimsResolver.apply(claims);
 		// log.info("Claim from token: {}", String.valueOf(result));
 	    return claimsResolver.apply(claims);
 	}

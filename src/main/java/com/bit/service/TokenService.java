@@ -11,17 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bit.dto.MemberDto;
 import com.bit.dto.MypageDto;
 import com.bit.dto.TokenDto;
 import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.MemberMapper;
 import com.bit.mapper.TokenMapper;
 
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 public class TokenService {
 
     @Autowired
@@ -90,15 +87,5 @@ public class TokenService {
 
         return result;
    }
-
-    // 메일, 문자인증 여부에따라 권한 부여
-    //TODO : 삭제예정
-    public Map<String, Object> AuthLevelCheck(String nick) {
-        MemberDto auth = memberMapper.AuthLevelCheck(nick);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("roles", auth.getEmailconfirm() >= 1 || auth.getPhoneconfirm() >= 1 ? "ROLE_auth2" : "ROLE_auth" );
-        return map;
-    }
 
 }

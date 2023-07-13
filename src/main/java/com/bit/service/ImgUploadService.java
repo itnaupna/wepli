@@ -1,16 +1,23 @@
 package com.bit.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bit.dto.MemberDto;
+import com.bit.dto.PlaylistDto;
+import com.bit.dto.SongDto;
 import com.bit.jwt.JwtTokenProvider;
+import com.bit.mapper.MemberMapper;
+import com.bit.mapper.PlaylistMapper;
+import com.bit.mapper.StageMapper;
 
-import lombok.extern.slf4j.Slf4j;
 import naver.cloud.NcpObjectStorageService;
 
 @Service
-@Slf4j
 public class ImgUploadService {
 
     public final String BUCKET_NAME = "wepli";
@@ -19,13 +26,13 @@ public class ImgUploadService {
     JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    MemberService memberService;
+    MemberMapper memberMapper;
 
     @Autowired
-    StageService stageService;
+    StageMapper stageMapper;
 
     @Autowired
-    PlaylistService playlistService;
+    PlaylistMapper playlistMapper;
 
     @Autowired
     NcpObjectStorageService ncpObjectStorageService;
@@ -43,9 +50,9 @@ public class ImgUploadService {
         String changeImage = "";
 
         if(directoryPath.equals("profile")) {
-            originImage = memberService.selectMypageDto(nick).getImg();
+            originImage = memberMapper.selectMypageDto(nick).getImg();
         } else {
-            originImage = stageService.selectStageOneByMasterNick(nick).getImg();
+            originImage = stageMapper.selectStageOneByMasterNick(nick).getImg();
         }
 
         // log.info("originImage -> {}", originImage);
@@ -57,9 +64,15 @@ public class ImgUploadService {
         changeImage = ncpObjectStorageService.uploadFile(BUCKET_NAME, directoryPath, upload);
 
         if(directoryPath.equals("profile")) {
-            memberService.updateImg(nick, changeImage);
+            MemberDto mDto = new MemberDto();
+            mDto.setNick(nick);
+            mDto.setImg(changeImage);
+            memberMapper.updateImg(mDto);
         } else {
-            stageService.updateImg(nick, changeImage);
+            Map<String, String> nickAndImg = new HashMap<>();
+            nickAndImg.put("nick", nick);
+            nickAndImg.put("img", changeImage);
+            stageMapper.updateImg(nickAndImg);
         }
         return "/" + directoryPath + "/" + changeImage;
     }
@@ -70,9 +83,9 @@ public class ImgUploadService {
         String changeImage = "";
 
         if(directoryPath.equals("playlist")) {
-            originImage = playlistService.selectPlaylist(idx).getImg();
+            originImage = playlistMapper.selectPlaylist(idx).getImg();
         } else {
-            originImage = playlistService.selectSong(idx).getImg();
+            originImage = playlistMapper.selectSong(idx).getImg();
         }
 
         if(originImage != null && !originImage.equals("")) {
@@ -82,9 +95,15 @@ public class ImgUploadService {
         changeImage = ncpObjectStorageService.uploadFile(BUCKET_NAME, directoryPath, upload);
 
         if(directoryPath.equals("playlist")) {
-            playlistService.updatePlayListImg(idx, changeImage);
+            PlaylistDto pDto = new PlaylistDto();
+            pDto.setIdx(idx);
+            pDto.setImg(changeImage);
+            playlistMapper.updatePlayListImg(pDto);
         } else {
-            playlistService.updateSongImg(idx, changeImage);
+            SongDto sDto = new SongDto();
+            sDto.setIdx(idx);
+            sDto.setImg(changeImage);
+            playlistMapper.updateSongImg(sDto);
         }
 
         return "/" + directoryPath + "/" + changeImage;

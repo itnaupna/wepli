@@ -2,7 +2,6 @@ package com.bit.controller;
 
 
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.bit.jwt.JwtTokenProvider;
-import com.bit.service.MemberService;
 import com.bit.service.TokenService;
 
 import lombok.extern.slf4j.Slf4j;

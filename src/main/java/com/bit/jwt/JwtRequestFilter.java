@@ -20,7 +20,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.bit.service.MemberService;
@@ -36,7 +35,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
 
     // 실제 JWT 검증을 실행하는 Provider
     @Autowired
@@ -48,20 +46,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private MemberService memberService;
 
-    // 인증에서 제외할 url
-    private static final List<String> EXCLUDE_URL = Collections.unmodifiableList(
-        Arrays.asList(
-            "/api/test",
-            "/api/lv0/**"
-        ));
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 //         jwt cookie 사용 시 해당 코드를 사용하여 쿠키에서 토큰을 받아오도록 함
-        String token = Arrays.stream(request.getCookies())
+        String token = "";
+        if(request.getCookies() != null) {
+            token = Arrays.stream(request.getCookies())
             .filter(c -> c.getName().equals("token"))
             .findFirst().map(Cookie::getValue)
-            .orElse(null);
+            .orElse("");
+        }
 
         // log.info("token: {}", token);
 
@@ -70,48 +64,60 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         Map<String, Object> rules = new HashMap<>();
         String authValue = "";
         MypageDto userDto;
-        // access token이 만료되었을경우
-        if(jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
+        
+        // 비회원일경우
+        if(token == null || token.equals("")) {
+            
+        } else if(jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
+            // access token이 만료되었을경우
             log.info("[doFilterInternal] expired");
             String refreshToken = ts.accessToRefresh(token);
-            refreshToken = refreshToken.substring(6);
-            log.info("doFilterInternal refToken after -> {}",refreshToken);
-            // refreshToken이 존재하는 경우 검증
-            boolean refreshTokenChk = jwtTokenProvider.validateToken(refreshToken);
-            if(refreshTokenChk) {
-                nick = jwtTokenProvider.getUsernameFromToken(refreshToken);
-                // refreshToken 인증 성공인 경우 accessToken 재발급
-                // 권한 map 저장
-                userDto = memberService.selectMypageDto(nick);
-                rules.put("roles",
-                        userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
-                // JWT 발급
-                String getToken = jwtTokenProvider.generateAccessToken(nick, rules);
-                log.info(getToken);
-                accessToken = URLEncoder.encode(getToken, "utf-8");
-                ts.updateAccessToken("Bearer" + refreshToken, "Bearer" + accessToken);
-                // log.info("[JWT regen] accessToken : {}", accessToken);
+            if(refreshToken != null) {
+                refreshToken = refreshToken.substring(6);
+                log.info("doFilterInternal refToken after -> {}",refreshToken);
+                // refreshToken이 존재하는 경우 검증
+                boolean refreshTokenChk = jwtTokenProvider.validateToken(refreshToken);
+                if(refreshTokenChk) {
+                    nick = jwtTokenProvider.getUsernameFromToken(refreshToken);
+                    // refreshToken 인증 성공인 경우 accessToken 재발급
+                    // 권한 map 저장
+                    userDto = memberService.selectMypageDto(nick);
+                    rules.put("roles",
+                            userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
+                    // JWT 발급
+                    String getToken = jwtTokenProvider.generateAccessToken(nick, rules);
+                    log.info(getToken);
+                    accessToken = URLEncoder.encode(getToken, "utf-8");
+                    ts.updateAccessToken("Bearer" + refreshToken, "Bearer" + accessToken);
+                    // log.info("[JWT regen] accessToken : {}", accessToken);
 
-                Cookie[] cookies = request.getCookies();
-                for (int i = 0; i < cookies.length; i++) {
-                    if (cookies[i].getName().equals("token")) {
-                        cookies[i].setValue("Bearer" + accessToken);
-                        break;
+                    Cookie[] cookies = request.getCookies();
+                    for (int i = 0; i < cookies.length; i++) {
+                        if (cookies[i].getName().equals("token")) {
+                            cookies[i].setValue("Bearer" + accessToken);
+                            break;
+                        }
                     }
+                    // JWT 쿠키 저장(쿠키 명 : token)
+                    Cookie cookie = new Cookie("token", "Bearer" + accessToken);
+                    cookie.setPath("/");
+                    cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
+                    // httoOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
+                    cookie.setHttpOnly(true);
+
+                    response.addCookie(cookie);
+                    log.info("[reGenerateAccessToken] accessToken Regen");
+
+                // refreshToken 사용이 불가능한 경우
+                } else {
+                    log.warn("accessToken Refresh Fail");
                 }
-                // JWT 쿠키 저장(쿠키 명 : token)
-                Cookie cookie = new Cookie("token", "Bearer" + accessToken);
-                cookie.setPath("/");
-                cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
-                // httoOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
-                cookie.setHttpOnly(true);
-
-                response.addCookie(cookie);
-                log.info("[reGenerateAccessToken] accessToken Regen");
-
-            // refreshToken 사용이 불가능한 경우
             } else {
-                log.warn("accessToken Refresh Fail");
+                // 기존 쿠키 삭제
+                log.info("cookie remove");
+                Cookie cookie = new Cookie("token", null);
+                cookie.setPath("/");
+                cookie.setMaxAge(0); 
             }
         } else {
             // Bearer token인 경우 JWT 토큰 유효성 검사 진행
@@ -153,10 +159,4 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
-    // Filter에서 제외할 URL 설정
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String servletPath = request.getServletPath();
-        return EXCLUDE_URL.stream().anyMatch(pattern -> PATH_MATCHER.match(pattern, servletPath));
-    }
 }

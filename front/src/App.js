@@ -19,7 +19,9 @@ function App() {
     memberProfile:"/api/lv1/m/profile",
     stageProfile:"/api/lv1/s/profile",
     pliProfile: "api/lv1/p/profile",
-    songProfile: "api/lv1/song/profile"
+    songProfile: "api/lv1/song/profile",
+    pwCheck: "api/lv1/m/checkpassword",
+    pwChnage: "api/lv1/m/pw"
   }
   
   const bucketUrl = process.env.REACT_APP_BUCKET_URL;
@@ -171,7 +173,10 @@ function App() {
     axios.post(TESTURL.login, emailPw)
     .then(res => {
       console.log(res.data);
-    })
+    }).catch(error => {
+      alert(error);
+    });
+    
   }
 
   const handleLogout = () => {
@@ -237,6 +242,25 @@ function App() {
       headers: {"Content-Type" : "multipart/form-data"}
     }).then(res => {
       setMusicImg(res.data);
+    })
+  }
+
+  const [pwChk, setPwChk] = useState("");
+
+  const pwCheckClick = () => {
+    axios.post(TESTURL.pwCheck, pwChk)
+    .then(res => {
+      alert("success");
+    })
+  }
+  
+
+  const [pwOlder, setPwOlder] = useState("");
+  const [pwChange, setPwChange] = useState("");
+  const pwChangeClick = () => {
+    axios.patch(TESTURL.pwChnage, {params : {"oldPw":pwOlder, "newPw":pwChange}})
+    .then(res => {
+      alert("success");
     })
   }
 
@@ -373,6 +397,19 @@ function App() {
         <img alt="" src={`${bucketUrl}${pliImg}`}/><br/>
         <span>music</span>
         <img alt="" src={`${bucketUrl}${musicImg}`}/><br/>
+      </div>
+
+      <div style={{border: "1px solid blue", margin: "15px"}}>
+        마이페이지 들어갈때 비밀번호 확인, 비밀번호 변경
+        <input type="password" onChange={(e) => setPwChk(e.target.value)}/>
+        {pwChk}
+        <button type="button" onClick={pwCheckClick}>비밀번호 확인</button><br/><br/><br/>
+
+        <input type="password" onChange={(e) => {setPwOlder(e.target.value)}}/>{pwOlder}기존 비밀번호
+        <input type="password" onChange={(e) => {setPwChange(e.target.value)}}/>{pwChange}변경될 비밀번호
+        <button type="button" onClick={pwChangeClick}>비번변경</button>
+
+
       </div>
     </div>
   );
