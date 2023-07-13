@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import "./css/sidebar.css";
 import weplilogo from "./photo/weplilogo.png";
@@ -28,7 +28,8 @@ function SideBar(props) {
 
     //플레이리스트 이동
     const handleListClick = () => {
-        navigate('/mypage')
+        //플레이리스트 이동
+        navigate('/RankingPage')
     };
 
     // 메인페이지 이동
