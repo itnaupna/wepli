@@ -35,7 +35,7 @@ public class NcpObjectStorageService implements ObjectStorageService {
 
 	@Override
 	public String uploadFile(String bucketName, String directoryPath, MultipartFile file) {
-		System.out.println("uploadFile="+file.getOriginalFilename());
+		System.out.println("uploadFile= " + file.getOriginalFilename());
 
 		if (file.isEmpty()) {
 			return null;

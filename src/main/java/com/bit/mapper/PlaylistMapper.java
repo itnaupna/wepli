@@ -25,14 +25,14 @@ public interface PlaylistMapper {
     public int insertPlaylist(PlaylistDto data);
 
     // 제목, 닉넴, 장르, 태그
-    // TODO : 검색시 블랙리스트 제외
-    public List<PlaylistDto> selectSearchByTitle(String title);
+    // TODO : (확인) 검색시 블랙리스트 제외
+    public List<PlaylistDto> selectSearchByTitle(Map<String, List<String>> titleAndBlack);
 
-    public List<PlaylistDto> selectSearchByNick(String nick);
+    public List<PlaylistDto> selectSearchByNick(Map<String, List<String>> nickAndBlack);
 
-    public List<PlaylistDto> selectSearchByGenre(List<String> genres);
+    public List<PlaylistDto> selectSearchByGenre(Map<String, List<String>> genreAndBlack);
 
-    public List<PlaylistDto> selectSearchByTag(List<String> tags);
+    public List<PlaylistDto> selectSearchByTag(Map<String, List<String>> tagAndBlack);
 
     // 좋아요 여부 검사, 좋아요 추가, 좋아요 취소
     public int selectLike(Map<String, Object> data);
@@ -43,6 +43,9 @@ public interface PlaylistMapper {
 
     // 플리 수정
     public int updatePlaylist(PlaylistDto data);
+
+    // 플리 썸네일 수정
+    public void updatePlayListImg(PlaylistDto idxAndImg);
 
     // 플리 삭제
     public int deletePlaylist(int idx);
@@ -58,6 +61,9 @@ public interface PlaylistMapper {
     public List<SongDto> selectSongsAll(int playlistID);
 
     public int updateSong(SongDto data);
+
+    // 음악별 썸네일 수정
+    public void updateSongImg(SongDto idxAndImg);
 
     public int deleteSong(int idx);
 

@@ -6,12 +6,12 @@
         select * from tblToken where nick = #{nick}
     </select>
 
-    <update id="updateToken" parameterType="Map">
-        update tblToken set refreshToken = #{refreshToken} where nick = #{nick}
+    <update id="updateToken" parameterType="TokenDto">
+        update tblToken set refreshToken = #{refreshToken}, accessToken = #{accessToken} where nick = #{nick}
     </update>
 
-    <insert id="insertToken" parameterType="TokenDto">
-        insert into tblToken values(#{nick}, #{refreshToken}, #{accessToken})
+    <insert id="insertToken" parameterType="String">
+        insert into tblToken values(#{nick} "", "")
     </insert>
 
     <delete id="deleteToken" parameterType="String">

@@ -19,13 +19,16 @@ import com.bit.dto.TokenDto;
 import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.MemberMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 // import naver.cloud.NcpObjectStorageService;
 
 @Service
+@Slf4j
 public class MemberService {
     @Autowired
     MemberMapper memberMapper;
-     @Autowired
+    @Autowired
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     TokenService tokenService;
@@ -33,9 +36,14 @@ public class MemberService {
     // 회원가입
     public boolean joinMember(MemberDto mDto) {
         try {
-            if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1)
+            mDto.setEmailconfirm(mDto.getSocialtype() == null ? 0 : 1);
+            if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1) {
                 return false;
-            return memberMapper.insertJoinMember(mDto) > 0;
+            } else {
+                tokenService.insertToken(mDto.getNick());
+                return memberMapper.insertJoinMember(mDto) > 0;
+            }
+            
         } catch (Exception e) {
             return false;
         }
@@ -64,8 +72,12 @@ public class MemberService {
     }
 
     // 비밀번호 확인
-    public boolean checkPassword(MemberDto mDto) {
-        return memberMapper.selectCheckPasswordByEmail(mDto) > 0;
+    public boolean checkPassword(String token, String pw) {
+        MemberDto mDto = new MemberDto();
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        mDto.setNick(nick);
+        mDto.setPw(pw);
+        return memberMapper.selectCheckPasswordByNick(mDto) > 0;
     }
 
     // 이메일 인증여부 확인
@@ -104,21 +116,25 @@ public class MemberService {
     }
 
     // 비밀번호 변경
-    public boolean changePassword(String email, String oldPw, String newPw) {
+    public boolean changePassword(String token, String oldPw, String newPw) {
         MemberDto mDto = new MemberDto();
-        mDto.setEmail(email);
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        mDto.setNick(nick);
         mDto.setPw(oldPw);
-        if (!checkPassword(mDto))
+
+        if (memberMapper.selectCheckPasswordByNick(mDto) == 0) {
             return false;
+        }
 
         Map<String, String> data = new HashMap<>();
-        data.put("email", email);
+        data.put("nick", nick);
         data.put("pw", newPw);
         return memberMapper.updatePw(data) > 0;
     }
 
     // 회원 탈퇴
     public boolean deleteMember(MemberDto mDto) {
+        tokenService.deleteToken(mDto.getNick());
         return memberMapper.deleteMember(mDto) > 0;
     }
 
@@ -128,7 +144,10 @@ public class MemberService {
     }
 
     // 프사 변경
-    public boolean updateImg(MemberDto mDto) {
+    public boolean updateImg(String nick, String img) {
+        MemberDto mDto = new MemberDto();
+        mDto.setNick(nick);
+        mDto.setImg(img);
         return memberMapper.updateImg(mDto) > 0;
     }
 
@@ -193,47 +212,46 @@ public class MemberService {
         return memberMapper.selectMypageDto(nick);
     }
 
-   
 
     //로그인 시도.
-    public Map<String, Object> Login(String email, String pw, HttpServletRequest request,
+    public Map<String, Object> Login(Map<String, String> data, HttpServletRequest request,
+            HttpServletResponse response) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            boolean boolLogin = memberMapper.selectLogin(data) > 0;
+            if (boolLogin) {
+                log.info("success");
+                // 로긴 성공하면
+                result = tokenService.generateToken(data, request, response);
+
+            } else {
+                // 로긴 실패하면 -> 회원이 아님
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
+
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("error");
+            result.put("result", "error");
+            result.put("ecode",e.getMessage());
+            return result;
+        }
+    }
+
+    // 소셜로그인
+    public Map<String,Object> socialLogin(Map<String, String> data, HttpServletRequest request,
             HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
         try {
 
-            Map<String, String> data = new HashMap<>();
-            data.put("email", email);
-            data.put("pw", pw);
-            boolean boolLogin = memberMapper.selectLogin(data) > 0;
+            boolean boolLogin = memberMapper.CheckMemberExists(data) > 0;
             if (boolLogin) {
                 // 로긴 성공하면
-                Map<String, Object> claims = new HashMap<>();
-                MypageDto userDto = memberMapper.selectMypageDtoByEmail(email);
-                claims.put("roles",
-                        userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
-
-                Map<String, String> tokens = jwtTokenProvider.generateTokenSet(userDto.getNick(), claims);
-                String accessToken = URLEncoder.encode(tokens.get("accessToken"), "utf-8");
-                String refreshToken = URLEncoder.encode(tokens.get("refreshToken"), "utf-8");
-
-                Cookie cookie = new Cookie("token", "Bearer" + accessToken);
-                cookie.setPath("/");
-                cookie.setMaxAge(60 * 60 * 24 * 1);
-                cookie.setHttpOnly(true);
-                response.addCookie(cookie);
-
-                TokenDto tokenDto = new TokenDto();
-                tokenDto.setNick(userDto.getNick());
-                tokenDto.setAccessToken(accessToken);
-                tokenDto.setRefreshToken(refreshToken);
-                tokenService.insertToken(tokenDto);
-
-                result.put("result", "true");
-                result.put("data", userDto);
-
+                result = tokenService.generateToken(data, request, response);
             } else {
-                // 로긴 실패하면
-                result.put("result", "false");
+                // 로긴 실패하면 -> 에러 가입된 소셜회원 없음 -> 소셜 회원가입으로 이동
+                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
 
             return result;
@@ -246,45 +264,20 @@ public class MemberService {
     }
 
     //로그아웃 시도
-    public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response){
+    public void logout(String token, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        log.info(token);
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        log.info("logout nick -> {}", nick);
+        TokenDto tDto = new TokenDto();
+        tDto.setNick(nick);
+        tDto.setAccessToken("");
+        tDto.setRefreshToken("");
+        tokenService.updateToken(tDto);
+
         Cookie cookie = new Cookie("token", null);
         cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
-
-        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        tokenService.deleteToken(nick);
-    }
-
-    // 메일, 문자인증 여부에따라 권한 부여
-    //TODO : 삭제예정
-    public Map<String, Object> AuthLevelCheck(String nick) {
-        MemberDto auth = memberMapper.AuthLevelCheck(nick);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("nick", nick);
-        if (auth.getEmailconfirm() >= 1 || auth.getPhoneconfirm() >= 1) {
-            map.put("roles", "ROLE_auth2");
-            return map;
-        } else {
-            map.put("roles", "ROLE_auth");
-            return map;
-        }
-    }
-
-    // 로그인
-    // public boolean Login(String email, String pw) {
-    // Map<String, String> login = new HashMap<>();
-    // login.put("email", email);
-    // login.put("pw", pw);
-
-    // return memberMapper.selectLogin(login)==0;
-    // }
-
-    // email로 nick 가져오기
-    // TODO : 삭제예정
-    public String getNickName(String email) {
-        return memberMapper.getNickName(email);
     }
 
 }

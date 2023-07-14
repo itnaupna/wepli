@@ -1,5 +1,6 @@
 package com.bit.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bit.dto.MemberDto;
 import com.bit.dto.MypageDto;
 import com.bit.dto.UserConfirmDto;
+import com.bit.service.ImgUploadService;
 import com.bit.service.MemberService;
 import com.bit.service.UserConfirmService;
 
@@ -30,6 +34,10 @@ public class MemberController {
     MemberService mService;
     @Autowired
     UserConfirmService uService;
+    @Autowired
+    ImgUploadService imgUploadService;
+
+    HashMap<String, String> auth = new HashMap<String, String>();
 
     // 회원가입 api
     @PostMapping("/lv0/m/member")
@@ -57,8 +65,8 @@ public class MemberController {
 
     // 비밀번호만 확인
     @PostMapping("/lv1/m/checkpassword")
-    public boolean postCheckPassword(@RequestBody MemberDto mDto) {
-        return mService.checkPassword(mDto);
+    public boolean postCheckPassword(@CookieValue String token, @RequestBody String pw) {
+        return mService.checkPassword(token, pw);
     }
 
     // 인증코드 생성
@@ -83,8 +91,8 @@ public class MemberController {
 
     // 비번 변경
     @PatchMapping("/lv1/m/pw")
-    public boolean patchPw(@RequestBody String email, @RequestBody String oldPw, @RequestBody String newPw) {
-        return mService.changePassword(email, oldPw, newPw);
+    public boolean patchPw(@CookieValue String token, String oldPw, String newPw) {
+        return mService.changePassword(token, oldPw, newPw);
     }
 
     // 탈퇴
@@ -100,10 +108,11 @@ public class MemberController {
     }
 
     // 프사 변경
-    @PatchMapping("/lv1/m/img")
-    public boolean patchImg(@RequestBody MemberDto mDto) {
-        return mService.updateImg(mDto);
-    }
+    // TODO : (확인) 밑에 새로 만들었는데 따로 사용할 일 있을지 체크
+    // @PatchMapping("/lv1/m/img")
+    // public boolean patchImg(@RequestBody MemberDto mDto) {
+    //     return mService.updateImg(mDto);
+    // }
 
     // 블랙리스트 받아오기
     @GetMapping("/lv2/m/blacklist")
@@ -167,14 +176,38 @@ public class MemberController {
     //로그인
     @PostMapping("/lv0/m/login")
     public Map<String, Object> access(@RequestBody Map<String, String> data, HttpServletRequest request, HttpServletResponse response){
-            return mService.Login(data.get("email"), data.get("pw"), request, response);
+            return mService.Login(data, request, response); 
+    }
+
+    // 소셜 로그인
+    @PostMapping("/lv0/social")
+    public Map<String, Object> socialLogin(@RequestBody Map<String, String> data, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mService.socialLogin(data, request, response);
     }
 
     //로그아웃
-    //TODO : 로그아웃시 엑세스토큰이 만료되어있으면 해당 유저의 리프레시 토큰이 삭제가 안되는점 수정
-    @PostMapping("/lv0/m/logout")
-    public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) {
-        
+    //TODO : (확인) 로그아웃시 엑세스토큰이 만료되어있으면 해당 유저의 리프레시 토큰이 삭제가 안되는점 수정
+    @PostMapping("/lv1/m/logout")
+    public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) throws Exception {
         mService.logout(token, request, response);
     }
+
+    //로그인
+    @PostMapping("/lv0/m/login")
+    public Map<String, Object> access(@RequestBody Map<String, String> data, HttpServletRequest request, HttpServletResponse response){
+            return mService.Login(data.get("email"), data.get("pw"), request, response);
+    }
+
+    // 프로필 사진 변경
+    @PostMapping("lv1/m/profile")
+    public String postProfileImg(@CookieValue String token, MultipartFile upload) {
+        return imgUploadService.uploadImg(token, "profile", upload);
+    }
+    // 111111 ~ 999999 자리 인증코드 발송
+    @PostMapping("/lv1/m/sendemail")
+    @ResponseBody
+    public void sendCode(String email) {
+        mService.emailConfirm(email);
+    }
+
 }

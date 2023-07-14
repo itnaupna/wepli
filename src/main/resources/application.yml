@@ -7,7 +7,19 @@ spring:
   servlet:
     multipart:
       max-file-size: 10MB
-
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: 'wepli'
+    password: 'bitcamp_2431'
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            required: true
 server:
   port: 443
   port.http: 80
@@ -22,6 +34,6 @@ mybatis:
   mapper-locations:
   - /mapper/**/*.xml
 
-# jwt:
-#   token:
-#     secret: wepli
+jwt:
+  token:
+    secret: wepli
