@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import "./PlayListMain02PlayListSearchMain.css";
 import HeartImg from  "../MainIMG/Heart.png";
 import Molu from  "../MainIMG/Molu.gif";
@@ -13,9 +13,21 @@ import PlayListSearchlogoTitle from "../MainIMG/PlayListSearchlogoTitle.png";
 import Aris from "../MainIMG/Aris.gif";
 import SearchBarIcon from "../MainIMG/SearchBarIcon.png";
 import SearchCommentIcon from "../MainIMG/SearchCommentIcon.png";
+import Axios from "axios";
 
 
 function PlayListMain02PlayListSearchMain(props) {
+    const [curr, setCurr] = useState(1);
+    const [cpp, setCpp] = useState(50);
+    const [orderByDay ,setOrderByDay] = useState(true);
+    const [likeTop50, setLikeTop50] = useState([]);
+
+    useEffect(()=>{
+        const LikeTop50Url = "/api/lv0/p/list";
+        Axios.get(LikeTop50Url,{ params: {orderByDay, curr, cpp}})
+            .then(res =>
+                setLikeTop50(res.data));
+    });
     return (
         <div className="playlistmain02">
             <div className="playlistsearcjheader">
@@ -82,48 +94,53 @@ function PlayListMain02PlayListSearchMain(props) {
             </div>
             <div className="playlistsearchbody">
                 <div className="playlistitemwrapperframe">
-                    <div className="playlistsearchitem">
-                        <img
-                            className="playlistsearchthumbnail-icon"
-                            alt=""
-                            src="/playlistsearchthumbnail@2x.png"
-                        />
-                        <div className="playlistsearchinfowrapper">
-                            <div className="playlistsearchtagswrapper">
-                                <div className="playlistsearchcategory">
-                                    #장르는최대열글자까지
+                    {
+                        likeTop50.map((item, idx)=>
+                            <div className="playlistsearchitem">
+                                <img
+                                    className="playlistsearchthumbnail-icon"
+                                    alt=""
+                                    src="/playlistsearchthumbnail@2x.png"
+                                />
+                                <div className="playlistsearchinfowrapper">
+                                    <div className="playlistsearchtagswrapper">
+                                        <div className="playlistsearchcategory">
+                                            #{item.genre}
+                                        </div>
+                                        <div className="playlistsearchtag">#{item.tag}</div>
+                                    </div>
+                                    <div className="playlistsearchcommentwrapper">
+                                        <div className="playlistsearchcommentcount">1000</div>
+                                        <img
+                                            className="playlistsearchcommenticonwrapp"
+                                            alt=""
+                                            src={SearchCommentIcon}
+                                        />
+                                    </div>
+                                    <div className="playlistsearchsongwrapper">
+                                        <div className="playlistsearchcommentcount">1000</div>
+                                        <img
+                                            className="playlistsearchcommenticonwrapp"
+                                            alt=""
+                                            src={MusicList}
+                                        />
+                                    </div>
+                                    <div className="playlistsearchmakeday">생성일 : {item.makeday}</div>
+                                    <div className="playlistsearchowner">{item.nick}</div>
+                                    <div className="playlistsearchtitle">{item.title}</div>
+                                    <div className="playlistsearchlikewrapper">
+                                        <img
+                                            className="playlistsearchlikeicon"
+                                            alt=""
+                                            src={HeartImg}
+                                        />
+                                        <div className="playlistsearchlikecount">{item.likescount}</div>
+                                    </div>
                                 </div>
-                                <div className="playlistsearchtag">#태그도최대열글자까지</div>
                             </div>
-                            <div className="playlistsearchcommentwrapper">
-                                <div className="playlistsearchcommentcount">1000</div>
-                                <img
-                                    className="playlistsearchcommenticonwrapp"
-                                    alt=""
-                                    src="/playlistsearchcommenticonwrapper.svg"
-                                />
-                            </div>
-                            <div className="playlistsearchsongwrapper">
-                                <div className="playlistsearchcommentcount">1000</div>
-                                <img
-                                    className="playlistsearchcommenticonwrapp"
-                                    alt=""
-                                    src="/playlistsearchsongiconwrapper.svg"
-                                />
-                            </div>
-                            <div className="playlistsearchmakeday">생성일 : 2024-07-05</div>
-                            <div className="playlistsearchowner">이상혁</div>
-                            <div className="playlistsearchtitle">플레이 리스트 이름</div>
-                            <div className="playlistsearchlikewrapper">
-                                <img
-                                    className="playlistsearchlikeicon"
-                                    alt=""
-                                    src="/playlistsearchlikeicon.svg"
-                                />
-                                <div className="playlistsearchlikecount">1000</div>
-                            </div>
-                        </div>
-                    </div>
+                        )
+                    }
+
                 </div>
             </div>
         </div>
