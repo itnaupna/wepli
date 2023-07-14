@@ -5,20 +5,17 @@ import naver from "./svg/naverlogin.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import arrow from "./svg/backarrow.svg";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
 
 
 function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, setSignUpModalOpen}) {
 
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
-    const navi = useNavigate();
 
     //로그인 모달 오픈
     const showFindIdModal = async () => {
         await setModalOpen(false);
         setFindIdModalOpen(true);
-        //테스트
     };
 
     // 비밀번호찾기 모달 오픈
@@ -59,8 +56,8 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
                         dtoList.push(dto[key]);
                     }
                     sessionStorage.setItem('data',dtoList);
-                    window.location.reload();
-                    navi("/")
+
+                    console.log(dtoList);
                 } else {
                     // 실패
                     console.log("ㅇㅇ");
