@@ -263,7 +263,6 @@ public class PlaylistService {
     public boolean updatePliComment(PliCommentDto data){
         return pMapper.updatePliComment(data)>0;
     }
-
     public boolean deletePliComment(int idx){
         return pMapper.deletePliComment(idx)>0;
     }

@@ -68,7 +68,7 @@ public class JwtTokenProvider {
 				.setId(nick)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
                 //access 토큰 유효기한 30분
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY2))
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
 				.signWith(SignatureAlgorithm.HS512, secret)
 				.compact();
 		
@@ -76,30 +76,30 @@ public class JwtTokenProvider {
 	}
 
     // nick을 입력받아 accessToken, refreshToken 생성
-	public Map<String, String> generateTokenSet(String nick) {
-		return generateTokenSet(nick, new HashMap<>());
+	public Map<String, String> generateTokenSet(String nick, long reqTokenValidity) {
+		return generateTokenSet(nick, new HashMap<>(), reqTokenValidity);
 	}
 	
 	// nick, 속성정보를 이용해 accessToken, refreshToken 생성
-	public Map<String, String> generateTokenSet(String nick, Map<String, Object> claims) {
-		return doGenerateTokenSet(nick, claims);
+	public Map<String, String> generateTokenSet(String nick, Map<String, Object> claims, long reqTokenValidity) {
+		return doGenerateTokenSet(nick, claims, reqTokenValidity);
 	}
 	
 	// JWT accessToken, refreshToken 생성
-	private Map<String, String> doGenerateTokenSet(String nick, Map<String, Object> claims) {
+	private Map<String, String> doGenerateTokenSet(String nick, Map<String, Object> claims, long reqTokenValidity) {
 		Map<String, String> tokens = new HashMap<String, String>();
 		
 		String accessToken = Jwts.builder()
 				.setClaims(claims)
 				.setId(nick)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY2))// 30분
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))// 30분
 				.signWith(SignatureAlgorithm.HS512, secret)
 				.compact();
 		
 		String refreshToken = Jwts.builder()
 				.setId(nick)
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 2 * 24)) // 24시간
+				.setExpiration(new Date(System.currentTimeMillis() + reqTokenValidity))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.signWith(SignatureAlgorithm.HS512, secret)
 				.compact();

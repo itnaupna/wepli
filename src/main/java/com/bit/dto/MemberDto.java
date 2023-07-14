@@ -13,4 +13,5 @@ public class MemberDto {
     private String img;
     private String desc;
     private String socialtype;
+    private int email_code;
 }

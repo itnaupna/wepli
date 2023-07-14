@@ -11,7 +11,7 @@
     </update>
 
     <insert id="insertToken" parameterType="String">
-        insert into tblToken values(#{nick} "", "")
+        insert into tblToken (nick) values(#{nick})
     </insert>
 
     <delete id="deleteToken" parameterType="String">

@@ -15,7 +15,7 @@
     <update id="updateVerifyEmailConfirm" parameterType="string">
           update tblMember
           set
-          emailconfirm=1
+          emailconfirm=1,
           where
           email=#{email}
     </update>
@@ -46,8 +46,8 @@
     </update>
 
 
-    <update id="updateEmailCode">
-          
+    <update id="updateEmailCode" parameterType="hashMap">
+          update tblUserConfirm set code=#{code}, created=now(), expired=date_add(now(), interval 5 minute) where email=#{email}
     </update>
 
 
