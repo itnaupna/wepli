@@ -192,12 +192,6 @@ public class MemberController {
         mService.logout(token, request, response);
     }
 
-    //로그인
-    @PostMapping("/lv0/m/login")
-    public Map<String, Object> access(@RequestBody Map<String, String> data, HttpServletRequest request, HttpServletResponse response){
-            return mService.Login(data.get("email"), data.get("pw"), request, response);
-    }
-
     // 프로필 사진 변경
     @PostMapping("lv1/m/profile")
     public String postProfileImg(@CookieValue String token, MultipartFile upload) {
