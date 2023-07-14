@@ -34,11 +34,6 @@ public class JwtTokenProvider {
         return getClaimFromToken(token, Claims::getId);
     }
 
-	public Date getExpireDate(String token) {
-        return getClaimFromToken(token, Claims::getExpiration);
-    }
-
-
     // token으로 사용자 속성정보 조회
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
 	    Claims claims = getAllClaimsFromToken(token);

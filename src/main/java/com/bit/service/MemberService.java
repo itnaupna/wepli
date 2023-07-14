@@ -1,7 +1,6 @@
 package com.bit.service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -108,14 +107,17 @@ public class MemberService {
     }
 
     // 닉넴 변경
-    public boolean changeNick(String email, String nick) {
-        if (checkNickExists(nick))
+    public boolean changeNick(String token, String newNick, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (checkNickExists(newNick))
             return false;
 
         Map<String, String> data = new HashMap<>();
-        data.put("email", email);
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         data.put("nick", nick);
-        return memberMapper.updateNick(data) > 0;
+        data.put("newNick", newNick);
+        memberMapper.updateNick(data);
+        tokenService.generateToken(newNick, JWT_TOKEN_VALIDITY_ONEDAY, request, response);
+        return true;
     }
 
     // 비밀번호 변경
@@ -141,8 +143,15 @@ public class MemberService {
     }
 
     // 회원 탈퇴
-    public boolean deleteMember(MemberDto mDto) {
-        tokenService.deleteToken(mDto.getNick());
+    public boolean deleteMember(String token, String pw, HttpServletResponse response) {
+        MemberDto mDto = new MemberDto();
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        mDto.setNick(nick);
+        mDto.setPw(pw);
+        Cookie cookie = new Cookie("token", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return memberMapper.deleteMember(mDto) > 0;
     }
 
@@ -159,67 +168,10 @@ public class MemberService {
         return memberMapper.updateImg(mDto) > 0;
     }
 
-    // 블랙리스트 받아오기
-    public List<String> getBlackList(String black) {
-        return memberMapper.selectBlacklist(black);
-    }
-
-    // 블랙리스트 추가
-    public boolean insertBlacklist(String black, String target) {
-        Map<String, String> data = new HashMap<>();
-        data.put("black", black);
-        data.put("target", target);
-        return memberMapper.insertBlacklist(data) > 0;
-    }
-
-    // 블랙리스트 삭제
-    public boolean deleteBlacklist(String black, String target) {
-        Map<String, String> data = new HashMap<>();
-        data.put("black", black);
-        data.put("target", target);
-        return memberMapper.deleteBlacklist(data) > 0;
-    }
-
-    // 블랙리스트 옵션 받아오기
-    public Map<String, Integer> selectBlackOpt(String nick) {
-        return memberMapper.selectBlackOpt(nick);
-    }
-
-    // 블랙리스트 옵션 변경
-    public boolean updateBlackOpt(String nick, int hidechat, int mute) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("nick", nick);
-        data.put("hidechat", hidechat);
-        data.put("mute", mute);
-        return memberMapper.updateBlackOpt(data) > 0;
-    }
-
-    // 팔로우 목록 받아오기
-    public List<String> selectFollowList(String nick) {
-        return memberMapper.selectFollowlist(nick);
-    }
-
-    // 팔로우 추가
-    public boolean insertFollowlist(String follow, String target) {
-        Map<String, String> data = new HashMap<>();
-        data.put("follow", follow);
-        data.put("target", target);
-        return memberMapper.insertFollowlist(data) > 0;
-    }
-
-    // 팔로우 삭제
-    public boolean deleteFollowlist(String follow, String target) {
-        Map<String, String> data = new HashMap<>();
-        data.put("follow", follow);
-        data.put("target", target);
-        return memberMapper.deleteFollowlist(data) > 0;
-    }
-
     // 닉넴으로 마이페이지 정보 불러오기
     public MypageDto selectMypageDto(String nick) {
         return memberMapper.selectMypageDto(nick);
     }
-
 
     //로그인 시도.
     public Map<String, Object> Login(String email, String pw, boolean autoLogin,

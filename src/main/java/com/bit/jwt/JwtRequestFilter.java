@@ -71,7 +71,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             // access token이 만료되었을경우
             log.info("[doFilterInternal] expired");
             String refreshToken = ts.accessToRefresh(token);
-            if(refreshToken != null && !jwtTokenProvider.expiredCheck(refreshToken.substring(6)).equals("expired")) {
+            if(refreshToken != null) {
                 refreshToken = refreshToken.substring(6);
                 log.info("doFilterInternal refToken after -> {}",refreshToken);
                 // refreshToken이 존재하는 경우 검증
@@ -127,6 +127,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 try {
                     nick = jwtTokenProvider.getUsernameFromToken(accessToken);
                     // db에서 메일, 문자 인증 받았는지 여부에 따라 권한 부여
+                    log.info("{}", nick);
                     userDto = memberService.selectMypageDto(nick);
                     rules.put("roles",
                             userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");

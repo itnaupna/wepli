@@ -1,6 +1,5 @@
 package com.bit.mapper;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -43,22 +42,7 @@ public interface MemberMapper {
     public int updateDesc(MemberDto mDto);
     //프사 변경
     public int updateImg(MemberDto mDto);
-    //블랙리스트 받아오기
-    public List<String> selectBlacklist(String black);
-    //블랙리스트 추가
-    public int insertBlacklist(Map<String,String> data);
-    //블랙리스트 삭제
-    public int deleteBlacklist(Map<String,String> data);
-    //블랙리스트 옵션 받아오기
-    public Map<String,Integer> selectBlackOpt(String nick);
-    //블랙리스트 옵션 변경
-    public int updateBlackOpt(Map<String,Object> data);
-    //팔로우 목록 받아오기
-    public List<String> selectFollowlist(String nick);
-    //팔로우 추가
-    public int insertFollowlist(Map<String,String> data);
-    //팔로우 삭제
-    public int deleteFollowlist(Map<String,String> data);
+
     //마이페이지 필요데이터 읽기(뷰)
     public MypageDto selectMypageDto(String nick);
     public MypageDto selectMypageDtoByEmail(String email);
