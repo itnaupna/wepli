@@ -18,6 +18,7 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
     const showFindIdModal = async () => {
         await setModalOpen(false);
         setFindIdModalOpen(true);
+        //테스트
     };
 
     // 비밀번호찾기 모달 오픈
