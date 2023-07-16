@@ -41,8 +41,9 @@ public class MemberService {
             if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1) {
                 return false;
             } else {
+                memberMapper.insertJoinMember(mDto);
                 tokenService.insertToken(mDto.getNick());
-                return memberMapper.insertJoinMember(mDto) > 0;
+                return  true;
             }
             
         } catch (Exception e) {
@@ -180,6 +181,7 @@ public class MemberService {
         Map<String, String> data = new HashMap<>();
         data.put("email", email);
         data.put("pw", pw);
+        
         try {
             boolean boolLogin = memberMapper.selectLogin(data) > 0;
             if (boolLogin) {

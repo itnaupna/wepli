@@ -38,7 +38,6 @@ public class TokenService {
         tokenMapper.updateToken(tDto);
     }
 
-    // 로그인시 refreshToken db에 저장
     public void insertToken(String token) {
         tokenMapper.insertToken(token);
     }

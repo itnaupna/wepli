@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bit.service.FollowService;
@@ -46,13 +46,19 @@ public class FollowController {
     //TODO : togglePlaylist 형식으로 로직변경
     // 팔로우 추가
     @PostMapping("/lv2/m/follow")
-    public boolean postFollow(@RequestBody String nick, @RequestBody String target) {
-        return followService.insertFollowlist(nick, target);
+    public boolean postFollow(@CookieValue String token, @RequestParam String target) {
+        return followService.insertFollowlist(token, target);
     }
 
-    // 팔로우 삭제
-    @DeleteMapping("/lv2/m/follow")
-    public boolean deleteFollow(@RequestBody String nick, @RequestBody String target) {
-        return followService.deleteFollowlist(nick, target);
+    // 팔로우 취소
+    @DeleteMapping("/lv2/m/unfollow")
+    public boolean unFollow(@CookieValue String token, @RequestParam String target) {
+        return followService.unFollowlist(token, target);
+    }
+
+    // 특정 유저가 나를 팔로우 했을시 팔로우 끊기(대상이 날 팔로우 한것을 끊음)
+    @DeleteMapping("/lv2/m/delfollow")
+    public boolean deleteFollow(@CookieValue String token, @RequestParam String target) {
+        return followService.deleteFollowlist(token, target);
     }
 }

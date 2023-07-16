@@ -20,4 +20,8 @@
     <update id="updateBlackOpt" parameterType="Map">
         update tblBlackOpt set hidechat=#{hidechat}, mute=#{mute} where nick=#{nick}
     </update>
+    <select id="isBlackchk" parameterType="Map" resultType="int">
+        select exists(select * from tblBlack where black = #{black} and target = #{target})
+    </select>
+
 </mapper>

@@ -64,7 +64,7 @@ public class MemberController {
 
     // 비밀번호만 확인
     @PostMapping("/lv1/m/checkpassword")
-    public boolean postCheckPassword(@CookieValue String token, @RequestBody String pw) {
+    public boolean postCheckPassword(@CookieValue String token, @RequestParam String pw) {
         return mService.checkPassword(token, pw);
     }
 

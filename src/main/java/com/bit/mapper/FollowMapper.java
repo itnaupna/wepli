@@ -13,7 +13,7 @@ public interface FollowMapper {
     //팔로워 목록 받아오기
     public List<Map<String, Object>> selectFollowerlist(String nick);
     //팔로우 추가
-    public int insertFollowlist(Map<String,String> data);
-    //팔로우 삭제
-    public int deleteFollowlist(Map<String,String> data);
+    public int insertFollowlist(Map<String,String> followAndTarget);
+    //팔로우 취소
+    public int unFollowlist(Map<String,String> followAndTarget);
 }
