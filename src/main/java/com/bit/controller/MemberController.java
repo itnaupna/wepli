@@ -192,7 +192,6 @@ public class MemberController {
         mService.logout(token, request, response);
     }
 
-
     // 프로필 사진 변경
     @PostMapping("lv1/m/profile")
     public String postProfileImg(@CookieValue String token, MultipartFile upload) {
