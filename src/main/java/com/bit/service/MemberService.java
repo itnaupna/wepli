@@ -1,6 +1,5 @@
 package com.bit.service;
 
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CookieValue;
 
 import com.bit.dto.MemberDto;
 import com.bit.dto.MypageDto;
@@ -38,7 +36,6 @@ public class MemberService {
     public boolean joinMember(MemberDto mDto) {
         System.out.println(mDto);
         try {
-            log.info(String.valueOf(mDto));
             mDto.setEmailconfirm(mDto.getSocialtype() == null ? 0 : 1);
             log.info("{}",mDto.getEmailconfirm());
             if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1) {

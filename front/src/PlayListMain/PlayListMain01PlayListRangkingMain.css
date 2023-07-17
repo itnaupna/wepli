@@ -123,10 +123,12 @@
     align-self: stretch;
     position: relative;
     text-transform: capitalize;
-    display: flex;
     align-items: center;
     height: 1.25rem;
     flex-shrink: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 .playlistrankinglistitemowner {
     font-size: var(--font-size-smi);
@@ -164,6 +166,9 @@
     text-transform: capitalize;
     display: flex;
     align-items: center;
+    text-align: center;
+    flex-direction: row-reverse;
+    justify-content: center;
 }
 .playlistrankinglistitemlikeico-icon {
     position: absolute;
