@@ -155,7 +155,8 @@
     height: 6px;
   }
   .musicplayerframe {
-    position: absolute;
+    position: fixed;
+    z-index: 999;
     background-color: #fff;
     /* width: 100%; */
     width: calc(100% - 70px);

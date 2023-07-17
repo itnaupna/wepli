@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import "./css/sidebar.css";
 import weplilogo from "./photo/weplilogo.png";
 import home from "./svg/homeicon.svg";
 import stage from "./svg/stageicon.svg";
 import list from "./svg/musiclisticon.svg";
+import logout from "./photo/logout.png";
 import cover from "./svg/albumcover.svg";
 
 import LoginModal from "../SideModal/LoginModal";
@@ -20,8 +21,8 @@ function SideBar(props) {
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
     const [FindIdModalOpen, setFindIdModalOpen] = useState(false);
-    const [FindPassModalOpen,setFindPassModalOpen]=useState(false);
-    const [SignUpModalOpen, setSignUpModalOpen]=useState(false);
+    const [FindPassModalOpen, setFindPassModalOpen] = useState(false);
+    const [SignUpModalOpen, setSignUpModalOpen] = useState(false);
     const [profileImage, setProfileImage] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [pwChkmodalOpen, setpwChkmodalOpen] = useState(false);
@@ -29,19 +30,19 @@ function SideBar(props) {
     // 프로필 이미지 꺼내기
     useEffect(() => {
         const storedData = window.sessionStorage.getItem('data') ||
-                            window.localStorage.getItem('data');
+            window.localStorage.getItem('data');
         if (storedData) {
             setIsLoggedIn(true);
             const data = JSON.parse(storedData);
             const profileImg = data[5];
             setProfileImage(profileImg);
-        }else{
+        } else {
             setIsLoggedIn(false);
         }
     }, []);
 
     //로그인 모달 오픈
-    const showModal=()=>{
+    const showModal = () => {
         setModalOpen(true);
     }
 
@@ -68,7 +69,7 @@ function SideBar(props) {
 
         axios
             .post(url)
-            .then(res=>{
+            .then(res => {
                 sessionStorage.removeItem('data') || localStorage.removeItem('data');
 
                 navigate("/");
@@ -81,7 +82,7 @@ function SideBar(props) {
     // 로그인 안했을때 -> 로그인모달
     const handleProfileClick = () => {
         const isLoggedIn = sessionStorage.getItem('data') ||
-                            localStorage.getItem('data');
+            localStorage.getItem('data');
         if (isLoggedIn) {
             showpwChkModal();
             // navigate('/mypage');
@@ -94,59 +95,52 @@ function SideBar(props) {
     const profileimg = process.env.REACT_APP_BUCKET_URL;
 
     // 로고 디폴트 이미지
-    const defaultporfile = weplilogo;
+    const defaultprofile = weplilogo;
 
     const showpwChkModal = async () => {
         setpwChkmodalOpen(true);
     };
 
     return (
-        <div className="weplisidebar">
-            <div className="sidebarheader">
-                <img
-                    className="sideweplilogo-icon"
-                    alt=""
-                    src={weplilogo}
-                />
-            </div>
-            <div className="playlisticon" onClick={handleListClick}>
-                <div className="playlistoutlinebox"/>
-                <img className="sideplaylisticon" alt="" src={list}/>
-            </div>
-            <div className="homeicon" onClick={handleHomeClick}>
-                <div className="homeoutlinebox"/>
-                <img className="sidehomeicon" alt="" src={home}/>
-            </div>
-
-            <div className="sidebarfooter">
-                <div className="homeoutlinebox"/>
-                <img
-                    className="sideprofileimg-icon"
-                    alt=""
-                    src={isLoggedIn ? `${profileimg}/profile/${profileImage}` : defaultporfile}
-                    onClick={handleProfileClick}
-                />
+        <>
+            <div className="sidemenu">
+                <img className="weplilogo-icon" alt="" src={weplilogo} />
+                <div className="sidemenubtns">
+                    <div className="sidemenuhomebutton sidemnubtn" onClick={handleHomeClick}>
+                        <img className="icon" alt="" src={home} />
+                    </div>
+                    <div className="sidemenuplaylistbutton sidemnubtn" onClick={handleListClick}>
+                        <img className="icon" alt="" src={list} />
+                    </div>
+                    <div className="sidemenustagebutton sidemnubtn" onClick={handleStageClick}>
+                        <img className="icon" alt="" src={stage} />
+                    </div>
+                </div>
+                <div style={{position:'relative',width:'50px'}}>
+                    <div className="sidemenumypagebutton sidemnubtn" onClick={handleProfileClick}>
+                        <img
+                            className="sidemenuuserimg-icon"
+                            alt=""
+                            src={isLoggedIn ? `${profileimg}/profile/${profileImage}` : defaultprofile}
+                        />
+                    </div>
+                    {(sessionStorage.data || localStorage.data) && (
+                        <div className="sidemenulogoutbutton" onClick={onLogoutSubmit}>
+                            <img className='icon2' alt="" src={logout}/>
+                        </div>
+                    )}
+                </div>
             </div>
             {modalOpen && <LoginModal setModalOpen={setModalOpen} setFindIdModalOpen={setFindIdModalOpen}
-                                      setFindPassModalOpen={setFindPassModalOpen} setSignUpModalOpen={setSignUpModalOpen}
-                                        setpwChkmodalOpen={setpwChkmodalOpen}/>}
-            {FindIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen}/>}
-            {FindPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen}/>}
-            {SignUpModalOpen && <SignUpModal setSignUpModalOpen={setSignUpModalOpen}/>}
-            {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen}/>}
+                setFindPassModalOpen={setFindPassModalOpen} setSignUpModalOpen={setSignUpModalOpen}
+                setpwChkmodalOpen={setpwChkmodalOpen} />}
+            {FindIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen} />}
+            {FindPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen} />}
+            {SignUpModalOpen && <SignUpModal setSignUpModalOpen={setSignUpModalOpen} />}
+            {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen} />}
 
-            {(sessionStorage.data || localStorage.data) &&(
-                <div className={'sidebarlogoutbtngroup'}>
-                    <button onClick={onLogoutSubmit}
-                            className={'sidebarlogoutbtn'}>로그아웃</button>
-                </div>
-            )}
-            <div className="stageicon">
-                <div className="homeoutlinebox"/>
-                <img className="stageicon1" alt="" src={stage} onClick={handleStageClick}/>
-            </div>
+        </>
 
-        </div>
     );
 }
 
