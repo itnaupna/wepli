@@ -9,7 +9,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-image: url("../src/MainIMG/BackIMG.svg");
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
 }
 
 code {

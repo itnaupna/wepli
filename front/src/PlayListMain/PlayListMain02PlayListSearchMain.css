@@ -139,8 +139,9 @@
     border-radius: var(--br-xl);
     background-color: var(--color-white);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    width: 19.1rem;
     height: 3.13rem;
+    width: 16.097rem;
+    padding-left: 50px;
 }
 .playlsitsearchicons {
     position: absolute;
@@ -154,6 +155,7 @@
 .playlistsearchbar {
     flex: 1;
     position: relative;
+    width: 19.1rem;
     height: 3.13rem;
 }
 .playlistbuttonlist-parent,
@@ -271,17 +273,24 @@
     text-overflow: ellipsis;
     -webkit-line-clamp: 16;
     -webkit-box-orient: vertical;
+    display: block;
 }
 .playlistsearchowner {
     top: 5rem;
     font-size: var(--font-size-mid);
     width: 14.94rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 .playlistsearchtitle {
     top: 2.5rem;
     font-size: 1.25rem;
     font-family: var(--font-bm-hanna_ttf);
     width: 15rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 .playlistsearchlikeicon {
     position: relative;
@@ -328,8 +337,9 @@
     gap: 1.25rem;
     min-width: 28.13rem;
     max-width: 32.29rem;
-    margin-left: 60px;
+    margin-left: 3.05%;
     margin-top: 30px;
+    margin-bottom: 15px;
 }
 .playlistitemwrapperframe,
 .playlistsearchbody {
@@ -345,8 +355,12 @@
     background-color: rgba(255, 255, 255, 0.4);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
     overflow-y: auto;
-    padding: 1.25rem 1.56rem;
+    padding: 0 1.56rem 1.25rem 1.56rem;
     justify-content: flex-start;
+    height: 115%;
+}
+.playlistitemwrapperframe::-webkit-scrollbar{
+    display: none;
 }
 .playlistsearchbody {
     height: 40.63rem;

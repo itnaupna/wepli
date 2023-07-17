@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import "./PlayListMain02PlayListSearchMain.css";
 import HeartImg from  "../MainIMG/Heart.png";
 import Molu from  "../MainIMG/Molu.gif";
@@ -21,12 +21,17 @@ function PlayListMain02PlayListSearchMain(props) {
     const [cpp, setCpp] = useState(50);
     const [orderByDay ,setOrderByDay] = useState(true);
     const [likeTop50, setLikeTop50] = useState([]);
+    const [searchTxt ,setSearchTxt] = useState("");
 
     useEffect(()=>{
         const LikeTop50Url = "/api/lv0/p/list";
         Axios.get(LikeTop50Url,{ params: {orderByDay, curr, cpp}})
             .then(res =>
                 setLikeTop50(res.data));
+    });
+
+    const searchOnChange = useCallback(e =>{
+       setSearchTxt(e.target.value);
     });
     return (
         <div className="playlistmain02">
@@ -82,11 +87,11 @@ function PlayListMain02PlayListSearchMain(props) {
                             <div className="playlistmainsearchoption">제목</div>
                         </div>
                         <div className="playlistsearchbar">
-                            <div className="playlsitsearchbarbody" />
+                            <input className="playlsitsearchbarbody" value={searchTxt} type="text" placeholder="검색할 내용을 입력해 주세요"  onChange={searchOnChange}/>
                             <img
                                 className="playlsitsearchicons"
                                 alt=""
-                                src="/playlsitsearchicons.svg"
+                                src={SearchBarIcon}
                             />
                         </div>
                     </div>
@@ -100,7 +105,7 @@ function PlayListMain02PlayListSearchMain(props) {
                                 <img
                                     className="playlistsearchthumbnail-icon"
                                     alt=""
-                                    src="/playlistsearchthumbnail@2x.png"
+                                    src={Aris}
                                 />
                                 <div className="playlistsearchinfowrapper">
                                     <div className="playlistsearchtagswrapper">
