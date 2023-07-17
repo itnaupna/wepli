@@ -65,11 +65,6 @@ public class PlaylistController {
         return imgUploadService.uploadImg(idx, "playlist", upload);
     }
 
-    @PostMapping("lv1/p/profile")
-    public String changePlaylistImg(int idx, MultipartFile upload) {
-        return imgUploadService.uploadImg(idx, "playlist", upload);
-    }
-
     @DeleteMapping("/lv1/p/list")
     public boolean deleteList(@CookieValue String token, int idx){
         return pService.deletePlaylist(token, idx);
