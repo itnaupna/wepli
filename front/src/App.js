@@ -13,8 +13,11 @@ import PlayListDetail from "./PlayListMain/PlayListDetail";
 import PlayStage from "./PlayStation/PlayStageJS/PlayStage";
 import PlayStageList from "./PlayStation/PlayStageJS/PlayStageList"
 
+// import { useEffect, useState } from 'react';
+// import axios from 'axios';
 
 function App() {
+// <<<<<<< HEAD
 
   return (
       <BrowserRouter>
@@ -30,7 +33,7 @@ function App() {
               <Route path="/playlistdetail" element={<PlayListDetail/>}/>
               <Route path="/playstage" element={<PlayStage/>}/>
               <Route path="/playstagelist" element={<PlayStageList/>}/>
-              
+
               <Route path="/*" element={
                   <h1 style={{width:"100%", textAlign:"center" , marginTop:"25%", position:"absolute"}}>페이지가 없습니다</h1>
               }/>

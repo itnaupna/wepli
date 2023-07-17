@@ -1,133 +1,252 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useInView } from 'react-intersection-observer';
-import '../PlayStageCss/PlayStageList.css';
 import Slide from '../PlayStageJS/Slide.js';
-import ArrowDown from '../PlayStageImage/Icon/ArrowDown.svg';
-import Search from '../PlayStageImage/Icon/SearchIcon.svg';
-
+import '../PlayStageCss/s-l-p.css';
+import SLPMystageImg from '../PlayStageImage/img/SLPMystageImg.png';
+import SLPFollowImg from '../PlayStageImage/img/SLPFollowImg.png';
+import SLPResultItemImg from '../PlayStageImage/img/SLPResultItemImg.png';
+import SLPMystageLikeIcon from '../PlayStageImage/Icon/SLPMystageLikeIcon.svg';
+import SLPMystagePeopleIcon from '../PlayStageImage/Icon/SLPMystagePeopleIcon.svg';
+import SLPMystageQIcon from '../PlayStageImage/Icon/SLPMystageQIcon.svg';
+import SLPMystagePlayingTitleIcon from '../PlayStageImage/Icon/SLPMystagePlayingTitleIcon.svg';
+import SLPMystagePlayingAuthorIcon from '../PlayStageImage/Icon/SLPMystagePlayingAuthorIcon.svg';
+import SLPFollowBackIcon from '../PlayStageImage/Icon/SLPFollowBackIcon.svg';
+import SLPFollowNextIcon from '../PlayStageImage/Icon/SLPFollowNextIcon.svg';
 function PlayStageList(props) {
 
-    const [isLoading,setIsLoading] = useState(false);
-    //무한 스크롤
-    const [stages,setStages] = useState([]);
-    const [hasNextPage,setHasNextPage]=useState(true);
-    const page = useRef(1);
-    const [ref, inView] =useInView(true);
-
-    const fetch = useCallback(async()=>{
-        try{
-            //데이터 패칭을 시작하면 로딩 상태를 로딩 중으로 변환
-            setIsLoading(true)
-            const {data} = await axios.get(
-                `https://gist.githubusercontent.com/jameskim0208/b97dbc72150c193c7e9b941b235f4bc0/raw/64cc7dc61922538c456b711fd94a71fb7bfc9a3a/gistfile1.json?_limit=3&_page=${page.current}`
-            );
-            //로딩 중을 표시할 div가 보일 시간을 주기 위한 setTime
-            setTimeout(()=>{
-                setStages((prevStages)=>[...prevStages, ...data]);
-
-            },1500)
-            //패칭이 실행되면 다음에 실행될 페이지를 1page 늘려준다.
-            setHasNextPage(data.length===3);
-            if(data.length){
-                page.current +=1;
-            }
-        }catch(err){
-            console.log(err);
-        }
-        //로딩중을 표시할 div가 보일 시간을 주기 위한 setTimeout
-        setTimeout(()=>{
-            setIsLoading(false)
-        },1500)
-    },[]);
-    //inView(useState)를 통해 useEffect 실행
-    useEffect(()=>{
-        console.log(inView, hasNextPage);
-        if(inView && hasNextPage){
-            fetch();
-        }
-    },[fetch, hasNextPage, inView]);
-    
-    console.log(stages);
-
-
-
-
   return (
-    <div className='Lbackground'>
-      <div className='Side-Bar'></div>
-      <div className='Lmain-Tsection'>
-        <div className='Tsection-Lside'>
-          <div className='TL-MyStage'>MyStage</div>
-          { 
-            1===2
-            ?
-            <a className="LiveOn-Icon" href="/"  data-text="Live On">Live On</a>
-
-            :
-            <button className="newStage-Button">
-              <svg xmlns="http://www.w3.org/2000/svg" className='newStage-Icon'viewBox="0 0 24 24" fill="none">
-                <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#4147d5"/>
-              </svg>
-            </button>
-          }
-          
-        </div>
-        <div className='Tsection-Rside'>
-          <div className='Tsection-SearchBar'>
-              <select className='Tsection-SelectBar'>
-                <option>방장</option>
-                <option defaultValue>제목</option>
-                <option>태그</option>
-                <option>장르</option>
-              </select>
-            <div className='Tsection-InputBar'>
-              <img src={Search} alt='' className="Tsection-SearchBarIcon"/>
-              <div className="Tsection-InputArea">
-              <input type='text' className="InputPlace">
-              </input>
+    <div className="slp">
+      <div className="slptop">
+        <div className="slpmystagewrapper">
+          <div className="slpmystage">
+            <div className="slpmystagetop">
+              <div className="slpmystageimgwrapper">
+                <div className="slpmystagemakeday">생성일 : 2024-07-05</div>
+                <img
+                  className="slpmystageimg-icon"
+                  alt=""
+                  src={SLPMystageImg}
+                />
+              </div>
+              <div className="slpmystageinfo">
+                <div className="slpmystagelikewrapper">
+                  <img
+                    className="slpmystagelikeicon"
+                    alt=""
+                    src={SLPMystageLikeIcon}
+                  />
+                  <div className="slpmystagelikecount">1000</div>
+                </div>
+                <div className="slpmystagelikewrapper">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystagePeopleIcon}
+                  />
+                  <div className="slpmystagelikecount">1000</div>
+                </div>
+                <div className="slpmystagelikewrapper">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystageQIcon}
+                  />
+                  <div className="slpmystagelikecount">1000</div>
+                </div>
+                <div className="slpmystageowner">@만든이이름드가는자리</div>
+                <div className="slpmystagecategory">
+                  #일이삼사오육칠팔구십일
+                </div>
+                <div className="slpmystagecategory">
+                  #일이삼사오육칠팔구십일
+                </div>
               </div>
             </div>
+            <div className="slpmystagedetail">
+              <div className="slpmystageplayinginfo">
+                <div className="slpmystageplayingtitlewrapper">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystagePlayingTitleIcon}
+                  />
+                  <div className="slpmystageplayingtitle">
+                    재생곡 제목 드갑니다.
+                  </div>
+                </div>
+                <div className="slpmystageplayingtitlewrapper">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystagePlayingAuthorIcon}
+                  />
+                  <div className="slpmystageplayingtitle">
+                    재생곡 제목 드갑니다.
+                  </div>
+                </div>
+              </div>
+              <div className="slpmystagedescription">
+                나만의 스테이지를 가져보세요!
+              </div>
+              <div className="slpmystagetitle">내 스테이지 생성</div>
+            </div>
           </div>
-          <div className='Tsection-FollowStage'>
-            <div className='TL-MyStage'>FollowStage</div>
-            <Slide/>
+        </div>
+        <div className="slpfollowwrapper">
+          <div className="slpfollowback">
+            <img
+              className="slpfollowbackicon"
+              alt=""
+              src={SLPFollowBackIcon}
+            />
+          </div>
+          <div className="slpfollow">
+            <div className="slpmystagetop">
+              <div className="slpmystageimgwrapper">
+                <div className="slpmystagemakeday">생성일 : 2024-07-05</div>
+                <img
+                  className="slpmystageimg-icon"
+                  alt=""
+                  src={SLPFollowImg}
+                />
+              </div>
+              <div className="slpmystageinfo">
+                <div className="slpmystagelikewrapper">
+                  <img
+                    className="slpmystagelikeicon"
+                    alt=""
+                    src={SLPMystageLikeIcon}
+                  />
+                  <div className="slpmystagelikecount">1000</div>
+                </div>
+                <div className="slpmystagelikewrapper">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystagePeopleIcon}
+                  />
+                  <div className="slpmystagelikecount">1000</div>
+                </div>
+                <div className="slpmystagelikewrapper">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystageQIcon}
+                  />
+                  <div className="slpmystagelikecount">1000</div>
+                </div>
+                <div className="slpmystageowner">@만든이이름드가는자리</div>
+                <div className="slpmystagecategory">
+                  #일이삼사오육칠팔구십일
+                </div>
+                <div className="slpmystagecategory">
+                  #일이삼사오육칠팔구십일
+                </div>
+              </div>
+            </div>
+            <div className="slpmystagedetail">
+              <div className="slpmystageplayinginfo">
+                <div className="slpmystageplayingtitlewrapper">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystagePlayingTitleIcon}
+                  />
+                  <div className="slpmystageplayingtitle">우워옹 캬오오옹</div>
+                </div>
+                <div className="slpmystageplayingtitlewrapper">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystagePlayingAuthorIcon}
+                  />
+                  <div className="slpmystageplayingtitle">애옹이</div>
+                </div>
+              </div>
+              <div className="slpmystagedescription">
+                애옹애옹 애옹이가 울부짖었다
+              </div>
+              <div className="slpmystagetitle">팔로우 스테이지</div>
+            </div>
+          </div>
+          <div className="slpfollowback">
+            <img
+              className="slpfollowbackicon"
+              alt=""
+              src={SLPFollowNextIcon}
+            />
           </div>
         </div>
       </div>
-      <div className='Lmain-Bsection'>
-        <div className='Bsection-select'>
-          <select className='BselectBar'>
-            <option>최신순</option>
-            <option>인기순</option>
-          </select>
-          <div className='Bselect-Icon'>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 11" fill="none">
-              <path d="M1.50972 2.35292C2.44299 4.70758 4.44138 9.36599 5.6433 9.36291C6.84522 9.35984 8.8249 4.69125 9.74872 2.33184C10.0015 1.68631 9.52123 1.00203 8.82811 1.00381L2.42499 1.02019C1.73187 1.02197 1.25438 1.70869 1.50972 2.35292Z" fill="#D7E0FF" stroke="#4147D5" strokeWidth="1.5" />
-            </svg>
+      <div className="slpbottom">
+        <div className="slpsearchwrapper">
+          <div className="slpsortwrapper">
+            <div className="slpsort" />
+          </div>
+          <div className="slpsearchwrapper1">
+            <div className="slpsearchtype" />
+            <div className="slpsearchinput" />
           </div>
         </div>
-
-        <div>
-            <div className='Bsection-LiveList'>
-                {stages?.map((item)=>(
-                    <div key={item.address} className='room-item'>
-                        <div>{item.address}</div>
-                        <div>{item.title}</div>
-                        <div>{item.nick}</div>
-                       
-                    </div>
-                ))}
-                {/* //눈에 안보이는 ref div - position으로 밑에 위치 시켜준다. */}
-                <div ref={ref} style={{position:'absolute'}}/>
-                {/* //로딩일 때 보여줄거에요 */}
-                <div className='loading-Container'>
-                    {isLoading===true?<div className='loading'></div>:null}
+        <div className="slpresult">
+          <div className="slpresultitem">
+            <div className="slpmystagetop">
+              <div className="slpresultitemimgwrapper">
+                <img
+                  className="slpresultitemimg-icon"
+                  alt=""
+                  src={SLPResultItemImg}
+                />
+              </div>
+              <div className="slpresultiteminfo">
+                <div className="slpresultitempeoplewrapper">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystagePeopleIcon}
+                  />
+                  <div className="slpmystagelikecount">1000</div>
                 </div>
+                <div className="slpresultitemowner">@만든이이름드가는자리</div>
+                <div className="slpresultitemcategory">
+                  #일이삼사오육칠팔구십일
+                </div>
+                <div className="slpresultitemcategory">
+                  #일이삼사오육칠팔구십일
+                </div>
+              </div>
             </div>
-
+            <div className="slpresultitembottom">
+              <div className="slpresultitemtitle">내 스테이지 생성</div>
+              <div className="slpresultitemdescription">
+                나만의 스테이지를 가져보세요!
+              </div>
+              <div className="slpresultitemplayinginfo">
+                <div className="slpresultitemplayingtitlewrapp">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystagePlayingTitleIcon}
+                  />
+                  <div className="slpmystageplayingtitle">
+                    재생곡 제목 드갑니다.
+                  </div>
+                </div>
+                <div className="slpresultitemplayingtitlewrapp">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystagePlayingAuthorIcon}
+                  />
+                  <div className="slpmystageplayingtitle">
+                    재생곡 제목 드갑니다.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
       </div>
     </div>
   )

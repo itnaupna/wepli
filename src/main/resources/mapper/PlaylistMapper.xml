@@ -41,8 +41,8 @@
     </delete>
 
     <insert id="insertLike" parameterType="hashMap">
-            insert into tblPlaylistLike
-            values (#{user},#{playlistID})
+        insert into tblPlaylistLike
+        values (#{user},#{playlistID})
     </insert>
 
 

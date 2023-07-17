@@ -16,8 +16,9 @@ public class PlaylistDto {
     private String img;
     private int isPublic;
     private String nick;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private Timestamp makeday;
     private int likescount;
     private int commentscount;
+    private int songscount;
 }

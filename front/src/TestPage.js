@@ -275,6 +275,7 @@ const checkNick = async (e) => {
   const pwCheckClick = () => {
     axios.post(TESTURL.pwCheck, pwChk)
     .then(res => {
+      console.log(res);
       alert("success");
     })
   }
@@ -403,7 +404,7 @@ const checkNick = async (e) => {
     <div id="naver_id_login">dd</div>
       <input type="text"  onChange={(e)=>{setEmailPw({
         ...emailPw,
-        email: e.target.value})}}></input>
+        email: e.target.value})}}></input><br/>
       <input type="password"  onChange={(e)=>{setEmailPw({
         ...emailPw,
         pw: e.target.value})}}></input><br/>

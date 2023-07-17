@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.mapper.FollowMapper">
+
+    <select id="selectFollowlist" parameterType="String" resultType="Map">
+        select target t,
+        (select img from tblMember where nick = t) img,
+        (select count(*) from tblFollow where target = t) cnt 
+        from tblFollow
+        where follow = #{nick};
+    </select>
+
+    <select id="selectFollowerlist" parameterType="String" resultType="Map">
+        select follow f,
+        (select img from tblMember where nick = f) img,
+        (select count(*) from tblFollow where target = f) cnt,
+        (select exists(select * from tblFollow where target = f)) 
+        from tblFollow
+        where target = #{nick};
+    </select>
+
+    <insert id="insertFollowlist" parameterType="Map">
+        insert into tblFollow values (#{follow}, #{target})
+    </insert>
+    
+    <delete id="unFollowlist" parameterType="Map">
+        delete from tblFollow where follow=#{follow} and target=#{target}
+    </delete>
+
+</mapper>

@@ -1,7 +1,6 @@
 package com.bit.service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -31,18 +30,24 @@ public class MemberService {
     @Autowired
     TokenService tokenService;
 
+    public final long JWT_TOKEN_VALIDITY_ONEDAY = 1000 * 60 * 60 * 24;
+
     // 회원가입
     public boolean joinMember(MemberDto mDto) {
+        System.out.println(mDto);
         try {
             mDto.setEmailconfirm(mDto.getSocialtype() == null ? 0 : 1);
+            log.info("{}",mDto.getEmailconfirm());
             if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1) {
                 return false;
             } else {
+                memberMapper.insertJoinMember(mDto);
                 tokenService.insertToken(mDto.getNick());
-                return memberMapper.insertJoinMember(mDto) > 0;
+                return  true;
             }
             
         } catch (Exception e) {
+            log.error("error -> {}", e.getMessage());
             return false;
         }
     }
@@ -103,18 +108,21 @@ public class MemberService {
     }
 
     // 닉넴 변경
-    public boolean changeNick(String email, String nick) {
-        if (checkNickExists(nick))
+    public boolean changeNick(String token, String newNick, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (checkNickExists(newNick))
             return false;
 
         Map<String, String> data = new HashMap<>();
-        data.put("email", email);
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         data.put("nick", nick);
-        return memberMapper.updateNick(data) > 0;
+        data.put("newNick", newNick);
+        memberMapper.updateNick(data);
+        tokenService.generateToken(newNick, JWT_TOKEN_VALIDITY_ONEDAY, request, response);
+        return true;
     }
 
     // 비밀번호 변경
-    public boolean changePassword(String token, String oldPw, String newPw) {
+    public boolean changePassword(String token, String oldPw, String newPw, HttpServletResponse response) {
         MemberDto mDto = new MemberDto();
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         mDto.setNick(nick);
@@ -127,12 +135,24 @@ public class MemberService {
         Map<String, String> data = new HashMap<>();
         data.put("nick", nick);
         data.put("pw", newPw);
-        return memberMapper.updatePw(data) > 0;
+        memberMapper.updatePw(data);
+        Cookie cookie = new Cookie("token", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return true;
     }
 
     // 회원 탈퇴
-    public boolean deleteMember(MemberDto mDto) {
-        tokenService.deleteToken(mDto.getNick());
+    public boolean deleteMember(String token, String pw, HttpServletResponse response) {
+        MemberDto mDto = new MemberDto();
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        mDto.setNick(nick);
+        mDto.setPw(pw);
+        Cookie cookie = new Cookie("token", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return memberMapper.deleteMember(mDto) > 0;
     }
 
@@ -149,78 +169,26 @@ public class MemberService {
         return memberMapper.updateImg(mDto) > 0;
     }
 
-    // 블랙리스트 받아오기
-    public List<String> getBlackList(String black) {
-        return memberMapper.selectBlacklist(black);
-    }
-
-    // 블랙리스트 추가
-    public boolean insertBlacklist(String black, String target) {
-        Map<String, String> data = new HashMap<>();
-        data.put("black", black);
-        data.put("target", target);
-        return memberMapper.insertBlacklist(data) > 0;
-    }
-
-    // 블랙리스트 삭제
-    public boolean deleteBlacklist(String black, String target) {
-        Map<String, String> data = new HashMap<>();
-        data.put("black", black);
-        data.put("target", target);
-        return memberMapper.deleteBlacklist(data) > 0;
-    }
-
-    // 블랙리스트 옵션 받아오기
-    public Map<String, Integer> selectBlackOpt(String nick) {
-        return memberMapper.selectBlackOpt(nick);
-    }
-
-    // 블랙리스트 옵션 변경
-    public boolean updateBlackOpt(String nick, int hidechat, int mute) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("nick", nick);
-        data.put("hidechat", hidechat);
-        data.put("mute", mute);
-        return memberMapper.updateBlackOpt(data) > 0;
-    }
-
-    // 팔로우 목록 받아오기
-    public List<String> selectFollowList(String nick) {
-        return memberMapper.selectFollowlist(nick);
-    }
-
-    // 팔로우 추가
-    public boolean insertFollowlist(String follow, String target) {
-        Map<String, String> data = new HashMap<>();
-        data.put("follow", follow);
-        data.put("target", target);
-        return memberMapper.insertFollowlist(data) > 0;
-    }
-
-    // 팔로우 삭제
-    public boolean deleteFollowlist(String follow, String target) {
-        Map<String, String> data = new HashMap<>();
-        data.put("follow", follow);
-        data.put("target", target);
-        return memberMapper.deleteFollowlist(data) > 0;
-    }
-
     // 닉넴으로 마이페이지 정보 불러오기
     public MypageDto selectMypageDto(String nick) {
         return memberMapper.selectMypageDto(nick);
     }
 
-
     //로그인 시도.
-    public Map<String, Object> Login(Map<String, String> data, HttpServletRequest request,
-            HttpServletResponse response) {
+    public Map<String, Object> Login(String email, String pw, boolean autoLogin,
+     HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
+        Map<String, String> data = new HashMap<>();
+        data.put("email", email);
+        data.put("pw", pw);
+        
         try {
             boolean boolLogin = memberMapper.selectLogin(data) > 0;
             if (boolLogin) {
                 log.info("success");
                 // 로긴 성공하면
-                result = tokenService.generateToken(data, request, response);
+                result = tokenService.generateToken(data, 
+                autoLogin ? (JWT_TOKEN_VALIDITY_ONEDAY * 30) : JWT_TOKEN_VALIDITY_ONEDAY, request, response);
 
             } else {
                 // 로긴 실패하면 -> 회원이 아님
@@ -243,13 +211,21 @@ public class MemberService {
         Map<String, Object> result = new HashMap<>();
         try {
 
-            boolean boolLogin = memberMapper.CheckMemberExists(data) > 0;
-            if (boolLogin) {
-                // 로긴 성공하면
-                result = tokenService.generateToken(data, request, response);
+            boolean emailExists = memberMapper.selectCheckEmailExists(data.get("email")) > 0;
+            if (emailExists) {
+                boolean boolLogin = memberMapper.CheckMemberExists(data) > 0;
+                if(boolLogin) {
+                    // 로긴 성공하면
+                    result = tokenService.generateToken(data, JWT_TOKEN_VALIDITY_ONEDAY, request, response);
+                } else {
+                    // 로긴 실패하면 -> 요청 소셜이 아닌 다른 루트로 가입된 이메일 
+                    log.info("socialLogin -> duplicate");
+                    response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                }
             } else {
                 // 로긴 실패하면 -> 에러 가입된 소셜회원 없음 -> 소셜 회원가입으로 이동
-                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                log.info("socialLogin -> Non-members");
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
 
             return result;

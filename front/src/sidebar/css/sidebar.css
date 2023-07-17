@@ -119,3 +119,21 @@
     width: 70px;
     height: 100%;
 }
+
+.sidebarlogoutbtn{
+    font-size: 1px;
+    width: 6vw;
+    height: 3vh;
+    cursor: pointer;
+}
+
+.sidebarlogoutbtngroup{
+    border: 1px solid red;
+    bottom: 0;
+    width: 6vw;
+    height: 3vh;
+    left: 14.29%;
+    right: 0;
+    position: absolute;
+    display: inline-block;
+}

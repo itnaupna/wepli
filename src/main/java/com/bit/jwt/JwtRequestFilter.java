@@ -64,7 +64,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         Map<String, Object> rules = new HashMap<>();
         String authValue = "";
         MypageDto userDto;
-        
         // 비회원일경우
         if(token == null || token.equals("")) {
             
@@ -72,7 +71,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             // access token이 만료되었을경우
             log.info("[doFilterInternal] expired");
             String refreshToken = ts.accessToRefresh(token);
-            if(refreshToken != null) {
+            if(refreshToken != null && !jwtTokenProvider.expiredCheck(refreshToken.substring(6)).equals("expired")) {
                 refreshToken = refreshToken.substring(6);
                 log.info("doFilterInternal refToken after -> {}",refreshToken);
                 // refreshToken이 존재하는 경우 검증
@@ -101,7 +100,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     // JWT 쿠키 저장(쿠키 명 : token)
                     Cookie cookie = new Cookie("token", "Bearer" + accessToken);
                     cookie.setPath("/");
-                    cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
+                    cookie.setMaxAge(60 * 60 * 24 * 30); // 유효기간 1일
                     // httoOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
                     cookie.setHttpOnly(true);
 
@@ -114,10 +113,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 }
             } else {
                 // 기존 쿠키 삭제
-                log.info("cookie remove");
+                log.info("expired cookie remove");
                 Cookie cookie = new Cookie("token", null);
                 cookie.setPath("/");
-                cookie.setMaxAge(0); 
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
             }
         } else {
             // Bearer token인 경우 JWT 토큰 유효성 검사 진행
@@ -127,6 +127,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 try {
                     nick = jwtTokenProvider.getUsernameFromToken(accessToken);
                     // db에서 메일, 문자 인증 받았는지 여부에 따라 권한 부여
+                    log.info("nick name = {}", nick);
                     userDto = memberService.selectMypageDto(nick);
                     rules.put("roles",
                             userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
