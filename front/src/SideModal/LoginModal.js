@@ -4,37 +4,152 @@ import kakao from "./svg/kakaologin.svg";
 import naver from "./svg/naverlogin.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import arrow from "./svg/backarrow.svg";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import MypageMain from "../mypage/MypageMain";
 
-function LoginModal({setModalOpen,setFindIdModalOpen,setFindPassModalOpen,setSignUpModalOpen}) {
 
+function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, setSignUpModalOpen}) {
 
+    const [email, setEmail] = useState('');
+    const [pw, setPw] = useState('');
+    const navi = useNavigate();
+    const [isChecked, setIsChecked] = useState(false);
     //로그인 모달 오픈
     const showFindIdModal = async () => {
         await setModalOpen(false);
         setFindIdModalOpen(true);
     };
 
+    // 비밀번호찾기 모달 오픈
     const showFindPassModal = async () => {
         await setModalOpen(false);
         setFindPassModalOpen(true);
     };
 
+    // 회원가입 모달 오픈
     const showSignUpModal = async () => {
         await setModalOpen(false);
         setSignUpModalOpen(true);
     };
+
+    //로그인 모달 닫는 이벤트
     const closeModal = () => {
         setModalOpen(false);
     }
 
+
+    // 로그인버튼 클릭 이벤트
+    const onLoginSubmit = (e) => {
+        e.preventDefault();
+        const url = "/api/lv0/m/login";
+
+        axios.post(url, {email: email, pw: pw},
+            {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+
+            .then(res => {
+                const success = res.data.result;
+                const dto = res.data.data;
+
+                if (success === 'true') {
+                    console.log("성공", success);
+
+                    const dtoList = [];
+                    for (const key in dto) {
+                        dtoList.push(dto[key]);
+                    }
+                    sessionStorage.setItem('data', JSON.stringify(dtoList));
+                    setModalOpen(false);
+                    navi('/');
+                    console.log(dtoList);
+                } else {
+                    // 실패
+                    console.log("ㅇㅇ");
+                    alert("로그인 실패");
+                }
+            })
+            .catch(error => {
+                console.log("에러에요", error);
+                alert('아이디 비밀번호가 일치하지않습니다');
+            });
+    };
+
+    const onRadioLoginSubmit = (e) => {
+        e.preventDefault();
+        const url = "/api/lv0/m/login";
+
+        axios.post(url, {email: email, pw: pw},
+            {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+
+            .then(res => {
+                const success = res.data.result;
+                const dto = res.data.data;
+
+                if (success === 'true') {
+                    console.log("성공", success);
+
+                    const dtoList = [];
+                    for (const key in dto) {
+                        dtoList.push(dto[key]);
+                    }
+                    localStorage.setItem('data', JSON.stringify(dtoList))
+                    setModalOpen(false);
+                    navi('/');
+                    console.log(dtoList);
+                } else {
+                    // 실패
+                    const dtoList = [];
+                    for (const key in dto) {
+                        dtoList.push(dto[key]);
+                    }
+                    console.log(dto);
+                    console.log(dtoList);
+                    console.log("ㅇㅇ");
+                    alert("로그인 실패");
+                }
+            })
+            .catch(error => {
+                console.log("에러에요", error);
+                alert('아이디 비밀번호가 일치하지않습니다');
+            });
+    };
+
+    //로그인 클릭 이벤트
+    const handleLoginClick = (e) => {
+        if (isChecked) {
+            onRadioLoginSubmit(e);
+        } else {
+            onLoginSubmit(e);
+        }
+    }
+
+    // 라디오 체크 onchange
+    const handleRadioChange = (e) => {
+        setIsChecked(e.target.checked);
+    };
+
+
+    const handleInputEmail = (e) => {
+        setEmail(e.target.value);
+    }
+
+    const handleInputPw = (e) => {
+        setPw(e.target.value);
+    }
+
+
     return (
         <div>
-            <div className={'loginmodalmainframe'} onClick={closeModal}>
-
-            </div>
+            <div className={'loginmodalmainframe'} onClick={closeModal}></div>
             <div className="loginmodalgroup">
                 <div className="loginmodalautologinradiobox">
-                    <div className="loginmodalautologintext">자동 로그인</div>
+                    <input type={'radio'}
+                           id="autologin"
+                           name="autologin"
+                           checked={isChecked}
+                           onChange={handleRadioChange}/>
+
+                    <label htmlFor="autologin" className="loginmodalautologintext">자동로그인</label>
                     <div className="loginmodalradiogroup"/>
                 </div>
                 <div
@@ -46,7 +161,9 @@ function LoginModal({setModalOpen,setFindIdModalOpen,setFindPassModalOpen,setSig
                 <div className="loginmodalloginbtngroup">
                     <div className="loginmodalloginmodalbtn">
                         <div className="loginmodalbtngroup"/>
-                        <div className="loginmodalbtntext">로그인</div>
+                        <button type={'button'} className="loginmodalbtntext"
+                                onClick={handleLoginClick}>로그인
+                        </button>
                     </div>
                 </div>
                 <div className="gosignupbtn" onClick={showSignUpModal}>
@@ -81,8 +198,9 @@ function LoginModal({setModalOpen,setFindIdModalOpen,setFindPassModalOpen,setSig
                 <div className="loginmodalidlogininputgroup">
                     <div className="loginmodalsignuptext">
                         <div className="loginmodalgosignupbtn">
-                            <input className="loginmodalpassrectangle-child"
-                                   placeholder={'아이디를 입력해주세요'}></input>
+                            <input type={'email'} className="loginmodalpassrectangle-child"
+                                   placeholder={'아이디를 입력해주세요'}
+                                   value={email} onChange={handleInputEmail}></input>
                         </div>
                     </div>
                 </div>
@@ -90,7 +208,8 @@ function LoginModal({setModalOpen,setFindIdModalOpen,setFindPassModalOpen,setSig
                     <div className="loginmodalsignuptext">
                         <div className="loginmodalgosignupbtn">
                             <input type={'password'} className="loginmodalpassrectangle-child"
-                                   placeholder={'비밀번호를 입력해주세요'}></input>
+                                   placeholder={'비밀번호를 입력해주세요'}
+                                   value={pw} onChange={handleInputPw}></input>
                         </div>
                     </div>
                 </div>

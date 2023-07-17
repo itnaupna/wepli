@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -28,6 +29,7 @@ import com.bit.service.UserConfirmService;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class MemberController {
     @Autowired
     MemberService mService;
@@ -41,6 +43,7 @@ public class MemberController {
     // 회원가입 api
     @PostMapping("/lv0/m/member")
     public boolean postMember(@RequestBody MemberDto mDto) {
+        log.info(String.valueOf(mDto));
         return mService.joinMember(mDto);
     }
 
@@ -121,7 +124,7 @@ public class MemberController {
 
     //로그인
     @PostMapping("/lv0/m/login")
-    public Map<String, Object> access(@RequestParam String email, @RequestParam String pw,@RequestParam(required = false) boolean autoLogin,
+    public Map<String, Object> access(String email, String pw,@RequestParam(required = false) boolean autoLogin,
      HttpServletRequest request, HttpServletResponse response){
             return mService.Login(email, pw, autoLogin, request, response); 
     }

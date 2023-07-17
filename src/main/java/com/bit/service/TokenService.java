@@ -53,7 +53,7 @@ public class TokenService {
         tokenMapper.updateAccessToken(map);
     }
 
-    // 토큰 발급 로직(email)
+    // 토큰 발급 로직
     public Map<String, Object> generateToken(Map<String, String> data, long reqTokenValidity, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> result = new HashMap<>();
         Map<String, Object> claims = new HashMap<>();

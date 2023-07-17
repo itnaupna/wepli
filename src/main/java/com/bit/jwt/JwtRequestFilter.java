@@ -71,7 +71,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             // access token이 만료되었을경우
             log.info("[doFilterInternal] expired");
             String refreshToken = ts.accessToRefresh(token);
-            if(refreshToken != null) {
+            if(refreshToken != null && !jwtTokenProvider.expiredCheck(refreshToken.substring(6)).equals("expired")) {
                 refreshToken = refreshToken.substring(6);
                 log.info("doFilterInternal refToken after -> {}",refreshToken);
                 // refreshToken이 존재하는 경우 검증
