@@ -12,20 +12,11 @@ import FollowToggleButton from "../MainIMG/FollowToggleButton.png";
 import PlayListRankingTitle from "../MainIMG/PlayListRankinglogoTitle.png";
 import Aris from "../MainIMG/Aris.gif";
 import AddPliIcon from "../MainIMG/AddPliIcon.png";
+import PlayListMenu from "./PlayListMenu";
+import PlayLsitRankingLikeTop from "./PlayLsitRankingLikeTop";
 import Axios from "axios";
 
 function PlayListMain01PlayListRangkingMain(props) {
-    const [curr, setCurr] = useState(1);
-    const [cpp, setCpp] = useState(50);
-    const [orderByDay ,setOrderByDay] = useState(false);
-    const [likeTop50, setLikeTop50] = useState([]);
-
-    useEffect(()=>{
-        const LikeTop50Url = "/api/lv0/p/list";
-        Axios.get(LikeTop50Url,{ params: {orderByDay, curr, cpp}})
-            .then(res =>
-                setLikeTop50(res.data));
-    });
         return (
             <div className="playlistmain01">
                 <div className="playlistrankingheader">
@@ -34,90 +25,10 @@ function PlayListMain01PlayListRangkingMain(props) {
                         alt=""
                         src={PlayListRankingTitle}
                     />
-                    <div className="playlistbuttonlist">
-                        <div className="playlistbuttonset1">
-                            <div className="playlistbutton">
-                                <img
-                                    className="playlistbuttonicon"
-                                    alt=""
-                                    src={RangkingIcon}
-                                />
-                                <div className="playlistbuttontext">랭킹</div>
-                            </div>
-                            <div className="playlistbutton">
-                                <img
-                                    className="playlistbuttonicon"
-                                    alt=""
-                                    src={SearchIcon}
-                                />
-                                <div className="playlistbuttontext">검색</div>
-                            </div>
-                        </div>
-                        <div className="playlistbuttonset1">
-                            <div className="playlistbutton">
-                                <img className="playlistbuttonicon" alt="" src={MypliIcon} />
-                                <div className="playlistbuttontext">내 플리</div>
-                            </div>
-                            <div className="playlistbutton">
-                                <img
-                                    className="playlistbuttonicon"
-                                    alt=""
-                                    src={AddPliIcon}
-                                />
-                                <div className="playlistbuttontext">플리 만들기</div>
-                            </div>
-                        </div>
-                    </div>
+                        {<PlayListMenu/>}
                 </div>
                 <div className="playlistrankingbody">
-                    <div className="playlistrankinglistwapper">
-                        <div className="playlistrankinglistwrapper">
-                            <div className="playlistrankinglistitemswrappe">
-                                {
-                                    likeTop50.map((item, idx)=>
-                                        <div className="playlistrankinglistitem">
-                                            <div className="playlistrankinglistitemnumber">{idx+1}</div>
-                                            <img
-                                                className="playlistrankinglistitemthumbna-icon"
-                                                alt=""
-                                                src={Aris}
-                                            />
-                                            <div className="playlistrankinglistiteminfo1">
-                                                <div className="playlistrankinglistitemtitle">
-                                                    {item.title}
-                                                </div>
-                                                <div className="playlistrankinglistitemowner">
-                                                    {item.nick}
-                                                </div>
-                                            </div>
-                                            <div className="playlistrankinglistiteminfo2">
-                                                <div className="playlistrankinglistitemmakeday">
-                                                    생성일 : {item.makeday}
-                                                </div>
-                                                <div className="playlistrankinglistitemlikegro">
-                                                    <div className="playlistrankinglistitemlikenum">{item.likescount}</div>
-                                                    <img
-                                                        className="playlistrankinglistitemlikeico-icon"
-                                                        alt=""
-                                                        src={HeartImg}
-                                                    />
-                                                </div>
-                                                <div className="playlistrankinglistitemtags">
-                                                    <div className="playlistrankinglistitemcategor">
-                                                        #{item.genre}
-                                                    </div>
-                                                    <div className="playlistrankinglistitemcategor">
-                                                        #{item.tag}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                            </div>
-                        </div>
-                        <div className="playlistrankinglisttitle">좋아요 TOP</div>
-                    </div>
+                    {<PlayLsitRankingLikeTop/>}
                     <div className="playlistrankinglistwapper">
                         <div className="playlistrankinglistwrapper">
                             <div className="playlistrankinglistitemswrappe">

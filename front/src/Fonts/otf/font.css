@@ -20,8 +20,8 @@
 
 @font-face {
     font-family: 'BM HANNA_TTF';
-    src:url('./BMHANNAProOTF.otf') format('woff'),
-    url('./BMHANNAProOTF.otf') format('woff2');
+    src: url('https://cdn.jsdelivr.net/gh/wizfile/font/BM-HANNA.eot');
+    src:url('https://cdn.jsdelivr.net/gh/wizfile/font/BM-HANNA.woff') format('woff');
     /* 이런식으로 weight를 지정해서 사용할 수도 있다!*/
     font-weight: normal;
 }

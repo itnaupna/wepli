@@ -10,9 +10,9 @@ import SideBar from "./sidebar/SideBar";
 import MusicPlayerBar from "./musicbar/MusicPlayerBar";
 import PlayListMain03MyPlayListMain from "./PlayListMain/PlayListMain03MyPlayListMain";
 import PlayListDetail from "./PlayListMain/PlayListDetail";
+import PlayStage from "./PlayStation/PlayStageJS/PlayStage";
+import PlayStageList from "./PlayStation/PlayStageJS/PlayStageList"
 
-// import { useEffect, useState } from 'react';
-// import axios from 'axios';
 
 function App() {
 
@@ -23,13 +23,13 @@ function App() {
           <Routes>
               <Route path="/" element={<MainPage/>}/>
               <Route path="/mypage" element={<MypageMain/>}/>
-              <Route path="/PlayListMain" element={<PlayListMain/>}/>
-              <Route path="/RankingPage" element={<PlayListMain01PlayListRangkingMain/>}/>
-              <Route path="/PlayListSearch" element={<PlayListMain02PlayListSearchMain/>}/>
-              <Route path="/PlayListMyPli" element={<PlayListMain03MyPlayListMain/>}/>
-              <Route path="/PlayListDetail" element={<PlayListDetail/>}/>
-              <Route path="/PlayStage" element={<PlayStage/>}/>
-              <Route path="/PlayStageList" element={<PlayStageList/>}/>
+              <Route path="/playlistmain" element={<PlayListMain/>}/>
+              <Route path="/rankingpage" element={<PlayListMain01PlayListRangkingMain/>}/>
+              <Route path="/playlistsearch" element={<PlayListMain02PlayListSearchMain/>}/>
+              <Route path="/playlistmypli" element={<PlayListMain03MyPlayListMain/>}/>
+              <Route path="/playlistdetail" element={<PlayListDetail/>}/>
+              <Route path="/playstage" element={<PlayStage/>}/>
+              <Route path="/playstagelist" element={<PlayStageList/>}/>
           </Routes>
       </BrowserRouter>
   );
