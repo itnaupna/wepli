@@ -14,12 +14,7 @@ import PlayListDetail from "./PlayListMain/PlayListDetail";
 // import { useEffect, useState } from 'react';
 // import axios from 'axios';
 
-
-import PlayStage from './PlayStation/PlayStageJS/PlayStage';
-import PlayStageList from './PlayStation/PlayStageJS/PlayStageList';
-import TestPage from './TestPage';
 function App() {
-// <<<<<<< HEAD
 
   return (
       <BrowserRouter>
@@ -27,7 +22,6 @@ function App() {
           {/*<MusicPlayerBar/>*/}
           <Routes>
               <Route path="/" element={<MainPage/>}/>
-              <Route path="/test" element={<TestPage/>}/>
               <Route path="/mypage" element={<MypageMain/>}/>
               <Route path="/PlayListMain" element={<PlayListMain/>}/>
               <Route path="/RankingPage" element={<PlayListMain01PlayListRangkingMain/>}/>

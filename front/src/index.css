@@ -9,11 +9,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-image: url("../src/MainIMG/BackIMG.svg");
   background-size: cover;
-  background-repeat: repeat;
+  background-repeat: no-repeat;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
 }
-
