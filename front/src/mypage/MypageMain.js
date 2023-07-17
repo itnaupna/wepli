@@ -5,14 +5,29 @@ import message from "./svg/message.svg";
 import logo from "./photo/wplieonlylogo.png";
 import background from "./photo/backmian.png";
 function MypageMain(props) {
+
+
+    const data = sessionStorage.getItem('data') || localStorage.getItem('data');
+    let nick = '';
+    let profile = '';
+    if (data) {
+        const parsedData = JSON.parse(data);
+        nick = parsedData[1];
+        profile = parsedData[5];
+        console.log(nick);
+    }
+
+    const profileimg = process.env.REACT_APP_BUCKET_URL;
+
+    console.log(nick);
     return (
         <div className="mypageframe">
             <img className="image-8-icon" alt="" src={background} />
             <div className="middlebox" />
             <div className="memberprofile">
-                <img className="org-3-icon" alt="" src={cover} />
+                <img className="org-3-icon" alt="" src={`${profileimg}/profile/${profile}`} />
             </div>
-            <div className="memebersmypage">이상혁님 마이페이지</div>
+            <div className="memebersmypage">{nick}님 마이페이지</div>
             <div className="followbox">
                 <div className="followtext">팔로워</div>
                 <div className="follownumber">1200명</div>

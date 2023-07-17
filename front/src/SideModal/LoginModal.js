@@ -5,13 +5,16 @@ import naver from "./svg/naverlogin.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import arrow from "./svg/backarrow.svg";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import MypageMain from "../mypage/MypageMain";
 
 
 function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, setSignUpModalOpen}) {
 
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
-
+    const navi = useNavigate();
+    const [isChecked, setIsChecked] = useState(false);
     //로그인 모달 오픈
     const showFindIdModal = async () => {
         await setModalOpen(false);
@@ -48,15 +51,16 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
                 const success = res.data.result;
                 const dto = res.data.data;
 
-                if(success==='true') {
-                    console.log("성공",success);
+                if (success === 'true') {
+                    console.log("성공", success);
 
                     const dtoList = [];
-                    for (const key in dto){
+                    for (const key in dto) {
                         dtoList.push(dto[key]);
                     }
-                    sessionStorage.setItem('data',dtoList);
-
+                    sessionStorage.setItem('data', JSON.stringify(dtoList));
+                    setModalOpen(false);
+                    navi('/');
                     console.log(dtoList);
                 } else {
                     // 실패
@@ -70,26 +74,60 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
             });
     };
 
-    // const onLogoutSubmit = (e) => {
-    //     e.preventDefault();
-    //     const url = "/lv1/m/logout";
-    //     axios.post(url)
-    //         .then(res => {
-    //             const {success} = res.data;
-    //             console.log(res.data);
-    //             if (success) {
-    //                 console.log("굿");
-    //             } else {
-    //                 // 실패
-    //                 console.log("ㄷㄷ");
-    //                 alert("ㅁㄹ");
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.log("에러에러에러에ㅓ레어레", error);
-    //         });
-    //     document.location.href = '/'
-    // }
+    const onRadioLoginSubmit = (e) => {
+        e.preventDefault();
+        const url = "/api/lv0/m/login";
+
+        axios.post(url, {email: email, pw: pw},
+            {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+
+            .then(res => {
+                const success = res.data.result;
+                const dto = res.data.data;
+
+                if (success === 'true') {
+                    console.log("성공", success);
+
+                    const dtoList = [];
+                    for (const key in dto) {
+                        dtoList.push(dto[key]);
+                    }
+                    localStorage.setItem('data', JSON.stringify(dtoList))
+                    setModalOpen(false);
+                    navi('/');
+                    console.log(dtoList);
+                } else {
+                    // 실패
+                    const dtoList = [];
+                    for (const key in dto) {
+                        dtoList.push(dto[key]);
+                    }
+                    console.log(dto);
+                    console.log(dtoList);
+                    console.log("ㅇㅇ");
+                    alert("로그인 실패");
+                }
+            })
+            .catch(error => {
+                console.log("에러에요", error);
+                alert('아이디 비밀번호가 일치하지않습니다');
+            });
+    };
+
+    //로그인 클릭 이벤트
+    const handleLoginClick = (e) => {
+        if (isChecked) {
+            onRadioLoginSubmit(e);
+        } else {
+            onLoginSubmit(e);
+        }
+    }
+
+    // 라디오 체크 onchange
+    const handleRadioChange = (e) => {
+        setIsChecked(e.target.checked);
+    };
+
 
     const handleInputEmail = (e) => {
         setEmail(e.target.value);
@@ -105,7 +143,13 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
             <div className={'loginmodalmainframe'} onClick={closeModal}></div>
             <div className="loginmodalgroup">
                 <div className="loginmodalautologinradiobox">
-                    <div className="loginmodalautologintext">자동 로그인</div>
+                    <input type={'radio'}
+                           id="autologin"
+                           name="autologin"
+                           checked={isChecked}
+                           onChange={handleRadioChange}/>
+
+                    <label htmlFor="autologin" className="loginmodalautologintext">자동로그인</label>
                     <div className="loginmodalradiogroup"/>
                 </div>
                 <div
@@ -118,7 +162,7 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
                     <div className="loginmodalloginmodalbtn">
                         <div className="loginmodalbtngroup"/>
                         <button type={'button'} className="loginmodalbtntext"
-                                onClick={onLoginSubmit}>로그인
+                                onClick={handleLoginClick}>로그인
                         </button>
                     </div>
                 </div>
@@ -185,7 +229,6 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
                     />
                 </div>
             </div>
-
         </div>
     );
 }

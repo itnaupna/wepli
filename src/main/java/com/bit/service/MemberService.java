@@ -37,13 +37,15 @@ public class MemberService {
     public boolean joinMember(MemberDto mDto) {
         System.out.println(mDto);
         try {
+            log.info(String.valueOf(mDto));
             mDto.setEmailconfirm(mDto.getSocialtype() == null ? 0 : 1);
             log.info("{}",mDto.getEmailconfirm());
             if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1) {
                 return false;
             } else {
+                memberMapper.insertJoinMember(mDto);
                 tokenService.insertToken(mDto.getNick());
-                return memberMapper.insertJoinMember(mDto) > 0;
+                return  true;
             }
             
         } catch (Exception e) {

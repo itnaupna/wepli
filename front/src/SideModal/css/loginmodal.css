@@ -1,21 +1,17 @@
 /*@import url("https://fonts.googleapis.com/css2?family=SF+Pro+Text:wght@400&display=swap");*/
 
-.loginmodalautologintext {
-    position: absolute;
-    top: 0.13rem;
-    left: 2rem;
-    font-weight: 500;
+.loginmodalautologinradiobox {
+    display: flex;
+    align-items: center;
 }
-.loginmodalradiogroup {
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 50%;
-    background-color: #fff;
-    border: 2px solid #cfd1d5;
-    box-sizing: border-box;
-    width: 1.19rem;
-    height: 1.19rem;
+
+.loginmodalautologintext {
+    margin-right: 1vw;
+    width: 10vw;
+}
+
+.loginmodalautologinlabel {
+    margin-left: 1vw;
 }
 .loginmodalautologinradiobox {
     position: absolute;
