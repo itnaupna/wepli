@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Aris from "../MainIMG/Aris.gif";
 import HeartImg from "../MainIMG/Heart.png";
+import dayjs from 'dayjs';
 import Axios from "axios";
 
 function PlayLsitRankingLikeTop(props) {
@@ -38,7 +39,7 @@ function PlayLsitRankingLikeTop(props) {
                                 </div>
                                 <div className="playlistrankinglistiteminfo2">
                                     <div className="playlistrankinglistitemmakeday">
-                                        생성일 : {item.makeday}
+                                        생성일 : {dayjs(item.makeday).format('YYYY-MM-DD')}
                                     </div>
                                     <div className="playlistrankinglistitemlikegro">
                                         <div className="playlistrankinglistitemlikenum">{item.likescount}</div>

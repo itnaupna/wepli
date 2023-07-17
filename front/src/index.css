@@ -7,9 +7,19 @@ body {
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.backgroundImgDiv{
+  position: fixed;
   background-image: url("../src/MainIMG/BackIMG.svg");
-  background-size: cover;
   background-repeat: no-repeat;
+  background-size: cover;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  overflow : auto;
 }
 
 code {

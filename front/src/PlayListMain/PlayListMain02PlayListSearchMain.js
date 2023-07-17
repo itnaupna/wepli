@@ -66,6 +66,7 @@ function PlayListMain02PlayListSearchMain(props) {
 
     const SelectSearchOption = (e) =>{
         setType(e.target.getAttribute("value"));
+
     }
 
     const reload = () =>{

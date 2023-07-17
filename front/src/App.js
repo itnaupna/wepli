@@ -23,6 +23,7 @@ function App() {
       <BrowserRouter>
           <SideBar/>
           {/*<MusicPlayerBar/>*/}
+              <div className="backgroundImgDiv">
           <Routes>
               <Route path="/" element={<MainPage/>}/>
               <Route path="/mypage" element={<MypageMain/>}/>
@@ -38,6 +39,7 @@ function App() {
                   <h1 style={{width:"100%", textAlign:"center" , marginTop:"25%", position:"absolute"}}>페이지가 없습니다</h1>
               }/>
           </Routes>
+              </div>
       </BrowserRouter>
   );
 }

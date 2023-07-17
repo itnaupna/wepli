@@ -3,6 +3,7 @@ import Aris from "../MainIMG/Aris.gif";
 import SearchCommentIcon from "../MainIMG/SearchCommentIcon.png";
 import MusicList from "../MainIMG/MusicList.png";
 import HeartImg from "../MainIMG/Heart.png";
+import dayjs from 'dayjs';
 import Axios from "axios";
 
 function PlayListSearchDetail({searchResult}) {
@@ -33,14 +34,14 @@ function PlayListSearchDetail({searchResult}) {
                                     />
                                 </div>
                                 <div className="playlistsearchsongwrapper">
-                                    <div className="playlistsearchcommentcount">1000</div>
+                                    <div className="playlistsearchcommentcount">{item.songsCount}</div>
                                     <img
                                         className="playlistsearchcommenticonwrapp"
                                         alt=""
                                         src={MusicList}
                                     />
                                 </div>
-                                <div className="playlistsearchmakeday">생성일 : {item.makeday}</div>
+                                <div className="playlistsearchmakeday">생성일 : {dayjs(item.makeday).format('YYYY-MM-DD')}</div>
                                 <div className="playlistsearchowner">{item.nick}</div>
                                 <div className="playlistsearchtitle">{item.title}</div>
                                 <div className="playlistsearchlikewrapper">
