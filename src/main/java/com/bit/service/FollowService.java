@@ -77,4 +77,14 @@ public class FollowService {
         data.put("target", follow);
         return followMapper.unFollowlist(data) > 0;
     }
+
+    //대상 팔로우 여부
+    public int isFollowchk(String token, String target) {
+        String follow = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        Map<String, String> followAndTarget = new HashMap<>();
+        followAndTarget.put("follow", follow);
+        followAndTarget.put("target", target);
+        
+        return followMapper.isFollowchk(followAndTarget);
+    }
 }

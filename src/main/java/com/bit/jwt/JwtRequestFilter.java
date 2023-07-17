@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bit.dto.MypageDto;
+import com.bit.mapper.MemberMapper;
 import com.bit.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +23,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.bit.service.MemberService;
 
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -44,7 +44,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private TokenService ts;
 
     @Autowired
-    private MemberService memberService;
+    private MemberMapper membermMapper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -80,7 +80,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     nick = jwtTokenProvider.getUsernameFromToken(refreshToken);
                     // refreshToken 인증 성공인 경우 accessToken 재발급
                     // 권한 map 저장
-                    userDto = memberService.selectMypageDto(nick);
+                    userDto = membermMapper.selectMypageDto(nick);
                     rules.put("roles",
                             userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
                     // JWT 발급
@@ -128,7 +128,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     nick = jwtTokenProvider.getUsernameFromToken(accessToken);
                     // db에서 메일, 문자 인증 받았는지 여부에 따라 권한 부여
                     log.info("nick name = {}", nick);
-                    userDto = memberService.selectMypageDto(nick);
+                    userDto = membermMapper.selectMypageDto(nick);
                     rules.put("roles",
                             userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
                 } catch (SignatureException e) {
