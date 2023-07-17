@@ -24,7 +24,7 @@ function App() {
   return (
       <BrowserRouter>
           <SideBar/>
-          {/*<MusicPlayerBar/>*/}
+          <MusicPlayerBar/>
           <Routes>
               <Route path="/" element={<MainPage/>}/>
               <Route path="/test" element={<TestPage/>}/>

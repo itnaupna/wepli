@@ -1,300 +1,573 @@
-.stagebuttonstagetext {
-    position: relative;
-}
-.stagebuttonstage {
-    border-radius: 10px;
-    background-color: #8f8fff;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
-    padding: 0px 20px;
+.stage,
+.stage * {
     box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    min-height: 70px;
 }
-.stagebuttonqueue {
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
-    padding: 0px 20px;
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    min-height: 70px;
-}
-.stageleftbuttongroupa {
-    flex: 1;
-    height: 90px;
-    overflow: hidden;
+
+.stage {
+    padding: 10px 80px 10px 80px;
+    margin: auto;
     display: flex;
     flex-direction: row;
-    padding: 10px;
-    box-sizing: border-box;
+    gap: 30px;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 1380px;
+    height: 810px;
+    min-width: 1380px;
+    max-width: 1710px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stage-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     align-items: center;
     justify-content: flex-start;
-    gap: 10px;
-    min-width: 250px;
-}
-.stagebuttongrabicon {
+    flex: 1;
+    height: 790px;
+    min-width: 710px;
     position: relative;
-    width: 50px;
-    height: 50px;
     overflow: hidden;
-    flex-shrink: 0;
 }
-.stagebuttongrab {
+
+.stage-left-header {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
     align-self: stretch;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    flex-shrink: 0;
+    position: relative;
     overflow: hidden;
+}
+
+.stage-left-button-group-a {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    width: 270px;
+    height: 90px;
+    min-width: 250px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stageactive {
+    background: #8f8fff !important;
+}
+
+.stagebutton:hover {
+    background: #bcbcff
+}
+
+.stagebutton:active {
+    background: #aaf
+}
+
+.stagebutton {
+    background: #fff;
+}
+
+.stage-button-stage {
+    background: #fff;
+    border-radius: 10px;
+    padding: 0px 20px 0px 20px;
     display: flex;
     flex-direction: column;
-    padding: 0px 20px;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 136px;
+    min-height: 70px;
+    position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.stage-button-stage-text {
+    color: #000000;
+    text-align: center;
+    font: 400 25px "BM DoHyeon", sans-serif;
+    position: relative;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
-.stageleftbuttongroupb {
-    flex: 1;
-    height: 90px;
-    overflow: hidden;
+
+.stage-button-queue {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0px 20px 0px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 112px;
+    min-height: 70px;
+    position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.stage-button-queue-text {
+    color: #000000;
+    text-align: center;
+    font: 400 25px "BM DoHyeon", sans-serif;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stage-left-button-group-b {
+    padding: 10px;
     display: flex;
     flex-direction: row;
-    padding: 10px;
-    box-sizing: border-box;
+    gap: 10px;
     align-items: center;
     justify-content: flex-end;
-    gap: 10px;
+    flex-shrink: 0;
+    width: 420px;
+    height: 90px;
     min-width: 420px;
-}
-.stageleftheader {
-    align-self: stretch;
+    position: relative;
     overflow: hidden;
+}
+
+.stage-button-grab {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0px 20px 0px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.stage-button-grab-icon {
+    flex-shrink: 0;
+    position: relative;
+    overflow: visible;
+}
+
+.stage-button-up {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0px 20px 0px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.stage-button-up-icon {
+    flex-shrink: 0;
+    position: relative;
+    overflow: visible;
+}
+
+.stage-button-down {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0px 20px 0px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.stage-button-down-icon {
+    flex-shrink: 0;
+    position: relative;
+    overflow: visible;
+}
+
+.stage-button-skip {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0px 20px 0px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-height: 70px;
+    position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.stage-button-skip-text {
+    color: #000000;
+    text-align: center;
+    font: 400 25px "BM DoHyeon", sans-serif;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stage-left-body {
+    /* background: #bac1ff; */
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+.stage-left-body iframe{
+    margin: auto;
+    left: 0;
+    right: 0;
+    position: absolute;
+    top: 0;
+}
+
+.stage-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: center;
+    flex: 1;
+    height: 790px;
+    min-width: 480px;
+    max-width: 600px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stage-right-header {
+    padding: 15px 5px 15px 5px;
     display: flex;
     flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
-    padding: 5px;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-.stageleftbody {
     align-self: stretch;
-    flex: 1;
-    position: relative;
-    background-color: #bac1ff;
-    overflow: hidden;
-}
-.stageleft {
-    flex: 1;
-    height: 949px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
-    min-width: 710px;
-}
-.stagebuttonchaticon {
-    position: relative;
-    width: 60px;
-    height: 60px;
-    overflow: hidden;
     flex-shrink: 0;
-}
-.stagebuttonchat {
-    align-self: stretch;
-    flex: 1;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    padding: 0px 20px;
-    align-items: center;
-    justify-content: center;
-}
-.stagebuttonpeopleicon {
-    position: relative;
-    width: 40px;
-    height: 40px;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-.stagebuttonpeoplecount {
-    position: relative;
-    font-size: 20px;
-    color: #000;
-}
-.stagebuttonpeople {
-    align-self: stretch;
-    flex: 1;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    padding: 0px 20px;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-.stagerightheader {
-    align-self: stretch;
     height: 100px;
+    position: relative;
     overflow: hidden;
+}
+
+.stage-button-chat-icon {
     flex-shrink: 0;
+    position: relative;
+    overflow: visible;
+}
+
+.rightbutton {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    padding: 0px 20px 0px 20px;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    padding: 15px 5px;
-    box-sizing: border-box;
+    gap: 10px;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    font-size: 15px;
-    color: #707070;
-}
-.stagechatitemuserimg-icon {
+    align-self: stretch;
+    flex: 1;
     position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.rightbutton:hover{
+    background:#eee;
+}
+
+.rightbutton:active{
+    background:#ccc;
+}
+.rightactive{
+    background:#fff;
+}
+.stage-button-people-icon {
+    flex-shrink: 0;
+    position: relative;
+    overflow: visible;
+}
+
+.stage-button-people-count {
+    color: #000000;
+    text-align: center;
+    font: 400 20px "BM DoHyeon", sans-serif;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* . {
+    color: #707070;
+    text-align: center;
+    font: 400 15px "BM DoHyeon", sans-serif;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
+
+.stage-button-guest-count {
+    color: #707070;
+    text-align: center;
+    font: 400 15px "BM DoHyeon", sans-serif;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stagechatwrapper {
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    align-items: flex-start;
+    justify-content: center;
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.stage-chat-body {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px 10px 0px 0px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow: auto;
+}
+
+.stage-chat-item {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.stage-chat-item-user-img {
+    flex-shrink: 0;
     width: 50px;
     height: 50px;
-    object-fit: cover;
-}
-.stagechatitemtimestamp {
     position: relative;
-    font-size: 15px;
-    color: #666;
 }
-.stagechatitemheader {
-    align-self: stretch;
+
+.stage-chat-item-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.stage-chat-item-header {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-}
-.stagechatitemmsg {
     align-self: stretch;
-    position: relative;
-    text-align: left;
-}
-.stagechatitemdetail {
-    flex: 1;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 10px;
-}
-.stagechatitem {
-    align-self: stretch;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    padding: 5px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 5px;
-}
-.stagechatbody {
-    align-self: stretch;
-    flex: 1;
-    border-radius: 10px 10px 0px 0px;
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-}
-.stagechattail-icon {
-    align-self: stretch;
-    position: relative;
-    border-radius: 0px 0px 10px 10px;
-    max-width: 100%;
-    overflow: hidden;
-    height: 87px;
     flex-shrink: 0;
-}
-.stagechatwrapper {
-    align-self: stretch;
-    flex: 1;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    align-items: flex-start;
-    justify-content: center;
-}
-.stagepeoplemastericon {
     position: relative;
-    width: 40px;
-    height: 40px;
-}
-.stagepeopleitem {
-    align-self: stretch;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    padding: 5px 10px;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
-}
-.stagepeoplebody {
-    align-self: stretch;
-    flex: 1;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    align-items: center;
-    justify-content: flex-start;
-}
-.stageright {
-    flex: 1;
-    height: 949px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 10px;
-    min-width: 480px;
-    max-width: 600px;
-    font-size: 20px;
-}
-.stage {
-    position: relative;
-    width: 100%;
-    height: 969px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 10px;
-    box-sizing: border-box;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 30px;
-    min-width: 1240px;
-    max-width: 1710px;
-    text-align: center;
-    font-size: 25px;
-    color: #000;
-    font-family: 'BM DoHyeon';
 }
 
+.stage-chat-item-writer {
+    color: #000000;
+    text-align: center;
+    font: 400 20px "BM DoHyeon", sans-serif;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stage-chat-item-timestamp {
+    color: #666666;
+    text-align: center;
+    font: 400 15px "BM DoHyeon", sans-serif;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stage-chat-item-msg {
+    color: #000000;
+    text-align: left;
+    font: 400 20px "BM DoHyeon", sans-serif;
+    position: relative;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.stage-chat-tail {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 0px 0px 10px 10px;
+    border-style: solid;
+    border-color: #000000;
+    border-width: 1px 0px 0px 0px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    align-items: flex-start;
+    justify-content: center;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.stage-chat-input {
+    background: transparent;
+    border:0px;
+
+    flex: 1;
+    height: 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stage-chat-send-button {
+    flex-shrink: 0;
+    position: relative;
+    overflow: visible;
+}
+
+.stagepeoplewrapper {
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    align-items: flex-start;
+    justify-content: center;
+    flex: 1;
+    width: 480px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stage-people-body {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1;
+    width: 470px;
+    position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.stage-people-item {
+    padding: 5px 10px 5px 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.stage-people-img {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+.stage-people-nickname {
+    color: #000000;
+    text-align: center;
+    font: 400 20px "BM DoHyeon", sans-serif;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stage-people-master-icon {
+    flex-shrink: 0;
+    position: relative;
+    overflow: visible;
+}
+
+.stage-people-vaild-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.vector6 {
+    position: absolute;
+    left: 2.14px;
+    top: 2.14px;
+    overflow: visible;
+}
+
+.check {
+    position: absolute;
+    left: 12.86px;
+    top: 12.86px;
+    overflow: visible;
+}
