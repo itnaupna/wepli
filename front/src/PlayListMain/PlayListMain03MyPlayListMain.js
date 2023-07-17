@@ -17,13 +17,17 @@ import SearchMusicListIcon from "../MainIMG/SearchMusicListIcon.png";
 import SearchToggleIcon from "../MainIMG/SearchToggleIcon.png";
 import MoluCover from "../MainIMG/MoluCover.png";
 const PlayListMain03MyPlayListMain = () => {
-    return (
+    const reload = () =>{
+        window.location.replace("");
+    }
+        return (
         <div className="playlistmain03">
             <div className="playlistmypliheader">
                 <img
                     className="playlistmyplilogotitle-icon"
                     alt=""
                     src={PlayListMyPlilogoTitle}
+                    onClick={reload}
                 />
                 {<PlayListMenu/>}
             </div>

@@ -17,6 +17,9 @@ import PlayLsitRankingLikeTop from "./PlayLsitRankingLikeTop";
 import Axios from "axios";
 
 function PlayListMain01PlayListRangkingMain(props) {
+    const reload = () =>{
+        window.location.replace("");
+    }
         return (
             <div className="playlistmain01">
                 <div className="playlistrankingheader">
@@ -24,6 +27,7 @@ function PlayListMain01PlayListRangkingMain(props) {
                         className="playlistrankinglogotitle-icon"
                         alt=""
                         src={PlayListRankingTitle}
+                        onClick={reload}
                     />
                         {<PlayListMenu/>}
                 </div>

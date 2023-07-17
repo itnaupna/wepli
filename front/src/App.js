@@ -30,6 +30,10 @@ function App() {
               <Route path="/playlistdetail" element={<PlayListDetail/>}/>
               <Route path="/playstage" element={<PlayStage/>}/>
               <Route path="/playstagelist" element={<PlayStageList/>}/>
+              
+              <Route path="/*" element={
+                  <h1 style={{width:"100%", textAlign:"center" , marginTop:"25%", position:"absolute"}}>페이지가 없습니다</h1>
+              }/>
           </Routes>
       </BrowserRouter>
   );

@@ -20,12 +20,12 @@ function PlayListSearchDetail({searchResult}) {
                             <div className="playlistsearchinfowrapper">
                                 <div className="playlistsearchtagswrapper">
                                     <div className="playlistsearchcategory">
-                                        #{item.genre}
+                                        {item.genre===""?null:"#" + item.genre}
                                     </div>
-                                    <div className="playlistsearchtag">#{item.tag}</div>
+                                    <div className="playlistsearchtag">{item.tag === ""?null:"#" + item.tag}</div>
                                 </div>
                                 <div className="playlistsearchcommentwrapper">
-                                    <div className="playlistsearchcommentcount">1000</div>
+                                    <div className="playlistsearchcommentcount">{item.commentscount}</div>
                                     <img
                                         className="playlistsearchcommenticonwrapp"
                                         alt=""

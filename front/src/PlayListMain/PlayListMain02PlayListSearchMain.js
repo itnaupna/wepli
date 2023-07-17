@@ -5,6 +5,8 @@ import Aru from  "../MainIMG/ARu.gif";
 import Aris from "../MainIMG/Aris.gif";
 import PlayListSearchlogoTitle from "../MainIMG/PlayListSearchlogoTitle.png";
 import SearchBarIcon from "../MainIMG/SearchBarIcon.png";
+import SearchToggleIcon from "../MainIMG/SearchToggleIcon.png";
+import SearchToggleIconUp from "../MainIMG/SearchToggleIconUp.png";
 import PlayListSearchDetail from "./PlayListSearchDetail";
 import PlayListMenu from "./PlayListMenu";
 import Axios from "axios";
@@ -20,10 +22,19 @@ function PlayListMain02PlayListSearchMain(props) {
     const [orderByDay ,setOrderByDay] = useState(true);
     const [searchDetail, setSearchDetail] = useState([]);
     const [searchResult, setSearchResult] = useState();
+    const [toggleOption, setToggleOption] = useState(["제목","닉네임","장르","태그"]);
+
 
     const searchOnChange = useCallback(e =>{
         setQueryString(e.target.value);
     });
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
+
 
     useEffect(()=>{
         const searchDetailUrl = "/api/lv0/p/list";
@@ -33,17 +44,33 @@ function PlayListMain02PlayListSearchMain(props) {
     },[]);
 
 
+    const NoSearch =() =>{
+        const searchDetailUrl = "/api/lv0/p/list";
+        Axios.get(searchDetailUrl,{ params: {orderByDay, curr, cpp}})
+            .then(res =>
+                setSearchResult(res.data));
+    };
+
     const SearchButton = () => {
         const SearchURl = "/api//lv0/p/search";
+        queryString === ""? NoSearch():
         Axios.get(SearchURl,{ params: {type, queryString}})
             .then(res =>
                 setSearchResult(res.data));
     };
     const SearchEnter = (e) =>{
         if (e.key === 'Enter') {
-            SearchButton();
+                SearchButton();
         }
     };
+
+    const SelectSearchOption = (e) =>{
+        setType(e.target.getAttribute("value"));
+    }
+
+    const reload = () =>{
+        window.location.replace("");
+    }
 
     return (
         <div className="playlistmain02">
@@ -52,6 +79,7 @@ function PlayListMain02PlayListSearchMain(props) {
                     className="playlistsearchlogotitle-icon"
                     alt=""
                     src={PlayListSearchlogoTitle}
+                    onClick={reload}
                 />
                 <div className="playlistbuttonlist-parent">
                     {<PlayListMenu/>}
@@ -61,9 +89,19 @@ function PlayListMain02PlayListSearchMain(props) {
                             <img
                                 className="playlistmainsearchtoggle-icon"
                                 alt=""
-                                src="/playlistmainsearchtoggle.svg"
+                                src={SearchToggleIcon}
                             />
-                            <div className="playlistmainsearchoption">제목</div>
+                            <div className="playlistmainsearchoption" onClick={toggleDropdown}>{
+                                toggleOption[type]}
+                                {isOpen && (
+                                    <div  className="playlistmainsearchDropDownBody"><img alt="" className="playlistmainsearchtoggleUP-icon" src={SearchToggleIconUp}/>
+                                        <option className="playlistmainsearchDropDown" onClick={SelectSearchOption} value={0}>제목</option>
+                                        <option className="playlistmainsearchDropDown" onClick={SelectSearchOption} value={1}>닉네임</option>
+                                        <option className="playlistmainsearchDropDown" onClick={SelectSearchOption} value={2} >장르</option>
+                                        <option className="playlistmainsearchDropDown" onClick={SelectSearchOption} value={3}>태그</option>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                         <div className="playlistsearchbar">
                             <input className="playlsitsearchbarbody" onKeyPress={SearchEnter} value={queryString} type="text" placeholder="검색할 내용을 입력해 주세요"  onChange={searchOnChange}/>
