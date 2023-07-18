@@ -54,9 +54,11 @@ function KakaoCallback() {
                                 .catch((error) => {
                                     if (error.response && error.response.status === 417) {
                                         console.log('err : 417');
+                                        alert('이미 가입된 이메일입니다.');
                                         navi('/');
                                     } else if (error.response && error.response.status === 404) {
                                         console.log('err : 404');
+                                        alert('가입되지않은 이메일입니다. 회원가입을 해주세요.');
                                         navi('/');
                                     } else {
                                         console.log('err : ', error.response ? error.response.status : error);

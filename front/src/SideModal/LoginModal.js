@@ -6,7 +6,6 @@ import logo from "./photo/weplieonlylogoonlylogo.png";
 import arrow from "./svg/backarrow.svg";
 import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
-import MypageMain from "../mypage/MypageMain";
 
 
 function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, setSignUpModalOpen}) {
@@ -60,7 +59,7 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
                     }
                     sessionStorage.setItem('data', JSON.stringify(dtoList));
                     setModalOpen(false);
-                    navi('/');
+                    window.location.replace("/");
                     console.log(dtoList);
                 } else {
                     // 실패
