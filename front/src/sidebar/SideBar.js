@@ -49,7 +49,7 @@ function SideBar(props) {
     //플레이리스트 이동
     const handleListClick = () => {
         //플레이리스트 이동
-        navigate('/RankingPage')
+        navigate('/ranking')
     };
 
     // 메인페이지 이동
@@ -59,7 +59,7 @@ function SideBar(props) {
 
     // 스테이지 이동
     const handleStageClick = () => {
-        navigate('/Test01');
+        navigate('/stage');
     };
 
     // 로그아웃

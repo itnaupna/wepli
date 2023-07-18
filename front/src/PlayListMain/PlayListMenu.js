@@ -9,7 +9,7 @@ function PlayListMenu(props) {
     return (
         <div className="playlistbuttonlist">
             <div className="playlistbuttonset1">
-                <Link to="../rankingpage" className="playlistbutton">
+                <Link to="../ranking" className="playlistbutton">
                     <img
                         className="playlistbuttonicon"
                         alt=""
@@ -17,7 +17,7 @@ function PlayListMenu(props) {
                     />
                     <div className="playlistbuttontext">랭킹</div>
                 </Link>
-                <Link to="../playlistsearch" className="playlistbutton">
+                <Link to="../pli" className="playlistbutton">
                     <img
                         className="playlistbuttonicon"
                         alt=""
@@ -27,7 +27,7 @@ function PlayListMenu(props) {
                 </Link>
             </div>
             <div className="playlistbuttonset1">
-                <Link to="../playlistmypli" className="playlistbutton">
+                <Link to="../mypli" className="playlistbutton">
                     <img className="playlistbuttonicon" alt="" src={MypliIcon} />
                     <div className="playlistbuttontext">내 플리</div>
                 </Link>

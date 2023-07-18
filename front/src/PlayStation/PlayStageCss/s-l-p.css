@@ -1,26 +1,25 @@
-.slpmystagemakeday {
-  position: absolute;
-  top: 250px;
-  left: 0px;
+.slpitembigimg-icon {
+  position: relative;
+  border-radius: 20px;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+.slpitembigday {
+  position: relative;
+  text-transform: capitalize;
   display: flex;
   align-items: center;
   width: 250px;
-  height: 37.5px;
 }
-.slpmystageimg-icon {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  border-radius: 20px;
-  width: 250px;
-  height: 250px;
-  object-fit: cover;
-}
-.slpmystageimgwrapper {
+.slpitembigimgwrapper {
   flex: 1;
-  position: relative;
-  height: 287.5px;
-  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  min-width: 200px;
   max-width: 250px;
 }
 .slpmystagelikeicon {
@@ -28,24 +27,24 @@
   width: 30px;
   height: 30px;
 }
+.slpitembiglikewrapper,
+.slpmystagelikecount {
+  height: 35px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 .slpmystagelikecount {
   position: relative;
   text-transform: capitalize;
-  display: flex;
-  align-items: center;
   width: 80px;
-  height: 35px;
-  flex-shrink: 0;
 }
-.slpmystagelikewrapper {
+.slpitembiglikewrapper {
   width: 110px;
-  height: 35px;
   overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: center;
 }
 .slpmystagepeopleicon {
@@ -55,129 +54,101 @@
   overflow: hidden;
   flex-shrink: 0;
 }
+.slpmystagecategory,
 .slpmystageowner {
   align-self: stretch;
   position: relative;
-  font-family: 'BM HANNA Air';
+  font-family: "BM HANNA Air";
   color: #0047ff;
 }
 .slpmystagecategory {
-  align-self: stretch;
-  position: relative;
-  font-family: 'BM HANNA Air';
   color: #535353;
 }
-.slpmystageinfo {
+.slpitembigheader,
+.slpitembiginfo {
   align-self: stretch;
+  display: flex;
+  justify-content: flex-start;
+}
+.slpitembiginfo {
   flex: 1;
   overflow: hidden;
-  display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: flex-start;
-  gap: 12px;
+  gap: 5px;
   text-align: right;
   color: #000;
-  font-family: 'BM HANNA_TTF';
+  font-family: "BM HANNA_TTF";
 }
-.slpmystagetop {
-  align-self: stretch;
-  display: flex;
+.slpitembigheader {
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
   gap: 10px;
+}
+.slpmystagedescription,
+.slpmystagetitle {
+  align-self: stretch;
+  position: relative;
+  text-transform: capitalize;
+}
+.slpmystagetitle {
+  font-family: "BM HANNA_TTF";
+}
+.slpmystagedescription {
+  font-size: 25px;
 }
 .slpmystageplayingtitle {
   flex: 1;
   position: relative;
 }
+.slpitembigbody,
 .slpmystageplayingtitlewrapper {
   align-self: stretch;
-  overflow: hidden;
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: flex-start;
   gap: 5px;
 }
-.slpmystageplayinginfo {
-  position: absolute;
-  top: 99.17px;
-  left: 0px;
-  width: 540px;
-  height: 60px;
+.slpmystageplayingtitlewrapper {
   overflow: hidden;
-  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 20px;
+}
+.slpitembigbody {
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-end;
-  gap: 5px;
-}
-.slpmystagedescription {
-  position: absolute;
-  top: 51.46px;
-  left: 0px;
-  font-size: 30px;
-  text-transform: capitalize;
-  display: -webkit-inline-box;
-  align-items: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 33;
-  -webkit-box-orient: vertical;
-  width: 540px;
-}
-.slpmystagetitle {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  font-size: 50px;
-  text-transform: capitalize;
-  font-family: 'BM HANNA_TTF';
-  display: -webkit-inline-box;
-  align-items: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 33;
-  -webkit-box-orient: vertical;
-  width: 540px;
-}
-.slpmystagedetail {
-  align-self: stretch;
-  position: relative;
-  height: 159.17px;
+  font-size: 35px;
   color: #000;
 }
-.slpmystage {
-  align-self: stretch;
+.slpitembig,
+.slpmystagewrapper {
   flex: 1;
-  border-radius: 30px;
   display: flex;
   flex-direction: column;
-  padding: 20px;
   box-sizing: border-box;
-  align-items: flex-start;
   justify-content: center;
+}
+.slpitembig {
+  align-self: stretch;
+  border-radius: 30px;
+  padding: 20px;
+  align-items: flex-start;
   gap: 13px;
-  background-image: url("../PlayStageImage/img/SLPMystageImg.png");
+  background-image: linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("../PlayStageImage/img/SLPMystageImg.png");
+  /* background-color: rgba(255, 255, 255, 0.4); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
-  min-width: 460px;
-  max-width: 580px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  max-width: 500px;
   max-height: 500px;
+  margin:auto;
 }
 .slpmystagewrapper {
-  flex: 1;
-  height: 510px;
+  height: 395px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  padding: 0px 10px;
-  box-sizing: border-box;
+  padding: 10px;
   align-items: center;
-  justify-content: center;
   min-width: 480px;
   max-width: 750px;
 }
@@ -186,58 +157,58 @@
   width: 40px;
   height: 40px;
 }
-.slpfollowback {
+.slpfollowback,
+.slpitembig1 {
   align-self: stretch;
+  display: flex;
+  box-sizing: border-box;
+}
+.slpfollowback {
   width: 50px;
   overflow: hidden;
   flex-shrink: 0;
-  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   padding: 190px 5px;
-  box-sizing: border-box;
   align-items: center;
   justify-content: space-between;
 }
-.slpfollow {
-  align-self: stretch;
+.slpitembig1 {
   flex: 1;
   border-radius: 30px;
-  display: flex;
   flex-direction: column;
   padding: 20px;
-  box-sizing: border-box;
   align-items: flex-start;
   justify-content: center;
   gap: 13px;
-  background-image: url("../PlayStageImage/img/SLPFollowImg.png");
+  /* background-image: url(/public/slpitembig1@3x.png); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
-  max-width: 580px;
+  max-width: 500px;
   max-height: 500px;
+}
+.slpfollowwrapper,
+.slptop {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 .slpfollowwrapper {
   flex: 1;
-  height: 510px;
+  height: 395px;
   overflow: hidden;
-  display: flex;
-  flex-direction: row;
   padding: 10px;
   box-sizing: border-box;
   align-items: center;
-  justify-content: center;
   gap: 10px;
   min-width: 480px;
   max-width: 750px;
 }
 .slptop {
   align-self: stretch;
-  display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
-  justify-content: center;
   gap: 20px;
 }
 .slpsort {
@@ -250,50 +221,51 @@
 }
 .slpsortwrapper {
   flex: 1;
-  height: 55px;
+  height: 65px;
   overflow: hidden;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  padding: 5px;
+  box-sizing: border-box;
   align-items: flex-start;
   justify-content: flex-start;
   min-width: 450px;
 }
+.slpsearchinput,
 .slpsearchtype {
   position: relative;
   background-color: #fff;
-  width: 150px;
   height: 55px;
   overflow: hidden;
+}
+.slpsearchtype {
+  width: 150px;
   flex-shrink: 0;
 }
 .slpsearchinput {
   flex: 1;
-  position: relative;
-  background-color: #fff;
-  height: 55px;
-  overflow: hidden;
 }
+.slpsearchwrapper,
 .slpsearchwrapper1 {
-  flex: 1;
-  height: 55px;
   overflow: hidden;
   display: flex;
   flex-direction: row;
+  box-sizing: border-box;
   align-items: flex-start;
+}
+.slpsearchwrapper1 {
+  flex: 1;
+  height: 65px;
+  padding: 5px;
   justify-content: flex-end;
   gap: 5px;
   min-width: 450px;
 }
 .slpsearchwrapper {
   align-self: stretch;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   padding: 2.5px 5px;
-  box-sizing: border-box;
-  align-items: flex-start;
   justify-content: space-between;
   min-height: 60px;
   max-height: 125px;
@@ -324,14 +296,13 @@
   align-items: center;
   justify-content: center;
   color: #000;
-  font-family: 'BM HANNA_TTF';
+  font-family: "BM HANNA_TTF";
 }
 .slpresultitemowner {
-  align-self: stretch;
-  position: relative;
   color: #0047ff;
 }
-.slpresultitemcategory {
+.slpresultitemcategory,
+.slpresultitemowner {
   align-self: stretch;
   position: relative;
 }
@@ -346,96 +317,76 @@
   gap: 12px;
 }
 .slpresultitemtitle {
-  align-self: stretch;
-  position: relative;
   font-size: 30px;
-  text-transform: capitalize;
-  font-family: 'BM HANNA_TTF';
-  display: -webkit-inline-box;
-  align-items: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 33;
-  -webkit-box-orient: vertical;
+  font-family: "BM HANNA_TTF";
 }
-.slpresultitemdescription {
+.slpresultitemdescription,
+.slpresultitemtitle {
   align-self: stretch;
   position: relative;
   text-transform: capitalize;
-  display: -webkit-inline-box;
-  align-items: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 33;
-  -webkit-box-orient: vertical;
-}
-.slpresultitemplayingtitlewrapp {
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 5px;
 }
 .slpresultitemplayinginfo {
   align-self: stretch;
   overflow: hidden;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   justify-content: flex-start;
   gap: 5px;
 }
+.slpresultitem,
 .slpresultitembottom {
   align-self: stretch;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+}
+.slpresultitembottom {
+  overflow: hidden;
   gap: 5px;
   text-align: left;
   color: #000;
 }
 .slpresultitem {
-  align-self: stretch;
-  flex: 1;
   border-radius: 30px;
-  display: flex;
-  flex-direction: column;
+  width: 460px;
   padding: 20px;
   box-sizing: border-box;
-  align-items: flex-start;
-  justify-content: center;
   gap: 13px;
-  background-image: url("../PlayStageImage/img/SLPResultItemImg.png");
+  background-image: linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("../PlayStageImage/img/SLPMystageImg.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
   min-width: 460px;
-  max-width: 580px;
   max-height: 300px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  margin:10px;
+}
+.slp,
+.slpbottom,
+.slpresult {
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
 }
 .slpresult {
   align-self: stretch;
-  overflow: hidden;
-  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   padding: 5px;
-  align-items: flex-start;
   justify-content: center;
+}
+.slp,
+.slpbottom {
+  flex-direction: column;
+  box-sizing: border-box;
+  justify-content: flex-start;
 }
 .slpbottom {
   align-self: stretch;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  padding: 10px 9px;
-  box-sizing: border-box;
-  align-items: flex-start;
-  justify-content: flex-start;
+  padding: 5px;
   gap: 10px;
   min-height: 409px;
   text-align: right;
@@ -443,21 +394,16 @@
 }
 .slp {
   position: relative;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  box-sizing: border-box;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 20px;
+  width: calc(100% - 70px);
+  height: calc(100% - 100px);
+  padding: 10px;
+  gap: 5px;
   min-width: 520px;
   max-width: 1710px;
   text-align: left;
   font-size: 20px;
   color: rgba(0, 0, 0, 0.5);
-  font-family: 'BM HANNA Air';
+  font-family: "BM HANNA Air";
   margin:auto;
+  margin-left: 70px;
 }
-
