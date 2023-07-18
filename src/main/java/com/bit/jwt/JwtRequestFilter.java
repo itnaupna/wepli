@@ -127,7 +127,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 try {
                     nick = jwtTokenProvider.getUsernameFromToken(accessToken);
                     // db에서 메일, 문자 인증 받았는지 여부에 따라 권한 부여
-                    log.info("nick name = {}", nick);
+
                     userDto = memberService.selectMypageDto(nick);
                     rules.put("roles",
                             userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");

@@ -18,6 +18,7 @@ import PlayStage from './PlayStation/PlayStageJS/PlayStage';
 import PlayStageList from './PlayStation/PlayStageJS/PlayStageList';
 import TestPage from './TestPage';
 import {useState} from "react";
+import KakaoCallback from "./KakaoCallback";
 function App() {
 // <<<<<<< HEAD
 
@@ -36,6 +37,7 @@ function App() {
               <Route path="/PlayListDetail" element={<PlayListDetail/>}/>
               <Route path="/PlayStage" element={<PlayStage/>}/>
               <Route path="/PlayStageList" element={<PlayStageList/>}/>
+              <Route path={"/auth"} element={<KakaoCallback/>}/>
           </Routes>
       </BrowserRouter>
   );

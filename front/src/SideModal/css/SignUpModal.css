@@ -52,8 +52,9 @@
     font-size: 1.13rem;
     color: #000;
     font-family: "SF Pro Text";
+    margin-bottom: 1vh;
 }
-.signuemailduplicationbtn,
+
 .signupduplicationinputemail {
     position: absolute;
     top: 0;
@@ -63,24 +64,17 @@
     width: 18.5rem;
     height: 4rem;
 }
+
+.signupduplicationemailnbtn,
 .signuemailduplicationbtn {
     background-color: #d0e0f4;
     width: 4rem;
     height: 1.88rem;
     cursor: pointer;
+    border-radius: 8px;
+    border: none;
 }
-.signupemailbtnduplicationtext {
-    position: absolute;
-    font-weight: 500;
-    font-size: 11px;
-    width: 4rem;
-    height: 1.88rem;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    cursor: pointer;
-}
+
 .signupemailbtngroup {
     position: absolute;
     top: 1.2rem;
