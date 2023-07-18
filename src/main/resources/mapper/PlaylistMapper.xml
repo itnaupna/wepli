@@ -36,6 +36,15 @@
         select count(*) from tblPlaylistLike where user=#{user} and playlistID=#{playlistID}
     </select>
 
+    <select id="selectMyPli" parameterType="String" resultType="PlaylistDto">
+        select * from vwPlaylist where nick = #{nick} order by makeday desc
+    </select>
+
+    <select id="selectUserFromPublicPli" parameterType="String" resultType="PlaylistDto">
+        select * from vwPlaylist where nick = #{nick} and isPublic = 1
+        order by makeday desc
+    </select>
+
     <delete id="deleteLike" parameterType="hashMap">
         delete from tblPlaylistLike where user=#{user} and playlistID=#{playlistID}
     </delete>
@@ -189,7 +198,5 @@
           delete from tblSongs where idx=#{idx}
     </delete>
     
-    
-
 
 </mapper>

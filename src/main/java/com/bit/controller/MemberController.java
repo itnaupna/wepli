@@ -1,7 +1,6 @@
 package com.bit.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -98,6 +97,13 @@ public class MemberController {
         return mService.changePassword(token, oldPw, newPw, response);
     }
 
+    // 회원정보 변경
+    @PatchMapping("/lv1/m/info")
+    public Map<String, Object> patchInfo(@CookieValue String token, @RequestBody Map<String, Object> data,
+     HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mService.updateInfo(token, data, request, response);
+    }
+
     // 탈퇴
     @DeleteMapping("/lv1/m/member")
     public boolean deleteMember(@CookieValue String token,@RequestParam String pw, HttpServletResponse response) {
@@ -119,8 +125,8 @@ public class MemberController {
 
     // 마이페이지 데이터 일괄
     @GetMapping("/lv1/m/mypage")
-    public MypageDto getMypageDto(String nick) {
-        return mService.selectMypageDto(nick);
+    public MypageDto getMypageDto(@CookieValue String token, @RequestParam(required = false) String userNick) {
+        return mService.selectMypageDto(token, userNick); 
     }
 
     //로그인
@@ -131,7 +137,7 @@ public class MemberController {
     }
 
     // 소셜 로그인 파라미터 -> email,socialtype
-    @PostMapping("/lv0/social")
+    @PostMapping("/lv0/m/social")
     public Map<String, Object> socialLogin(@RequestBody Map<String, String> data, HttpServletRequest request, HttpServletResponse response) {
         return mService.socialLogin(data, request, response);
     }

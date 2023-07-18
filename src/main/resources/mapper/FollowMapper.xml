@@ -27,4 +27,8 @@
         delete from tblFollow where follow=#{follow} and target=#{target}
     </delete>
 
+    <select id="isFollowchk" parameterType="Map" resultType="int">
+        select exists(select * from tblFollow where follow = #{follow} and target = #{target})
+    </select>
+
 </mapper>

@@ -21,7 +21,10 @@ import com.bit.mapper.BlacklistMapper;
 import com.bit.mapper.MemberMapper;
 import com.bit.mapper.PlaylistMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class PlaylistService {
     @Autowired
     PlaylistMapper pMapper;
@@ -49,6 +52,18 @@ public class PlaylistService {
 
     public List<PlaylistDto> selectLikePli(String nick){
         return pMapper.selectLikePli(nick);
+    }
+
+    // 내플레이리스트 or 타인의 공개된 플레이리스트 가져오기
+    public List<PlaylistDto> selectPli(String token, String userNick) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        log.info("userNick -> {}", userNick);
+        if(userNick == null) {
+            return pMapper.selectMyPli(nick);
+        } else {
+            nick = userNick;
+            return pMapper.selectUserFromPublicPli(nick);
+        }
     }
 
     // 미인증회원 검증절차
