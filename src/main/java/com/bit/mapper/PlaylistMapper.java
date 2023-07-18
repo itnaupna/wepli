@@ -21,6 +21,12 @@ public interface PlaylistMapper {
     // 좋아요 누른 플레이리스트 가져오기
     public List<PlaylistDto> selectLikePli(String nick);
 
+    // 내 플레이리스트 가져오기
+    public List<PlaylistDto> selectMyPli(String nick);
+
+    // 타인 플레이리스트중 공개된 플레이리스트 가져오기
+    public List<PlaylistDto> selectUserFromPublicPli(String nick);
+
     // 플레이리스트 생성
     public int insertPlaylist(PlaylistDto data);
 
@@ -75,7 +81,5 @@ public interface PlaylistMapper {
     public int updatePliComment(PliCommentDto data);
 
     public int deletePliComment(int idx);
-
-    public PlaylistDto selectFollowCount();
 
 }

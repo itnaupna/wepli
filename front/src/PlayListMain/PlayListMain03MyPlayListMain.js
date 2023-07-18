@@ -1,4 +1,5 @@
 import "./PlayListMain03MyPlayListMain.css";
+import PlayListMenu from "./PlayListMenu";
 import HeartImg from  "../MainIMG/Heart.png";
 import Molu from  "../MainIMG/Molu.gif";
 import Aru from  "../MainIMG/ARu.gif";
@@ -8,7 +9,7 @@ import MypliIcon from "../MainIMG/MyPliIcon.png";
 import RangkingIcon from "../MainIMG/RankingIcon.png";
 import SearchIcon from "../MainIMG/SearchIcon.png";
 import AddPliIcon from "../MainIMG/AddPliIcon.png";
-import PlayListSearchlogoTitle from "../MainIMG/PlayListSearchlogoTitle.png";
+import PlayListMyPlilogoTitle from "../MainIMG/PlayListMyPlilogoTitle.png";
 import Aris from "../MainIMG/Aris.gif";
 import SearchBarIcon from "../MainIMG/SearchBarIcon.png";
 import SearchCommentIcon from "../MainIMG/SearchCommentIcon.png";
@@ -16,48 +17,19 @@ import SearchMusicListIcon from "../MainIMG/SearchMusicListIcon.png";
 import SearchToggleIcon from "../MainIMG/SearchToggleIcon.png";
 import MoluCover from "../MainIMG/MoluCover.png";
 const PlayListMain03MyPlayListMain = () => {
-    return (
+    const reload = () =>{
+        window.location.replace("");
+    }
+        return (
         <div className="playlistmain03">
             <div className="playlistmypliheader">
                 <img
                     className="playlistmyplilogotitle-icon"
                     alt=""
-                    src="/playlistmyplilogotitle@2x.png"
+                    src={PlayListMyPlilogoTitle}
+                    onClick={reload}
                 />
-                <div className="playlistbuttonlist">
-                    <div className="playlistbuttonset1">
-                        <div className="playlistbutton">
-                            <img
-                                className="playlistbuttonicon"
-                                alt=""
-                                src="/playlistbuttonicon.svg"
-                            />
-                            <div className="playlistbuttontext">랭킹</div>
-                        </div>
-                        <div className="playlistbutton">
-                            <img
-                                className="playlistbuttonicon"
-                                alt=""
-                                src="/playlistbuttonicon1.svg"
-                            />
-                            <div className="playlistbuttontext">검색</div>
-                        </div>
-                    </div>
-                    <div className="playlistbuttonset1">
-                        <div className="playlistbutton">
-                            <img className="playlistbuttonicon" alt="" src="/sound.svg" />
-                            <div className="playlistbuttontext">내 플리</div>
-                        </div>
-                        <div className="playlistbutton">
-                            <img
-                                className="playlistbuttonicon"
-                                alt=""
-                                src="/playlistbuttonicon2.svg"
-                            />
-                            <div className="playlistbuttontext">플리 만들기</div>
-                        </div>
-                    </div>
-                </div>
+                {<PlayListMenu/>}
             </div>
             <div className="playlistmyplibody">
                 <div className="myplaylistitem">

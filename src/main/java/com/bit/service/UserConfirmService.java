@@ -139,8 +139,8 @@ public class UserConfirmService {
         }
     }
 
-     // 이메일 발송
-     private void sendEmailCode(String email, String code) {
+    // 이메일 발송
+    private void sendEmailCode(String email, String code) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
             MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, "UTF-8");

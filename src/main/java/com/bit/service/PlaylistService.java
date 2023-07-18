@@ -21,7 +21,10 @@ import com.bit.mapper.BlacklistMapper;
 import com.bit.mapper.MemberMapper;
 import com.bit.mapper.PlaylistMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class PlaylistService {
     @Autowired
     PlaylistMapper pMapper;
@@ -47,19 +50,29 @@ public class PlaylistService {
         return pMapper.selectPublicPlaylist(data);
     }
 
-    public List<PlaylistDto> selectLikePli(String token){
-        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+    public List<PlaylistDto> selectLikePli(String nick){
         return pMapper.selectLikePli(nick);
     }
 
+    // 내플레이리스트 or 타인의 공개된 플레이리스트 가져오기
+    public List<PlaylistDto> selectPli(String token, String userNick) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        log.info("userNick -> {}", userNick);
+        if(userNick == null) {
+            return pMapper.selectMyPli(nick);
+        } else {
+            nick = userNick;
+            return pMapper.selectUserFromPublicPli(nick);
+        }
+    }
 
     // 미인증회원 검증절차
-    public boolean uncertifiMemberChk(String token) {
-        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+    public boolean uncertifiMemberChk(String nick) {
         MypageDto mDto = memberMapper.selectMypageDto(nick);
         boolean authChk = mDto.getEmailconfirm() + mDto.getPhoneconfirm() > 0 ?
             true : false;
         return authChk;
+        
     }
 
     //TODO : (확인) 미인증 회원일경우 공개로 추가할 수 없도록 강제해야함
@@ -68,13 +81,13 @@ public class PlaylistService {
             return pMapper.insertPlaylist(data)>0;
         } else {
             if(data.getIsPublic() == 0) {
-                return pMappe.insertPlaylist(data)>0;
+                return pMapper.insertPlaylist(data)>0;
             } else {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return false;
             }
         }
-    }r
+    }
 
     //TODO : (확인) 미인증 회원일경우 공개여부 검증
     public boolean updatePlaylist(PlaylistDto data, HttpServletResponse response){

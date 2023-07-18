@@ -14,6 +14,7 @@ import com.bit.dto.MemberDto;
 import com.bit.dto.MypageDto;
 import com.bit.dto.TokenDto;
 import com.bit.jwt.JwtTokenProvider;
+import com.bit.mapper.BlacklistMapper;
 import com.bit.mapper.MemberMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,8 @@ public class MemberService {
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     TokenService tokenService;
+    @Autowired
+    BlacklistMapper blacklistMapper;
 
     public final long JWT_TOKEN_VALIDITY_ONEDAY = 1000 * 60 * 60 * 24;
 
@@ -43,6 +46,7 @@ public class MemberService {
             } else {
                 memberMapper.insertJoinMember(mDto);
                 tokenService.insertToken(mDto.getNick());
+                blacklistMapper.insertBlackOpt(mDto.getNick());
                 return  true;
             }
             
@@ -143,6 +147,18 @@ public class MemberService {
         return true;
     }
 
+    // 회원정보 변경
+    public Map<String, Object> updateInfo(String token, Map<String, Object> data, HttpServletRequest request,
+     HttpServletResponse response) throws Exception {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        data.put("nick", nick);
+        System.out.println(data);                
+        memberMapper.updateInfo(data);
+
+        return tokenService.generateToken(String.valueOf(data.get("newNick")), JWT_TOKEN_VALIDITY_ONEDAY, request, response);
+        
+    }
+
     // 회원 탈퇴
     public boolean deleteMember(String token, String pw, HttpServletResponse response) {
         MemberDto mDto = new MemberDto();
@@ -170,9 +186,16 @@ public class MemberService {
     }
 
     // 닉넴으로 마이페이지 정보 불러오기
-    public MypageDto selectMypageDto(String token) {
+    public MypageDto selectMypageDto(String token, String userNick) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        return memberMapper.selectMypageDto(nick);
+        // log.info("token parsing ->  {}", nick);
+        // log.info("nick ->  {}", userNick);
+        if(userNick == null) {
+            userNick = nick;
+        }
+        
+        log.info("after nick ->  {}", userNick);
+        return memberMapper.selectMypageDto(userNick);
     }
 
     //로그인 시도.

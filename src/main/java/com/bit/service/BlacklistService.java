@@ -9,12 +9,19 @@ import org.springframework.stereotype.Service;
 
 import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.BlacklistMapper;
+import com.bit.mapper.FollowMapper;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class BlacklistService {
 
     @Autowired
     BlacklistMapper blacklistMapper;
+
+    @Autowired
+    FollowMapper followMapper;
 
     @Autowired
     JwtTokenProvider jwtTokenProvider;
@@ -24,15 +31,28 @@ public class BlacklistService {
     }
 
     // 블랙리스트 받아오기
-    public List<String> getBlackList(String nick) {
+    public List<Map<String, Object>> getBlackList(String token) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         return blacklistMapper.selectBlacklist(nick);
     }
 
     // 블랙리스트 추가
-    public boolean insertBlacklist(String black, String target) {
+    public boolean insertBlacklist(String token, String target) {
         Map<String, String> data = new HashMap<>();
-        data.put("black", black);
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        data.put("follow", nick);
         data.put("target", target);
+
+        if(followMapper.isFollowchk(data) > 0) {
+            followMapper.unFollowlist(data);    
+        }
+
+        data.remove("follow");
+        data.put("black", nick);
+        
+        log.info("Map in nick -> {}", data.get("black"));
+        log.info("Map in target -> {}", data.get("target"));
+
         return blacklistMapper.insertBlacklist(data) > 0;
     }
 
@@ -46,13 +66,15 @@ public class BlacklistService {
     }
 
     // 블랙리스트 옵션 받아오기
-    public Map<String, Integer> selectBlackOpt(String nick) {
+    public Map<String, Integer> selectBlackOpt(String token) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         return blacklistMapper.selectBlackOpt(nick);
     }
 
     // 블랙리스트 옵션 변경
-    public boolean updateBlackOpt(String nick, int hidechat, int mute) {
+    public boolean updateBlackOpt(String token, int hidechat, int mute) {
         Map<String, Object> data = new HashMap<>();
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         data.put("nick", nick);
         data.put("hidechat", hidechat);
         data.put("mute", mute);

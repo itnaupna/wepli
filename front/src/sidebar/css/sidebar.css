@@ -1,139 +1,141 @@
-.sideweplilogo-icon {
+.weplilogo-icon {
     position: relative;
-    width: 3.5rem;
-    height: 4.36rem;
+    border-radius: 10px;
+    width: 64px;
+    height: 77.81px;
     object-fit: cover;
 }
-.sidebarheader {
+
+.vector-icon {
     position: absolute;
-    top: 3.75rem;
-    left: 0.44rem;
-    width: 3.5rem;
+    margin: 0 !important;
+    height: 50%;
+    width: 52%;
+    top: 26%;
+    right: 24%;
+    bottom: 24%;
+    left: 24%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    z-index: 0;
+}
+
+.sidemenuhomebutton {
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+}
+
+.sidemenuplaylistbutton {
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
+    padding: 15px;
+    box-sizing: border-box;
     align-items: flex-start;
+    justify-content: space-between;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+}
+
+.sidemenubtns,
+.sidemenustagebutton {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-items: flex-start;
+}
+
+.sidemenustagebutton {
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    flex-shrink: 0;
+    padding: 11px;
     justify-content: flex-start;
 }
-.playlistoutlinebox {
-    position: absolute;
-    width: 3.13rem;
-    height: 3.13rem;
-    top: 0;
-    left: 0;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+.sidemenubtns {
+    height: 282px;
+    padding: 5px;
+    justify-content: space-between;
 }
-.sideplaylisticon {
+
+.sidemenuuserimg-icon {
     position: absolute;
-    top: 0.31rem;
-    left: 0.31rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    overflow: hidden;
-    cursor: pointer;
-}
-.playlisticon {
-    position: absolute;
-    height: 5.16%;
-    width: 71.43%;
-    top: 47.37%;
-    right: 14.29%;
-    bottom: 47.47%;
-    left: 14.29%;
-}
-.homeoutlinebox {
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    width: 3.13rem;
-    height: 3.13rem;
-}
-.sidehomeicon {
-    position: absolute;
-    top: 0.31rem;
-    left: 0.31rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    overflow: hidden;
-}
-.homeicon {
-    position: absolute;
-    top: 21.38rem;
-    left: 0.63rem;
-    width: 3.13rem;
-    height: 3.13rem;
-    cursor: pointer;
-}
-.sideprofileimg-icon {
-    position: absolute;
-    top: 0.31rem;
-    left: 0.31rem;
+    bottom: 5px;
+    left: 5px;
     border-radius: 50px;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 40px;
+    height: 40px;
     object-fit: cover;
 }
-.sidebarfooter {
-    position: absolute;
-    top: 53.13rem;
-    left: 0.63rem;
-    width: 3.13rem;
-    height: 3.13rem;
-}
-.stageicon,
-.stageicon1 {
-    position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-    width: 2.13rem;
-    height: 2.13rem;
-}
-.stageicon {
-    top: 35.81rem;
-    left: 0.63rem;
-    width: 3.13rem;
-    height: 3.13rem;
-    cursor: pointer;
-}
-.weplisidebar {
+
+.sidemenumypagebutton {
     position: relative;
-    background: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.7),
-            rgba(255, 255, 255, 0.36)
-    );
-    /*box-shadow: 13.494479179382324px 14.993866920471191px 94.46px*/
-    /*rgba(0, 0, 0, 0.24);*/
-    width: 100%;
-    height: 61rem;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    width: 50px;
+    height: 50px;
     overflow: hidden;
+    flex-shrink: 0;
+    display:flex;
+    justify-content: center;
+
 }
 
-.weplisidebar{
+.sidemenulogoutbutton {
+    position: relative;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    width: 50px;
+    height: 20px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+.sidemnubtn{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.sidemenu {
     position: fixed;
-    z-index: 100;
-    width: 70px;
-    height: 100%;
-}
-
-.sidebarlogoutbtn{
-    font-size: 1px;
-    width: 6vw;
-    height: 3vh;
-    cursor: pointer;
-}
-
-.sidebarlogoutbtngroup{
-    border: 1px solid red;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 13.5px 15px 95px rgba(0, 0, 0, 0.25);
+    top: 0;
     bottom: 0;
-    width: 6vw;
-    height: 3vh;
-    left: 14.29%;
-    right: 0;
-    position: absolute;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 3px;
+    z-index: 999;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: space-between;
 }

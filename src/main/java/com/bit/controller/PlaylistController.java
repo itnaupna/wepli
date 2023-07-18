@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,6 +39,12 @@ public class PlaylistController {
     @GetMapping("/lv2/p/listlike")
     public List<PlaylistDto> getLikes(String nick){
         return pService.selectLikePli(nick);
+    }
+
+    // 내플레이리스트 or 타인의 공개된 플레이리스트 가져오기
+    @GetMapping("/lv1/p/playlist")
+    public List<PlaylistDto> getPlaylist(@CookieValue String token, @RequestParam(required = false) String userNick) {
+        return pService.selectPli(token, userNick);
     }
 
     @PostMapping("/lv1/p/list")
