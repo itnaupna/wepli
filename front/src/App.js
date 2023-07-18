@@ -10,33 +10,36 @@ import SideBar from "./sidebar/SideBar";
 import MusicPlayerBar from "./musicbar/MusicPlayerBar";
 import PlayListMain03MyPlayListMain from "./PlayListMain/PlayListMain03MyPlayListMain";
 import PlayListDetail from "./PlayListMain/PlayListDetail";
+import PlayStage from "./PlayStation/PlayStageJS/PlayStage";
+import PlayStageList from "./PlayStation/PlayStageJS/PlayStageList"
 
 // import { useEffect, useState } from 'react';
 // import axios from 'axios';
 
-import PlayStage from './PlayStation/PlayStageJS/PlayStage';
-import PlayStageList from './PlayStation/PlayStageJS/PlayStageList';
-import TestPage from './TestPage';
-import {useState} from "react";
 function App() {
 // <<<<<<< HEAD
 
   return (
       <BrowserRouter>
           <SideBar/>
-          <MusicPlayerBar/>
+          {/*<MusicPlayerBar/>*/}
+              <div className="backgroundImgDiv">
           <Routes>
               <Route path="/" element={<MainPage/>}/>
-              <Route path="/test" element={<TestPage/>}/>
               <Route path="/mypage" element={<MypageMain/>}/>
-              <Route path="/PlayListMain" element={<PlayListMain/>}/>
-              <Route path="/RankingPage" element={<PlayListMain01PlayListRangkingMain/>}/>
-              <Route path="/PlayListSearch" element={<PlayListMain02PlayListSearchMain/>}/>
-              <Route path="/PlayListMyPli" element={<PlayListMain03MyPlayListMain/>}/>
-              <Route path="/PlayListDetail" element={<PlayListDetail/>}/>
-              <Route path="/PlayStage" element={<PlayStage/>}/>
-              <Route path="/PlayStageList" element={<PlayStageList/>}/>
+              <Route path="/playlistmain" element={<PlayListMain/>}/>
+              <Route path="/rankingpage" element={<PlayListMain01PlayListRangkingMain/>}/>
+              <Route path="/playlistsearch" element={<PlayListMain02PlayListSearchMain/>}/>
+              <Route path="/playlistmypli" element={<PlayListMain03MyPlayListMain/>}/>
+              <Route path="/playlistdetail" element={<PlayListDetail/>}/>
+              <Route path="/playstage" element={<PlayStage/>}/>
+              <Route path="/playstagelist" element={<PlayStageList/>}/>
+
+              <Route path="/*" element={
+                  <h1 style={{width:"100%", textAlign:"center" , marginTop:"25%", position:"absolute"}}>페이지가 없습니다</h1>
+              }/>
           </Routes>
+              </div>
       </BrowserRouter>
   );
 }

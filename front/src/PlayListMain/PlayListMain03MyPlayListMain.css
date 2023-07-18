@@ -315,3 +315,7 @@
     color: var(--color-darkorchid-100);
     font-family: var(--font-kbo-dia-gothic);
 }
+
+.playlistmyplilogotitle-icon:hover{
+    cursor: pointer;
+}
