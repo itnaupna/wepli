@@ -28,9 +28,9 @@ function App() {
                 <Route path="/mypage" element={<MypageMain />} />
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
-                <Route path="/pli/*" element={<PlayListDetail />} />
+                <Route path="/pli/:pliId" element={<PlayListDetail />} />
                 <Route path="/mypli" element={<PlayListMain03MyPlayListMain />} />
-                <Route path="/stage/*" element={<PlayStage />} />
+                <Route path="/stage/:stageUrl" element={<PlayStage />} />
                 <Route path="/stage" element={<PlayStageList />} />
                 <Route path="/auth" element={<KakaoCallback/>}/>
                 <Route path="/test" element={<TestPage/>}/>

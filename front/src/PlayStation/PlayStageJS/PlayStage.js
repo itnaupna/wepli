@@ -1,16 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../PlayStageCss/PlayStage.css';
 import YouTube from 'react-youtube';
 import ChatItem from './ChatItem';
+import { useParams } from 'react-router-dom';
+import * as StompJS from '@stomp/stompjs';
+import * as SockJS from 'sockjs-client';
 
-function PlayStage(props) {
+function PlayStage({ }) {
     const [leftType, setLeftType] = useState(true);
     const [rightType, setRightType] = useState(true);
     const [youtube, setYoutube] = useState('VlMxBy_I3Nk');
+    const { stageUrl } = useParams();
+    const sockClient = useRef();
+
+    useEffect(()=>{
+        connect();
+    });
+
+    const connect = () => {
+        let sock = new SockJS("https://wepli.today/ws");
+        sockClient.current = StompJS.Stomp.over(sock);
+
+        let ws = sockClient.current;
+
+        ws.connect({}, () => {
+            ws.subscribe("/sub/stage/" + stageUrl, data => {
+                console.log(data);
+            });
+        });
+    };
+    const publish = (type, userNick, msg) =>{
+        sockClient.current.send("/pub/msg",{},"EONG");
+    }
 
 
     return (
         <div className="stage">
+            {/* {stageUrl} */}
             <div className="stage-left">
                 <div className="stage-left-header">
                     <div className="stage-left-button-group-a">
@@ -153,8 +179,8 @@ function PlayStage(props) {
 
                 <div className="stagechatwrapper" style={{ display: (rightType ? 'flex' : 'none') }}>
                     <div className="stage-chat-body">
-{/* TODO : ChatItem 컴포넌트화 */}
-                    <ChatItem/><ChatItem/><ChatItem/><ChatItem/><ChatItem/><ChatItem/>
+                        {/* TODO : ChatItem 컴포넌트화 */}
+                        <ChatItem /><ChatItem /><ChatItem /><ChatItem /><ChatItem /><ChatItem />
 
                     </div>
 
