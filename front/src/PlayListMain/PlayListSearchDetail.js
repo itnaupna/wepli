@@ -34,7 +34,7 @@ function PlayListSearchDetail({searchResult}) {
                                     />
                                 </div>
                                 <div className="playlistsearchsongwrapper">
-                                    <div className="playlistsearchcommentcount">{item.songsCount}</div>
+                                    <div className="playlistsearchcommentcount">{item.songscount}</div>
                                     <img
                                         className="playlistsearchcommenticonwrapp"
                                         alt=""

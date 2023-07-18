@@ -15,7 +15,7 @@ function PlayLsitRankingLikeTop(props) {
         Axios.get(LikeTop50Url,{ params: {orderByDay, curr, cpp}})
             .then(res =>
                 setLikeTop50(res.data));
-    });
+    },[]);
     return (
         <div className="playlistrankinglistwapper">
             <div className="playlistrankinglistwrapper">

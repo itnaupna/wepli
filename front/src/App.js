@@ -13,19 +13,7 @@ import PlayListDetail from "./PlayListMain/PlayListDetail";
 import PlayStage from "./PlayStation/PlayStageJS/PlayStage";
 import PlayStageList from "./PlayStation/PlayStageJS/PlayStageList"
 
-// import { useEffect, useState } from 'react';
-// import axios from 'axios';
-
-// import { useEffect, useState } from 'react';
-// import axios from 'axios';
-
-import PlayStage from './PlayStation/PlayStageJS/PlayStage';
-import PlayStageList from './PlayStation/PlayStageJS/PlayStageList';
-import TestPage from './TestPage';
-import {useState} from "react";
-function App() {
-// <<<<<<< HEAD
-
+function App(){
   return (
       <BrowserRouter>
           <SideBar/>
@@ -33,7 +21,7 @@ function App() {
               <div className="backgroundImgDiv">
           <Routes>
               <Route path="/" element={<MainPage/>}/>
-              <Route path="/mypage" element={<MypageMain/>}/>
+              <Route path="/mypage" element={sessionStorage.getItem("data")!=null?<MypageMain/>:<MainPage/>}/>
               <Route path="/playlistmain" element={<PlayListMain/>}/>
               <Route path="/rankingpage" element={<PlayListMain01PlayListRangkingMain/>}/>
               <Route path="/playlistsearch" element={<PlayListMain02PlayListSearchMain/>}/>
