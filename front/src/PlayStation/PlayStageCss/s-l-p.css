@@ -1,0 +1,463 @@
+.slpmystagemakeday {
+  position: absolute;
+  top: 250px;
+  left: 0px;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  width: 250px;
+  height: 37.5px;
+}
+.slpmystageimg-icon {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 20px;
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+}
+.slpmystageimgwrapper {
+  flex: 1;
+  position: relative;
+  height: 287.5px;
+  min-width: 250px;
+  max-width: 250px;
+}
+.slpmystagelikeicon {
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+.slpmystagelikecount {
+  position: relative;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  width: 80px;
+  height: 35px;
+  flex-shrink: 0;
+}
+.slpmystagelikewrapper {
+  width: 110px;
+  height: 35px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.slpmystagepeopleicon {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.slpmystageowner {
+  align-self: stretch;
+  position: relative;
+  font-family: 'BM HANNA Air';
+  color: #0047ff;
+}
+.slpmystagecategory {
+  align-self: stretch;
+  position: relative;
+  font-family: 'BM HANNA Air';
+  color: #535353;
+}
+.slpmystageinfo {
+  align-self: stretch;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 12px;
+  text-align: right;
+  color: #000;
+  font-family: 'BM HANNA_TTF';
+}
+.slpmystagetop {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.slpmystageplayingtitle {
+  flex: 1;
+  position: relative;
+}
+.slpmystageplayingtitlewrapper {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+.slpmystageplayinginfo {
+  position: absolute;
+  top: 99.17px;
+  left: 0px;
+  width: 540px;
+  height: 60px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 5px;
+}
+.slpmystagedescription {
+  position: absolute;
+  top: 51.46px;
+  left: 0px;
+  font-size: 30px;
+  text-transform: capitalize;
+  display: -webkit-inline-box;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 33;
+  -webkit-box-orient: vertical;
+  width: 540px;
+}
+.slpmystagetitle {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  font-size: 50px;
+  text-transform: capitalize;
+  font-family: 'BM HANNA_TTF';
+  display: -webkit-inline-box;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 33;
+  -webkit-box-orient: vertical;
+  width: 540px;
+}
+.slpmystagedetail {
+  align-self: stretch;
+  position: relative;
+  height: 159.17px;
+  color: #000;
+}
+.slpmystage {
+  align-self: stretch;
+  flex: 1;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 13px;
+  background-image: url("../PlayStageImage/img/SLPMystageImg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  min-width: 460px;
+  max-width: 580px;
+  max-height: 500px;
+}
+.slpmystagewrapper {
+  flex: 1;
+  height: 510px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  min-width: 480px;
+  max-width: 750px;
+}
+.slpfollowbackicon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+.slpfollowback {
+  align-self: stretch;
+  width: 50px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 190px 5px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
+}
+.slpfollow {
+  align-self: stretch;
+  flex: 1;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 13px;
+  background-image: url("../PlayStageImage/img/SLPFollowImg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  max-width: 580px;
+  max-height: 500px;
+}
+.slpfollowwrapper {
+  flex: 1;
+  height: 510px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 480px;
+  max-width: 750px;
+}
+.slptop {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+}
+.slpsort {
+  flex: 1;
+  position: relative;
+  background-color: #fff;
+  height: 55px;
+  overflow: hidden;
+  max-width: 450px;
+}
+.slpsortwrapper {
+  flex: 1;
+  height: 55px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 450px;
+}
+.slpsearchtype {
+  position: relative;
+  background-color: #fff;
+  width: 150px;
+  height: 55px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.slpsearchinput {
+  flex: 1;
+  position: relative;
+  background-color: #fff;
+  height: 55px;
+  overflow: hidden;
+}
+.slpsearchwrapper1 {
+  flex: 1;
+  height: 55px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 5px;
+  min-width: 450px;
+}
+.slpsearchwrapper {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 2.5px 5px;
+  box-sizing: border-box;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 60px;
+  max-height: 125px;
+}
+.slpresultitemimg-icon {
+  position: relative;
+  border-radius: 20px;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+.slpresultitemimgwrapper {
+  flex: 1;
+  height: 150px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.slpresultitempeoplewrapper {
+  width: 110px;
+  height: 35px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-family: 'BM HANNA_TTF';
+}
+.slpresultitemowner {
+  align-self: stretch;
+  position: relative;
+  color: #0047ff;
+}
+.slpresultitemcategory {
+  align-self: stretch;
+  position: relative;
+}
+.slpresultiteminfo {
+  flex: 1;
+  height: 150px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 12px;
+}
+.slpresultitemtitle {
+  align-self: stretch;
+  position: relative;
+  font-size: 30px;
+  text-transform: capitalize;
+  font-family: 'BM HANNA_TTF';
+  display: -webkit-inline-box;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 33;
+  -webkit-box-orient: vertical;
+}
+.slpresultitemdescription {
+  align-self: stretch;
+  position: relative;
+  text-transform: capitalize;
+  display: -webkit-inline-box;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 33;
+  -webkit-box-orient: vertical;
+}
+.slpresultitemplayingtitlewrapp {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+.slpresultitemplayinginfo {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 5px;
+}
+.slpresultitembottom {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  text-align: left;
+  color: #000;
+}
+.slpresultitem {
+  align-self: stretch;
+  flex: 1;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 13px;
+  background-image: url("../PlayStageImage/img/SLPResultItemImg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  min-width: 460px;
+  max-width: 580px;
+  max-height: 300px;
+}
+.slpresult {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 5px;
+  align-items: flex-start;
+  justify-content: center;
+}
+.slpbottom {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 9px;
+  box-sizing: border-box;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 409px;
+  text-align: right;
+  color: #535353;
+}
+.slp {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  min-width: 520px;
+  max-width: 1710px;
+  text-align: left;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: 'BM HANNA Air';
+}
+

@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db.wepli.today:3306/wepli?serverTimezone=Asia/Seoul
+    username: weplisql
+    password: bit123!@#
+  servlet:
+    multipart:
+      max-file-size: 10MB
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: 'wepli'
+    password: 'bitcamp_2431'
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            required: true
+server:
+  port: 443
+  port.http: 80
+
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-type: PKCS12
+    key-store-password: bit123!@#
+
+mybatis:
+  type-aliases-package: com.bit.dto
+  mapper-locations:
+  - /mapper/**/*.xml
+
+jwt:
+  token:
+    secret: wepli

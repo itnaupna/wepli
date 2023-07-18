@@ -1,0 +1,242 @@
+.main3dimg-icon {
+    object-fit: cover;
+}
+.main3dimg-icon,
+.mainbackground3dimg {
+    position: absolute;
+    top: calc(50% - 325.73px);
+    left: calc(50% - 370.14px);
+    width: 46.27rem;
+    height: 40.72rem;
+}
+.teamnametext {
+    position: absolute;
+    top: calc(50% - 9px);
+    left: calc(50% - 61px);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+.mainteamnamegroup {
+    position: absolute;
+    top: calc(50% + 291.27px);
+    left: calc(50% - 351.14px);
+    width: 7.63rem;
+    height: 1.13rem;
+    text-align: center;
+    font-size: 0.94rem;
+    font-family: Montserrat;
+}
+.mainplaybargroup-icon {
+    position: absolute;
+    top: calc(50% + 227.27px);
+    left: calc(50% - 125.14px);
+    width: 15.56rem;
+    height: 2.31rem;
+}
+.mainbackgroundwavegroup2-icon {
+    position: absolute;
+    top: calc(50% - 271.73px);
+    left: calc(50% - 311.14px);
+    width: 38.81rem;
+    height: 33.94rem;
+}
+.playlistinlinetextsection,
+.playlisttextsecond {
+    position: absolute;
+    left: calc(50% - 155px);
+    width: 19.38rem;
+    height: 4.88rem;
+}
+.playlisttextsecond {
+    top: calc(50% - 39px);
+    letter-spacing: -0.04em;
+    display: inline-block;
+}
+.playlistinlinetextsection {
+    top: calc(50% - 54.5px);
+}
+.playlistoutlinetextsection,
+.playlisttextfirst {
+    position: absolute;
+    left: calc(50% - 155px);
+    width: 19.38rem;
+    height: 5rem;
+}
+.playlisttextfirst {
+    top: calc(50% - 40px);
+    letter-spacing: -0.04em;
+    display: inline-block;
+}
+.playlistoutlinetextsection {
+    top: calc(50% - 25.5px);
+    color: rgba(249, 255, 233, 0.81);
+}
+.playlistshadowgroup {
+    position: absolute;
+    top: calc(50% - 28.73px);
+    left: calc(50% - 41.14px);
+    width: 19.38rem;
+    height: 6.81rem;
+    color: #d4ff00;
+}
+.stageinlinetextsection,
+.stagetextsecond {
+    position: absolute;
+    left: calc(50% - 119px);
+    width: 14.88rem;
+    height: 5rem;
+}
+.stagetextsecond {
+    top: calc(50% - 40px);
+    letter-spacing: -0.04em;
+    display: inline-block;
+}
+.stageinlinetextsection {
+    top: calc(50% - 21px);
+}
+.stage {
+    margin: 0;
+}
+.stageoutlinetextsection,
+.stagetextfirst {
+    position: absolute;
+    left: calc(50% - 119px);
+    width: 14.88rem;
+    height: 4.88rem;
+}
+.stagetextfirst {
+    top: calc(50% - 39px);
+    letter-spacing: -0.04em;
+    display: inline-block;
+}
+.stageoutlinetextsection {
+    top: calc(50% - 59px);
+    color: #d4ff00;
+}
+.stageshadowgroup {
+    position: absolute;
+    top: calc(50% + 68.27px);
+    left: calc(50% - 240.14px);
+    width: 14.88rem;
+    height: 7.38rem;
+    color: rgba(249, 255, 233, 0.81);
+}
+.mainlogotextgroup {
+    position: absolute;
+    top: calc(50% - 76px);
+    left: calc(50% - 215px);
+    line-height: 5rem;
+    text-transform: uppercase;
+    display: inline-block;
+    width: 22rem;
+    height: 5.5rem;
+}
+.mainslogantextgroup {
+    position: absolute;
+    top: calc(50% + 24px);
+    left: calc(50% - 213px);
+    font-size: 2.63rem;
+    display: inline-block;
+    width: 26.75rem;
+}
+.mainlogoslogangroup {
+    position: absolute;
+    top: calc(50% - 282.73px);
+    left: calc(50% - 327.14px);
+    width: 26.88rem;
+    height: 9.5rem;
+    font-size: 5.63rem;
+    color: #fff;
+    font-family: "BM Dohyeon";
+}
+.mainwrapper1section {
+    position: absolute;
+    top: calc(50% - 372.5px);
+    left: calc(50% - 370.14px);
+    width: 46.27rem;
+    height: 40.72rem;
+}
+.loading-minimal-child,
+.outline {
+    position: absolute;
+    height: 37.5%;
+    top: 31.25%;
+    bottom: 31.25%;
+    left: 0;
+    border-radius: 5px;
+}
+.outline {
+    width: 92.59%;
+    right: 7.41%;
+    background-color: rgba(142, 181, 255, 0.6);
+}
+.loading-minimal-child {
+    width: 1.85%;
+    right: 98.15%;
+    background-color: #000;
+}
+.b {
+    position: absolute;
+    top: -18.75%;
+    left: 95.73%;
+}
+.loading-minimal {
+    position: relative;
+    width: 64.06rem;
+    height: 1rem;
+}
+.mainwrapperloadingbar,
+.mainwrapperloadinicon {
+    position: absolute;
+    left: calc(50% - 500px);
+    width: 62.5rem;
+}
+.mainwrapperloadinicon {
+    top: calc(50% - 12px);
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem 0 0;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+}
+.mainwrapperloadingbar {
+    top: calc(50% + 349.96px);
+    height: 1.5rem;
+    text-align: right;
+    font-size: 1rem;
+    font-family: "Nunito Sans";
+}
+.centerborderdesign,
+.mainborderbordergroup {
+    position: absolute;
+    left: calc(50% - 370px);
+    width: 46.25rem;
+    height: 40.63rem;
+}
+.centerborderdesign {
+    top: calc(50% - 325px);
+    border: 3px solid #fff;
+    box-sizing: border-box;
+}
+.mainborderbordergroup {
+    top: calc(50% - 371.5px);
+}
+.mainwrapper1 {
+    position: relative;
+    background: linear-gradient(
+            135.26deg,
+            #47bdff,
+            rgba(182, 191, 255, 0.55) 33.33%,
+            rgba(182, 191, 255, 0.1) 68.34%,
+            #47bdff
+    );
+    width: 100%;
+    height: 60.56rem;
+    overflow: hidden;
+    text-align: left;
+    font-size: 5.38rem;
+    color: #000;
+    font-family: Epilogue;
+}
