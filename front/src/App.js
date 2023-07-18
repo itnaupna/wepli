@@ -12,17 +12,7 @@ import PlayListMain03MyPlayListMain from "./PlayListMain/PlayListMain03MyPlayLis
 import PlayListDetail from "./PlayListMain/PlayListDetail";
 import PlayStage from "./PlayStation/PlayStageJS/PlayStage";
 import PlayStageList from "./PlayStation/PlayStageJS/PlayStageList"
-
-// import { useEffect, useState } from 'react';
-// import axios from 'axios';
-
-// import { useEffect, useState } from 'react';
-// import axios from 'axios';
-
-import PlayStage from './PlayStation/PlayStageJS/PlayStage';
-import PlayStageList from './PlayStation/PlayStageJS/PlayStageList';
 import TestPage from './TestPage';
-import {useState} from "react";
 function App() {
 // <<<<<<< HEAD
 
