@@ -36,9 +36,16 @@ public class PlaylistController {
         return pService.selectPublicPlaylist(orderByDay, curr, cpp);
     }
 
+    // 좋아요 누른 플레이리스트 가져오기
     @GetMapping("/lv2/p/listlike")
-    public List<PlaylistDto> getLikes(String nick){
-        return pService.selectLikePli(nick);
+    public List<PlaylistDto> getLikes(@CookieValue String token) {
+        return pService.selectLikePli(token);
+    }
+
+    // 팔로우한 사람의 플레이리스트 가져오기
+    @GetMapping("/lv2/p/listfollow")
+    public List<PlaylistDto> getFollow(@CookieValue String token) {
+        return pService.selectFollowPli(token);
     }
 
     // 내플레이리스트 or 타인의 공개된 플레이리스트 가져오기

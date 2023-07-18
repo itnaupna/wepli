@@ -50,8 +50,16 @@ public class PlaylistService {
         return pMapper.selectPublicPlaylist(data);
     }
 
-    public List<PlaylistDto> selectLikePli(String nick){
+    // 좋아요 누른 플레이리스트 가져오기
+    public List<PlaylistDto> selectLikePli(String token){
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         return pMapper.selectLikePli(nick);
+    }
+
+    // 팔로우한 사람의 플레이리스트 가져오기
+    public List<PlaylistDto> selectFollowPli(String token) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        return pMapper.selectFollowPli(nick);
     }
 
     // 내플레이리스트 or 타인의 공개된 플레이리스트 가져오기

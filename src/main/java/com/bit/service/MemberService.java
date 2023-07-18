@@ -241,10 +241,15 @@ public class MemberService {
                 if(boolLogin) {
                     // 로긴 성공하면
                     result = tokenService.generateToken(data, JWT_TOKEN_VALIDITY_ONEDAY, request, response);
+                    result.put("action", true);
+
+                    
                 } else {
                     // 로긴 실패하면 -> 요청 소셜이 아닌 다른 루트로 가입된 이메일 
                     log.info("socialLogin -> duplicate");
                     response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                    result.put("action", false);
+                
                 }
             } else {
                 // 로긴 실패하면 -> 에러 가입된 소셜회원 없음 -> 소셜 회원가입으로 이동

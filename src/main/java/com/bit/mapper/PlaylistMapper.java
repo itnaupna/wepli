@@ -21,6 +21,9 @@ public interface PlaylistMapper {
     // 좋아요 누른 플레이리스트 가져오기
     public List<PlaylistDto> selectLikePli(String nick);
 
+    // 팔로우한 사람의 플레이리스트 가져오기
+    public List<PlaylistDto> selectFollowPli(String nick);
+
     // 내 플레이리스트 가져오기
     public List<PlaylistDto> selectMyPli(String nick);
 

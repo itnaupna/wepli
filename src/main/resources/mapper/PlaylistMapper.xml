@@ -54,7 +54,6 @@
         values (#{user},#{playlistID})
     </insert>
 
-
     <select id="selectPublicPlaylist" parameterType="hashMap" resultType="PlaylistDto">
         <choose>
             <when test="orderByDay">
@@ -66,9 +65,14 @@
         </choose>
     </select>
 
-
     <select id="selectLikePli" parameterType="string" resultType="PlaylistDto">
-        SELECT * FROM vwPlaylist WHERE idx IN (SELECT playlistID FROM tblPlaylistLike WHERE `user`=#{nick})
+        SELECT * FROM vwPlaylist WHERE idx IN (SELECT playlistID FROM tblPlaylistLike WHERE `user`=#{nick}) order by likesCount desc
+    </select>
+
+    <select id="selectFollowPli" parameterType="String" resultType="PlaylistDto">
+        select * from vwPlaylist
+        where nick in (select target from tblFollow where follow = #{nick})
+        order by likesCount desc;
     </select>
 
 

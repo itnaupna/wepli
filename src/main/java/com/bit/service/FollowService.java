@@ -87,4 +87,9 @@ public class FollowService {
         
         return followMapper.isFollowchk(followAndTarget);
     }
+
+    //팔로우 top50
+    public List<Map<String, Object>> selectFollowTop() {
+        return followMapper.selectFollowTop();
+    }
 }
