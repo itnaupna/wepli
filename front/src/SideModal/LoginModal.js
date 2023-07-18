@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./css/loginmodal.css";
-import kakao from "./svg/kakaologin.svg";
+import kakao from "./photo/kakaobtn.png";
 import naver from "./svg/naverlogin.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import arrow from "./svg/backarrow.svg";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import MypageMain from "../mypage/MypageMain";
 
 
@@ -137,11 +137,29 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
         setPw(e.target.value);
     }
 
+    const REDIRECT_URI = "http://localhost:3000/auth"
+    const REST_API_KEY = "9d3f5e52469d4278fcbcbc2f8a944d2c"
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+    const location = useLocation();
+    const params = new URL(document.location.toString()).searchParams;
+    const code = new URL(window.location.href).searchParams.get("code");
+    console.log(params);
+    console.log(code);
+    const PARAMS = new URL(document.location).searchParams
+    console.log(PARAMS);
+    // const KAKAO_CODE = PARAMS.get('code');
+
+
+    const handlekakao = () => {
+        window.location.href = KAKAO_AUTH_URL;
+    }
+
 
     return (
         <div>
             <div className={'loginmodalmainframe'} onClick={closeModal}></div>
             <div className="loginmodalgroup">
+                {/*자동로그인 체크*/}
                 <div className="loginmodalautologinradiobox">
                     <input type={'radio'}
                            id="autologin"
@@ -152,13 +170,15 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
                     <label htmlFor="autologin" className="loginmodalautologintext">자동로그인</label>
                     <div className="loginmodalradiogroup"/>
                 </div>
-                <div
-                    className="loginmodalfindtextgroup"
-                >
+                <div className="loginmodalfindtextgroup">
+
+                    {/*이메일 & 비밀번호 찾기*/}
                     <div className="loginmodalfindemailtext" onClick={showFindIdModal}>이메일찾기</div>
                     <div className="loginmodalfindpasstext" onClick={showFindPassModal}>비밀번호찾기</div>
+
                 </div>
                 <div className="loginmodalloginbtngroup">
+                    {/*로그인 버튼*/}
                     <div className="loginmodalloginmodalbtn">
                         <div className="loginmodalbtngroup"/>
                         <button type={'button'} className="loginmodalbtntext"
@@ -176,18 +196,23 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
                 </div>
                 <div className="loginmodalsnslogingroup">
                     <div className="loginmodalkakaologinimggroup">
-                        <img
-                            className="kakaolgoinimg-icon"
-                            alt=""
-                            src={kakao}
-                        />
+                        <button type={'button'} className={'loginmodalkakaologinbtn'}
+                                onClick={handlekakao}>
+                            <img
+                                className="kakaolgoinimg-icon"
+                                alt=""
+                                src={kakao}
+                            />
+                        </button>
                     </div>
                     <div className="loginmodalnaverloginimggroup">
+
                         <img
                             className="naverloginimg-icon"
                             alt=""
                             src={naver}
                         />
+
                     </div>
                 </div>
                 <div className="loginmodalmiddletextgroup">

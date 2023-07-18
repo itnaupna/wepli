@@ -5,6 +5,9 @@
     font-weight: 500;
     display: inline-block;
     width: 7.86rem;
+    font-size: 2rem;
+    text-align: center;
+    border: 1px solid red;
 }
 .mypagepwchkmodaltitlegroup {
     position: absolute;

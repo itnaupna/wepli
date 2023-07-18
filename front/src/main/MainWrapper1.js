@@ -43,7 +43,7 @@ function MainWrapper1(props) {
                     </div>
                     <div className="stageoutlinetextsection">
                         <b className="stagetextfirst">
-                            <p className="stage">stage</p>
+                            <p className="MainWrapperstage">stage</p>
                         </b>
                     </div>
                 </div>

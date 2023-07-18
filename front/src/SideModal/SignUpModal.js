@@ -206,7 +206,7 @@ function SignUpModal({setSignUpModalOpen}) {
                         type="email"
                     />
                     <div className="signupemailbtngroup">
-                        <button onClick={checkEmail} className="signuemailddddddnbtn">
+                        <button onClick={checkEmail} className="signupduplicationemailnbtn">
                             중복확인
                         </button>
                     </div>

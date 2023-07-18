@@ -13,6 +13,8 @@ import PlayListDetail from "./PlayListMain/PlayListDetail";
 import PlayStage from "./PlayStation/PlayStageJS/PlayStage";
 import PlayStageList from "./PlayStation/PlayStageJS/PlayStageList"
 import TestPage from './TestPage';
+import {useState} from "react";
+import KakaoCallback from "./KakaoCallback";
 function App() {
     // <<<<<<< HEAD
 
@@ -30,7 +32,8 @@ function App() {
                 <Route path="/mypli" element={<PlayListMain03MyPlayListMain />} />
                 <Route path="/stage/*" element={<PlayStage />} />
                 <Route path="/stage" element={<PlayStageList />} />
-
+                <Route path="/auth" element={<KakaoCallback/>}/>
+                <Route path="/test" element={<TestPage/>}/>
                 <Route path="/*" element={
                     <h1 style={{ width: "100%", textAlign: "center", marginTop: "25%", position: "absolute" }}>페이지가 없습니다</h1>
                 } />
