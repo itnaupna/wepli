@@ -5,12 +5,15 @@ import SLPFollowNextIcon from '../PlayStageImage/Icon/SLPFollowNextIcon.svg';
 import StageItemBig from "./StageItemBig";
 import ResultItem from "./ResultItem";
 function PlayStageList(props) {
+  // const []
+
 
   return (
     <div className="slp">
       <div className="slptop">
         <div className="slpmystagewrapper">
-          <StageItemBig/>
+          <StageItemBig />
+          
         </div>
         <div className="slpfollowwrapper">
           <div className="slpfollowback">
@@ -20,7 +23,7 @@ function PlayStageList(props) {
               src={SLPFollowBackIcon}
             />
           </div>
-          <StageItemBig/>
+          <StageItemBig />
           <div className="slpfollowback">
             <img
               className="slpfollowbackicon"
@@ -41,7 +44,7 @@ function PlayStageList(props) {
           </div>
         </div>
         <div className="slpresult">
-        <ResultItem/><ResultItem/><ResultItem/><ResultItem/><ResultItem/><ResultItem/>
+          <ResultItem /><ResultItem /><ResultItem /><ResultItem /><ResultItem /><ResultItem />
         </div>
       </div>
     </div>
