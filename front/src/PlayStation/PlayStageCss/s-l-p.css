@@ -15,6 +15,7 @@
   width: 250px;
   height: 250px;
   object-fit: cover;
+  opacity: 1!important;
 }
 .slpmystageimgwrapper {
   flex: 1;
@@ -87,6 +88,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
+  opacity: 1;
 }
 .slpmystageplayingtitle {
   flex: 1;
@@ -167,7 +169,22 @@
   min-width: 460px;
   max-width: 580px;
   max-height: 500px;
+  position: relative;
 }
+.slpmystage::before{
+  content:"";
+  background-color: #fff;
+  position: absolute;
+  top:0px;
+  left:0px;
+  right: 0px;
+  bottom:0px;
+  border-radius: 31px;
+  opacity: 0.7;
+}
+
+
+
 .slpmystagewrapper {
   flex: 1;
   height: 510px;
@@ -216,7 +233,24 @@
   background-position: top;
   max-width: 580px;
   max-height: 500px;
+  position: relative;
+  z-index: 1;
+  
 }
+.slpfollow ::before{
+    content:"";
+    background-color: #fff;
+    position: absolute;
+    top:0px;
+    left:0px;
+    right: 0px;
+    bottom:0px;
+    border-radius: 31px;
+    opacity: 0.1;
+    z-index: -1;
+  
+}
+
 .slpfollowwrapper {
   flex: 1;
   height: 510px;
@@ -416,7 +450,23 @@
   min-width: 460px;
   max-width: 580px;
   max-height: 300px;
+  position: relative;
+  z-index: 1;
 }
+.slpresultitem ::before{
+  content:"";
+  background-color: rgb(255, 255, 255,0.4);
+  position: absolute;
+  top:0px;
+  left:0px;
+  right: 0px;
+  bottom:0px;
+  border-radius: 70px;
+  opacity: 0.1;
+  z-index: -1;
+  padding: 0;
+}
+
 .slpresult {
   align-self: stretch;
   overflow: hidden;

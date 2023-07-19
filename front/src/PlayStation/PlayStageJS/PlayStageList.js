@@ -13,13 +13,19 @@ import SLPMystagePlayingTitleIcon from '../PlayStageImage/Icon/SLPMystagePlaying
 import SLPMystagePlayingAuthorIcon from '../PlayStageImage/Icon/SLPMystagePlayingAuthorIcon.svg';
 import SLPFollowBackIcon from '../PlayStageImage/Icon/SLPFollowBackIcon.svg';
 import SLPFollowNextIcon from '../PlayStageImage/Icon/SLPFollowNextIcon.svg';
+import CreateStageModal from "./CreateStageModal.js";
 function PlayStageList(props) {
-
+  // 모달창 노출 여부 statae
+  const [modalOpen,setModalOpen] = useState(false);
+  // 모달창 노출
+  const showModal = () =>{
+    setModalOpen(true);
+  };
   return (
     <div className="slp">
       <div className="slptop">
         <div className="slpmystagewrapper">
-          <div className="slpmystage">
+            <div className="slpmystage">
             <div className="slpmystagetop">
               <div className="slpmystageimgwrapper">
                 <div className="slpmystagemakeday">생성일 : 2024-07-05</div>
@@ -91,7 +97,13 @@ function PlayStageList(props) {
               </div>
               <div className="slpmystagetitle">내 스테이지 생성</div>
             </div>
-          </div>
+            </div>
+        </div>
+        <div className="StageModalContainer">                
+                <button onClick={showModal} className="button button--nina button--round-l button--text-thick button--inverted" data-text="스테이지생성">
+                <span>스</span><span>테</span><span>이</span><span>지</span><span>생</span><span>성</span>
+                </button>
+                {modalOpen && <CreateStageModal setModalOpen={setModalOpen}/>}
         </div>
         <div className="slpfollowwrapper">
           <div className="slpfollowback">
@@ -182,7 +194,12 @@ function PlayStageList(props) {
       <div className="slpbottom">
         <div className="slpsearchwrapper">
           <div className="slpsortwrapper">
-            <div className="slpsort" />
+            <div className="slpsort" >
+              <select>
+                <option>최신순</option>
+                <option>인기순</option>
+              </select>
+            </div>
           </div>
           <div className="slpsearchwrapper1">
             <div className="slpsearchtype" />

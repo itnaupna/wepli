@@ -97,7 +97,7 @@
 .stage-button-stage-text {
     color: #000000;
     text-align: center;
-    font: 400 25px "BM DoHyeon", sans-serif;
+    font: 400 20px "BM DoHyeon", sans-serif;
     position: relative;
     display: flex;
     align-items: center;
@@ -123,7 +123,7 @@
 .stage-button-queue-text {
     color: #000000;
     text-align: center;
-    font: 400 25px "BM DoHyeon", sans-serif;
+    font: 400 20px "BM DoHyeon", sans-serif;
     position: relative;
     display: flex;
     align-items: center;
