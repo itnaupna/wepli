@@ -154,10 +154,10 @@ public class MemberController {
      HttpServletRequest request, HttpServletResponse response){
             return mService.Login(email, pw, autoLogin, request, response); 
     }
-
     // 소셜 로그인 파라미터 -> email,socialtype
     @PostMapping("/lv0/m/social")
     public Map<String, Object> socialLogin(@RequestBody Map<String, String> data, HttpServletRequest request, HttpServletResponse response) {
+
         return mService.socialLogin(data, request, response);
     }
 
