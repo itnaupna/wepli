@@ -16,7 +16,7 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
     const [resultVerify, setResultVerify] = useState(false);
 
 
-    // 인증번호 전송
+    // 인증번호 전송 타입
     const handleRequestCode = async () => {
         const url = "/api/lv1/m/requestcode";
         try {
