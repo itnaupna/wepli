@@ -35,7 +35,7 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
     }
 
 
-    // 인증번호 검수
+    // 인증번호 검수임
     const handleVerifyCode = async ()=>{
         const url = "/api/lv1/m/verifycode";
         try{
