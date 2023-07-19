@@ -40,9 +40,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-        ;
+                .authorizeHttpRequests((authorizeHttpRequests) -> {
+                    authorizeHttpRequests
+                            .requestMatchers(new AntPathRequestMatcher("/**")).permitAll();
+                })
+                .csrf((csrf) -> csrf
+                        .ignoringRequestMatchers(new AntPathRequestMatcher("/api/**")));
         return http.build();
 
         // http.cors().and().csrf().disable() // csrf 보안 비활성화
