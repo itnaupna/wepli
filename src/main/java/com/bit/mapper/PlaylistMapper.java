@@ -34,17 +34,6 @@ public interface PlaylistMapper {
     // 플레이리스트 생성
     public int insertPlaylist(PlaylistDto data);
 
-    // 제목, 닉넴, 장르, 태그
-    // TODO : (확인) 검색시 블랙리스트 제외
-      // TODO: 검토 후 삭제
-    public List<PlaylistDto> selectSearchByTitle(Map<String, List<String>> titleAndBlack);
-
-    public List<PlaylistDto> selectSearchByNick(Map<String, List<String>> nickAndBlack);
-
-    public List<PlaylistDto> selectSearchByGenre(Map<String, List<String>> genreAndBlack, @Param("type")String type);
-
-    public List<PlaylistDto> selectSearchByTag(Map<String, List<String>> tagAndBlack);
-
     // 좋아요 여부 검사, 좋아요 추가, 좋아요 취소
     public int selectLike(Map<String, Object> data);
 

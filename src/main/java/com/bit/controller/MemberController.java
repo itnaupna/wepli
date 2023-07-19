@@ -89,7 +89,7 @@ public class MemberController {
     @PostMapping("/lv0/m/requestcode")
     public boolean postRequestCodeFind(@RequestBody UserConfirmDto data){
         System.out.println("getemail="+data.getEmail());
-        return uService.RequestCodeFind(data.getType(),data.getKey());
+        return uService.RequestCodeFind(data.getType(),data.getKey(), data.getEmail(), data.getPhone());
     }
 
     // 아이디 찾기 인증코드 검증(비로그인, 본인인증O)
@@ -154,16 +154,15 @@ public class MemberController {
      HttpServletRequest request, HttpServletResponse response){
             return mService.Login(email, pw, autoLogin, request, response); 
     }
-
     // 소셜 로그인 파라미터 -> email,socialtype
     @PostMapping("/lv0/m/social")
     public Map<String, Object> socialLogin(@RequestBody Map<String, String> data, HttpServletRequest request, HttpServletResponse response) {
+
         return mService.socialLogin(data, request, response);
     }
 
     //로그아웃
     //TODO : (확인) 로그아웃시 엑세스토큰이 만료되어있으면 해당 유저의 리프레시 토큰이 삭제가 안되는점 수정
-    
     @PostMapping("/lv1/m/logout")
     public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) throws Exception {
         mService.logout(token, request, response);

@@ -93,8 +93,8 @@ public class MemberService {
     }
 
     // 전화번호 인증여부 확인
-    public boolean checkPhoneConfirm(String email) {
-        return memberMapper.selectCheckPhoneConfirm(email) > 0;
+    public boolean checkPhoneConfirm(String phone) {
+        return memberMapper.selectCheckPhoneConfirm(phone) > 0;
     }
 
     // 이메일 인증
@@ -104,10 +104,10 @@ public class MemberService {
     }
 
     // 전화번호 인증
-    public boolean phoneConfirm(String email) {
+    public boolean phoneConfirm(String phone) {
 
         // TODO : 전화 인증 알고리즘 추가
-        return memberMapper.updatePhoneConfirm(email) > 0;
+        return memberMapper.updatePhoneConfirm(phone) > 0;
 
     }
 
@@ -151,6 +151,17 @@ public class MemberService {
     public Map<String, Object> updateInfo(String token, Map<String, Object> data, HttpServletRequest request,
      HttpServletResponse response) throws Exception {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        MypageDto mDto = memberMapper.selectMypageDto(nick);
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(mDto.getEmailconfirm() + mDto.getPhoneconfirm() > 0) {
+            if(!mDto.getEmail().equals(data.get("email"))) {
+                result.put("result", false);
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                return result;
+            }
+        }
         data.put("nick", nick);
         System.out.println(data);                
         memberMapper.updateInfo(data);

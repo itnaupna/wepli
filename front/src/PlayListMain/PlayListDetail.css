@@ -440,6 +440,7 @@
     gap: var(--gap-3xs);
     font-size: var(--font-size-sm);
     font-family: var(--font-bm-dohyeon);
+    height: 35px;
 }
 .playlistdetailcommentform {
     align-self: stretch;
@@ -494,12 +495,13 @@
 .playlistdetailcommentcreateday1 {
     position: absolute;
     top: -0.03rem;
-    right: -0.06rem;
     text-transform: capitalize;
     display: flex;
     align-items: center;
     width: 8.13rem;
     height: 0.56rem;
+    color: black;
+    left: -10%;
 }
 .playlistdetailcommentcreateday {
     position: absolute;
@@ -643,6 +645,7 @@
     gap: 2.5rem;
     max-width: 68.75rem;
     max-height: 60.56rem;
+    /*overflow: hidden;*/
 }
 .playlistdetailframe {
     width: 100%;

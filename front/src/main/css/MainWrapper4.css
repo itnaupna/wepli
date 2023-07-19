@@ -102,6 +102,7 @@
     top: calc(50% - 8px);
     left: 2.13rem;
     font-weight: 500;
+    width: 260px;
 }
 .mainwrapper4secondrankingtextg {
     position: absolute;
@@ -142,6 +143,7 @@
     top: calc(50% - 10px);
     left: 2.13rem;
     font-weight: 500;
+    width: 260px;
 }
 .mainwrapper4firstrankingtextgr {
     position: absolute;
@@ -195,6 +197,7 @@
     top: 8.33%;
     left: 2.13rem;
     font-weight: 500;
+    width: 260px;
 }
 .mainwrapper4thirdrankingtextgr {
     position: absolute;

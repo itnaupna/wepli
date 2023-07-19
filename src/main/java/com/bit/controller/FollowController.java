@@ -33,7 +33,7 @@ public class FollowController {
         return followService.selectFollowerlist(token);
     }
 
-    //TODO : 블랙유저 팔로우시, 그 반대일경우에 대해 처리
+    //TODO :(확인) 블랙유저 팔로우시, 그 반대일경우에 대해 처리
     /*
         1. 해당 유저가 블랙상태인지 검사
         2-1. 블랙상태라면 블랙상태라고 안내 후 팔로우시 블랙상태가 해제된다고 알림. 동의시 진행, 미동의시 종료
@@ -44,8 +44,15 @@ public class FollowController {
         5. 종료
     */
     //TODO : togglePlaylist 형식으로 로직변경
+    // 팔로우 추가,삭제
+    @PostMapping("/lv2/f/followtoggle")
+    public int followAndUnfollow(@CookieValue String token, @RequestParam String target) {
+        return followService.toggleFollowing(token, target);
+    }
+
     // 팔로우 추가
-    @PostMapping("/lv2/f/follow")
+    // TODO : 쓸일 있을지 확인 필요
+    @PostMapping("/lv2/f/addfollow")
     public boolean postFollow(@CookieValue String token, @RequestParam String target) {
         return followService.insertFollowlist(token, target);
     }

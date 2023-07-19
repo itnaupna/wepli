@@ -15,10 +15,10 @@
         where black = #{nick};
     </select>
     <insert id="insertBlacklist" parameterType="Map">
-        insert into tblBlack values (#{black},#{target})
+        insert into tblBlack values (#{nick},#{target})
     </insert>
     <delete id="deleteBlacklist" parameterType="Map">
-        delete from tblBlack where black=#{black} and target=#{target}
+        delete from tblBlack where black=#{nick} and target=#{target}
     </delete>
     <select id="selectBlackOpt" parameterType="string" resultType="Map">
         select hidechat, mute from tblBlackOpt where nick=#{nick}
@@ -30,7 +30,7 @@
         update tblBlackOpt set hidechat=#{hidechat}, mute=#{mute} where nick=#{nick}
     </update>
     <select id="isBlackchk" parameterType="Map" resultType="int">
-        select exists(select * from tblBlack where black = #{black} and target = #{target})
+        select exists(select * from tblBlack where black = #{nick} and target = #{target})
     </select>
 
 </mapper>

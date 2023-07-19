@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../PlayStageCss/s-l-p.css';
 import SLPFollowBackIcon from '../PlayStageImage/Icon/SLPFollowBackIcon.svg';
 import SLPFollowNextIcon from '../PlayStageImage/Icon/SLPFollowNextIcon.svg';
 import StageItemBig from "./StageItemBig";
 import ResultItem from "./ResultItem";
-// import CreateStageModal from "./CreateStageModal.js";
+import CreateStageModal from "./CreateStageModal.js";
+import axios from 'axios';
+
 function PlayStageList(props) {
-  // 모달창 노출 여부 statae
-  const [modalOpen,setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   // 모달창 노출
-  const showModal = () =>{
+  const showModal = () => {
     setModalOpen(true);
   };
+  const [resItems, setResItems] = useState([]);
+  useEffect(() => {
+
+  }, []);
+
   return (
     <div className="slp">
       <div className="slptop">

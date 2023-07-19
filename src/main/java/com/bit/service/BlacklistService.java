@@ -36,19 +36,41 @@ public class BlacklistService {
         return blacklistMapper.selectBlacklist(nick);
     }
 
+    // 블랙리스트 추가, 삭제
+    public int toggleBlacklist(String token, String target) {
+        log.info("token -> {}",token);
+        log.info("target -> {}",target);
+    
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        log.info(nick);
+        Map<String, String> data = new HashMap<>();
+        data.put("nick", nick);
+        data.put("target", target);
+    
+        if(blacklistMapper.isBlackchk(data) == 0) {
+            if(followMapper.isFollowchk(data) > 0) {
+                followMapper.unFollowlist(data);
+            }
+            blacklistMapper.insertBlacklist(data);
+            log.info("insert");
+            return 1;
+        } else {
+            blacklistMapper.deleteBlacklist(data);
+            log.info("delete");
+            return 0;
+        }
+    }
+
     // 블랙리스트 추가
     public boolean insertBlacklist(String token, String target) {
         Map<String, String> data = new HashMap<>();
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        data.put("follow", nick);
+        data.put("nick", nick);
         data.put("target", target);
 
         if(followMapper.isFollowchk(data) > 0) {
             followMapper.unFollowlist(data);    
         }
-
-        data.remove("follow");
-        data.put("black", nick);
         
         log.info("Map in nick -> {}", data.get("black"));
         log.info("Map in target -> {}", data.get("target"));
@@ -59,8 +81,8 @@ public class BlacklistService {
     // 블랙리스트 삭제
     public boolean deleteBlacklist(String token, String target) {
         Map<String, String> data = new HashMap<>();
-        String black = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        data.put("black", black);
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        data.put("nick", nick);
         data.put("target", target);
         return blacklistMapper.deleteBlacklist(data) > 0;
     }
@@ -83,9 +105,9 @@ public class BlacklistService {
 
     // 대상 블랙 여부
     public int isBlackchk(String token, String target) {
-        String black = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         Map<String, String> blackAndTarget = new HashMap<>();
-        blackAndTarget.put("black", black);
+        blackAndTarget.put("nick", nick);
         blackAndTarget.put("target", target);
 
         return blacklistMapper.isBlackchk(blackAndTarget);
