@@ -67,4 +67,10 @@ public class FollowController {
     public int isFollowChk(@CookieValue String token, @RequestParam String target) {
         return followService.isFollowchk(token, target);
     }
+
+    //팔로우 top50
+    @GetMapping("/lv0/f/followtop")
+    public List<Map<String, Object>> followTop() {
+        return followService.selectFollowTop();
+    }
 }

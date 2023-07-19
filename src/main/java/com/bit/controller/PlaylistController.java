@@ -31,14 +31,23 @@ public class PlaylistController {
     @Autowired
     ImgUploadService imgUploadService;
     
+
     @GetMapping("/lv0/p/list")
-    public List<PlaylistDto> getList(boolean orderByDay, int curr, int cpp){
-        return pService.selectPublicPlaylist(orderByDay, curr, cpp);
+    public List<PlaylistDto> getList(@CookieValue(required = false) String token, @RequestParam(required = false) String queryString, 
+    @RequestParam(required = false) String type, boolean orderByDay, int curr, int cpp){
+        return pService.selectPublicPlaylist(token, queryString, type, orderByDay, curr, cpp);
     }
 
+    // 좋아요 누른 플레이리스트 가져오기
     @GetMapping("/lv2/p/listlike")
-    public List<PlaylistDto> getLikes(String nick){
-        return pService.selectLikePli(nick);
+    public List<PlaylistDto> getLikes(@CookieValue String token) {
+        return pService.selectLikePli(token);
+    }
+
+    // 팔로우한 사람의 플레이리스트 가져오기
+    @GetMapping("/lv2/p/listfollow")
+    public List<PlaylistDto> getFollow(@CookieValue String token) {
+        return pService.selectFollowPli(token);
     }
 
     // 내플레이리스트 or 타인의 공개된 플레이리스트 가져오기
@@ -51,11 +60,11 @@ public class PlaylistController {
     public boolean postList(PlaylistDto data, HttpServletResponse response){
         return pService.insertPlaylist(data, response);
     }
-
-    @GetMapping("/lv0/p/search")
-    public List<PlaylistDto> getSearch(@CookieValue(required = false) String token, int type, String queryString){
-        return pService.SearchStages(type, queryString, token);
-    }
+      // TODO: 검토 후 삭제
+    // @GetMapping("/lv0/p/search")
+    // public List<PlaylistDto> getSearch(@CookieValue(required = false) String token, int type, String queryString, String gen){
+    //     return pService.SearchStages(type, queryString, token, gen);
+    // }
 
     @PostMapping("/lv2/p/like")
     public List<Object> postLike(String nick, int playlistID){
