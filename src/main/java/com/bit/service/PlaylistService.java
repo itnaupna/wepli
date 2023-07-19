@@ -54,7 +54,9 @@ public class PlaylistService {
         if(token != null && !token.equals("")) {
             String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
             List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
-            searchAndBlack.put("black", blackTarget);
+            if(blackTarget != null && blackTarget.size()>0){
+                searchAndBlack.put("black", blackTarget);
+            }
         }
         if(queryString != null && !queryString.equals("")) {
             List<String> queryStrings = Arrays.stream(queryString.split(","))

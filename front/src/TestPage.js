@@ -295,11 +295,10 @@ const checkNick = async (e) => {
 
   const [recoveredEmail, setRecoveredEmail] = useState(null);
   const [newPw, setNewPw] = useState('');
-  const [authType,setAuthType]=useState('');
 
   const handleRequestCodeFind = async () => {
     try {
-      const res = await axios.post(TESTURL.requestcodefind, { type: verifyType, key: verifyKey });
+      const res = await axios.post(TESTURL.requestcodefind, { type: verifyType, key: verifyKey,email:verifyKey,phone:verifyKey });
       setResultRV(res.data);
     } catch (error) {
       alert(error);
