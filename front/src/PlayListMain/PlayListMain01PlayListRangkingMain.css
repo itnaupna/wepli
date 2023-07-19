@@ -410,6 +410,7 @@
     height: 0.94rem;
     text-align: left;
     color: var(--color-black);
+    font-size: 13px;
 }
 .playlistrankinglistiteminfo22 {
     display: flex;

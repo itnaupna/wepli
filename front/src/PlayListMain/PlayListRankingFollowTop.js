@@ -20,8 +20,8 @@ function PlayListRankingFollowTop(props) {
             <div className="playlistrankinglistwrapper2">
                 <div className="playlistrankinglistitemswrappe">
                     {followTop.map((item, idx) =>
-                        <div className="playlistrankinglistitem">
-                            <div className="playlistrankinglistitemnumber">50</div>
+                        <div className="playlistrankinglistitem" key={idx}>
+                            <div className="playlistrankinglistitemnumber">{idx+1}</div>
                             <img
                                 className="playlistmain01followprofillimg-icon"
                                 alt=""
@@ -33,9 +33,6 @@ function PlayListRankingFollowTop(props) {
                                 </div>
                             </div>
                             <div className="playlistrankinglistiteminfo22">
-                                <div className="playlistrankinglistitemmakeday2">
-                                    가입일 : 2024-07-05
-                                </div>
                                 <div className="playlistmain01followitems">
                                     <div className="playlistmain01follow">
                                         <div className="follow">

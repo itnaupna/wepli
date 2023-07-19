@@ -7,16 +7,17 @@ import dayjs from 'dayjs';
 import Axios from "axios";
 
 function PlayListSearchDetail({searchResult}) {
+    const profileimg = process.env.REACT_APP_BUCKET_URL;
     return (
         <div className="playlistsearchbody">
             <div className="playlistitemwrapperframe">
                 {searchResult.length === 0? <h1 className="NoResearch">검색 결과가 없습니다</h1>:
                     searchResult?.map((item, idx)=>
-                        <div className="playlistsearchitem">
+                        <div className="playlistsearchitem" key={idx} style={{backgroundImage:`linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8)),url(${profileimg}/playlist/${item.img})`}}>
                             <img
                                 className="playlistsearchthumbnail-icon"
                                 alt=""
-                                src={Aris}
+                                src={`${profileimg}/playlist/${item.img}`}
                             />
                             <div className="playlistsearchinfowrapper">
                                 <div className="playlistsearchtagswrapper">

@@ -22,7 +22,7 @@ function PlayLsitRankingLikeTop(props) {
                 <div className="playlistrankinglistitemswrappe">
                     {
                         likeTop50.map((item, idx)=>
-                            <div className="playlistrankinglistitem">
+                            <div className="playlistrankinglistitem" key={idx}>
                                 <div className="playlistrankinglistitemnumber">{idx+1}</div>
                                 <img
                                     className="playlistrankinglistitemthumbna-icon"
@@ -51,10 +51,10 @@ function PlayLsitRankingLikeTop(props) {
                                     </div>
                                     <div className="playlistrankinglistitemtags">
                                         <div className="playlistrankinglistitemcategor">
-                                            #{item.genre}
+                                            {item.genre===""?null:"#" + item.genre}
                                         </div>
                                         <div className="playlistrankinglistitemcategor">
-                                            #{item.tag}
+                                            {item.tag === ""?null:"#" + item.tag}
                                         </div>
                                     </div>
                                 </div>

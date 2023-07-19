@@ -28,7 +28,7 @@
 }
 
 .myplaylistitem{
-    background-image:linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("../MainIMG/MoluCover.png");
+    /*background-image:linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8)),url("../MainIMG/MoluCover.png");*/
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
