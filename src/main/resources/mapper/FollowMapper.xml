@@ -22,19 +22,21 @@
     <select id="selectFollowTop" resultType="Map">
         select target t,
         (select img from tblMember where nick = t) img,
-        count(*) cnt from tblFollow group by target order by cnt desc limit 0, 50;
+        count(*) cnt,
+        (select count(*) from vwPlaylist where nick = t) pliCnt
+        from tblFollow group by target order by cnt desc limit 0, 50;
     </select>
 
     <insert id="insertFollowlist" parameterType="Map">
-        insert into tblFollow values (#{follow}, #{target})
+        insert into tblFollow values (#{nick}, #{target})
     </insert>
     
     <delete id="unFollowlist" parameterType="Map">
-        delete from tblFollow where follow=#{follow} and target=#{target}
+        delete from tblFollow where follow=#{nick} and target=#{target}
     </delete>
 
     <select id="isFollowchk" parameterType="Map" resultType="int">
-        select exists(select * from tblFollow where follow = #{follow} and target = #{target})
+        select exists(select * from tblFollow where follow = #{nick} and target = #{target})
     </select>
 
 </mapper>
