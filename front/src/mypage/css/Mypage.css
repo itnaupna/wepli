@@ -1,0 +1,252 @@
+.memebersmypage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50vw;
+}
+.mypagemembernicknameframe {
+    position: absolute;
+    top: 8.38rem;
+    left: 0;
+    width: 15.56rem;
+    height: 2.5rem;
+}
+.mypageweplilogo-icon {
+    object-fit: cover;
+}
+.mypageweplilogo-icon,
+.mypageweplilogobox {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 29vw;
+    width: 9.38rem;
+    height: 10.18rem;
+}
+.mypagelogoheader {
+    position: absolute;
+    width: calc(100% - 681px);
+    top: 4.56rem;
+    right: 12.19rem;
+    left: 30.38rem;
+    height: 10.88rem;
+}
+.mypagechangeinfosurface {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 20px;
+    background-color: #a649da;
+    box-shadow: 10px 10px 10px red;
+    opacity: 0.15;
+    mix-blend-mode: normal;
+}
+.mypagechangeinfolabel {
+    position: absolute;
+    width: 59%;
+    top: calc(50% - 10px);
+    left: 20.5%;
+    font-weight: 500;
+    display: inline-block;
+}
+.mypagechangeinfobutton {
+    position: absolute;
+    width: 100%;
+    top: calc(50% - 20px);
+    right: 0;
+    left: 0;
+    border-radius: 20px;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    height: 2.5rem;
+    overflow: hidden;
+}
+.mypagechangeinfobox {
+    position: relative;
+    width: 12.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+}
+.mypageblacklistlabel,
+.mypageemailsendlabel,
+.mypagesecessionlabel {
+    position: absolute;
+    width: 50.5%;
+    top: calc(50% - 10px);
+    left: 25%;
+    font-weight: 500;
+    display: inline-block;
+}
+.mypageblacklistlabel,
+.mypagesecessionlabel {
+    width: 68%;
+    left: 16%;
+}
+.mypagesecessionlabel {
+    width: 40.5%;
+    left: 30%;
+    cursor: pointer;
+}
+.mypagemenubarframe {
+    position: absolute;
+    width: calc(100% - 139px);
+    top: 8.5rem;
+    right: 3.38rem;
+    left: 5.31rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 3.13rem;
+    color: #a649da;
+}
+.mypageonelinetext {
+    position: absolute;
+    width: 100%;
+    top: calc(50% - 46px);
+    left: 0;
+    display: inline-block;
+    height: 5.75rem;
+}
+.mypageonelineinfotext {
+    position: absolute;
+    width: calc(100% - 16.24px);
+    top: calc(50% - 13px);
+    right: 0;
+    left: 1.01rem;
+    height: 5.75rem;
+}
+.mypageonelinertext {
+    position: absolute;
+    top: calc(50% - 12px);
+    left: 3.2rem;
+    font-weight: 500;
+    display: inline-block;
+    width: 7.31rem;
+}
+.mypagecommunicationicon {
+    position: absolute;
+    top: calc(50% - 24px);
+    left: 0;
+    width: 3.08rem;
+    height: 3rem;
+    overflow: hidden;
+}
+.mypageonelinerbox {
+    position: absolute;
+    top: calc(50% - 79px);
+    left: 0;
+    width: 10.51rem;
+    height: 3rem;
+    font-size: 1.5rem;
+    font-family: "KBO Dia Gothic";
+}
+.mypagemyinfoboxframe {
+    position: absolute;
+    width: calc(100% - 200px);
+    top: 15.56rem;
+    right: 7.19rem;
+    left: 5.31rem;
+    height: 9.88rem;
+    font-size: 2rem;
+    font-family: "SF Pro Text";
+}
+.mypagefollowingnumber {
+    position: absolute;
+    top: calc(50% + 5px);
+    left: 0.46rem;
+    display: inline-block;
+    width: 9.11rem;
+}
+.mypagefollowingbox,
+.mypagefollowingtext {
+    position: absolute;
+    top: calc(50% - 30px);
+    width: 9.56rem;
+}
+.mypagefollowingtext {
+    left: 0;
+    display: inline-block;
+}
+.mypagefollowingbox {
+    left: 7.44rem;
+    height: 3.75rem;
+}
+.mypagefollowtext {
+    position: absolute;
+    top: calc(50% - 30px);
+    left: 0.31rem;
+    display: inline-block;
+    width: 7.13rem;
+}
+.mypagefollowbox,
+.mypagefollownumber {
+    position: absolute;
+    left: 0;
+    width: 7.44rem;
+}
+.mypagefollownumber {
+    top: calc(50% + 5px);
+    display: inline-block;
+}
+.mypagefollowbox {
+    top: calc(50% - 30px);
+    height: 3.75rem;
+}
+.mypagefollowframe {
+    position: absolute;
+    top: 2.31rem;
+    left: 9.5rem;
+    width: 22.94rem;
+    height: 3.75rem;
+    font-size: 1.5rem;
+    font-family: "BM HANNA Air";
+}
+.mypagemiddleboxgruop {
+    position: absolute;
+    width: calc(100% - 520px);
+    top: 17.88rem;
+    right: 11.31rem;
+    left: 21.19rem;
+    border-radius: 50px;
+    background-color: #fff;
+    height: 29rem;
+    font-size: 1.25rem;
+    font-family: "KBO Dia Gothic";
+}
+.mypagememberprofileimg-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 150px;
+    width: 14.75rem;
+    height: 14.75rem;
+    object-fit: cover;
+    /*border: 4px outset red;*/
+}
+
+
+.mypagememberprofileimg-icon:hover{
+    opacity: 0.7;
+}
+.mypagememberprofileframe {
+    position: absolute;
+    top: 10.5rem;
+    left: 14.69rem;
+    width: 14.75rem;
+    height: 14.75rem;
+}
+.mypageframe {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 60.56rem;
+    overflow: hidden;
+    text-align: left;
+    font-size: 2rem;
+    color: #000;
+}

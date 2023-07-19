@@ -234,14 +234,16 @@ public class MemberService {
             HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
         try {
-
+            System.out.println(data);
             boolean emailExists = memberMapper.selectCheckEmailExists(data.get("email")) > 0;
+            log.info("emailchk {}", emailExists);
             if (emailExists) {
                 boolean boolLogin = memberMapper.CheckMemberExists(data) > 0;
                 if(boolLogin) {
                     // 로긴 성공하면
                     result = tokenService.generateToken(data, JWT_TOKEN_VALIDITY_ONEDAY, request, response);
                 } else {
+
                     // 로긴 실패하면 -> 요청 소셜이 아닌 다른 루트로 가입된 이메일 
                     log.info("socialLogin -> duplicate");
                     response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);

@@ -1,0 +1,220 @@
+.followmodalmodalarrow-icon {
+    position: relative;
+    width: 3.88rem;
+    height: 3.38rem;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.followmodalwepli {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.followmodaltitle {
+    position: relative;
+    width: 9.06rem;
+    height: 3.38rem;
+}
+.followmodalwplieonlylogo-5-icon {
+    position: relative;
+    width: 3.13rem;
+    height: 3.39rem;
+    object-fit: cover;
+}
+.followmodalheader {
+    width: 18.75rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.94rem;
+}
+.followmodalthumbnail-icon {
+    position: relative;
+    width: 3.75rem;
+    height: 3.75rem;
+    object-fit: cover;
+}
+.followmodalmembercounttext,
+.followmodalmembernicknametext {
+    align-self: stretch;
+    position: relative;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    height: 1.25rem;
+    flex-shrink: 0;
+}
+.followmodalmembercounttext {
+    font-size: 0.81rem;
+    font-family: "BM HANNA Air";
+    height: 0.94rem;
+}
+.followmodalinfogroup {
+    width: 9.38rem;
+    height: 3.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.followmodalblackbtnrectangle {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 20px;
+    background-color: #a649da;
+    box-shadow: 10px 10px 10px red;
+    opacity: 0.15;
+    mix-blend-mode: normal;
+}
+.followmodalblackbtntext {
+    position: absolute;
+    width: 40%;
+    top: calc(50% - 4px);
+    left: 36%;
+    font-weight: 500;
+    display: inline-block;
+    font-size: 10px;
+}
+.followmodalblackbtnframe {
+    position: absolute;
+    top: calc(50% + 5px);
+    left: calc(50% - 25px);
+    border-radius: 20px;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 3.13rem;
+    height: 1.25rem;
+    overflow: hidden;
+}
+.followmodalfollowbtntext {
+    position: absolute;
+    width: 60%;
+    top: calc(50% - 4px);
+    left: 28%;
+    font-weight: 500;
+    display: inline-block;
+}
+.followmodalfollowbtnframe {
+    position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    border-radius: 20px;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 3.13rem;
+    height: 1.25rem;
+    overflow: hidden;
+}
+.followmodalbtnsection {
+    position: relative;
+    width: 3.13rem;
+    height: 3.13rem;
+}
+.followmodalbtngroup,
+.followmodallist {
+    display: flex;
+    justify-content: flex-start;
+}
+.followmodalbtngroup {
+    width: 3.25rem;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.5rem;
+    color: #a649da;
+    font-family: "KBO Dia Gothic";
+}
+.followmodallist {
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    width: 18.13rem;
+    overflow: hidden;
+    flex-shrink: 0;
+    flex-direction: row;
+    padding: 0.63rem 0.78rem;
+    box-sizing: border-box;
+    align-items: center;
+    gap: 0.19rem;
+}
+.followmodallayout,
+.followmodalveticalframe {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.followmodalveticalframe {
+    align-self: stretch;
+    height: 32.19rem;
+    overflow-y: auto;
+    flex-shrink: 0;
+    align-items: center;
+    text-align: left;
+    font-size: 1.06rem;
+    font-family: "BM HANNA_TTF";
+}
+.followmodallayout {
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    padding: 2.5rem 2.25rem;
+    box-sizing: border-box;
+    align-items: flex-start;
+    gap: 1.88rem;
+}
+.followmodalgroup,
+.followmodallayout {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 30px;
+}
+.followmodalwapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border-radius: 30px;
+    background-color: #fff;
+    width: 23.25rem;
+    height: 41.75rem;
+    transform: translate(-50%, -50%);
+}
+.followmodalframe {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    text-align: center;
+    font-size: 0.63rem;
+    color: #fff;
+    font-family: Inter;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -95,7 +95,7 @@
 .stageinlinetextsection {
     top: calc(50% - 21px);
 }
-.stage {
+.MainWrapperstage {
     margin: 0;
 }
 .stageoutlinetextsection,
