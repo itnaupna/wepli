@@ -4,32 +4,48 @@ import backarrow from "./svg/backarrow.svg";
 import btnarrow from "./svg/btnarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import axios from "axios";
+
 function EmailConfirmModal({setisEmailConfirmModalOpen}) {
 
     const [verifyKey, setVerifyKey] = useState('');
-    const [verifyType, setVerifyType] = useState(0);
     const [resultRV, setResultRV] = useState(false);
     const [verifyCode, setVerifyCode] = useState('');
     const [resultVerify, setResultVerify] = useState(false);
 
+    // 인증번호 전송
     const handleRequestCode = async () => {
         const url = "/api/lv1/m/requestcode";
         try{
             const res = await axios
                 .post(url,{key: verifyKey });
-            setResultRV(res.data);
-            alert("굿")
+            if(res.data === true){
+                console.log(res);
+                alert("인증번호 전송 완료");
+                setResultRV(res.data);
+            }else {
+                alert("인증실패");
+            }
         }catch (error){
             console.log(error);
         }
     }
 
+    // 인증번호 검수
     const handleVerifyCode = async ()=>{
         const url = "/api/lv1/m/verifycode";
         try{
             const res = await axios.post(url,{key:verifyKey,code:verifyCode});
+            if(res.data === true){
+                console.log(res.data);
+                console.log(res);
             setResultVerify(res.data);
-            alert("good");
+            alert("인증완료");
+            closeEmailConfirmModal();
+            }else{
+                alert("인증실패");
+                console.log(res.data);
+                console.log(res);
+            }
         }catch(error){
             alert(error);
         }
@@ -72,7 +88,7 @@ function EmailConfirmModal({setisEmailConfirmModalOpen}) {
                          onClick={handleRequestCode}>전송</button>
                     </div>
                     <div className="emailconfirmmodalemailinputgro">
-                        <input type={'text'} className="emailconfirmmodalemailinput"></input>
+                        <input type={'text'} value={verifyCode} onChange={(e)=>setVerifyCode(e.target.value)} className="emailconfirmmodalemailinput"></input>
                     </div>
                     <div className="emailconfirmemailbtngroup">
                         <div className="emailconfirmsendbtn" />

@@ -1,12 +1,58 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./css/PhoneConfirm.css";
 import backarrow from "./svg/backarrow.svg";
 import btnarrow from "./svg/btnarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
+import axios from "axios";
 function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
 
     const closePhoneConfirmModal = async () => {
         await setisPhoneConfirmModalOpen(false);
+    }
+
+    const [verifyKey, setVerifyKey] = useState('');
+    const [resultRV, setResultRV] = useState(false);
+    const [verifyCode, setVerifyCode] = useState('');
+    const [resultVerify, setResultVerify] = useState(false);
+
+
+    // 인증번호 전송
+    const handleRequestCode = async () => {
+        const url = "/api/lv1/m/requestcode";
+        try {
+
+            const res = await axios.post(url, {type: 1, key: verifyKey});
+            if (res.data === true) {
+                console.log(res);
+                alert("인증번호 전송 완료");
+                setResultRV(res.data);
+            } else {
+                alert("인증실패");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    // 인증번호 검수
+    const handleVerifyCode = async ()=>{
+        const url = "/api/lv1/m/verifycode";
+        try{
+            const res = await axios.post(url,{type:1,key:verifyKey,code:verifyCode});
+            if(res.data === true){
+                console.log(res.data);
+                console.log(res);
+                setResultVerify(res.data);
+                alert("인증완료");
+            }else{
+                alert("인증실패");
+                console.log(res.data);
+                console.log(res);
+            }
+        }catch(error){
+            alert(error);
+        }
     }
 
     return (
@@ -32,18 +78,20 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
                         <div className="phoneconfirmmodalcentertext">전화번호 본인인증</div>
                     </div>
                     <div className="phoneconfirmmodalphoneinputgro">
-                        <input type={'text'} className="phoneconfirmmodalphoneinput"></input>
+                        <input type={'text'} value={verifyKey}
+                               onChange={(e)=> setVerifyKey(e.target.value)} className="phoneconfirmmodalphoneinput"></input>
                     </div>
                     <div className="phoneconfirmphonebtngroup">
                         <div className="phoneconfirmsendbtn" />
-                        <div className="phoneconfirmphonebtntext">전송</div>
+                        <button type={"button"} onClick={handleRequestCode} className="phoneconfirmphonebtntext">전송</button>
                     </div>
                     <div className="phoneconfirmmodalphoneinputgro">
-                        <input type={'text'} className="phoneconfirmmodalphoneinput"></input>
+                        <input type={'text'} value={verifyCode}
+                               onChange={(e)=>setVerifyCode(e.target.value)} className="phoneconfirmmodalphoneinput"></input>
                     </div>
                     <div className="phoneconfirmphonebtngroup">
                         <div className="phoneconfirmsendbtn" />
-                        <div className="phoneconfirmphonebtntext">확인</div>
+                        <button type={"button"} className="phoneconfirmphonebtntext" onClick={handleVerifyCode}>확인</button>
                     </div>
                     <div className="phoneconfirmmodalbtngroup">
                         <div className="phoneconfirmmypagebtn">
