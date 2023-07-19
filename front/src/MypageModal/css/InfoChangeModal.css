@@ -1,29 +1,26 @@
-.mypagepwchkmodaltitle {
+.mypageinfochangemodaltitle {
     position: absolute;
     top: 0;
     left: 0;
-    font-weight: 500;
     display: inline-block;
     width: 7.86rem;
-    font-size: 2rem;
-    text-align: center;
-    border: 1px solid red;
+    font-size: 2.5rem;
 }
-.mypagepwchkmodaltitlegroup {
+.mypageinfochangemodaltitlegrou {
     position: absolute;
     top: 0.19rem;
     left: 5.61rem;
     width: 7.86rem;
     height: 3rem;
 }
-.mypagepwchkmodalarrowgroup-icon {
+.mypageinfochangemodalarrowgrou-icon {
     position: absolute;
     top: 0.63rem;
     left: 0;
     width: 2.06rem;
     height: 2rem;
 }
-.mypagepwchkmodalweplilogo-icon {
+.mypageinfochangemodalweplilogo-icon {
     position: absolute;
     top: 0;
     left: 15.28rem;
@@ -31,28 +28,27 @@
     height: 3.39rem;
     object-fit: cover;
 }
-.mypagepwchkmodalheader {
+.mypageoutmemebermodalheader {
     position: relative;
     width: 18.5rem;
     height: 3.39rem;
 }
-.mypagepwchkmodalcentertext {
+.mypageinfochangemodalcentertex {
     position: absolute;
     top: 0;
     left: 0;
     display: inline-block;
     width: 18.5rem;
     text-align: center;
-    margin-bottom: 3vh;
 }
-.mypagepwchkmodaltextgroup {
+.mypageinfochangermodaltextgrou {
     position: relative;
     width: 18.5rem;
     height: 0;
     font-size: 1.13rem;
     font-family: "SF Pro Text";
 }
-.mypagepwchkmodalpassinput {
+.mypageinfochangemodalnicknamei {
     position: absolute;
     top: 0;
     left: 0;
@@ -61,34 +57,12 @@
     width: 18.5rem;
     height: 4rem;
 }
-.mypagepwchkmodalpassinputgroup {
+.mypageinfochangemodalpassnickn {
     position: relative;
     width: 18.5rem;
     height: 4rem;
 }
-.mypagepwchkmodalbtn {
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 8px;
-    background-color: #d0e0f4;
-    width: 4rem;
-    height: 1.88rem;
-}
-.mypagepwchkmodalbtntext {
-    position: absolute;
-    top: 0.56rem;
-    left: 0.88rem;
-    font-weight: 500;
-}
-.mypagepwchkmodalchkbtngroup {
-    position: relative;
-    width: 4rem;
-    height: 1.88rem;
-    font-size: 0.63rem;
-    color: #fff;
-}
-.mypagepwchkmodalbtnrectangle {
+.mypageinfochangemodalbtnrectan {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -99,25 +73,27 @@
     border-radius: 8px;
     background-color: #d0e0f4;
 }
-.mypagepwchkmodalbtntext1 {
+.mypageinfochangemodalbtntext {
     position: absolute;
-    top: 0;
-    left: 0;
-    font-weight: 600;
-    border-radius: 8px;
     height: 100%;
-    width: 18.5rem;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 8px;
     background-color: #d0e0f4;
     border: none;
+    cursor: pointer;
 }
-.mypagepwchkmodalmypagebtn {
+.mypageinfochangemodalmypagebtn {
     position: absolute;
     top: 0;
     left: 0;
     width: 18.5rem;
     height: 3.75rem;
 }
-.mypagepwchkmodalbtnarrow-icon {
+.mypageinfochangemodalbtnarrow-icon {
     position: absolute;
     top: 1.19rem;
     left: 15.75rem;
@@ -125,21 +101,20 @@
     height: 1.5rem;
     overflow: hidden;
 }
-.mypagepwchkmodalbtngroup {
+.mypageinfochangemodalbtngroup {
     position: relative;
     width: 18.5rem;
     height: 3.75rem;
     font-size: 1rem;
     color: #fff;
 }
-.mypagepwchkmodalgroup {
+.mypageinfochangemodalgroup {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 369px;
     border-radius: 30px;
     background-color: #fff;
+    width: 22.88rem;
     overflow: hidden;
     display: flex;
     flex-direction: row;
@@ -149,22 +124,22 @@
     align-items: center;
     justify-content: flex-start;
     gap: 1.75rem;
-    z-index: 999;
+    transform: translate(-50%, -50%);
 }
-.mypagepwchkmodalframe {
-    background-color: rgba(0, 0, 0, 0.2);
+.mypageinfochangemodalframe {
     position: fixed;
+    background-color: rgba(0, 0, 0, 0.2);
     width: 100vw;
     height: 100vh;
     overflow: hidden;
     text-align: center;
-    font-size: 0.75rem;
-    color: #000;
+    font-size: 0.63rem;
+    color: #fff;
+    font-family: Inter;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     animation: fadeIn 0.4s ease-in-out;
-    z-index: 100;
 }
 
 @keyframes fadeIn {

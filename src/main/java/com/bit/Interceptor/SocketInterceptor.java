@@ -15,6 +15,11 @@ public class SocketInterceptor implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         log.info("eong");
+        System.out.println("-".repeat(50));
+        System.out.println(message);
+        System.out.println("-".repeat(50));
+        System.out.println(channel);
+        System.out.println("-".repeat(50));
         return message;
     }
 

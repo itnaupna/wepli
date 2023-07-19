@@ -52,7 +52,7 @@ function PlayListMain02PlayListSearchMain(props) {
     };
 
     const SearchButton = () => {
-        const SearchURl = "/api//lv0/p/search";
+        const SearchURl = "/api/lv0/p/search";
         queryString === ""? NoSearch():
         Axios.get(SearchURl,{ params: {type, queryString}})
             .then(res =>

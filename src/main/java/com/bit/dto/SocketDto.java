@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class SocketDto {
+    
     public enum Types{
         ENTER,
         EXIT,
@@ -16,8 +17,10 @@ public class SocketDto {
         IN_QUEUE,
         OUT_QUEUE,
         CHANGE_QUEUE_ORDER,
-        CHANGE_QUEUE_SONG
+        CHANGE_QUEUE_SONG,
+        CHAT
     }
+
     private Types type;
     private String stageId;
     private String userNick;

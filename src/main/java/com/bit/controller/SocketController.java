@@ -16,14 +16,16 @@ public class SocketController {
     private final SimpMessageSendingOperations sendingOperations;
 
     @MessageMapping("/msg")
-    public void msg(SocketDto msg){
-        switch (msg.getType()) {
-            case ENTER:
-                break;
+    // public void msg(String eong){
+    public void msg(SocketDto eong){
+        System.out.println(eong);
+        // switch (msg.getType()) {
+        //     case ENTER:
+        //         break;
         
-            default:
-                break;
-        }
-        sendingOperations.convertAndSend("/sub/stage/"+msg.getStageId(), msg);
+        //     default:
+        //         break;
+        // }
+        // sendingOperations.convertAndSend("/sub/stage/"+msg.getStageId(), msg);
     }
 }

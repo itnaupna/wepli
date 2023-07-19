@@ -54,21 +54,55 @@
         values (#{user},#{playlistID})
     </insert>
 
-
-    <select id="selectPublicPlaylist" parameterType="hashMap" resultType="PlaylistDto">
+    <select id="selectPublicPlaylist" resultType="PlaylistDto">
         <choose>
-            <when test="orderByDay">
-                SELECT * FROM vwPlaylist where isPublic=1 ORDER BY makeday DESC limit #{curr},#{cpp}
+            <when test="param2.orderByDay">
+                SELECT * FROM vwPlaylist where isPublic=1         
+                <if test="param1.list != null">
+                and (
+                <foreach collection="param1.list" item="item" separator=" OR ">
+                    ${type} LIKE CONCAT('%', #{item}, '%')
+                </foreach> 
+                )
+                </if>
+                <if test="param1.black != null">
+                    and nick not in (
+                    <foreach collection="param1.black" item="item" separator=", ">
+                        #{item}
+                    </foreach>
+                    )
+                </if>
+                 ORDER BY makeday DESC limit #{param2.curr},#{param2.cpp}
             </when>
             <otherwise>
-                SELECT * FROM vwPlaylist where isPublic=1 ORDER BY likesCount DESC limit #{curr},#{cpp}
+                SELECT * FROM vwPlaylist where isPublic=1 
+                <if test="param1.list != null">
+                and (
+                <foreach collection="param1.list" item="item" separator=" OR ">
+                    ${type} LIKE CONCAT('%', #{item}, '%')
+                </foreach> 
+                )
+                </if>
+                <if test="param1.black != null">
+                    and nick not in (
+                    <foreach collection="param1.black" item="item" separator=", ">
+                        #{item}
+                    </foreach>
+                    )
+                </if>
+                ORDER BY likesCount DESC limit #{param2.curr},#{param2.cpp}
             </otherwise>
         </choose>
     </select>
 
-
     <select id="selectLikePli" parameterType="string" resultType="PlaylistDto">
-        SELECT * FROM vwPlaylist WHERE idx IN (SELECT playlistID FROM tblPlaylistLike WHERE `user`=#{nick})
+        SELECT * FROM vwPlaylist WHERE idx IN (SELECT playlistID FROM tblPlaylistLike WHERE `user`=#{nick}) order by likesCount desc
+    </select>
+
+    <select id="selectFollowPli" parameterType="String" resultType="PlaylistDto">
+        select * from vwPlaylist
+        where nick in (select target from tblFollow where follow = #{nick})
+        order by likesCount desc;
     </select>
 
 
@@ -77,8 +111,8 @@
           values (#{title},#{desc},#{genre},#{tag},#{img},#{isPublic},#{nick})
     </insert>
 
-
-    <select id="selectSearchByTitle" parameterType="Map" resultType="PlaylistDto">
+    <!--검토 후 삭제-->
+    <!-- <select id="selectSearchByTitle" parameterType="Map" resultType="PlaylistDto">
         select * from vwPlaylist 
         where ispublic=1 and (
         <foreach collection="list" item="title" separator=" OR ">
@@ -112,16 +146,19 @@
     </select>
 
 
-    <select id="selectSearchByGenre" parameterType="Map" resultType="PlaylistDto">
+    <select id="selectSearchByGenre" resultType="PlaylistDto">
         select * from vwPlaylist 
-        where ispublic=1 and (
-        <foreach collection="list" item="genre" separator=" OR ">
-            genre LIKE CONCAT('%', #{genre}, '%')
-        </foreach> 
-        )
-        <if test="black != null">
+        where ispublic=1 
+        <if test="param1.list != null">
+            and (
+            <foreach collection="param1.list" item="item" separator=" OR ">
+                ${type} LIKE CONCAT('%', #{item}, '%')
+            </foreach> 
+            )
+        </if>
+        <if test="param1.black != null">
             and nick not in (
-            <foreach collection="black" item="item" separator=", ">
+            <foreach collection="param1.black" item="item" separator=", ">
                 #{item}
             </foreach>
             )
@@ -144,7 +181,7 @@
             </foreach>
             )
         </if>
-    </select>
+    </select> -->
 
 
     <update id="updatePlaylist" parameterType="PlaylistDto">

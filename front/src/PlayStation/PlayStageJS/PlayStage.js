@@ -2,23 +2,26 @@ import React, { useEffect, useRef, useState } from 'react';
 import '../PlayStageCss/PlayStage.css';
 import YouTube from 'react-youtube';
 import ChatItem from './ChatItem';
-import { useParams } from 'react-router-dom';
-import * as StompJS from '@stomp/stompjs';
+import { useParams } from 'react-router';
 import * as SockJS from 'sockjs-client';
+import * as StompJS from '@stomp/stompjs';
 
-function PlayStage({ }) {
+function PlayStage() {
     const [leftType, setLeftType] = useState(true);
     const [rightType, setRightType] = useState(true);
     const [youtube, setYoutube] = useState('VlMxBy_I3Nk');
     const { stageUrl } = useParams();
     const sockClient = useRef();
-
-    useEffect(()=>{
+    const [chatLog, setChatLog] = useState([]);
+    const [chat,setChat] = useState('');
+    useEffect(() => {
         connect();
-    });
+    }, []);
+
 
     const connect = () => {
-        let sock = new SockJS("https://wepli.today/ws");
+        sockClient.current?.disconnect(() => console.log("기존연결 종료"));
+        let sock = new SockJS("https://localhost/ws");
         sockClient.current = StompJS.Stomp.over(sock);
 
         let ws = sockClient.current;
@@ -29,9 +32,17 @@ function PlayStage({ }) {
             });
         });
     };
-    const publish = (type, userNick, msg) =>{
-        sockClient.current.send("/pub/msg",{},"EONG");
-    }
+
+    const handleSendMsg = (type, userNick, msg) => {
+        msg=msg?.trim();
+        if(type==="CHAT" && msg.trim().length===0) return;
+        sockClient.current.send("/pub/msg", {}, JSON.stringify({
+            type,
+            stageId: stageUrl,
+            userNick,
+            msg
+        }));
+    };
 
 
     return (
@@ -185,7 +196,7 @@ function PlayStage({ }) {
                     </div>
 
                     <div className="stage-chat-tail">
-                        <textarea className="stage-chat-input"></textarea>
+                        <textarea className="stage-chat-input" value={chat} onChange={(e)=>setChat(e.target.value)}></textarea>
 
                         <svg
                             className="stage-chat-send-button"
@@ -194,6 +205,7 @@ function PlayStage({ }) {
                             viewBox="0 0 60 60"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
+                            onClick={()=>{handleSendMsg("CHAT","TESTNICK",chat);setChat('');}}
                         >
                             <path
                                 d="M21 28.5H33M21 22.5H39M21 12H39C43.9706 12 48 16.1973 48 21.375V30.625C48 35.8027 43.9706 40 39 40H30.7026C30.2574 40 29.8352 40.206 29.5502 40.5622L23.8262 47.7173C23.3771 48.2787 22.5 47.9479 22.5 47.2172V41.5625C22.5 40.6996 21.8284 40 21 40C16.0294 40 12 35.8027 12 30.625V21.375C12 16.1973 16.0294 12 21 12Z"

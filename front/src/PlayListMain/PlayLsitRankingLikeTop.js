@@ -16,7 +16,6 @@ function PlayLsitRankingLikeTop(props) {
             .then(res =>
                 setLikeTop50(res.data));
     },[]);
-    
     return (
         <div className="playlistrankinglistwapper">
             <div className="playlistrankinglistwrapper">
