@@ -60,6 +60,7 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
                     }
                     sessionStorage.setItem('data', JSON.stringify(dtoList));
                     setModalOpen(false);
+                    window.location.reload();
                     navi('/');
                     console.log(dtoList);
                 } else {

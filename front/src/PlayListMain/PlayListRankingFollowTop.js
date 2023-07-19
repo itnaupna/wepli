@@ -16,7 +16,7 @@ function PlayListRankingFollowTop(props) {
         Axios.get(FollowTop50Url,{ params: {orderByDay, curr, cpp}})
             .then(res =>
                 setFollowTop(res.data));
-    });
+    },[]);
     return (
         <div className="playlistrankinglistwapper">
             <div className="playlistrankinglistwrapper2">

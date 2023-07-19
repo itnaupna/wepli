@@ -23,7 +23,7 @@ function App() {
             <div className="backgroundImgDiv" />
             <Routes>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/mypage" element={<MypageMain />} />
+                <Route path="/mypage" element={sessionStorage.getItem("data")!=null?<MypageMain/>:<MainPage/>}/>
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
                 <Route path="/pli/*" element={<PlayListDetail />} />
