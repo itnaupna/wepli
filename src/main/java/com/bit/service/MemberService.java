@@ -93,8 +93,8 @@ public class MemberService {
     }
 
     // 전화번호 인증여부 확인
-    public boolean checkPhoneConfirm(String email) {
-        return memberMapper.selectCheckPhoneConfirm(email) > 0;
+    public boolean checkPhoneConfirm(String phone) {
+        return memberMapper.selectCheckPhoneConfirm(phone) > 0;
     }
 
     // 이메일 인증
@@ -104,10 +104,10 @@ public class MemberService {
     }
 
     // 전화번호 인증
-    public boolean phoneConfirm(String email) {
+    public boolean phoneConfirm(String phone) {
 
         // TODO : 전화 인증 알고리즘 추가
-        return memberMapper.updatePhoneConfirm(email) > 0;
+        return memberMapper.updatePhoneConfirm(phone) > 0;
 
     }
 

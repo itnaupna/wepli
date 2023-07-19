@@ -44,14 +44,16 @@ public class StageService {
         return sMapper.insertStage(sDto) > 0;
     }
 
-    public void updateImg(String nick, String img) {
+    public void updateImg(String token, String img) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         Map<String, String> nickAndImg = new HashMap<>();
         nickAndImg.put("nick", nick);
         nickAndImg.put("img", img);
         sMapper.updateImg(nickAndImg);
     }
 
-    public List<StageDto> selectStageAll(String nick, int curr, int cpp) {
+    public List<StageDto> selectStageAll(String token, int curr, int cpp) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         Map<String, Object> data = new HashMap<>();
         data.put("nick", nick);
         data.put("curr", (curr - 1) * cpp);
@@ -67,7 +69,8 @@ public class StageService {
         return result;
     }
 
-    public List<StageDto> selectStageFollow(String nick) {
+    public List<StageDto> selectStageFollow(String token) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         return sMapper.selectFollowStage(nick);
     }
 
@@ -75,7 +78,8 @@ public class StageService {
         return sMapper.selectStageOneByAddress(address);
     }
 
-    public StageDto selectStageOneByMasterNick(String nick) {
+    public StageDto selectStageOneByMasterNick(String token) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         return sMapper.selectStageOneByMasterNick(nick);
     }
 
@@ -83,7 +87,8 @@ public class StageService {
         return sMapper.updateStage(sDto) > 0;
     }
 
-    public boolean deleteStage(String nick, String pw) {
+    public boolean deleteStage(String token, String pw) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         MemberDto mDto = new MemberDto();
         mDto.setNick(nick);
         mDto.setPw(pw);
@@ -92,7 +97,8 @@ public class StageService {
         return sMapper.deleteStage(nick) > 0;
     }
 
-    public boolean selectCheckStagePw(String nick, String pw) {
+    public boolean selectCheckStagePw(String token, String pw) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         Map<String, String> data = new HashMap<>();
         data.put("nick", nick);
         data.put("pw", pw);

@@ -58,9 +58,4 @@ public interface MemberMapper {
     public void FindCheckPhonePw(Map<String, String> data);
     //비밀번호찾기(이메일) 
     public void FindCheckEmailPw(Map<String, String> data);
-
-    public int ConfirmCheckEmail(String email);
-    public int ConfirmCheckPhone(String phone);
-    
-    
 }
