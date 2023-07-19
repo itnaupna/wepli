@@ -120,10 +120,18 @@
     justify-content: center;
     margin-top: 5px;
 }
+.sidemenulogoutbutton:hover{
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
 .sidemnubtn{
     display:flex;
     justify-content: center;
     align-items: center;
+}
+.sidemnubtn:hover{
+    cursor: pointer;
+    background-color: #f0f0f0;
 }
 .sidemenu {
     position: fixed;

@@ -249,6 +249,7 @@
     align-items: center;
     width: 13.75rem;
     height: 2.81rem;
+    flex-direction: row-reverse;
 }
 .myplaylistitemthumbnail-icon {
     position: absolute;
@@ -272,13 +273,13 @@
 .myplaylistitem {
     position: relative;
     border-radius: 30px;
-    width: 37.5rem;
+    width: 37.5rem !important;
     height: 37.5rem;
     overflow: hidden;
     flex-shrink: 0;
     min-width: 31.25rem;
     max-width: 37.5rem;
-    margin-left: 80px;
+    color: black;
 }
 .playlistmyplibody {
     align-self: stretch;
@@ -298,6 +299,7 @@
     color: var(--color-black);
     font-family: var(--font-bm-hanna_ttf);
     overflow-y: hidden;
+    margin-left: 60px;
 }
 .playlistmyplibody::-webkit-scrollbar{
     display: none;
@@ -315,3 +317,10 @@
     color: var(--color-darkorchid-100);
     font-family: var(--font-kbo-dia-gothic);
 }
+
+.playlistmyplilogotitle-icon:hover{
+    cursor: pointer;
+}
+
+
+

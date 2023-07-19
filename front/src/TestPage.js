@@ -13,7 +13,10 @@ function TestPage() {
     fstage: "/api/lv2/s/fstage",
     stagesearch: "/api/lv0/s/search",
     requestcode: "/api/lv1/m/requestcode",
+    requestcodefind: "/api/lv0/m/requestcode",
     verifycode: "/api/lv1/m/verifycode",
+    verifycodefind: "/api/lv0/m/verifycodefind",
+    updatepw:"/api/lv0/m/findPw",
     login:"/api/lv0/m/login",
     logout:"/api/lv1/m/logout",
     memberProfile:"/api/lv1/m/profile",
@@ -290,8 +293,68 @@ const checkNick = async (e) => {
     })
   }
 
+  const [recoveredEmail, setRecoveredEmail] = useState(null);
+  const [newPw, setNewPw] = useState('');
+  const [authType,setAuthType]=useState('');
+
+  const handleRequestCodeFind = async () => {
+    try {
+      const res = await axios.post(TESTURL.requestcodefind, { type: verifyType, key: verifyKey });
+      setResultRV(res.data);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  const handleVerifyCodeFind = async ()=>{
+    try {
+      const res = await axios.post(TESTURL.verifycodefind,{type:verifyType, key:verifyKey, code:verifyCode, authType:"findId"});
+      if (res.data) {
+        setRecoveredEmail(res.data);
+        alert('인증 성공!');
+      } else {
+        setRecoveredEmail(null);
+        alert('인증 실패.');
+      }
+    } catch(error) {
+      alert(error);
+    }
+  }
+
+  const handleVerifyCodeFindPw = async ()=>{
+    try {
+      const res = await axios.post(TESTURL.verifycodefind,{type:verifyType, key:verifyKey, code:verifyCode, authType:"findPw"});
+      if (res.data) {
+        setRecoveredEmail(res.data);
+        setResultVerify(true); 
+        alert('인증 성공!');
+
+      } else {
+        setRecoveredEmail(null);
+        setResultVerify(false);
+        alert('인증 실패.');
+      }
+    } catch(error) {
+      alert(error);
+    }
+  }
+
+    const handleChangePassword = async () => {
+      if (!resultVerify) {  // 이메일이 없는 경우도 확인합니다.
+        alert('먼저 인증을 완료해야 합니다.');
+        return;
+      }
+      try {
+        await axios.post(TESTURL.updatepw, {type: verifyType, key: verifyKey, email: recoveredEmail, newPw: newPw, phone:recoveredEmail}); // 저장된 이메일을 사용합니다.
+        alert('비밀번호 변경 성공!');
+      } catch(error) {
+        alert('비밀번호 변경 실패');
+      }
+    };
+
+
   return (
-    <div className="App">
+    <div className="App" style={{margin: '200px'}}>
       {msg}<br />
       <div style={{ border: '3px solid blue', margin: '15px' }}>
         회원가입<br />
@@ -440,6 +503,57 @@ const checkNick = async (e) => {
         <button type="button" onClick={pwChangeClick}>비번변경</button>
 
 
+      </div>
+
+      <div style={{border: "3px solid pink", margin: "15px"}}>
+          아이디 찾기
+          <select defaultValue={verifyType} onChange={(e) => setVerifyType(e.target.selectedIndex.toString())}>
+            <option>이메일</option>
+            <option>문자</option>
+          </select>
+          <input placeholder='핸드폰번호' value={verifyKey} onChange={(e) => setVerifyKey(e.target.value)} />
+          <button onClick={handleRequestCodeFind}>발송</button>
+          {
+            resultRV ?
+              "발송성공" :
+              "발송실패 또는 미인증 회원"
+          }
+          <br/>
+          인증코드 검증
+          <input placeholder='코드' value={verifyCode} onChange={(e) => setVerifyCode(e.target.value)} />
+          <button onClick={handleVerifyCodeFind}>검증</button>
+          {
+            resultVerify?
+            "인증성공":
+            "인증실패"
+          }
+          <br/> 아이디 :  {recoveredEmail ? recoveredEmail : '인증이 필요합니다.'}
+          <hr/>
+          비밀번호 찾기
+          <select defaultValue={verifyType} onChange={(e) => setVerifyType(e.target.selectedIndex.toString())}>
+            <option>이메일</option>
+            <option>문자</option>
+          </select>
+          <input placeholder='수신자' value={verifyKey} onChange={(e) => setVerifyKey(e.target.value)} />
+          <button onClick={handleRequestCodeFind}>발송</button>
+          {
+            resultRV ?
+              "발송성공" :
+              "발송실패 또는 미인증 회원"
+          }
+          <br/><br/>
+          인증코드 검증
+          <input placeholder='코드' value={verifyCode} onChange={(e) => setVerifyCode(e.target.value)} />
+          <button onClick={handleVerifyCodeFindPw}>검증</button>
+          {
+            resultVerify?
+            "인증성공":
+            "인증실패"
+          }
+          <br/><br/>
+
+          <input placeholder='비밀번호' type='password' value={newPw} onChange={(e) => setNewPw(e.target.value)} />
+          <button onClick={handleChangePassword}>변경</button>
       </div>
     </div>
   );

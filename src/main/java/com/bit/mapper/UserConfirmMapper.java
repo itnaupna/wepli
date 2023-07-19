@@ -18,4 +18,5 @@ public interface UserConfirmMapper {
     public int deletePhoneCode(String phone);
     public int updateVerifyEmailConfirm(String email);
     public int updateVerifyPhoneConfirm(String phone);
+
 }

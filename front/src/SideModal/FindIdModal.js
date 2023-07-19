@@ -5,8 +5,8 @@ import logo from "./photo/weplieonlylogoonlylogo.png";
 import btnarrow from "./svg/btnarrow.svg";
 
 function FindIdModal({setFindIdModalOpen}) {
-    const closeFindIdModal = () => {
-        setFindIdModalOpen(false);
+    const closeFindIdModal =  async() => {
+        await setFindIdModalOpen(false);
     }
 
     return (

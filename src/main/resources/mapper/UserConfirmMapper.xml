@@ -15,14 +15,14 @@
     <update id="updateVerifyEmailConfirm" parameterType="string">
           update tblMember
           set
-          emailconfirm=1,
+          emailconfirm=1
           where
           email=#{email}
     </update>
 
 
     <delete id="deletePhoneCode" parameterType="string">
-          delete from tblUserConfrim where phone=#{phone}
+          delete from tblUserConfirm where phone=#{phone}
     </delete>
 
 

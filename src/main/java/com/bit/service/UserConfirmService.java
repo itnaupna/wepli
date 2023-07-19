@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.bit.mapper.MemberMapper;
 import com.bit.mapper.UserConfirmMapper;
 import com.bit.util.SendSMS;
 
@@ -19,6 +20,9 @@ import com.bit.util.SendSMS;
 public class UserConfirmService {
     @Autowired
     UserConfirmMapper uMapper;
+
+    @Autowired
+    MemberMapper mMapper;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -34,6 +38,17 @@ public class UserConfirmService {
                 return CreateEmailVerifyCode(key);
             case 1:
                 return CreatePhoneVerifyCode(key);
+            default:
+                return false;
+        }
+    }
+
+    public boolean RequestCodeFind(int type, String key) {
+        switch (type) {
+            case 0:
+                return mMapper.ConfirmCheckEmail(key) > 0 ? CreateEmailVerifyCode(key) : false;
+            case 1:
+                return mMapper.ConfirmCheckEmail(key) > 0 ? CreateEmailVerifyCode(key) : false;
             default:
                 return false;
         }
@@ -149,6 +164,81 @@ public class UserConfirmService {
         } catch (MessagingException e) {
             e.printStackTrace();
             System.out.println("메일 발송");
+        }
+    }
+
+    // 아이디, 비번 찾기
+    public String VerifyCodeFind(int type, String key, String code, String authType) {
+        if (authType.equals("findId")) {
+            if (type == 1) { // phone type
+                return FindCheckPhoneCode(key, code);
+            }
+        } else if (authType.equals("findPw")) {
+            if (type == 0) { // email type
+                return FindCheckEmailPw(key, code);
+            } else if (type == 1) { // phone type
+                return FindCheckPhonePw(key, code);
+            }
+        }
+        return null;
+    }
+
+
+    // 아이디 찾기 (인증번호 맞을 시 아이디 반환)
+    private String FindCheckPhoneCode(String phone, String code) {
+        Map<String, String> data = new HashMap<>();
+        data.put("phone", phone);
+        data.put("code", code);
+        if (uMapper.selectVerifyPhone(data) > 0) {
+            uMapper.deletePhoneCode(phone);
+            return mMapper.FindCheckPhoneCode(phone);
+        } else {
+            return null;
+        }
+    }
+
+     //비밀번호 찾기 코드 확인 (이메일)
+     private String FindCheckEmailPw(String email, String code){
+        Map<String, String> data = new HashMap<>();
+            data.put("email", email);
+            data.put("code", code);
+            if (uMapper.selectVerifyEmail(data) > 0) {
+                uMapper.deleteEmailCode(email);
+                return email;
+            } else {
+                return "false";
+            }
+        }
+
+    // 비밀번호 찾기 코드 확인 (핸드폰)
+    private String FindCheckPhonePw(String phone, String code){
+        Map<String, String> data = new HashMap<>();
+            data.put("phone", phone);
+            data.put("code", code);
+            if (uMapper.selectVerifyPhone(data) > 0) {
+                uMapper.deletePhoneCode(phone);
+                return phone;
+            } else {
+                return "false";
+            }
+        }
+
+     // 비밀번호 찾기(비밀번호 변경)
+     public void findPwCode(int type, String phone, String email, String newPw){
+        Map<String, String> data = new HashMap<>();
+        switch (type) {
+            case 0:  // email type
+                data.put("email", email);
+                data.put("newPw", newPw);
+                mMapper.FindCheckEmailPw(data);
+                break;
+            case 1:  // phone type
+                data.put("phone", phone);
+                data.put("newPw", newPw);
+                mMapper.FindCheckPhonePw(data);
+                break;
+            default:
+                break;
         }
     }
 

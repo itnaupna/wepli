@@ -22,13 +22,13 @@ public class FollowController {
     FollowService followService;
 
     // 팔로우 리스트 얻기
-    @GetMapping("/lv2/m/follow")
+    @GetMapping("/lv2/f/follow")
     public List<Map<String, Object>> getFollow(@CookieValue String token) {
         return followService.selectFollowList(token);
     }
 
     // 팔로워 리스트 얻기
-    @GetMapping("/lv2/m/follower")
+    @GetMapping("/lv2/f/follower")
     public List<Map<String, Object>> getFollower(@CookieValue String token) {
         return followService.selectFollowerlist(token);
     }
@@ -45,20 +45,32 @@ public class FollowController {
     */
     //TODO : togglePlaylist 형식으로 로직변경
     // 팔로우 추가
-    @PostMapping("/lv2/m/follow")
+    @PostMapping("/lv2/f/follow")
     public boolean postFollow(@CookieValue String token, @RequestParam String target) {
         return followService.insertFollowlist(token, target);
     }
 
     // 팔로우 취소
-    @DeleteMapping("/lv2/m/unfollow")
+    @DeleteMapping("/lv2/f/unfollow")
     public boolean unFollow(@CookieValue String token, @RequestParam String target) {
         return followService.unFollowlist(token, target);
     }
 
     // 특정 유저가 나를 팔로우 했을시 팔로우 끊기(대상이 날 팔로우 한것을 끊음)
-    @DeleteMapping("/lv2/m/delfollow")
+    @DeleteMapping("/lv2/f/delfollow")
     public boolean deleteFollow(@CookieValue String token, @RequestParam String target) {
         return followService.deleteFollowlist(token, target);
+    }
+
+    //대상 팔로우 여부
+    @GetMapping("/lv2/f/isfollow")
+    public int isFollowChk(@CookieValue String token, @RequestParam String target) {
+        return followService.isFollowchk(token, target);
+    }
+
+    //팔로우 top50
+    @GetMapping("/lv0/f/followtop")
+    public List<Map<String, Object>> followTop() {
+        return followService.selectFollowTop();
     }
 }

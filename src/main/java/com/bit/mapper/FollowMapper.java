@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+
 @Mapper
 public interface FollowMapper {
     
@@ -16,4 +17,8 @@ public interface FollowMapper {
     public int insertFollowlist(Map<String,String> followAndTarget);
     //팔로우 취소
     public int unFollowlist(Map<String,String> followAndTarget);
+    //대상 팔로우 여부
+    public int isFollowchk(Map<String, String> followAndTarget);
+    //팔로우 top50
+    public List<Map<String, Object>> selectFollowTop();
 }

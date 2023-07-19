@@ -82,7 +82,8 @@ public class TokenService {
    }
 
     // 토큰 발급 로직(nick)
-    public Map<String, Object> generateToken(String nick, long reqTokenValidity, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Map<String, Object> generateToken(String nick, long reqTokenValidity, HttpServletRequest request,
+     HttpServletResponse response) throws Exception {
         Map<String, Object> result = new HashMap<>();
         Map<String, Object> claims = new HashMap<>();
         MypageDto userDto = memberMapper.selectMypageDto(nick);

@@ -15,6 +15,7 @@ public interface StageMapper {
     public void updateImg(Map<String, String> nickAndImg);
 
     public List<StageDto> selectStageAll(Map<String, Object> data);
+    // public Map<String,StageDto> selectStageAll(Map<String, Object> data);
 
     public List<StageDto> selectFollowStage(String nick);
 

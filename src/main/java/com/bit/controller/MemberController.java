@@ -1,7 +1,6 @@
 package com.bit.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bit.dto.MemberDto;
@@ -79,11 +77,31 @@ public class MemberController {
         return uService.RequestCode(data.getType(),data.getKey());
     }
 
-    // 인증코드 검증
+    // 인증코드 검증 (로그인 상태/본인인증X)
     // 0-이메일, 1-전화
     @PostMapping("/lv1/m/verifycode")
     public boolean postVerifyCode(@RequestBody UserConfirmDto data){
         return uService.VerifyCode(data.getType(),data.getKey(),data.getCode());
+    }
+
+    // 인증코드 생성 (비로그인 본인인증O 아이디/비번 찾기)
+    // 0-이메일, 1-전화
+    @PostMapping("/lv0/m/requestcode")
+    public boolean postRequestCodeFind(@RequestBody UserConfirmDto data){
+        System.out.println("getemail="+data.getEmail());
+        return uService.RequestCodeFind(data.getType(),data.getKey());
+    }
+
+    // 아이디 찾기 인증코드 검증(비로그인, 본인인증O)
+    @PostMapping("/lv0/m/verifycodefind")
+    public String postVerifyCodefind(@RequestBody UserConfirmDto data){
+        return uService.VerifyCodeFind(data.getType(),data.getKey(),data.getCode(),data.getAuthType());
+    }
+
+    // 비밀번호 찾기 (인증 완료 시 비밀번호 변경)
+    @PostMapping("/lv0/m/findPw")
+    public void findPw(@RequestBody UserConfirmDto data){
+       uService.findPwCode(data.getType(),data.getPhone(),data.getEmail(),data.getNewPw());
     }
 
     // 닉넴 변경
@@ -96,6 +114,13 @@ public class MemberController {
     @PatchMapping("/lv1/m/pw")
     public boolean patchPw(@CookieValue String token, String oldPw, String newPw, HttpServletResponse response) {
         return mService.changePassword(token, oldPw, newPw, response);
+    }
+
+    // 회원정보 변경
+    @PatchMapping("/lv1/m/info")
+    public Map<String, Object> patchInfo(@CookieValue String token, @RequestBody Map<String, Object> data,
+     HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mService.updateInfo(token, data, request, response);
     }
 
     // 탈퇴
@@ -119,8 +144,8 @@ public class MemberController {
 
     // 마이페이지 데이터 일괄
     @GetMapping("/lv1/m/mypage")
-    public MypageDto getMypageDto(String nick) {
-        return mService.selectMypageDto(nick);
+    public MypageDto getMypageDto(@CookieValue String token, @RequestParam(required = false) String userNick) {
+        return mService.selectMypageDto(token, userNick); 
     }
 
     //로그인
@@ -131,13 +156,14 @@ public class MemberController {
     }
 
     // 소셜 로그인 파라미터 -> email,socialtype
-    @PostMapping("/lv0/social")
+    @PostMapping("/lv0/m/social")
     public Map<String, Object> socialLogin(@RequestBody Map<String, String> data, HttpServletRequest request, HttpServletResponse response) {
         return mService.socialLogin(data, request, response);
     }
 
     //로그아웃
     //TODO : (확인) 로그아웃시 엑세스토큰이 만료되어있으면 해당 유저의 리프레시 토큰이 삭제가 안되는점 수정
+    
     @PostMapping("/lv1/m/logout")
     public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) throws Exception {
         mService.logout(token, request, response);
@@ -147,12 +173,6 @@ public class MemberController {
     @PostMapping("lv1/m/profile")
     public String postProfileImg(@CookieValue String token, MultipartFile upload) {
         return imgUploadService.uploadImg(token, "profile", upload);
-    }
-    // 111111 ~ 999999 자리 인증코드 발송
-    @PostMapping("/lv1/m/sendemail")
-    @ResponseBody
-    public void sendCode(String email) {
-        mService.emailConfirm(email);
     }
 
 }

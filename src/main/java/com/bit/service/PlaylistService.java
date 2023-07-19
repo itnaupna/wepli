@@ -21,7 +21,10 @@ import com.bit.mapper.BlacklistMapper;
 import com.bit.mapper.MemberMapper;
 import com.bit.mapper.PlaylistMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class PlaylistService {
     @Autowired
     PlaylistMapper pMapper;
@@ -39,16 +42,54 @@ public class PlaylistService {
         return pMapper.selectPlaylist(idx);
     }
 
-    public List<PlaylistDto> selectPublicPlaylist(boolean orderByDay, int curr, int cpp){
+    public List<PlaylistDto> selectPublicPlaylist(String token, String queryString, String type, boolean orderByDay, int curr, int cpp){
+        String typeString[] = {"title","nick","genre","tag",null};
+
         Map<String,Object> data = new HashMap<>();
         data.put("orderByDay",orderByDay);
         data.put("curr",(curr-1)*cpp);
         data.put("cpp",cpp);
-        return pMapper.selectPublicPlaylist(data);
+        Map<String, List<String>> searchAndBlack = new HashMap<>();
+
+        if(token != null && !token.equals("")) {
+            String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+            List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+            searchAndBlack.put("black", blackTarget);
+        }
+        if(queryString != null && !queryString.equals("")) {
+            List<String> queryStrings = Arrays.stream(queryString.split(","))
+                    .map(String::trim)
+                    .filter(str -> !str.isEmpty())
+                    .collect(Collectors.toList());
+            searchAndBlack.put("list", queryStrings);
+        }
+
+        return pMapper.selectPublicPlaylist(searchAndBlack, data, typeString[(type==null ? 4 :Integer.parseInt(type))]);
+
     }
 
-    public List<PlaylistDto> selectLikePli(String nick){
+    // 좋아요 누른 플레이리스트 가져오기
+    public List<PlaylistDto> selectLikePli(String token){
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         return pMapper.selectLikePli(nick);
+    }
+
+    // 팔로우한 사람의 플레이리스트 가져오기
+    public List<PlaylistDto> selectFollowPli(String token) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        return pMapper.selectFollowPli(nick);
+    }
+
+    // 내플레이리스트 or 타인의 공개된 플레이리스트 가져오기
+    public List<PlaylistDto> selectPli(String token, String userNick) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        log.info("userNick -> {}", userNick);
+        if(userNick == null) {
+            return pMapper.selectMyPli(nick);
+        } else {
+            nick = userNick;
+            return pMapper.selectUserFromPublicPli(nick);
+        }
     }
 
     // 미인증회원 검증절차
@@ -94,85 +135,87 @@ public class PlaylistService {
         pDto.setImg(img);
         pMapper.updatePlayListImg(pDto);
     }
+    // TODO: 검토 후 삭제
+    // public List<PlaylistDto> SearchStages(int type, String queryString, String token, String gen) {
+    //     switch (type) {
+    //         case 0:
+    //             return selectSearchByTitle(queryString, token);
+    //         case 1:
+    //             return selectSearchByNick(queryString, token);
+    //         case 2:
+    //             return selectSearchByGenre(queryString, token, gen);
+    //         case 3:
+    //             return selectSearchByTag(queryString, token);
+    //         default:
+    //             return null;
+    //     }
+    // }
 
-    public List<PlaylistDto> SearchStages(int type, String queryString, String token) {
-        switch (type) {
-            case 0:
-                return selectSearchByTitle(queryString, token);
-            case 1:
-                return selectSearchByNick(queryString, token);
-            case 2:
-                return selectSearchByGenre(queryString, token);
-            case 3:
-                return selectSearchByTag(queryString, token);
-            default:
-                return null;
-        }
-    }
+    // public List<PlaylistDto> selectSearchByTitle(String queryString, String token) {
+    //     Map<String, List<String>> searchAndBlack = new HashMap<>();
 
-    public List<PlaylistDto> selectSearchByTitle(String queryString, String token) {
-        Map<String, List<String>> searchAndBlack = new HashMap<>();
+    //     if(token != null && !token.equals("")) {
+    //         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+    //         List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+    //         searchAndBlack.put("black", blackTarget);
+    //     }
+    //     List<String> queryStrings = Arrays.stream(queryString.split(","))
+    //         .map(String::trim)
+    //         .filter(str -> !str.isEmpty())
+    //         .collect(Collectors.toList());
+    //     searchAndBlack.put("list", queryStrings);
+    //     return pMapper.selectSearchByTitle(searchAndBlack);
+    // }
 
-        if(token != null && !token.equals("")) {
-            String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-            List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
-            searchAndBlack.put("black", blackTarget);
-        }
-        List<String> queryStrings = Arrays.stream(queryString.split(","))
-            .map(String::trim)
-            .filter(str -> !str.isEmpty())
-            .collect(Collectors.toList());
-        searchAndBlack.put("list", queryStrings);
-        return pMapper.selectSearchByTitle(searchAndBlack);
-    }
+    // public List<PlaylistDto> selectSearchByNick(String queryString, String token) {
+    //     Map<String, List<String>> searchAndBlack = new HashMap<>();
 
-    public List<PlaylistDto> selectSearchByNick(String queryString, String token) {
-        Map<String, List<String>> searchAndBlack = new HashMap<>();
+    //     if(token != null && !token.equals("")) {
+    //         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+    //         List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+    //         searchAndBlack.put("black", blackTarget);
+    //     }
+    //     List<String> queryStrings = Arrays.stream(queryString.split(","))
+    //         .map(String::trim)
+    //         .filter(str -> !str.isEmpty())
+    //         .collect(Collectors.toList());
+    //     searchAndBlack.put("list", queryStrings);
+    //     return pMapper.selectSearchByNick(searchAndBlack);
+    // }
 
-        if(token != null && !token.equals("")) {
-            String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-            List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
-            searchAndBlack.put("black", blackTarget);
-        }
-        List<String> queryStrings = Arrays.stream(queryString.split(","))
-            .map(String::trim)
-            .filter(str -> !str.isEmpty())
-            .collect(Collectors.toList());
-        searchAndBlack.put("list", queryStrings);
-        return pMapper.selectSearchByNick(searchAndBlack);
-    }
+    // public List<PlaylistDto> selectSearchByGenre(String queryString, String token, String type) {
+    //     Map<String, List<String>> searchAndBlack = new HashMap<>();
 
-    public List<PlaylistDto> selectSearchByGenre(String queryString, String token) {
-        Map<String, List<String>> searchAndBlack = new HashMap<>();
+    //     if(token != null && !token.equals("")) {
+    //         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+    //         List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+    //         searchAndBlack.put("black", blackTarget);
+    //     }
+    //     if(queryString != null && !queryString.equals("")) {
+    //         List<String> queryStrings = Arrays.stream(queryString.split(","))
+    //                 .map(String::trim)
+    //                 .filter(str -> !str.isEmpty())
+    //                 .collect(Collectors.toList());
+    //         searchAndBlack.put("list", queryStrings);
+    //     }
+    //     return pMapper.selectSearchByGenre(searchAndBlack, type);
+    // }
 
-        if(token != null && !token.equals("")) {
-            String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-            List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
-            searchAndBlack.put("black", blackTarget);
-        }
-        List<String> queryStrings = Arrays.stream(queryString.split(","))
-                .map(String::trim)
-                .filter(str -> !str.isEmpty())
-                .collect(Collectors.toList());
-        searchAndBlack.put("list", queryStrings);
-        return pMapper.selectSearchByGenre(searchAndBlack);
-    }
+    // public List<PlaylistDto> selectSearchByTag(String queryString, String token) {
+    //     Map<String, List<String>> searchAndBlack = new HashMap<>();
 
-    public List<PlaylistDto> selectSearchByTag(String queryString, String token) {
-        Map<String, List<String>> searchAndBlack = new HashMap<>();
-
-        if(token != null && !token.equals("")) {
-            String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-            List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
-            searchAndBlack.put("black", blackTarget);
-        }
-        List<String> queryStrings = Arrays.stream(queryString.split(","))
-                .map(String::trim)
-                .filter(str -> !str.isEmpty())
-                .collect(Collectors.toList());
-        searchAndBlack.put("list", queryStrings);
-        return pMapper.selectSearchByTag(searchAndBlack);
-    }
+    //     if(token != null && !token.equals("")) {
+    //         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+    //         List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+    //         searchAndBlack.put("black", blackTarget);
+    //     }
+    //     List<String> queryStrings = Arrays.stream(queryString.split(","))
+    //             .map(String::trim)
+    //             .filter(str -> !str.isEmpty())
+    //             .collect(Collectors.toList());
+    //     searchAndBlack.put("list", queryStrings);
+    //     return pMapper.selectSearchByTag(searchAndBlack);
+    // }
 
     public List<Object> togglePlaylist(String nick, int playlistID){
         List<Object> result = new ArrayList<>();

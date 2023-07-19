@@ -18,13 +18,6 @@
     font-style: normal;
 }
 
-@font-face {
-    font-family: 'BM HANNA_TTF';
-    src:url('./BMHANNAProOTF.otf') format('woff'),
-    url('./BMHANNAProOTF.otf') format('woff2');
-    /* 이런식으로 weight를 지정해서 사용할 수도 있다!*/
-    font-weight: normal;
-}
 
 @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans:wght@400&display=swap");
 
@@ -35,7 +28,6 @@ body {
 :root {
     /* fonts */
     --font-black-han-sans: "Black Han Sans";
-    --font-bm-hanna_ttf: "BM HANNA_TTF";
     --font-bm-hanna-air: "BMHANNAAir";
     --font-kbo-dia-gothic: 'KBO-Dia-Gothic_bold';
     --font-bm-dohyeon: "BMDOHYEON";

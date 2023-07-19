@@ -51,6 +51,10 @@
     <update id="updatePw" parameterType="Map">
         update tblMember set pw=sha2(#{pw},256) where nick=#{nick}
     </update>
+    <update id="updateInfo" parameterType="Map">
+        update tblMember set email = #{email}, nick = #{newNick}, pw = sha2(#{pw},256), `desc` = #{desc}
+        where nick = #{nick}
+    </update>
     <delete id="deleteMember" parameterType="MemberDto">
         delete from tblMember where nick=#{nick} and pw=sha2(#{pw},256)
     </delete>
@@ -76,4 +80,25 @@
     <select id="CheckMemberExists" parameterType="MemberDto" resultType="int">
         select exists(select * from tblMember where email = #{email} and socialtype = #{socialtype})
     </select>
+
+    <select id="FindCheckPhoneCode" parameterType="string">
+            select email from tblMember where phone=#{phone};
+    </select>
+
+    <update id="FindCheckPhonePw" parameterType="hashMap">
+        update tblMember set pw=sha2(#{newPw},256) where phone=#{phone}
+    </update>
+
+    <update id="FindCheckEmailPw" parameterType="hashMap">
+        update tblMember set pw=sha2(#{newPw},256) where email=#{email}
+    </update>
+
+    <select id="ConfirmCheckEmail" parameterType="string" resultType="int">
+        select emailconfirm from tblMember where email=#{email}
+    </select>
+    
+    <select id="ConfirmCheckPhone"  parameterType="string" resultType="int">
+        select phoneconfirm from tblMember where phone=#{phone}
+    </select>
+
 </mapper>

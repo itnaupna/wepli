@@ -77,7 +77,7 @@ public class StageController {
     }
 
     // 방 썸네일 변경
-    @PostMapping("lv1/s/profile")
+    @PostMapping("/lv2/s/profile")
     public String postProfileImg(@CookieValue String token, MultipartFile upload) {
         return imgUploadService.uploadImg(token, "stage", upload);
     }

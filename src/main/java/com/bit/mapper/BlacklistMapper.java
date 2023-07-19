@@ -10,11 +10,13 @@ public interface BlacklistMapper {
     
     public List<String> selectBlackTarget(String nick);
     //블랙리스트 받아오기
-    public List<String> selectBlacklist(String black);
+    public List<Map<String, Object>> selectBlacklist(String nick);
     //블랙리스트 추가
     public int insertBlacklist(Map<String,String> data);
     //블랙리스트 삭제
     public int deleteBlacklist(Map<String,String> blackAndTarget);
+    //회원가입시 블랙리스트 옵션 테이블 추가
+    public void insertBlackOpt(String nick);
     //블랙리스트 옵션 받아오기
     public Map<String,Integer> selectBlackOpt(String nick);
     //블랙리스트 옵션 변경

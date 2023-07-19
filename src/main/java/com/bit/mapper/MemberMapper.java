@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-
 import com.bit.dto.MemberDto;
 import com.bit.dto.MypageDto;
 
@@ -36,6 +35,8 @@ public interface MemberMapper {
     public int updateNick(Map<String,String> data);
     //비밀번호 변경
     public int updatePw(Map<String,String> data);
+    // 회원정보 변경
+    public void updateInfo(Map<String, Object> data);
     //회원 탈퇴
     public int deleteMember(MemberDto mDto);
     //자기소개 변경
@@ -50,5 +51,16 @@ public interface MemberMapper {
     public int selectLogin(Map<String, String> Map);
     // 소셜로그인
     public int CheckMemberExists(Map<String, String> data);
+
+    // 아이디 찾기
+    public String FindCheckPhoneCode(String phone);
+    //비밀번호찾기(핸드폰)
+    public void FindCheckPhonePw(Map<String, String> data);
+    //비밀번호찾기(이메일) 
+    public void FindCheckEmailPw(Map<String, String> data);
+
+    public int ConfirmCheckEmail(String email);
+    public int ConfirmCheckPhone(String phone);
+    
     
 }

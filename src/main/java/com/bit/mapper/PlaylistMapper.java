@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.bit.dto.PlaylistDto;
 import com.bit.dto.PliCommentDto;
@@ -16,21 +17,31 @@ public interface PlaylistMapper {
     public PlaylistDto selectPlaylist(int idx);
 
     // 공개된 플레이리스트 목록 가져오기
-    public List<PlaylistDto> selectPublicPlaylist(Map<String, Object> data);
+    public List<PlaylistDto> selectPublicPlaylist(Map<String, List<String>> genreAndBlack, Map<String, Object> data, @Param("type")String type);
 
     // 좋아요 누른 플레이리스트 가져오기
     public List<PlaylistDto> selectLikePli(String nick);
+
+    // 팔로우한 사람의 플레이리스트 가져오기
+    public List<PlaylistDto> selectFollowPli(String nick);
+
+    // 내 플레이리스트 가져오기
+    public List<PlaylistDto> selectMyPli(String nick);
+
+    // 타인 플레이리스트중 공개된 플레이리스트 가져오기
+    public List<PlaylistDto> selectUserFromPublicPli(String nick);
 
     // 플레이리스트 생성
     public int insertPlaylist(PlaylistDto data);
 
     // 제목, 닉넴, 장르, 태그
     // TODO : (확인) 검색시 블랙리스트 제외
+      // TODO: 검토 후 삭제
     public List<PlaylistDto> selectSearchByTitle(Map<String, List<String>> titleAndBlack);
 
     public List<PlaylistDto> selectSearchByNick(Map<String, List<String>> nickAndBlack);
 
-    public List<PlaylistDto> selectSearchByGenre(Map<String, List<String>> genreAndBlack);
+    public List<PlaylistDto> selectSearchByGenre(Map<String, List<String>> genreAndBlack, @Param("type")String type);
 
     public List<PlaylistDto> selectSearchByTag(Map<String, List<String>> tagAndBlack);
 

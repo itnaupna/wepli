@@ -16,5 +16,7 @@ public class UserConfirmDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Timestamp created;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private Timestamp expired;    
+    private Timestamp expired;
+    private String newPw;
+    private String authType;    
 }
