@@ -1,6 +1,7 @@
 package com.bit.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -25,6 +26,11 @@ public class StageController {
 
     @Autowired
     ImgUploadService imgUploadService;
+
+    // @GetMapping("/lv0/s/test")
+    // public Map<String,Integer> testMethod(){
+    //     // return sService.selectStage();
+    // }
 
     //스테이지 목록 가져오기
     @GetMapping("/lv0/s/stage")

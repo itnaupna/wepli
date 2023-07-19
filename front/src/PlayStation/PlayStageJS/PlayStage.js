@@ -221,61 +221,7 @@ function PlayStage() {
                     <div className="stage-people-body">
                         <div className="stage-people-item">
                             <img className="stage-people-img" src="stage-people-img.png" alt='profileImg' />
-
-                            <div className="stage-people-nickname">JJ the Master</div>
-
-                            <svg
-                                className="stage-people-master-icon"
-                                width="40"
-                                height="40"
-                                viewBox="0 0 40 40"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M2.74415 10.6615C2.7934 10.2011 3.36531 10.0883 3.6287 10.469L8.03986 16.8458C9.2592 18.6085 11.9132 18.4509 12.9152 16.5562L19.4033 4.28914C19.5206 4.06741 19.7508 3.92871 20.0017 3.92871C20.2525 3.92871 20.4828 4.06741 20.6 4.28914L27.0881 16.5562C28.0902 18.4509 30.7442 18.6085 31.9635 16.8458L36.3746 10.469C36.638 10.0883 37.2099 10.2011 37.2592 10.6615C37.5843 13.7001 37.8588 16.8197 37.8588 20.0001C37.8588 23.1806 37.5843 26.3002 37.2592 29.3388C36.8188 33.4549 33.5082 36.7655 29.3941 37.2241C26.3382 37.5647 23.2006 37.8573 20.0017 37.8573C16.8027 37.8573 13.6651 37.5647 10.6093 37.2241C6.49512 36.7655 3.18453 33.4549 2.74415 29.3388C2.41906 26.3002 2.14453 23.1806 2.14453 20.0001C2.14453 16.8197 2.41906 13.7001 2.74415 10.6615Z"
-                                    fill="#FFF500"
-                                    stroke="#B5AD00"
-                                    strokeWidth="3"
-                                    strokeLinejoin="round"
-                                />
-                            </svg>
-
-                            <div className="stage-people-vaild-icon">
-                                <svg
-                                    className="vector6"
-                                    width="36"
-                                    height="36"
-                                    viewBox="0 0 36 36"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M18.0017 35.8569C27.8639 35.8569 35.8588 27.8619 35.8588 17.9997C35.8588 8.13749 27.8639 0.142578 18.0017 0.142578C8.13945 0.142578 0.144531 8.13749 0.144531 17.9997C0.144531 27.8619 8.13945 35.8569 18.0017 35.8569Z"
-                                        stroke="#007500"
-                                        strokeWidth="3"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-
-                                <svg
-                                    className="check"
-                                    width="16"
-                                    height="16"
-                                    viewBox="0 0 16 16"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M0.855469 9.78599L6.05027 15.1431C8.49475 8.12119 10.5306 5.03988 15.1412 0.857422"
-                                        stroke="#007500"
-                                        strokeWidth="3"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            </div>
+                            <div className="stage-people-nickname">JJ the Master 👑</div>
                         </div>
                     </div>
                 </div>

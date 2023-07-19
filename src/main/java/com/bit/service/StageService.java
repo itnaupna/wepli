@@ -27,29 +27,17 @@ public class StageService {
     @Autowired
     JwtTokenProvider jwtTokenProvider;
 
-    Map<String, Integer> builtStages = new HashMap<>();
-
-    public Map<String, Integer> selectStage(){
-        
-        //매퍼에서 스테이지 목록 받아오고
-        //이후 인원까지 받아오게 시킬것.
-        return null;
-    }
-
+    final Map<String, Integer> builtStages = new HashMap<>();
+    
     public int getUserCount(String stageUrl) {
-        try {
-            return builtStages.get(stageUrl);
-        } catch (Exception e) {
-            return 0;
-        }
+        return builtStages.getOrDefault(stageUrl, 0);
     }
 
     public int addUserCount(String stageUrl) {
-        if (builtStages.containsKey(stageUrl))
-            return builtStages.compute(stageUrl, (k, v) -> v == null ? 1 : v + 1);
-        else
-            builtStages.put(stageUrl, 0);
-        return 0;
+        return builtStages.compute(stageUrl, (k, v) -> v == null ? 1 : v + 1);
+    }
+    public int subUserCount(String stageUrl){
+        return builtStages.compute(stageUrl,(k,v)-> v==null? 0 :v-1);
     }
 
     public boolean insertStage(StageDto sDto) {
@@ -68,7 +56,15 @@ public class StageService {
         data.put("nick", nick);
         data.put("curr", (curr - 1) * cpp);
         data.put("cpp", cpp);
-        return sMapper.selectStageAll(data);
+
+        List<StageDto> result = sMapper.selectStageAll(data);
+
+        for(StageDto stage : result){
+            Integer count = builtStages.get(stage.getAddress());
+            stage.setCount(count != null ? count : 0);
+        }
+
+        return result;
     }
 
     public List<StageDto> selectStageFollow(String nick) {

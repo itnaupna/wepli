@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import '../PlayStageCss/s-l-p.css';
 import SLPFollowBackIcon from '../PlayStageImage/Icon/SLPFollowBackIcon.svg';
 import SLPFollowNextIcon from '../PlayStageImage/Icon/SLPFollowNextIcon.svg';
 import StageItemBig from "./StageItemBig";
 import ResultItem from "./ResultItem";
+import axios from 'axios';
 function PlayStageList(props) {
   // const []
-
+  const [resItems, setResItems] = useState([]);
+  useEffect(()=>{
+    
+  },[]);
 
   return (
     <div className="slp">
