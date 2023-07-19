@@ -64,7 +64,7 @@ function Mypage(props) {
                     <div className="mypageweplilogobox">
                         <img
                             className="mypageweplilogo-icon"
-                            alt="로고"
+                            alt="logo"
                             src={logo}
                         />
                     </div>
