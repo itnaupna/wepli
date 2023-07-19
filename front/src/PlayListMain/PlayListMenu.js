@@ -31,7 +31,7 @@ function PlayListMenu(props) {
                     <img className="playlistbuttonicon" alt="" src={MypliIcon} />
                     <div className="playlistbuttontext">내 플리</div>
                 </Link>
-                <Link to="" className="playlistbutton">
+                <Link to="../pli/:pliId" className="playlistbutton">
                     <img
                         className="playlistbuttonicon"
                         alt=""
