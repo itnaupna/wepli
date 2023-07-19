@@ -1,6 +1,6 @@
 .StageModalContainer{
-    width: 1000px;
-    height: 1000px;
+    /* width: 1000px;
+    height: 1000px; */
     z-index: 999;
     position: absolute;
     margin:auto;
@@ -9,8 +9,6 @@
     right: auto;
   }
   /* 모달버튼 css */
-  /*This was all taken from https://tympanus.net/Development/ButtonStylesInspiration/ but I needed to see it in CodePen
-*/
 *:after,
 *:before {
 	-webkit-box-sizing: border-box;
@@ -649,9 +647,6 @@ a:focus {
 	-webkit-transform: scale3d(0.8, 0.8, 1);
 	transform: scale3d(0.8, 0.8, 1);
 }
-
-
-
 /* Naira */
 .button--naira {
 	padding: 0;

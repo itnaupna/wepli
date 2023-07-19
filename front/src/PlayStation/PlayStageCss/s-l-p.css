@@ -12,17 +12,7 @@
   align-items: center;
   width: 250px;
 }
-.slpmystageimg-icon {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  border-radius: 20px;
-  width: 250px;
-  height: 250px;
-  object-fit: cover;
-  opacity: 1!important;
-}
-.slpmystageimgwrapper {
+.slpitembigimgwrapper {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -68,7 +58,7 @@
 .slpmystageowner {
   align-self: stretch;
   position: relative;
-  font-family: "BM HANNA Air";
+  font-family: var(--font-bm-hanna-air);
   color: #0047ff;
 }
 .slpmystagecategory {
@@ -94,7 +84,6 @@
   flex-direction: row;
   align-items: center;
   gap: 10px;
-  opacity: 1;
 }
 .slpmystagedescription,
 .slpmystagetitle {
@@ -103,19 +92,7 @@
   text-transform: capitalize;
 }
 .slpmystagetitle {
-  font-family: "BM HANNA_TTF";
-}
-.slpmystagedescription {
-  font-size: 25px;
-}
-.slpmystagedescription,
-.slpmystagetitle {
-  align-self: stretch;
-  position: relative;
-  text-transform: capitalize;
-}
-.slpmystagetitle {
-  font-family: "BM HANNA_TTF";
+  font-family: var(--font-bm-hanna-air);
 }
 .slpmystagedescription {
   font-size: 25px;
@@ -165,23 +142,8 @@
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   max-width: 500px;
   max-height: 500px;
-  position: relative;
-}
-.slpmystage::before{
-  content:"";
-  background-color: #fff;
-  position: absolute;
-  top:0px;
-  left:0px;
-  right: 0px;
-  bottom:0px;
-  border-radius: 31px;
-  opacity: 0.7;
   margin:auto;
 }
-
-
-
 .slpmystagewrapper {
   height: 395px;
   overflow: hidden;
@@ -225,22 +187,6 @@
   background-position: top;
   max-width: 500px;
   max-height: 500px;
-  position: relative;
-  z-index: 1;
-  
-}
-.slpfollow ::before{
-    content:"";
-    background-color: #fff;
-    position: absolute;
-    top:0px;
-    left:0px;
-    right: 0px;
-    bottom:0px;
-    border-radius: 31px;
-    opacity: 0.1;
-    z-index: -1;
-  
 }
 .slpfollowwrapper,
 .slptop {
@@ -417,21 +363,6 @@
   max-height: 300px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   margin:10px;
-  position: relative;
-  z-index: 1;
-}
-.slpresultitem ::before{
-  content:"";
-  background-color: rgb(255, 255, 255,0.4);
-  position: absolute;
-  top:0px;
-  left:0px;
-  right: 0px;
-  bottom:0px;
-  border-radius: 70px;
-  opacity: 0.1;
-  z-index: -1;
-  padding: 0;
 }
 .slp,
 .slpbottom,
