@@ -99,14 +99,14 @@ public class MemberService {
 
     // 이메일 인증
     public boolean emailConfirm(String email) {
-        // TODO : 이메일 인증 알고리즘 추가
+        // TODO :(확인) 이메일 인증 알고리즘 추가
         return memberMapper.updateEmailConfirm(email) > 0;
     }
 
     // 전화번호 인증
     public boolean phoneConfirm(String email) {
 
-        // TODO : 전화 인증 알고리즘 추가
+        // TODO :(확인)전화 인증 알고리즘 추가
         return memberMapper.updatePhoneConfirm(email) > 0;
 
     }
@@ -201,7 +201,7 @@ public class MemberService {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         // log.info("token parsing ->  {}", nick);
         // log.info("nick ->  {}", userNick);
-        if(userNick == null) {
+        if(userNick == null || userNick.equals("")) {
             userNick = nick;
         }
         

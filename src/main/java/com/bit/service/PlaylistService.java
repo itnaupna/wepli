@@ -76,6 +76,11 @@ public class PlaylistService {
         return pMapper.selectLikePli(nick);
     }
 
+    // idx로 플레이리스트 가져오기
+    public PlaylistDto selectMtPliToIdx(int idx) {
+        return pMapper.selectMyPliToIdx(idx);
+    }
+
     // 팔로우한 사람의 플레이리스트 가져오기
     public List<PlaylistDto> selectFollowPli(String token) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
@@ -104,7 +109,9 @@ public class PlaylistService {
     }
 
     //TODO : (확인) 미인증 회원일경우 공개로 추가할 수 없도록 강제해야함
-    public boolean insertPlaylist(PlaylistDto data, HttpServletResponse response){
+    public boolean insertPlaylist(String token, PlaylistDto data, HttpServletResponse response){
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        data.setNick(nick);
         if(uncertifiMemberChk(data.getNick())) {
             return pMapper.insertPlaylist(data)>0;
         } else {
@@ -118,7 +125,9 @@ public class PlaylistService {
     }
 
     //TODO : (확인) 미인증 회원일경우 공개여부 검증
-    public boolean updatePlaylist(PlaylistDto data, HttpServletResponse response){
+    public boolean updatePlaylist(String token, PlaylistDto data, HttpServletResponse response){
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        data.setNick(nick);
         if(uncertifiMemberChk(data.getNick())) {
             return pMapper.updatePlaylist(data)>0;
         } else {
@@ -139,9 +148,9 @@ public class PlaylistService {
     }
 
 
-    public List<Object> togglePlaylist(String nick, int playlistID){
+    public List<Object> togglePlaylist(String token, int playlistID){
         List<Object> result = new ArrayList<>();
-        
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         try {
             Map<String,Object> data = new HashMap<>();
             data.put("nick",nick);
@@ -222,14 +231,27 @@ public class PlaylistService {
         return pMapper.selectPliComments(data);
     }
 
-    public boolean insertPliComment(PliCommentDto data){
+    public boolean insertPliComment(String token, PliCommentDto data){
+        String writer = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        data.setWriter(writer);
         return pMapper.insertPliComment(data)>0;
     }
-    public boolean updatePliComment(PliCommentDto data){
+    public boolean updatePliComment(String token, PliCommentDto data){
+        String writer = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        data.setWriter(writer);
         return pMapper.updatePliComment(data)>0;
     }
-    public boolean deletePliComment(int idx){
-        return pMapper.deletePliComment(idx)>0;
+    public boolean deletePliComment(String token, PliCommentDto data){
+        String writer = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        String pliOwnerNick = pMapper.selectMyPliToIdx(data.getPlaylistID()).getNick();
+        log.info(writer);
+        log.info(pliOwnerNick);
+        log.info(data.getWriter());
+        if(writer.equals(data.getWriter()) || writer.equals(pliOwnerNick)) {
+            return pMapper.deletePliComment(data.getIdx()) > 0;
+        } else {
+            return false;
+        }
     }
 
 }

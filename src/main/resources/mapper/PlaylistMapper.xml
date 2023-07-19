@@ -17,7 +17,7 @@
 
     <update id="updatePliComment" parameterType="PliCommentDto">
           update tblPlaylistComment
-          set content=#{content} 
+          set content=#{content}, writer = #{writer} 
           where idx=#{idx}
     </update>
 
@@ -40,18 +40,22 @@
         select * from vwPlaylist where nick = #{nick} order by makeday desc
     </select>
 
+    <select id="selectMyPliToIdx" parameterType="int" resultType="PlaylistDto">
+        select * from tblPlaylist where idx = #{idx}
+    </select>
+ 
     <select id="selectUserFromPublicPli" parameterType="String" resultType="PlaylistDto">
         select * from vwPlaylist where nick = #{nick} and isPublic = 1
         order by makeday desc
     </select>
 
     <delete id="deleteLike" parameterType="hashMap">
-        delete from tblPlaylistLike where user=#{user} and playlistID=#{playlistID}
+        delete from tblPlaylistLike where user=#{nick} and playlistID=#{playlistID}
     </delete>
 
     <insert id="insertLike" parameterType="hashMap">
         insert into tblPlaylistLike
-        values (#{user},#{playlistID})
+        values (#{nick},#{playlistID})
     </insert>
 
     <select id="selectPublicPlaylist" resultType="PlaylistDto">
