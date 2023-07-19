@@ -59,11 +59,11 @@
             <when test="param2.orderByDay">
                 SELECT * FROM vwPlaylist where isPublic=1         
                 <if test="param1.list != null">
-                and (
-                <foreach collection="param1.list" item="item" separator=" OR ">
-                    ${type} LIKE CONCAT('%', #{item}, '%')
-                </foreach> 
-                )
+                    and (
+                    <foreach collection="param1.list" item="item" separator=" OR ">
+                        ${type} LIKE CONCAT('%', #{item}, '%')
+                    </foreach> 
+                    )
                 </if>
                 <if test="param1.black != null">
                     and nick not in (

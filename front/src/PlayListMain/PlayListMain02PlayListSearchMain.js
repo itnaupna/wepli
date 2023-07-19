@@ -52,9 +52,10 @@ function PlayListMain02PlayListSearchMain(props) {
     };
 
     const SearchButton = () => {
-        const SearchURl = "/api/lv0/p/search";
+        // const SearchURl = "/api/lv0/p/search";
+        const SearchURl = "/api/lv0/p/list";
         queryString === ""? NoSearch():
-        Axios.get(SearchURl,{ params: {type, queryString}})
+        Axios.get(SearchURl,{ params: {type, queryString,orderByDay, curr,cpp}})
             .then(res =>
                 setSearchResult(res.data));
     };
@@ -98,7 +99,7 @@ function PlayListMain02PlayListSearchMain(props) {
                                     <div  className="playlistmainsearchDropDownBody"><img alt="" className="playlistmainsearchtoggleUP-icon" src={SearchToggleIconUp}/>
                                         <option className="playlistmainsearchDropDown" onClick={SelectSearchOption} value={0}>제목</option>
                                         <option className="playlistmainsearchDropDown" onClick={SelectSearchOption} value={1}>닉네임</option>
-                                        <option className="playlistmainsearchDropDown" onClick={SelectSearchOption} value={2} >장르</option>
+                                        <option className="playlistmainsearchDropDown" onClick={SelectSearchOption} value={2}>장르</option>
                                         <option className="playlistmainsearchDropDown" onClick={SelectSearchOption} value={3}>태그</option>
                                     </div>
                                 )}

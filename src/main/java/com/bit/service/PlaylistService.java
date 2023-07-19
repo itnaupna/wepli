@@ -43,6 +43,8 @@ public class PlaylistService {
     }
 
     public List<PlaylistDto> selectPublicPlaylist(String token, String queryString, String type, boolean orderByDay, int curr, int cpp){
+        String typeString[] = {"title","nick","genre","tag",null};
+
         Map<String,Object> data = new HashMap<>();
         data.put("orderByDay",orderByDay);
         data.put("curr",(curr-1)*cpp);
@@ -62,7 +64,7 @@ public class PlaylistService {
             searchAndBlack.put("list", queryStrings);
         }
 
-        return pMapper.selectPublicPlaylist(searchAndBlack, data, type);
+        return pMapper.selectPublicPlaylist(searchAndBlack, data, typeString[(type==null ? 4 :Integer.parseInt(type))]);
 
     }
 

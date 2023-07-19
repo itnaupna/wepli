@@ -34,7 +34,7 @@ public class PlaylistController {
 
     @GetMapping("/lv0/p/list")
     public List<PlaylistDto> getList(@CookieValue(required = false) String token, @RequestParam(required = false) String queryString, 
-    @RequestParam(required = false) String type, boolean orderByDay, int curr, int cpp){
+    @RequestParam(required = false)String type, boolean orderByDay, int curr, int cpp){
         return pService.selectPublicPlaylist(token, queryString, type, orderByDay, curr, cpp);
     }
 
