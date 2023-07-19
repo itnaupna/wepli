@@ -60,11 +60,6 @@ public class PlaylistController {
     public boolean postList(PlaylistDto data, HttpServletResponse response){
         return pService.insertPlaylist(data, response);
     }
-      // TODO: 검토 후 삭제
-    // @GetMapping("/lv0/p/search")
-    // public List<PlaylistDto> getSearch(@CookieValue(required = false) String token, int type, String queryString, String gen){
-    //     return pService.SearchStages(type, queryString, token, gen);
-    // }
 
     @PostMapping("/lv2/p/like")
     public List<Object> postLike(String nick, int playlistID){

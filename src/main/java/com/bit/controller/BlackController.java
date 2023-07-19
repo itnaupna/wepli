@@ -27,8 +27,15 @@ public class BlackController {
     return blacklistService.getBlackList(token);
     }
 
+    // 블랙리스트 추가, 삭제
+    @PostMapping("/lv2/b/blacktoggle")
+    public int blacklistToggle(@CookieValue String token, @RequestParam String target) {
+        return blacklistService.toggleBlacklist(token, target);
+    }
+
     // 블랙리스트 추가
-    @PostMapping("/lv2/b/blacklist")
+    // TODO : 쓸일 있을지 확인
+    @PostMapping("/lv2/b/addblacklist")
     public boolean postBlacklist(@CookieValue String token, @RequestParam String target) {
         return blacklistService.insertBlacklist(token, target);
     }

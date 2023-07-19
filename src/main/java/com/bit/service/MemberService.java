@@ -151,6 +151,17 @@ public class MemberService {
     public Map<String, Object> updateInfo(String token, Map<String, Object> data, HttpServletRequest request,
      HttpServletResponse response) throws Exception {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        MypageDto mDto = memberMapper.selectMypageDto(nick);
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(mDto.getEmailconfirm() + mDto.getPhoneconfirm() > 0) {
+            if(!mDto.getEmail().equals(data.get("email"))) {
+                result.put("result", false);
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                return result;
+            }
+        }
         data.put("nick", nick);
         System.out.println(data);                
         memberMapper.updateInfo(data);
