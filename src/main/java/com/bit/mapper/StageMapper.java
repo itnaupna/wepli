@@ -38,7 +38,8 @@ public interface StageMapper {
     // 스테이지 방제목 확인
     public int selectCheckStageTitle(Map<String, String> data);
 
-     // TODO 스테이지 검색 (아래 검색기능 통합! 확인 후 삭제 예정)
+
+    // TODO 스테이지 검색 (아래 검색기능 통합! 확인 후 삭제 예정)
 
     public List<StageDto> selectSearchStage(Map<String, List<String>> genreAndBlack, Map<String, Object> data, @Param("type")String type);
     

@@ -76,7 +76,7 @@ public class PlaylistController {
     @PatchMapping("/lv1/p/list")
     public boolean patchList(PlaylistDto data, HttpServletResponse response){
         return pService.updatePlaylist(data, response);
-    }
+    }                                                                                                  
 
     @PostMapping("lv1/p/profile")
     public String changePlaylistImg(int idx, MultipartFile upload) {

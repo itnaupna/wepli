@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bit.dto.MypageDto;
 import com.bit.dto.StageDto;
 import com.bit.service.ImgUploadService;
+import com.bit.service.MemberService;
 import com.bit.service.StageService;
 
 @RestController
@@ -27,6 +29,9 @@ public class StageController {
 
     @Autowired
     ImgUploadService imgUploadService;
+
+    @Autowired
+    MemberService mService;
 
     // @GetMapping("/lv0/s/test")
     // public Map<String,Integer> testMethod(){
@@ -94,5 +99,12 @@ public class StageController {
     public String postProfileImg(@CookieValue String token, MultipartFile upload) {
         return imgUploadService.uploadImg(token, "stage", upload);
     }
+
+    //유저 정보 불러오기
+    @GetMapping("/lv1/s/userinfo")
+    public MypageDto getMypageDto(@CookieValue String token, @RequestParam(required = false) String userNick) {
+        return mService.selectMypageDto(token, userNick); 
+    }
+    
 
 }
