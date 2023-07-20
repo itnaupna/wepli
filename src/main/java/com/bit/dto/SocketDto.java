@@ -24,5 +24,6 @@ public class SocketDto {
     private Types type;
     private String stageId;
     private String userNick;
-    private String msg;
+    private String img;
+    private Object msg;
 }

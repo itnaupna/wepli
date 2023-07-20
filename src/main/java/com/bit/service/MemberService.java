@@ -296,4 +296,8 @@ public class MemberService {
         response.addCookie(cookie);
     }
 
+    //프사이미지
+    public String getUserImg(String nick){
+        return memberMapper.selectMemberImgByNick(nick);
+    }
 }

@@ -319,6 +319,7 @@
 .slpresultitemtitle {
   font-size: 30px;
   font-family: "BM HANNA_TTF";
+  height: 40px;
 }
 .slpresultitemdescription,
 .slpresultitemtitle {
@@ -349,7 +350,13 @@
   text-align: left;
   color: #000;
 }
+
+.slpresultitem:hover{
+  transform: translate(-3px, -3px);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.75);
+}
 .slpresultitem {
+  transition: all 0.2s ease;
   border-radius: 30px;
   width: 460px;
   padding: 20px;

@@ -20,5 +20,5 @@ public class StageDto {
     private String pw;
     private int maxlength;
     private int skipratio;
-    private int count;
+    private BuiltStageDto info;
 }

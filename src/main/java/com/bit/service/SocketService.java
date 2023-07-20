@@ -16,39 +16,41 @@ public class SocketService {
 
     @Autowired
     StageService stageService;
+    @Autowired
+    MemberService memberService;
 
     private final SimpMessageSendingOperations sendingOperations;
 
-    public void SendMsg(SocketDto msg){
+    public void SendMsg(SocketDto msg) {
         switch (msg.getType()) {
             case ENTER:
-                
-            break;
+                break;
             case EXIT:
-            break;
+                break;
             case SKIP:
-            break;
+                break;
             case VOTE_UP:
-            break;
+                break;
             case VOTE_DOWN:
-            break;
+                break;
             case KICK:
-            break;
+                break;
             case BAN:
-            break;
+                break;
             case DELETE:
-            break;
+                break;
             case QUEUE_IN:
-            break;
+                break;
             case QUEUE_OUT:
-            break;
+                break;
             case QUEUE_ORDER_CHANGE:
-            break;
+                break;
             case QUEUE_CHANGE_SONG:
-            break;
+                break;
             case CHAT:
-            break;
+                msg.setImg(memberService.getUserImg(msg.getUserNick()));
+                break;
         }
-        sendingOperations.convertAndSend("/sub/stage/"+msg.getStageId(), msg);
+        sendingOperations.convertAndSend("/sub/stage/" + msg.getStageId(), msg);
     }
 }

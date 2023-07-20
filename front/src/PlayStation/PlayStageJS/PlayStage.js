@@ -18,6 +18,9 @@ function PlayStage() {
     const [chat, setChat] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const chatLogs = useRef();
+
+    const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
+
     useEffect(() => {
         connect();
     }, []);
@@ -37,20 +40,20 @@ function PlayStage() {
             setIsLoading(false);
         });
     };
+
     const loggingChat = (data) => {
         switch (data.type) {
             case 'CHAT':
                 setChatLog(chatLog => [
                     ...chatLog,
                     {
-                        img: 'eong',
+                        img: `${BUCKET_URL}/profile/${data.img}`,
                         date: new Date().toLocaleString(),
                         msg: data.msg,
                         nick: data.userNick
                     }
                 ]);
                 break;
-
             default:
                 break;
         }
@@ -58,20 +61,14 @@ function PlayStage() {
 
     const handleSendMsg = (type, msg) => {
         msg = msg?.trim();
-        let userNick;
-        if (sessionStorage.data !== undefined)
-            userNick = JSON.parse(sessionStorage.data)[1];
-        else if (localStorage.data !== undefined)
-            userNick = JSON.parse(localStorage.data)[1];
-        else
-            userNick="";
-
+        let userNick= JSON.parse(sessionStorage.getItem('data') || localStorage.getItem('data'));
+        console.log(userNick);
 
         if ((type === "CHAT" && msg.trim().length === 0) || userNick==="") return;
         sockClient.current.send("/pub/msg", {}, JSON.stringify({
             type,
             stageId: stageUrl,
-            userNick,
+            userNick:userNick?.nick,
             msg
         }));
     };

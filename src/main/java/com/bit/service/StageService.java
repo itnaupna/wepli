@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bit.dto.BuiltStageDto;
 import com.bit.dto.MemberDto;
 import com.bit.dto.StageDto;
 import com.bit.jwt.JwtTokenProvider;
@@ -29,33 +30,30 @@ public class StageService {
     @Autowired
     JwtTokenProvider jwtTokenProvider;
 
-    // final Map<String, Integer> builtStages = new HashMap<>();
-    final Map<String, List<String>> builtStagesUsers = new HashMap<>();
+    final Map<String, BuiltStageDto> builtStages = new HashMap<>();
 
     public int getUserCount(String stageUrl) {
-        return builtStagesUsers.getOrDefault(stageUrl, Collections.emptyList()).size();
+        return builtStages.getOrDefault(stageUrl, new BuiltStageDto()).getUsers().size();
     }
 
     public List<String> addUser(String stageUrl, String nick) {
-        // 배열에 추가하게.
-        return builtStagesUsers.compute(stageUrl, (k, v) -> {
+        return builtStages.compute(stageUrl, (k, v) -> {
             if (v == null) {
-                return new ArrayList<>(Arrays.asList(nick));
-            } else {
-                v.add(nick);
-                return v;
+                v = new BuiltStageDto();
             }
-        });
-    }
-
-    public List<String> subUser(String stageUrl,String nick) {
-        return builtStagesUsers.compute(stageUrl, (k, v) -> {
-            v.remove(nick);
+            v.getUsers().add(nick);
             return v;
-        });
+        }).getUsers();
     }
 
-    public boolean insertStage(StageDto sDto,String token) {
+    public List<String> subUser(String stageUrl, String nick) {
+        return builtStages.compute(stageUrl, (k, v) -> {
+            v.getUsers().remove(nick);
+            return v;
+        }).getUsers();
+    }
+
+    public boolean insertStage(StageDto sDto, String token) {
 
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         sDto.setNick(nick);
@@ -71,8 +69,11 @@ public class StageService {
     }
 
     public List<StageDto> selectStageAll(String token, int curr, int cpp) {
-        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        String nick = "";
+        if(token!=null)
+        nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         Map<String, Object> data = new HashMap<>();
+        System.out.println(nick);
         data.put("nick", nick);
         data.put("curr", (curr - 1) * cpp);
         data.put("cpp", cpp);
@@ -80,8 +81,7 @@ public class StageService {
         List<StageDto> result = sMapper.selectStageAll(data);
 
         for (StageDto stage : result) {
-            int count = builtStagesUsers.getOrDefault(stage.getAddress(),Collections.emptyList()).size();
-            stage.setCount(count);
+            stage.setInfo(builtStages.getOrDefault(stage.getAddress(), new BuiltStageDto()));
         }
 
         return result;
@@ -101,7 +101,7 @@ public class StageService {
         return sMapper.selectStageOneByMasterNick(nick);
     }
 
-    public boolean updateStage(StageDto sDto,String token) {
+    public boolean updateStage(StageDto sDto, String token) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         sDto.setNick(nick);
         return sMapper.updateStage(sDto) > 0;
@@ -126,23 +126,24 @@ public class StageService {
     }
 
     // 스테이지 검색(통합)
-    public List<StageDto> selectSearchStage(String token, String queryString, String type, boolean orderByDay, int curr, int cpp){
-        String typeString[] = {"title","nick","genre","tag",null};
+    public List<StageDto> selectSearchStage(String token, String queryString, String type, boolean orderByDay, int curr,
+            int cpp) {
+        String typeString[] = { "title", "nick", "genre", "tag", null };
 
-        Map<String,Object> data = new HashMap<>();
-        data.put("orderByDay",orderByDay);
-        data.put("curr",(curr-1)*cpp);
-        data.put("cpp",cpp);
+        Map<String, Object> data = new HashMap<>();
+        data.put("orderByDay", orderByDay);
+        data.put("curr", (curr - 1) * cpp);
+        data.put("cpp", cpp);
         Map<String, List<String>> searchAndBlack = new HashMap<>();
 
-        if(token != null && !token.equals("")) {
+        if (token != null && !token.equals("")) {
             String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
             List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
-            if(blackTarget != null && blackTarget.size() > 0) {
+            if (blackTarget != null && blackTarget.size() > 0) {
                 searchAndBlack.put("black", blackTarget);
             }
         }
-        if(queryString != null && !queryString.equals("")) {
+        if (queryString != null && !queryString.equals("")) {
             List<String> queryStrings = Arrays.stream(queryString.split(","))
                     .map(String::trim)
                     .filter(str -> !str.isEmpty())
@@ -150,87 +151,87 @@ public class StageService {
             searchAndBlack.put("list", queryStrings);
         }
 
-        return sMapper.selectSearchStage(searchAndBlack, data, typeString[(type==null ? 4 :Integer.parseInt(type))]);
+        return sMapper.selectSearchStage(searchAndBlack, data, typeString[(type == null ? 4 : Integer.parseInt(type))]);
 
     }
 
-    
-    // public List<StageDto> SearchStages(int type, String queryString, String token) {
-    //     switch (type) {
-    //         case 0:
-    //             return selectSearchByTitle(queryString, token);
-    //         case 1:
-    //             return selectSearchByNick(queryString, token);
-    //         case 2:
-    //             return selectSearchByGenre(queryString, token);
-    //         case 3:
-    //             return selectSearchByTag(queryString, token);
-    //         default:
-    //             return null;
-    //     }
+    // public List<StageDto> SearchStages(int type, String queryString, String
+    // token) {
+    // switch (type) {
+    // case 0:
+    // return selectSearchByTitle(queryString, token);
+    // case 1:
+    // return selectSearchByNick(queryString, token);
+    // case 2:
+    // return selectSearchByGenre(queryString, token);
+    // case 3:
+    // return selectSearchByTag(queryString, token);
+    // default:
+    // return null;
+    // }
     // }
 
     // public List<StageDto> selectSearchByTitle(String queryString, String token) {
-    //     Map<String, List<String>> searchAndBlack = new HashMap<>();
+    // Map<String, List<String>> searchAndBlack = new HashMap<>();
 
-    //     if (token != null && !token.equals("")) {
-    //         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-    //         List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
-    //         searchAndBlack.put("black", blackTarget);
-    //     }
-    //     List<String> queryStrings = Arrays.stream(queryString.split(","))
-    //             .map(String::trim)
-    //             .filter(str -> !str.isEmpty())
-    //             .collect(Collectors.toList());
-    //     searchAndBlack.put("list", queryStrings);
-    //     return sMapper.selectSearchByTitle(searchAndBlack);
+    // if (token != null && !token.equals("")) {
+    // String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+    // List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+    // searchAndBlack.put("black", blackTarget);
+    // }
+    // List<String> queryStrings = Arrays.stream(queryString.split(","))
+    // .map(String::trim)
+    // .filter(str -> !str.isEmpty())
+    // .collect(Collectors.toList());
+    // searchAndBlack.put("list", queryStrings);
+    // return sMapper.selectSearchByTitle(searchAndBlack);
     // }
 
     // public List<StageDto> selectSearchByNick(String queryString, String token) {
-    //     Map<String, List<String>> searchAndBlack = new HashMap<>();
+    // Map<String, List<String>> searchAndBlack = new HashMap<>();
 
-    //     if (token != null && !token.equals("")) {
-    //         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-    //         List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
-    //         searchAndBlack.put("black", blackTarget);
-    //     }
-    //     List<String> queryStrings = Arrays.stream(queryString.split(","))
-    //             .map(String::trim)
-    //             .filter(str -> !str.isEmpty())
-    //             .collect(Collectors.toList());
-    //     searchAndBlack.put("list", queryStrings);
-    //     return sMapper.selectSearchByNick(searchAndBlack);
+    // if (token != null && !token.equals("")) {
+    // String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+    // List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+    // searchAndBlack.put("black", blackTarget);
+    // }
+    // List<String> queryStrings = Arrays.stream(queryString.split(","))
+    // .map(String::trim)
+    // .filter(str -> !str.isEmpty())
+    // .collect(Collectors.toList());
+    // searchAndBlack.put("list", queryStrings);
+    // return sMapper.selectSearchByNick(searchAndBlack);
     // }
 
     // public List<StageDto> selectSearchByGenre(String queryString, String token) {
-    //     Map<String, List<String>> searchAndBlack = new HashMap<>();
+    // Map<String, List<String>> searchAndBlack = new HashMap<>();
 
-    //     if (token != null && !token.equals("")) {
-    //         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-    //         List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
-    //         searchAndBlack.put("black", blackTarget);
-    //     }
-    //     List<String> queryStrings = Arrays.stream(queryString.split(","))
-    //             .map(String::trim)
-    //             .filter(str -> !str.isEmpty())
-    //             .collect(Collectors.toList());
-    //     searchAndBlack.put("list", queryStrings);
-    //     return sMapper.selectSearchByGenre(searchAndBlack);
+    // if (token != null && !token.equals("")) {
+    // String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+    // List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+    // searchAndBlack.put("black", blackTarget);
+    // }
+    // List<String> queryStrings = Arrays.stream(queryString.split(","))
+    // .map(String::trim)
+    // .filter(str -> !str.isEmpty())
+    // .collect(Collectors.toList());
+    // searchAndBlack.put("list", queryStrings);
+    // return sMapper.selectSearchByGenre(searchAndBlack);
     // }
 
     // public List<StageDto> selectSearchByTag(String queryString, String token) {
-    //     Map<String, List<String>> searchAndBlack = new HashMap<>();
+    // Map<String, List<String>> searchAndBlack = new HashMap<>();
 
-    //     if (token != null && !token.equals("")) {
-    //         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-    //         List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
-    //         searchAndBlack.put("black", blackTarget);
-    //     }
-    //     List<String> queryStrings = Arrays.stream(queryString.split(","))
-    //             .map(String::trim)
-    //             .filter(str -> !str.isEmpty())
-    //             .collect(Collectors.toList());
-    //     searchAndBlack.put("list", queryStrings);
-    //     return sMapper.selectSearchByTag(searchAndBlack);
+    // if (token != null && !token.equals("")) {
+    // String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+    // List<String> blackTarget = blacklistMapper.selectBlackTarget(nick);
+    // searchAndBlack.put("black", blackTarget);
+    // }
+    // List<String> queryStrings = Arrays.stream(queryString.split(","))
+    // .map(String::trim)
+    // .filter(str -> !str.isEmpty())
+    // .collect(Collectors.toList());
+    // searchAndBlack.put("list", queryStrings);
+    // return sMapper.selectSearchByTag(searchAndBlack);
     // }
 }

@@ -20,6 +20,7 @@ public interface MemberMapper {
     public int selectCheckPhoneExists(String phone);
     //유저정보 받아오기
     public MemberDto selectMemberDto(String email);
+    public String selectMemberImgByNick(String nick);
     //비밀번호 확인
     public int selectCheckPasswordByEmail(MemberDto mDto);
     public int selectCheckPasswordByNick(MemberDto mDto);
