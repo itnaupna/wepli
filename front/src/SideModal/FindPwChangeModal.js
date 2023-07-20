@@ -15,6 +15,7 @@ function FindPwChangeModal({setFindPwChangeModalOpen,recoveredEmail}) {
     const [verifyKey, setVerifyKey] = useState('');
     const [resultVerify, setResultVerify] = useState(false);
 
+    // pw
     const handleChangeNewPw = async () => {
         const url = "/api/lv0/m/findPw";
 
