@@ -23,6 +23,7 @@ import com.bit.mapper.MemberMapper;
 import com.bit.mapper.PlaylistMapper;
 
 import lombok.extern.slf4j.Slf4j;
+import naver.cloud.NcpObjectStorageService;
 
 @Service
 @Slf4j
@@ -41,6 +42,14 @@ public class PlaylistService {
 
     @Autowired
     FollowMapper followMapper;
+
+    @Autowired
+    ImgUploadService imgUploadService;
+
+    @Autowired
+    NcpObjectStorageService ncpObjectStorageService;
+
+    public final String BUCKET_NAME = "wepli";
 
     public PlaylistDto selectPlaylist(int idx) {
         return pMapper.selectPlaylist(idx);
@@ -157,7 +166,7 @@ public class PlaylistService {
             return pMapper.updatePlaylist(data)>0;
         } else {
             if(data.getIsPublic() == 0) {
-                return pMapper.insertPlaylist(data)>0;
+                return pMapper.updatePlaylist(data)>0;
             } else {
                 response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                 return false;
@@ -205,10 +214,12 @@ public class PlaylistService {
     public boolean deletePlaylist(String token, int idx){
         //TODO : (확인) 소유주 정보에 대한 검증이 필요한지 확인
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        String pliNick = pMapper.selectPlaylist(idx).getNick();
-
+        PlaylistDto pDto = pMapper.selectPlaylist(idx);
         
-        if(nick.equals(pliNick)) {
+        if(nick.equals(pDto.getNick())) {
+            // if(pDto.getImg() != null && !pDto.getImg().equals("")) {
+            //     ncpObjectStorageService.deleteFile(BUCKET_NAME, "playlist", pDto.getImg());
+            // }
             return pMapper.deletePlaylist(idx)>0;
         } else {
             throw new RuntimeException("소유주가 아님");
@@ -218,6 +229,9 @@ public class PlaylistService {
     public boolean insertSong(String token, SongDto data, HttpServletResponse response){
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         if(pMapper.selectMyPliToIdx(data.getPlaylistID()).getNick().equals(nick)) {
+            if(data.getImg() != null && !data.getImg().equals("")) {
+                imgUploadService.storageImgDelete(token, data.getImg(), "songimg");
+            }
             return pMapper.insertSong(data)>0;
         } else {
             response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
@@ -235,7 +249,14 @@ public class PlaylistService {
 
     public boolean updateSong(String token, SongDto data, HttpServletResponse response){
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        if(pMapper.selectMyPliToIdx(pMapper.selectSong(data.getIdx()).getPlaylistID()).getNick().equals(nick)) {
+        SongDto sDto = pMapper.selectSong(data.getIdx());
+        if(pMapper.selectMyPliToIdx(sDto.getPlaylistID()).getNick().equals(nick)) {
+            if(data.getImg() != null && !data.getImg().equals("")) {
+                imgUploadService.storageImgDelete(token, data.getImg(), "songimg");
+                if(sDto.getImg() != null && !sDto.equals("")) {
+                    ncpObjectStorageService.deleteFile(BUCKET_NAME, "songimg", sDto.getImg());
+                }
+            }
             return pMapper.updateSong(data) > 0;
         } else {
             response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
@@ -252,7 +273,11 @@ public class PlaylistService {
 
     public boolean deleteSong(String token, int idx, HttpServletResponse response){
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        if(pMapper.selectMyPliToIdx(pMapper.selectSong(idx).getPlaylistID()).getNick().equals(nick)) {
+        SongDto sDto = pMapper.selectSong(idx);
+        if(pMapper.selectMyPliToIdx(sDto.getPlaylistID()).getNick().equals(nick)) {
+            if(sDto.getImg() != null && sDto.getImg().equals("")) {
+                ncpObjectStorageService.deleteFile(BUCKET_NAME, "songimg", sDto.getImg());
+            }
             return pMapper.deleteSong(idx) > 0;
         } else {
             response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);

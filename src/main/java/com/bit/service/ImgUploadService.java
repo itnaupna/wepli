@@ -1,6 +1,8 @@
 package com.bit.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,9 +19,11 @@ import com.bit.mapper.MemberMapper;
 import com.bit.mapper.PlaylistMapper;
 import com.bit.mapper.StageMapper;
 
+import lombok.extern.slf4j.Slf4j;
 import naver.cloud.NcpObjectStorageService;
 
 @Service
+@Slf4j
 public class ImgUploadService {
 
     public final String BUCKET_NAME = "wepli";
@@ -121,5 +125,58 @@ public class ImgUploadService {
         }
 
         return "/" + directoryPath + "/" + changeImage;
+    }
+
+    Map<String, List<String>> storageImg = new HashMap<>();
+
+    public String storageImgUpload(String token, String directoryPath, MultipartFile upload) {
+    String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+    List<String> imgData;
+
+    String img = ncpObjectStorageService.uploadFile(BUCKET_NAME, directoryPath, upload);
+
+    if(storageImg.get(directoryPath + nick) != null) {
+        log.info("[storageImgUpload] -> {}", storageImg.get(directoryPath + nick));
+        imgData = storageImg.get(directoryPath + nick);
+        imgData.add(img);
+        storageImg.put(directoryPath + nick, imgData);
+    } else {
+        imgData = new ArrayList<>();
+        imgData.add(img);
+        storageImg.put(directoryPath + nick, imgData);
+    }
+    return "/" + directoryPath + "/" + img;
+    }
+
+    public void storageImgDelete(String token, String directoryPath) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        
+        List<String> imgData;
+
+        if(storageImg.get(directoryPath + nick) != null) {
+            log.info("[storageImgUpload] -> {}", storageImg.get(directoryPath + nick));
+            imgData = storageImg.get(directoryPath + nick);
+            for(int i = 0; i < imgData.size(); i++) {
+                ncpObjectStorageService.deleteFile(BUCKET_NAME, directoryPath, imgData.get(i));
+            }
+            storageImg.remove(directoryPath + nick);
+        }
+    }
+
+    public void storageImgDelete(String token, String img, String directoryPath) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        
+        List<String> imgData;
+
+        if(storageImg.get(directoryPath + nick) != null) {
+            log.info("[storageImgUpload] -> {}", storageImg.get(directoryPath + nick));
+            imgData = storageImg.get(directoryPath + nick);
+            for(int i = 0; i < imgData.size(); i++) {
+                if(!imgData.get(i).equals(img)) {
+                    ncpObjectStorageService.deleteFile(BUCKET_NAME, directoryPath, imgData.get(i));
+                }
+            }
+            storageImg.remove(directoryPath + nick);
+        }
     }
 }

@@ -63,7 +63,7 @@ public class PlaylistController {
     }
 
     // 플레이리스트 추가
-    // TODO: 미완성
+    // TODO : 연결 후 확인 필요
     @PostMapping("/lv1/p/list")
     public boolean postList(@CookieValue String token, @RequestBody PlaylistDto data, HttpServletResponse response){
         return pService.insertPlaylist(token, data, response);
@@ -76,7 +76,8 @@ public class PlaylistController {
     }
 
     // 플레이리스트 수정
-    // 데이터 -> title, desc, genre, tag, isPublic
+    // TODO : 연결 후 확인 필요
+    // 데이터 -> idx, title, desc, genre, img, tag, isPublic
     @PatchMapping("/lv1/p/list")
     public boolean patchList(@CookieValue String token, @RequestBody PlaylistDto data, HttpServletResponse response){
         return pService.updatePlaylist(token, data, response);
@@ -96,7 +97,7 @@ public class PlaylistController {
     }
 
     // 곡 추가
-    // TODO 미완성
+    // TODO : 연결 후 확인 필요
     @PostMapping("/lv1/p/song")
     public boolean postSong(@CookieValue String token, @RequestBody SongDto data, HttpServletResponse response){
         return pService.insertSong(token, data, response);
@@ -115,7 +116,8 @@ public class PlaylistController {
     }
 
     // 곡 1개 수정
-    // 데이터 -> playlistID, title, songlength, genre, tag, singer, songaddress, songorigin idx
+    // TODO : 연결 후 확인 필요
+    // 데이터 -> playlistID, title, songlength, img, genre, tag, singer, songaddress, songorigin idx
     @PatchMapping("/lv1/p/song")
     public boolean patchSong(@CookieValue String token, @RequestBody SongDto data, HttpServletResponse response){
         return pService.updateSong(token, data, response);
@@ -162,4 +164,10 @@ public class PlaylistController {
         return pService.deletePliComment(token, data, response);
     }
 
+    // 플레이리스트나 음악 insert, update 도중 취소 시
+    @DeleteMapping("/lv1/p/imgdelete")
+    public void storageDelete(@CookieValue String token, String directoryPath) {
+        imgUploadService.storageImgDelete(token, directoryPath);
+    }
+    
 }
