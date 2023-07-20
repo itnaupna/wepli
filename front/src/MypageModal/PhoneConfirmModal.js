@@ -22,6 +22,7 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
         try {
 
             const res = await axios.post(url, {type: 1, key: verifyKey});
+            console.log(res);
             if (res.data === true) {
                 console.log(res);
                 alert("인증번호 전송 완료");

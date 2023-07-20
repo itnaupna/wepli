@@ -5,7 +5,7 @@ import naver from "./svg/naverlogin.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import arrow from "./svg/backarrow.svg";
 import axios from "axios";
-import {useLocation, useNavigate} from "react-router-dom";
+import {Await, useLocation, useNavigate} from "react-router-dom";
 
 
 function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, setSignUpModalOpen}) {
@@ -14,6 +14,7 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
     const [pw, setPw] = useState('');
     const navi = useNavigate();
     const [isChecked, setIsChecked] = useState(false);
+
     //로그인 모달 오픈
     const showFindIdModal = async () => {
         await setModalOpen(false);
@@ -136,6 +137,7 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
         setPw(e.target.value);
     }
 
+
     const REDIRECT_URI = "http://localhost:3000/auth"
     const REST_API_KEY = "9d3f5e52469d4278fcbcbc2f8a944d2c"
     const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
@@ -189,7 +191,7 @@ function LoginModal({setModalOpen, setFindIdModalOpen, setFindPassModalOpen, set
                     <div className="loginmodalgosignupbtn">
                         <div className="loginmodalsignuptext">
                             <div className="loginmodalsignuptext-child"/>
-                            <div className="div">회원가입</div>
+                            <div className="loginmodalgosignupbtntext">회원가입</div>
                         </div>
                     </div>
                 </div>

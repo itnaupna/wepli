@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./css/Mypage.css";
 import message from "./svg/message.svg";
 import logo from "./photo/wplieonlylogo.png";
@@ -8,8 +8,10 @@ import EmailConfirmModal from "../MypageModal/EmailConfirmModal";
 import PhoneConfirmModal from "../MypageModal/PhoneConfirmModal";
 import BlackListOptionModal from "../MypageModal/BlackListOptionModal";
 import FollowListModal from "../MypageModal/FollowListModal";
+import axios from "axios";
 
 function Mypage(props) {
+
 
     const data = sessionStorage.getItem('data') || localStorage.getItem('data');
     console.log("d",data);
@@ -30,6 +32,51 @@ function Mypage(props) {
     const [isPhoneConfirmModalOpen, setisPhoneConfirmModalOpen] = useState(false);
     const [isBlackListOptionModalOpen, setisBlackListOptionModalOpen] = useState(false);
     const [isFollowListModalOpen, setisFollowListModalOpen] = useState(false);
+    const [memberProfile, setmemberProfile] = useState();
+    const [myinfo, setMyinfo] = useState(
+        {
+            email: "",
+            nick: "",
+            phone: "",
+            emailconfirm: "",
+            phoneconfirm: "",
+            img: "",
+            desc: "",
+            socialtype: "",
+            lstblack: [],
+            hidechat: 0,
+            mute: 0,
+            lstfollow: [],
+            lstpli: [
+                {
+                    idx: 0,
+                    title: "",
+                    makeday: "",
+                    ispublic: 0
+                }
+            ],
+            stagetitle: "",
+            stageaddress: ""
+        }
+    );
+
+    console.log(myinfo);
+    const [infonick, setInfonick] = useState('');
+
+    const handleGetInfo = async () => {
+        const mypage = "/api/lv1/m/mypage";
+
+        try {
+            const res = await axios.get(mypage, { params: { nick: infonick } });
+            console.log("마페이지 인포",res);
+            console.log("마페이지 인포",res.data);
+            setMyinfo(res.data);
+
+        } catch (error) {
+            alert(error);
+        }
+    }
+
 
     const showOutMemberModal = () => {
         setIsOutMemberModalOpen(true);
@@ -54,6 +101,22 @@ function Mypage(props) {
     const showFollowListModal = () => {
         setisFollowListModalOpen(true);
     }
+
+    const memberProfileChange = (e) => {
+        const uploadFile = new FormData();
+        const url ="/api/lv1/m/profile";
+        uploadFile.append("upload", e.target.files[0]);
+        console.log(e.target.files[0]);
+        axios({
+            method: "post",
+            url: url,
+            data: uploadFile,
+            headers: {"Content-Type" : "multipart/form-data"}
+        }).then(res => {
+            setmemberProfile(res.data);
+        })
+    }
+
     return (
         <div>
             <div className="mypageframe">
@@ -77,6 +140,7 @@ function Mypage(props) {
                                 <div className="mypagechangeinfolabel">회원정보변경</div>
                             </div>
                         </div>
+                        <button type={'button'} onClick={handleGetInfo}>ddddx</button>
                         <div className="mypagechangeinfobox" onClick={showEmailConfirmModal}>
                             <div className="mypagechangeinfobutton">
                                 <div className="mypagechangeinfosurface"/>
@@ -134,6 +198,12 @@ function Mypage(props) {
                         alt=""
                         src={`${profileimg}/profile/${profile}`}
                     />
+                        <input
+                            type="file"
+                            id="profileUpload"
+                            className="file-input"
+                            onChange={memberProfileChange}
+                        />
                 </div>
                 {isOutMemberModalOpen && <OutMemberModal setIsOutMemberModalOpen={setIsOutMemberModalOpen}/>}
                 {isInfoChangeModalOpen && <InfoChageModal setIsInfoChangeModalOpen={setIsInfoChangeModalOpen}/>}

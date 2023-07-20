@@ -26,7 +26,7 @@ public interface MemberMapper {
     //이메일 인증여부 확인
     public int selectCheckEmailConfirm(String email);
     //전화번호 인증여부 확인
-    public int selectCheckPhoneConfirm(String email);
+    public int selectCheckPhoneConfirm(String phone);
     //이메일 인증
     public int updateEmailConfirm(String email);
     //전화번호 인증

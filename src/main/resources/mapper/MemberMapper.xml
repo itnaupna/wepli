@@ -27,7 +27,7 @@
     </select>
 
     <select id="selectCheckEmailConfirm" parameterType="string">
-        select emailconfirm from tblMember where email=#{email}
+        select count(emailconfirm) from tblMember where email=#{email}
     </select>
 
     <select id="selectLogin" parameterType="Map" resultType="int">
@@ -35,8 +35,8 @@
     </select>
         
 
-    <select id="selectCheckPhoneConfirm" parameterType="string">
-        select phoneconfirm from tblMember where email=#{email}
+    <select id="selectCheckPhoneConfirm" parameterType="string" resultType="int">
+        select count(phoneconfirm) from tblMember where phone=#{phone}
     </select>
 
     <update id="updateEmailConfirm" parameterType="string">
@@ -92,13 +92,5 @@
     <update id="FindCheckEmailPw" parameterType="hashMap">
         update tblMember set pw=sha2(#{newPw},256) where email=#{email}
     </update>
-
-    <select id="ConfirmCheckEmail" parameterType="string" resultType="int">
-        select emailconfirm from tblMember where email=#{email}
-    </select>
-    
-    <select id="ConfirmCheckPhone"  parameterType="string" resultType="int">
-        select phoneconfirm from tblMember where phone=#{phone}
-    </select>
 
 </mapper>
