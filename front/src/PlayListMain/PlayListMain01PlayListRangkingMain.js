@@ -18,6 +18,7 @@ import Axios from "axios";
 import PlayListRankingFollowTop from "./PlayListRankingFollowTop";
 
 function PlayListMain01PlayListRangkingMain(props) {
+    const profileimg = process.env.REACT_APP_BUCKET_URL;
     const reload = () =>{
         window.location.replace("");
     }
@@ -60,7 +61,7 @@ function PlayListMain01PlayListRangkingMain(props) {
                                                     열글자까지가능합니다
                                                 </div>
                                                 <div className="playlistrankinglistitemowner">
-                                                    닉네임몇글자제한이
+                                                    {item.nick}
                                                 </div>
                                             </div>
                                             <div className="playlistrankinglistiteminfo2">

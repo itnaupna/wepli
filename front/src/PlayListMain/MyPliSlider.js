@@ -21,7 +21,7 @@ function MyPliSlider() {
             speed: 400,
             slidesToScroll: 1,
         };
-        const profileimg = process.env.REACT_APP_BUCKET_URL;
+        const bucketURl = process.env.REACT_APP_BUCKET_URL;
         const [myPliL, setMyPli] = useState([]);
 
         useEffect(()=>{
@@ -36,7 +36,12 @@ function MyPliSlider() {
                 <Slider {...settings}>
                     {myPliL.length === 0? <h1 className="NoLogin">로그인 후 이용해주세요</h1>:
                         myPliL.map((item,idx) =>
-                        <div style={{backgroundImage:`linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8)),url(${profileimg}/playlist/${item.img})`}} className="myplaylistitem" key={idx}>
+                        <div className="myplaylistitem" key={idx}>
+                            <img
+                            className="myplaylistitemBgImg"
+                            alt=""
+                            src={`${bucketURl}/playlist/${item.img}`}
+                        />
                             <div className="myplaylistitembottom">
                                 <div className="myplaylistiteminfo">
                                     <div className="myplaylistitemnumbers">
@@ -82,7 +87,7 @@ function MyPliSlider() {
                                 <img
                                     className="myplaylistitemthumbnail-icon"
                                     alt=""
-                                    src={`${profileimg}/playlist/${item.img}`}
+                                    src={`${bucketURl}/playlist/${item.img}`}
                                 />
                             </div>
                         </div>

@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import Axios from "axios";
 
 function PlayLsitRankingLikeTop(props) {
+    const bucketURl = process.env.REACT_APP_BUCKET_URL;
     const [curr, setCurr] = useState(1);
     const [cpp, setCpp] = useState(50);
     const [orderByDay ,setOrderByDay] = useState(false);
@@ -27,7 +28,7 @@ function PlayLsitRankingLikeTop(props) {
                                 <img
                                     className="playlistrankinglistitemthumbna-icon"
                                     alt=""
-                                    src={Aris}
+                                    src={`${bucketURl}/playlist/${item.img}`}
                                 />
                                 <div className="playlistrankinglistiteminfo1">
                                     <div className="playlistrankinglistitemtitle">

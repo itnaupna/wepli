@@ -250,6 +250,7 @@
     width: 13.75rem;
     height: 2.81rem;
     flex-direction: row-reverse;
+    color: black;
 }
 .myplaylistitemthumbnail-icon {
     position: absolute;
@@ -280,6 +281,7 @@
     min-width: 31.25rem;
     max-width: 37.5rem;
     color: black;
+    background-color: rgba(255 , 255, 255 , 0.8);
 }
 .playlistmyplibody {
     align-self: stretch;
@@ -322,5 +324,10 @@
     cursor: pointer;
 }
 
+.myplaylistitemBgImg{
+    width: 600px;
+    height: 600px;
+    opacity: 0.2;
+}
 
 
