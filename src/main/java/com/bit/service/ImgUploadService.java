@@ -46,6 +46,10 @@ public class ImgUploadService {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         // log.info("nick: {}", nick);
 
+        if (upload == null || upload.isEmpty()) {
+            return "No image";
+        }
+
         String originImage = "";
         String changeImage = "";
 
@@ -78,6 +82,10 @@ public class ImgUploadService {
     }
 
     public String uploadImg(int idx, String directoryPath, MultipartFile upload) {
+
+         if (upload == null || upload.isEmpty()) {
+            return "No image";
+        }
 
         String originImage = "";
         String changeImage = "";
