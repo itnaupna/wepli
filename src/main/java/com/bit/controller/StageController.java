@@ -85,8 +85,8 @@ public class StageController {
 
     //스테이지 삭제
     @DeleteMapping("/lv2/s/stage")
-    public boolean deleteStage(@CookieValue String token, String pw) {
-        return sService.deleteStage(token, pw);
+    public boolean deleteStage(@CookieValue String token, String pw, String title) {
+        return sService.deleteStage(token, pw, title);
     }
 
     // 방 썸네일 변경

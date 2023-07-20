@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.bit.dto.MypageDto;
 import com.bit.dto.PlaylistDto;
@@ -93,6 +94,30 @@ public class PlaylistService {
             return pMapper.selectUserFromPublicPli(nick);
         }
     }
+
+    
+
+    // 플레이리스트 디테일
+    public Map<String, Object> getDetailPlayList(int idx, int curr, int cpp){
+
+        List<SongDto> song = pMapper.selectSongsAll(idx);
+
+        Map<String,Object> cdata = new HashMap<>();
+        cdata.put("playlistID",idx);
+        cdata.put("curr",(curr-1)*cpp);
+        cdata.put("cpp",cpp);
+
+        List<PliCommentDto> comment = pMapper.selectPliComments(cdata);
+        List<PlaylistDto> play = pMapper.detailPlayList(idx);
+    
+        Map<String,Object> data = new HashMap<>();
+        data.put("song", song);
+        data.put("comment", comment);
+        data.put("play", play);
+    
+        return data;
+    }
+
 
     // 미인증회원 검증절차
     public boolean uncertifiMemberChk(String nick) {

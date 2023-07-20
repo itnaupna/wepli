@@ -125,11 +125,13 @@
           delete from tblPlaylist where idx=#{idx}
     </delete>
 
+    <select id="detailPlayList" parameterType="int" resultType="PlaylistDto">
+        select * from vwPlaylist where idx = #{idx}
+    </select>
 
     <select id="selectFirstPlaylist" parameterType="string">
           SELECT * FROM vwPlaylist WHERE ispublic=1 and nick=#{nick} ORDER BY likescount DESC LIMIT 1;
     </select>
-
 
     <insert id="insertSong" parameterType="SongDto">
         insert into tblSongs 

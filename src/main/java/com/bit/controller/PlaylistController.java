@@ -1,6 +1,7 @@
 package com.bit.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -54,6 +55,12 @@ public class PlaylistController {
     @GetMapping("/lv1/p/playlist")
     public List<PlaylistDto> getPlaylist(@CookieValue String token, @RequestParam(required = false) String userNick) {
         return pService.selectPli(token, userNick);
+    }
+
+    // 플레이리스트 디테일
+    @GetMapping("/lv0/p/playdetail")
+    public Map<String, Object> getDetailPlayList(int idx, int curr, int cpp){
+        return pService.getDetailPlayList(idx, curr, cpp);
     }
 
     @PostMapping("/lv1/p/list")

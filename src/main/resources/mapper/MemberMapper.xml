@@ -33,10 +33,9 @@
     <select id="selectLogin" parameterType="Map" resultType="int">
         select count(*) from tblMember where email=#{email} and pw=sha2(#{pw},256)
     </select>
-        
 
     <select id="selectCheckPhoneConfirm" parameterType="string">
-        select phoneconfirm from tblMember where email=#{email}
+        select phoneconfirm from tblMember where phone=#{phone}
     </select>
 
     <update id="updateEmailConfirm" parameterType="string">

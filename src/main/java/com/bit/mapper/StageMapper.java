@@ -30,9 +30,13 @@ public interface StageMapper {
 
     public int updateStage(StageDto sDto);
 
+    // public int deleteStage(Map<String, String> data);
     public int deleteStage(String nick);
 
     public int selectCheckStagePw(Map<String, String> data);
+
+    // 스테이지 방제목 확인
+    public int selectCheckStageTitle(Map<String, String> data);
 
      // TODO 스테이지 검색 (아래 검색기능 통합! 확인 후 삭제 예정)
 
