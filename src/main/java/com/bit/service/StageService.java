@@ -1,6 +1,8 @@
 package com.bit.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,17 +29,30 @@ public class StageService {
     @Autowired
     JwtTokenProvider jwtTokenProvider;
 
-    final Map<String, Integer> builtStages = new HashMap<>();
-    
+    // final Map<String, Integer> builtStages = new HashMap<>();
+    final Map<String, List<String>> builtStagesUsers = new HashMap<>();
+
     public int getUserCount(String stageUrl) {
-        return builtStages.getOrDefault(stageUrl, 0);
+        return builtStagesUsers.getOrDefault(stageUrl, Collections.emptyList()).size();
     }
 
-    public int addUserCount(String stageUrl) {
-        return builtStages.compute(stageUrl, (k, v) -> v == null ? 1 : v + 1);
+    public List<String> addUser(String stageUrl, String nick) {
+        // 배열에 추가하게.
+        return builtStagesUsers.compute(stageUrl, (k, v) -> {
+            if (v == null) {
+                return new ArrayList<>(Arrays.asList(nick));
+            } else {
+                v.add(nick);
+                return v;
+            }
+        });
     }
-    public int subUserCount(String stageUrl){
-        return builtStages.compute(stageUrl,(k,v)-> v==null? 0 :v-1);
+
+    public List<String> subUser(String stageUrl,String nick) {
+        return builtStagesUsers.compute(stageUrl, (k, v) -> {
+            v.remove(nick);
+            return v;
+        });
     }
 
     public boolean insertStage(StageDto sDto) {
@@ -61,9 +76,9 @@ public class StageService {
 
         List<StageDto> result = sMapper.selectStageAll(data);
 
-        for(StageDto stage : result){
-            Integer count = builtStages.get(stage.getAddress());
-            stage.setCount(count != null ? count : 0);
+        for (StageDto stage : result) {
+            int count = builtStagesUsers.getOrDefault(stage.getAddress(),Collections.emptyList()).size();
+            stage.setCount(count);
         }
 
         return result;

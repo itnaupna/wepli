@@ -69,9 +69,10 @@ function SideBar(props) {
         axios
             .post(url)
             .then(res => {
-                sessionStorage.removeItem('data') || localStorage.removeItem('data');
-                navigate('/');
-                window.location.reload();
+                sessionStorage.removeItem('data');
+                localStorage.removeItem('data');
+                navigate(window.location.pathname);
+                // window.location.reload();
             })
             .catch(error => {
                 if (error.response && error.response.status === 405) {
@@ -82,21 +83,6 @@ function SideBar(props) {
                 }
             });
     };
-
-    // const onLogoutSubmit = (e) => {
-    //     e.preventDefault();
-    //     const url = '/api/lv1/m/logout';
-    //
-    //     axios
-    //         .post(url)
-    //         .then(res => {
-    //             sessionStorage.removeItem('data') || localStorage.removeItem('data');
-    //
-    //             navigate("/");
-    //             window.location.reload();
-    //         })
-    // };
-
 
     // 로그인 했을때 -> 마이페이지
     // 로그인 안했을때 -> 로그인모달
