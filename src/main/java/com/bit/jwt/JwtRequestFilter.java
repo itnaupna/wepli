@@ -57,15 +57,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             .orElse("");
         }
 
-        // log.info("token: {}", token);
+        log.info("token: {}", token);
 
         String nick = null;
         String accessToken = null;
         Map<String, Object> rules = new HashMap<>();
         String authValue = "";
         MypageDto userDto;
+        String path = request.getServletPath();
+        log.info(path);
+
         // 비회원일경우
-        if(token == null || token.equals("")) {
+        if((token == null || token.equals("")) && path.startsWith("/api/lv0/")) {
             
         } else if(jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
             // access token이 만료되었을경우
@@ -157,6 +160,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
+        log.info("[doFilterInternal]success");
         filterChain.doFilter(request,response);
     }
 

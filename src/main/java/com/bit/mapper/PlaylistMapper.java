@@ -19,14 +19,17 @@ public interface PlaylistMapper {
     // 공개된 플레이리스트 목록 가져오기
     public List<PlaylistDto> selectPublicPlaylist(Map<String, List<String>> genreAndBlack, Map<String, Object> data, @Param("type")String type);
 
+    // 좋아요 top50 플레이리스트
+    public List<PlaylistDto> selectLikeTopPli();
+
     // 좋아요 누른 플레이리스트 가져오기
     public List<PlaylistDto> selectLikePli(String nick);
 
-    // idx로 플레이리스트 가져오기
-    public PlaylistDto selectMyPliToIdx(int idx);
-
     // 팔로우한 사람의 플레이리스트 가져오기
     public List<PlaylistDto> selectFollowPli(String nick);
+
+    // idx로 플레이리스트 가져오기
+    public PlaylistDto selectMyPliToIdx(int idx);
 
     // 내 플레이리스트 가져오기
     public List<PlaylistDto> selectMyPli(String nick);
@@ -53,9 +56,6 @@ public interface PlaylistMapper {
     // 플리 삭제
     public int deletePlaylist(int idx);
 
-    // 특정 유저의 대표 플레이리스트(가장 많은 좋아요)
-    public PlaylistDto selectFirstPlaylist(String nick);
-
     // 개별곡 CRUD
     public int insertSong(SongDto data);
 
@@ -71,6 +71,8 @@ public interface PlaylistMapper {
     public int deleteSong(int idx);
 
     // 덧글 CRUD
+    public PliCommentDto selectPliCommentToIdx(int idx);
+
     public List<PliCommentDto> selectPliComments(Map<String, Object> data);
 
     public int insertPliComment(PliCommentDto data);

@@ -3,6 +3,8 @@ package com.bit.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,15 +79,27 @@ public class ImgUploadService {
         return "/" + directoryPath + "/" + changeImage;
     }
 
-    public String uploadImg(int idx, String directoryPath, MultipartFile upload) {
+    public String uploadImg(String token, int idx, String directoryPath, MultipartFile upload, HttpServletResponse response) {
 
         String originImage = "";
         String changeImage = "";
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
 
         if(directoryPath.equals("playlist")) {
-            originImage = playlistMapper.selectPlaylist(idx).getImg();
+            if(playlistMapper.selectMyPliToIdx(idx).getNick().equals(nick)) {
+                originImage = playlistMapper.selectPlaylist(idx).getImg();
+            } else {
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                return "권한없음";
+            }
         } else {
-            originImage = playlistMapper.selectSong(idx).getImg();
+            SongDto sDto = playlistMapper.selectSong(idx);
+            if(playlistMapper.selectMyPliToIdx(sDto.getPlaylistID()).getNick().equals(nick)) {
+                originImage = sDto.getImg();
+            } else {
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                return "권한없음";
+            }
         }
 
         if(originImage != null && !originImage.equals("")) {

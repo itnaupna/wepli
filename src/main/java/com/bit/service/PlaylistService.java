@@ -18,6 +18,7 @@ import com.bit.dto.PliCommentDto;
 import com.bit.dto.SongDto;
 import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.BlacklistMapper;
+import com.bit.mapper.FollowMapper;
 import com.bit.mapper.MemberMapper;
 import com.bit.mapper.PlaylistMapper;
 
@@ -38,10 +39,14 @@ public class PlaylistService {
     @Autowired
     MemberMapper memberMapper;
 
+    @Autowired
+    FollowMapper followMapper;
+
     public PlaylistDto selectPlaylist(int idx) {
         return pMapper.selectPlaylist(idx);
     }
 
+    // 플리 검색
     public List<PlaylistDto> selectPublicPlaylist(String token, String queryString, String type, boolean orderByDay, int curr, int cpp){
         String typeString[] = {"title","nick","genre","tag",null};
 
@@ -70,6 +75,26 @@ public class PlaylistService {
 
     }
 
+    // 플레이 리스트 메인 데이터 top and 좋아요 누른 플리
+    public Map<String, Object> pliMainData(String token) {
+        Map<String, Object> data = new HashMap<>();
+        String nick = null;
+        List<PlaylistDto> likeTopPli = pMapper.selectLikeTopPli();
+        List<Map<String, Object>> followTop = followMapper.selectFollowTop();
+        if(token != null && !token.equals("")) {
+            nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+            List<PlaylistDto> pliLike = pMapper.selectLikePli(nick);
+            data.put("likePli", pliLike);
+        }
+
+        data.put("likeTopPli", likeTopPli);
+        data.put("followTop", followTop);
+
+        
+        return data;
+    }
+
+
     // 좋아요 누른 플레이리스트 가져오기
     public List<PlaylistDto> selectLikePli(String token){
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
@@ -77,7 +102,7 @@ public class PlaylistService {
     }
 
     // idx로 플레이리스트 가져오기
-    public PlaylistDto selectMtPliToIdx(int idx) {
+    public PlaylistDto selectMyPliToIdx(int idx) {
         return pMapper.selectMyPliToIdx(idx);
     }
 
@@ -118,7 +143,7 @@ public class PlaylistService {
             if(data.getIsPublic() == 0) {
                 return pMapper.insertPlaylist(data)>0;
             } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                 return false;
             }
         }
@@ -134,7 +159,7 @@ public class PlaylistService {
             if(data.getIsPublic() == 0) {
                 return pMapper.insertPlaylist(data)>0;
             } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                 return false;
             }
         }
@@ -190,14 +215,14 @@ public class PlaylistService {
         }        
     }
 
-    public PlaylistDto selectFirstPlaylist(String nick){
-        //대표 플레이리스트를 불러오긴 하는데... 50명이면 50번 호출. 이게맞나?
-        //TODO : SQL 로직에 대해 DB부하가 많이 예상됨
-        return pMapper.selectFirstPlaylist(nick);
-    }
-
-    public boolean insertSong(SongDto data){
-        return pMapper.insertSong(data)>0;
+    public boolean insertSong(String token, SongDto data, HttpServletResponse response){
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        if(pMapper.selectMyPliToIdx(data.getPlaylistID()).getNick().equals(nick)) {
+            return pMapper.insertSong(data)>0;
+        } else {
+            response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+            return false;
+        }   
     }
 
     public SongDto selectSong(int idx){
@@ -208,8 +233,14 @@ public class PlaylistService {
         return pMapper.selectSongsAll(playlistID);
     }
 
-    public boolean updateSong(SongDto data){
-        return pMapper.updateSong(data)>0;
+    public boolean updateSong(String token, SongDto data, HttpServletResponse response){
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        if(pMapper.selectMyPliToIdx(pMapper.selectSong(data.getIdx()).getPlaylistID()).getNick().equals(nick)) {
+            return pMapper.updateSong(data) > 0;
+        } else {
+            response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+            return false;
+        }
     }
 
     public void updateSongImg(int idx, String img) {
@@ -219,8 +250,14 @@ public class PlaylistService {
         pMapper.updateSongImg(sDto);
     }
 
-    public boolean deleteSong(int idx){
-        return pMapper.deleteSong(idx)>0;
+    public boolean deleteSong(String token, int idx, HttpServletResponse response){
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        if(pMapper.selectMyPliToIdx(pMapper.selectSong(idx).getPlaylistID()).getNick().equals(nick)) {
+            return pMapper.deleteSong(idx) > 0;
+        } else {
+            response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+            return false;
+        }
     }
 
     public List<PliCommentDto> selectPliComments(int playlistID, int curr, int cpp){
@@ -236,20 +273,25 @@ public class PlaylistService {
         data.setWriter(writer);
         return pMapper.insertPliComment(data)>0;
     }
-    public boolean updatePliComment(String token, PliCommentDto data){
+    public boolean updatePliComment(String token, PliCommentDto data, HttpServletResponse response){
         String writer = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        data.setWriter(writer);
-        return pMapper.updatePliComment(data)>0;
+        if(pMapper.selectPliCommentToIdx(data.getIdx()).getWriter().equals(writer)) {
+            return pMapper.updatePliComment(data)>0;
+        } else {
+            response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+            return false;
+        }
     }
-    public boolean deletePliComment(String token, PliCommentDto data){
+    public boolean deletePliComment(String token, PliCommentDto data, HttpServletResponse response){
         String writer = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         String pliOwnerNick = pMapper.selectMyPliToIdx(data.getPlaylistID()).getNick();
         log.info(writer);
         log.info(pliOwnerNick);
-        log.info(data.getWriter());
-        if(writer.equals(data.getWriter()) || writer.equals(pliOwnerNick)) {
+
+        if(pMapper.selectPliCommentToIdx(data.getIdx()).getWriter().equals(writer) || writer.equals(pliOwnerNick)) {
             return pMapper.deletePliComment(data.getIdx()) > 0;
         } else {
+            response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
             return false;
         }
     }

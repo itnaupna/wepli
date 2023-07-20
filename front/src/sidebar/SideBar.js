@@ -65,7 +65,7 @@ function SideBar(props) {
     // 로그아웃
     const onLogoutSubmit = (e) => {
         e.preventDefault();
-        const url = '/api/lv1/m/logout';
+        const url = '/api/lv0/m/logout';
 
         axios
             .post(url)

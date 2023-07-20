@@ -164,7 +164,7 @@ public class MemberController {
     //로그아웃
     //TODO : (확인) 로그아웃시 엑세스토큰이 만료되어있으면 해당 유저의 리프레시 토큰이 삭제가 안되는점 수정
     
-    @PostMapping("/lv1/m/logout")
+    @PostMapping("/lv0/m/logout")
     public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) throws Exception {
         mService.logout(token, request, response);
     }

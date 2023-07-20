@@ -1,6 +1,7 @@
 package com.bit.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,7 +39,11 @@ public class PlaylistController {
     @RequestParam(required = false)String type, boolean orderByDay, int curr, int cpp){
         return pService.selectPublicPlaylist(token, queryString, type, orderByDay, curr, cpp);
     }
-
+    // 플레이 리스트 메인 데이터 top and 좋아요 누른 플리
+    @GetMapping("/lv0/p/plimaindata")
+    public Map<String, Object> getPliMainData(@CookieValue(required = false) String token) {
+        return pService.pliMainData(token);
+    }
     // 좋아요 누른 플레이리스트 가져오기
     @GetMapping("/lv2/p/listlike")
     public List<PlaylistDto> getLikes(@CookieValue String token) {
@@ -58,6 +63,7 @@ public class PlaylistController {
     }
 
     // 플레이리스트 추가
+    // TODO: 미완성
     @PostMapping("/lv1/p/list")
     public boolean postList(@CookieValue String token, @RequestBody PlaylistDto data, HttpServletResponse response){
         return pService.insertPlaylist(token, data, response);
@@ -70,15 +76,17 @@ public class PlaylistController {
     }
 
     // 플레이리스트 수정
+    // 데이터 -> title, desc, genre, tag, isPublic
     @PatchMapping("/lv1/p/list")
     public boolean patchList(@CookieValue String token, @RequestBody PlaylistDto data, HttpServletResponse response){
         return pService.updatePlaylist(token, data, response);
     }
 
     // 플레이리스트 대표사진 변경
+    // 데이터 -> 플리 idx, 사진파일
     @PostMapping("lv1/p/profile")
-    public String changePlaylistImg(int idx, MultipartFile upload) {
-        return imgUploadService.uploadImg(idx, "playlist", upload);
+    public String changePlaylistImg(@CookieValue String token, int idx, MultipartFile upload, HttpServletResponse response) {
+        return imgUploadService.uploadImg(token, idx, "playlist", upload, response);
     }
 
     // 플레이리스트 삭제
@@ -88,9 +96,10 @@ public class PlaylistController {
     }
 
     // 곡 추가
+    // TODO 미완성
     @PostMapping("/lv1/p/song")
-    public boolean postSong(SongDto data){
-        return pService.insertSong(data);
+    public boolean postSong(@CookieValue String token, @RequestBody SongDto data, HttpServletResponse response){
+        return pService.insertSong(token, data, response);
     }
 
     // 곡 1개 가져오기
@@ -106,21 +115,24 @@ public class PlaylistController {
     }
 
     // 곡 1개 수정
+    // 데이터 -> playlistID, title, songlength, genre, tag, singer, songaddress, songorigin idx
     @PatchMapping("/lv1/p/song")
-    public boolean patchSong(SongDto data){
-        return pService.updateSong(data);
+    public boolean patchSong(@CookieValue String token, @RequestBody SongDto data, HttpServletResponse response){
+        return pService.updateSong(token, data, response);
     }
 
     // 곡 1개 삭제
+    // 데이터 -> 곡의 idx
     @DeleteMapping("/lv1/p/song")
-    public boolean deleteSong(int idx){
-        return pService.deleteSong(idx);
+    public boolean deleteSong(@CookieValue String token, int idx, HttpServletResponse response){
+        return pService.deleteSong(token, idx, response);
     }
 
     // 곡 사진 변경
+    // 데이터 -> 곡의 idx, 사진파일
     @PostMapping("lv1/song/profile")
-    public String changeSongImg(int idx, MultipartFile upload) {
-        return imgUploadService.uploadImg(idx, "songimg", upload);
+    public String changeSongImg(@CookieValue String token, int idx, MultipartFile upload, HttpServletResponse response) {
+        return imgUploadService.uploadImg(token, idx, "songimg", upload, response);
     }
 
     // 플레이리스트 댓글 출력
@@ -130,21 +142,24 @@ public class PlaylistController {
     }
 
     // 플레이리스트 댓글작성
+    // 데이터 -> content, playlistID
     @PostMapping("/lv2/p/comment")
     public boolean postComment(@CookieValue String token, @RequestBody PliCommentDto data){
         return pService.insertPliComment(token, data);
     }
 
     // 플레이리스트 댓글 수정
+    // 데이터 -> idx, content
     @PatchMapping("/lv2/p/comment")
-    public boolean patchComment(@CookieValue String token, @RequestBody PliCommentDto data){
-        return pService.updatePliComment(token, data);
+    public boolean patchComment(@CookieValue String token, @RequestBody PliCommentDto data, HttpServletResponse response){
+        return pService.updatePliComment(token, data, response);
     }
 
     // 플레이리스트 댓글 삭제(플리 주인, 댓글작성자만 삭제 가능)
+    // 데이터 -> idx, playlistID
     @DeleteMapping("/lv2/p/comment")
-    public boolean deleteComment(@CookieValue String token, @RequestBody PliCommentDto data){
-        return pService.deletePliComment(token, data);
+    public boolean deleteComment(@CookieValue String token, @RequestBody PliCommentDto data, HttpServletResponse response){
+        return pService.deletePliComment(token, data, response);
     }
 
 }
