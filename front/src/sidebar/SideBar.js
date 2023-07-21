@@ -14,10 +14,15 @@ import FindPassModal from "../SideModal/FindPassModal";
 import SignUpModal from "../SideModal/SignUpModal";
 import axios from "axios";
 import PwChkModal from "../SideModal/PwChkModal";
+import FindIdSuccessModal from "../SideModal/FindIdSuccessModal";
+import FindPwChangeModal from "../SideModal/FindPwChangeModal";
 
 
 function SideBar(props) {
 
+
+    const [FindPwChangeModalOpen, setFindPwChangeModalOpen]= useState(false);
+    const [FindIdSuccessModalOpen, setFindIdSuccessModalOpen] = useState(false);
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
     const [FindIdModalOpen, setFindIdModalOpen] = useState(false);
@@ -139,12 +144,13 @@ function SideBar(props) {
             </div>
             {modalOpen && <LoginModal setModalOpen={setModalOpen} setFindIdModalOpen={setFindIdModalOpen}
                 setFindPassModalOpen={setFindPassModalOpen} setSignUpModalOpen={setSignUpModalOpen}
-                setpwChkmodalOpen={setpwChkmodalOpen} />}
-            {FindIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen} />}
-            {FindPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen} />}
+                setpwChkmodalOpen={setpwChkmodalOpen} setFindPwChangeModalOpen={setFindPwChangeModalOpen}/>}
+            {FindIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen} setFindIdSuccessModalOpen={setFindIdSuccessModalOpen} /> }
+            {FindPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen} setFindPwChangeModalOpen={setFindPwChangeModalOpen}/>}
             {SignUpModalOpen && <SignUpModal setSignUpModalOpen={setSignUpModalOpen} />}
             {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen} />}
-
+            {FindIdSuccessModalOpen && <FindIdSuccessModal setFindIdSuccessModalOpen={setFindIdSuccessModalOpen}/>}
+            {FindPwChangeModalOpen && <FindPwChangeModal setFindPwChangeModalOpen={setFindPwChangeModalOpen}/>}
         </>
 
     );

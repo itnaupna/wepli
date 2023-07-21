@@ -94,7 +94,7 @@
     border: 2px solid #d0e0f4;
     box-sizing: border-box;
 }
-.div {
+.loginmodalgosignupbtntext {
     position: absolute;
     top: 35.94%;
     left: 40.54%;
@@ -300,5 +300,8 @@ input{
     list-style: none;
 }
 
+.loginmodalsignuptext-child:hover{
+    border: 2px solid mediumpurple;
+}
 
 
