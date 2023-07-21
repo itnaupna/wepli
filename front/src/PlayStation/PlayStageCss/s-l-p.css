@@ -212,23 +212,39 @@
   gap: 20px;
 }
 .slpsort {
-  flex: 1;
+  /* flex: 1;
   position: relative;
   background-color: #fff;
   height: 55px;
   overflow: hidden;
-  max-width: 450px;
+  max-width: 450px; */
+    width: 32.5rem;
+    background-color: #fff;
+    border-radius: 30px;
+    position: relative;
+    flex-direction: row;
+    padding: 0 var(--padding-3xs);
+    box-sizing: border-box;
+    gap: var(--gap-3xs);
+    max-width: 32.5rem;
+    /* font-size: 1.88rem; */
+    color: var(--color-black);
+    font-family: var(--font-bm-hanna-air);
+    height: 55px;
+    left: 120px;
+    
 }
 .slpsortwrapper {
   flex: 1;
   height: 65px;
-  overflow: hidden;
+  /* overflow: hidden; */
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   padding: 5px;
   box-sizing: border-box;
-  align-items: flex-start;
+  /* align-items: flex-start; */
+  align-items: flex-end;
   justify-content: flex-start;
   min-width: 450px;
 }
@@ -238,6 +254,7 @@
   background-color: #fff;
   height: 55px;
   overflow: hidden;
+  border-radius: 20px;
 }
 .slpsearchtype {
   width: 150px;
@@ -246,29 +263,39 @@
 .slpsearchinput {
   flex: 1;
 }
-.slpsearchwrapper,
-.slpsearchwrapper1 {
-  overflow: hidden;
+.slpsearchwrapper{
+  flex:1;
+  height: 65px;
+  padding:5px;
+  min-width: 450px;
   display: flex;
-  flex-direction: row;
-  box-sizing: border-box;
-  align-items: flex-start;
+  /* overflow: hidden; */
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+
 }
+/* slpsearchwrapper1
 .slpsearchwrapper1 {
-  flex: 1;
+  flex: 1;  
   height: 65px;
   padding: 5px;
   justify-content: flex-end;
   gap: 5px;
   min-width: 450px;
-}
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+} */
 .slpsearchwrapper {
   align-self: stretch;
   flex-wrap: wrap;
   padding: 2.5px 5px;
   justify-content: space-between;
-  min-height: 60px;
-  max-height: 125px;
+  clear:both;
+  /* min-height: 60px;
+  max-height: 125px; */
 }
 .slpresultitemimg-icon {
   position: relative;
@@ -407,3 +434,169 @@
   margin:auto;
   margin-left: 70px;
 }
+/* SelectBar CSS */
+.slpsort-selectoption {
+  position: absolute;
+  margin:auto;
+  top:0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 520px;
+  height: 1.88rem;
+  user-select: none;
+  flex-direction: column;
+}
+
+.slpsort-selectDropDownBody{
+  position: absolute;
+  margin:0;
+  top: -10px;
+  left: 0;
+  background: #fff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  width: 520px;
+  /* height: 65px; */
+  border-radius:20px;
+
+}
+.slpsort-selectDropDown{
+  margin: 0px;
+  /* height: 65px;
+  padding-bottom: 15px; */
+  border-radius: 20px;
+  user-select: none;
+  text-align: center;
+  vertical-align: middle; 
+}
+.slpsort-selectDropDown:hover{
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+.slpsort-selecttoggle-icon{
+  position: absolute;
+  margin: auto;
+  top:0;
+  bottom: 0;
+  left: 10px;
+  display: flex;
+  vertical-align: middle;
+}
+.slpsort-selecttoggleUp-icon{
+  position: absolute;
+  margin:auto;
+  top:9px;
+  left:10px;
+  display: flex;
+}
+/* SearchBOX CSS */
+.slpsort-searchtypebox-parent{
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 32.5rem;
+    flex-direction: row;
+    padding: 0 var(--padding-3xs);
+    box-sizing: border-box;
+    gap: var(--gap-3xs);
+    max-width: 32.5rem;
+    font-size: 1.88rem;
+    color: var(--color-black);
+    font-family: var(--font-bm-hanna-air);
+}
+.slpsort-searchtypebox{
+  position: absolute;
+    width: 11.53rem;
+    height: 3.13rem;
+}
+.slpsort-playlistmainsearchbody{
+  position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: var(--br-xl);
+    background-color: var(--color-white);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    width: 11.53rem;
+    height: 3.13rem;
+}
+.slpsort-playlistmainsearchtoggle-icon{
+  position: absolute;
+  right: 8.49rem;
+  bottom: 1.14rem;
+  width: 1.05rem;
+  height: 0.84rem;
+}
+.slpsort-playlistmainsearchoption{
+  position: absolute;
+    margin:auto;
+    right: 0;
+    bottom: 0.63rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 11.53rem;
+    height: 1.88rem;
+    user-select: none;
+}
+.slpsort-playlistmainsearchDropDownBody{
+  position: absolute;
+    top: -9px;
+    left: 0;
+    background: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    width: 184.47px;
+    border-radius:20px;
+    z-index: 888;
+}
+.slpsort-playlistmainsearchtoggleUP-icon{
+  position: absolute;
+    right: 8.49rem;
+    top: 1.14rem;
+    width: 1.05rem;
+    height: 0.84rem;
+    z-index: 999;
+}
+.slpsort-playlistmainsearchDropDown{
+  margin: 0px;
+  text-align: center;
+    height: 1rem;
+    padding-bottom: 15px;
+    border-radius: 20px;
+    line-height: 3rem;
+    user-select: none;
+}
+.slpsort-playlistmainsearchDropDown:hover{
+  cursor: pointer;
+
+}
+.slpsort-playlistsearchbar{
+  flex: 1;
+  position: relative;
+  width: 19.1rem;
+  height: 3.13rem;
+}
+.slpsort-playlsitsearchbarbody{
+  position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: var(--br-xl);
+    background-color: var(--color-white);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    height: 3.13rem;
+    width: 16.097rem;
+    padding-left: 50px;
+}
+.slpsort-playlsitsearchicons{
+  position: absolute;
+  right: 16.55rem;
+  bottom: 0.63rem;
+  border-radius: var(--br-xl);
+  width: 1.91rem;
+  height: 1.88rem;
+  overflow: hidden;
+}
+.slpsort-playlsitsearchicons:hover{
+  cursor: pointer;
+}
+
