@@ -23,18 +23,24 @@ function MyPliSlider() {
         };
         const bucketURl = process.env.REACT_APP_BUCKET_URL;
         const [myPliL, setMyPli] = useState([]);
+        const [noLogin , setNoLogin] = useState("내 플레이 리스트가 없습니다.");
 
         useEffect(()=>{
-            const myPliLUrl = "/api/lv1/p/playlist";
-            Axios.get(myPliLUrl)
-                .then(res =>
-                    setMyPli(res.data));
+            if(sessionStorage.getItem("data")!=null) {
+                const myPliLUrl = "/api/lv1/p/playlist";
+                Axios.get(myPliLUrl)
+                    .then(res =>
+                        setMyPli(res.data));
+            }else{
+            }
+            setNoLogin("로그인 후 이용해주세요");
         },[]);
 
         return (
             <div className="MyPliSliderBody">
                 <Slider {...settings}>
-                    {myPliL.length === 0? <h1 className="NoLogin">로그인 후 이용해주세요</h1>:
+                    {
+                        myPliL.length === 0? <h1 className="NoLogin">{noLogin}</h1>:
                         myPliL.map((item,idx) =>
                         <div className="myplaylistitem" key={idx}>
                             <img
@@ -63,8 +69,8 @@ function MyPliSlider() {
                                         </div>
                                     </div>
                                     <div className="myplaylistitemtags">
-                                        <div className="myplaylistitemtag">{item.tag === ""?null:"#" + item.tag}</div>
-                                        <div className="myplaylistitemcategory">{item.genre === ""?null:"#" + item.genre}</div>
+                                        <div className="myplaylistitemtag">{item.tag === ""?null:"#" + item.tag.split(",")[0]}</div>
+                                        <div className="myplaylistitemcategory">{item.genre===""?null:"#" + item.genre?.split(",")[0]}</div>
                                     </div>
                                     <div className="myplaylistitemlikewrapper">
                                         <div className="myplaylistitemlikecount">{item.likescount}</div>

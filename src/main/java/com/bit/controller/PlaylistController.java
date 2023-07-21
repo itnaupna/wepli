@@ -55,17 +55,18 @@ public class PlaylistController {
     public List<PlaylistDto> getPlaylist(@CookieValue String token, @RequestParam(required = false) String userNick) {
         return pService.selectPli(token, userNick);
     }
-
+    //리스트 추가
     @PostMapping("/lv1/p/list")
     public boolean postList(PlaylistDto data, HttpServletResponse response){
         return pService.insertPlaylist(data, response);
     }
-
+    //좋아요 눌렀을때
     @PostMapping("/lv2/p/like")
     public List<Object> postLike(String nick, int playlistID){
         return pService.togglePlaylist(nick, playlistID);
     }
 
+    //플레이 리스트 변경
     @PatchMapping("/lv1/p/list")
     public boolean patchList(PlaylistDto data, HttpServletResponse response){
         return pService.updatePlaylist(data, response);

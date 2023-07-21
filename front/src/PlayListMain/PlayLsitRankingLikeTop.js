@@ -52,10 +52,10 @@ function PlayLsitRankingLikeTop(props) {
                                     </div>
                                     <div className="playlistrankinglistitemtags">
                                         <div className="playlistrankinglistitemcategor">
-                                            {item.genre===""?null:"#" + item.genre}
+                                            {item.genre===""?null:"#" + item.genre?.split(",")[0]}
                                         </div>
                                         <div className="playlistrankinglistitemcategor">
-                                            {item.tag === ""?null:"#" + item.tag}
+                                            {item.tag === ""?null:"#" + item.tag?.split(",")[0]}
                                         </div>
                                     </div>
                                 </div>
