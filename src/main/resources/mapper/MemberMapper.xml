@@ -101,4 +101,9 @@
         select phoneconfirm from tblMember where phone=#{phone}
     </select>
 
+
+    <select id="selectMemberImgByNick" parameterType="string" resultType="string">
+          select img from tblMember where nick=#{nick}
+    </select>
+
 </mapper>

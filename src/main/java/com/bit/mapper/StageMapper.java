@@ -4,23 +4,28 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.bit.dto.StageDto;
 
 @Mapper
 public interface StageMapper {
 
+    // 스테이지 생성
     public int insertStage(StageDto sDto);
 
+    // 스테이지 대표 사진 변경
     public void updateImg(Map<String, String> nickAndImg);
 
     public List<StageDto> selectStageAll(Map<String, Object> data);
     // public Map<String,StageDto> selectStageAll(Map<String, Object> data);
 
+    // 팔로우한 사람의 스테이지
     public List<StageDto> selectFollowStage(String nick);
 
     public StageDto selectStageOneByAddress(String address);
 
+    // 내 스테이지
     public StageDto selectStageOneByMasterNick(String nick);
 
     public int updateStage(StageDto sDto);
@@ -29,13 +34,17 @@ public interface StageMapper {
 
     public int selectCheckStagePw(Map<String, String> data);
 
-    public List<StageDto> selectSearchByNick(Map<String, List<String>> nickAndBlack);
+     // TODO 스테이지 검색 (아래 검색기능 통합! 확인 후 삭제 예정)
 
-    public List<StageDto> selectSearchByTitle(Map<String, List<String>> titleAndBlack);
+    public List<StageDto> selectSearchStage(Map<String, List<String>> genreAndBlack, Map<String, Object> data, @Param("type")String type);
+    
+    //public List<StageDto> selectSearchByNick(Map<String, List<String>> nickAndBlack);
 
-    public List<StageDto> selectSearchByGenre(Map<String, List<String>> genreAndBlack);
+    //public List<StageDto> selectSearchByTitle(Map<String, List<String>> titleAndBlack);
 
-    public List<StageDto> selectSearchByTag(Map<String, List<String>> tagAndBlack);
+    //public List<StageDto> selectSearchByGenre(Map<String, List<String>> genreAndBlack);
+
+    //public List<StageDto> selectSearchByTag(Map<String, List<String>> tagAndBlack);
 
     // TODO : (확인) 검색시 블랙리스트 제외 
 
