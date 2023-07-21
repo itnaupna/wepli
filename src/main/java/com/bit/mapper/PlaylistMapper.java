@@ -81,4 +81,6 @@ public interface PlaylistMapper {
 
     public int deletePliComment(int idx);
 
+    public List<PlaylistDto> detailPlayList(int idx);
+
 }

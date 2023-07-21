@@ -62,7 +62,12 @@ public class PlaylistController {
         return pService.selectPli(token, userNick);
     }
 
-    // 플레이리스트 추가
+    // 플레이리스트 디테일
+    @GetMapping("/lv0/p/playdetail")
+    public Map<String, Object> getDetailPlayList(int idx, int curr, int cpp){
+        return pService.getDetailPlayList(idx, curr, cpp);
+    }
+ // 플레이리스트 추가
     // TODO : 연결 후 확인 필요
     @PostMapping("/lv1/p/list")
     public boolean postList(@CookieValue String token, @RequestBody PlaylistDto data, HttpServletResponse response){
