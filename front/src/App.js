@@ -1,7 +1,6 @@
 
 import './App.css';
-import {BrowserRouter, Navigate, Route, Routes, useLocation} from "react-router-dom";
-import PlayListMain from "./PlayListMain/PlayListMain";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import PlayListMain01PlayListRangkingMain from "./PlayListMain/PlayListMain01PlayListRangkingMain";
 import PlayListMain02PlayListSearchMain from "./PlayListMain/PlayListMain02PlayListSearchMain";
 import MainPage from "./main/MainPage";
@@ -15,25 +14,42 @@ import TestPage from './TestPage';
 import {useEffect, useState} from "react";
 import KakaoCallback from "./KakaoCallback";
 import Mypage from "./mypage/Mypage";
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { VideoInfoAtom } from './recoil/VideoInfoAtom';
+import { SocketAtom } from './recoil/SocketAtom';
+import { useEffect } from 'react';
+import { Stomp } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+import { getRecoil } from 'recoil-nexus';
 function App() {
-    // <<<<<<< HEAD
+    const [videoInfo, setVideoInfo] = useRecoilState(VideoInfoAtom);
+    const [socketAtom, setSocketAtom] = useRecoilState(SocketAtom);
+    // const socketAtom = userecoil
+
+    useEffect(() => {
+        socketAtom.connect({},()=>{
+            setSocketAtom(socketAtom);
+        });
+    }, []);
+
 
     return (
         <BrowserRouter>
             <SideBar />
+            {videoInfo.isPlaying ? <MusicPlayerBar /> : null}
             {/*<MusicPlayerBar/>*/}
             <div className="backgroundImgDiv" />
             <Routes>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/mypage" element={sessionStorage.getItem("data")!=null?<Mypage/>:<MainPage/>}/>
+                <Route path="/mypage" element={sessionStorage.getItem("data") != null ? <Mypage /> : <MainPage />} />
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
                 <Route path="/pli/:pliId" element={<PlayListDetail />} />
                 <Route path="/mypli" element={<PlayListMain03MyPlayListMain />} />
                 <Route path="/stage/:stageUrl" element={<PlayStage />} />
                 <Route path="/stage" element={<PlayStageList />} />
-                <Route path="/auth" element={<KakaoCallback/>}/>
-                <Route path="/test" element={<TestPage/>}/>
+                <Route path="/auth" element={<KakaoCallback />} />
+                <Route path="/test" element={<TestPage />} />
                 <Route path="/*" element={
                     <h1 style={{ width: "100%", textAlign: "center", marginTop: "25%", position: "absolute" }}>페이지가 없습니다</h1>
                 } />

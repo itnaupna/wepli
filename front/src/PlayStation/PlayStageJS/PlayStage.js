@@ -7,17 +7,21 @@ import * as SockJS from 'sockjs-client';
 import * as StompJS from '@stomp/stompjs';
 import LoadingScreen from './LoadingScreen';
 import StageButtonChatIcon from '../PlayStageImage/Icon/StageButtonChatIcon.svg';
+import { useRecoilValue } from 'recoil';
+import { SocketAtom, subSocket } from '../../recoil/SocketAtom';
+import { VideoInfoAtom } from '../../recoil/VideoInfoAtom';
 
 function PlayStage() {
     const [leftType, setLeftType] = useState(true);
     const [rightType, setRightType] = useState(true);
     const [youtube, setYoutube] = useState('VlMxBy_I3Nk');
     const { stageUrl } = useParams();
-    const sockClient = useRef();
+    const sockClient = useRecoilValue(SocketAtom);
     const [chatLog, setChatLog] = useState([]);
     const [chat, setChat] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const chatLogs = useRef();
+    const [conmsg, setConmsg] = useState('접속중');
 
     const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
 
@@ -25,21 +29,44 @@ function PlayStage() {
         connect();
     }, []);
 
-
-    const connect = () => {
-        sockClient.current?.disconnect(() => console.log("기존연결 종료"));
-        let sock = new SockJS("https://localhost/ws");
-        sockClient.current = StompJS.Stomp.over(sock);
-
-        let ws = sockClient.current;
-
-        ws.connect({}, () => {
-            ws.subscribe("/sub/stage/" + stageUrl, data => {
+    const connect = async () => {
+        if (!sockClient.connected) {
+            try {
+                await waitConnect();
+                subSocket("/sub/stage/"+stageUrl, data => {
+                    loggingChat(JSON.parse(data.body));
+                });
+                setIsLoading(false);
+            }
+            catch (ex) {
+                setConmsg(ex.toString());
+            }
+        } else {
+            subSocket("/sub/stage/"+stageUrl, data => {
                 loggingChat(JSON.parse(data.body));
             });
             setIsLoading(false);
+        }
+    }
+
+    const waitConnect = () => {
+        return new Promise((resolve, reject) => {
+            const limit = 10;
+            const intervalTime = 500;
+            let currentAttempt = 0;
+            const interval = setInterval(() => {
+                if (currentAttempt > limit - 1) {
+                    clearInterval(interval);
+                    reject(new Error("연결에 실패했습니다. 다시 접속해주세요."));
+                } else if (sockClient.connected) {
+                    clearInterval(interval);
+                    resolve();
+                }
+                currentAttempt++;
+            }, intervalTime);
         });
-    };
+    }
+
 
     const loggingChat = (data) => {
         switch (data.type) {
@@ -61,14 +88,14 @@ function PlayStage() {
 
     const handleSendMsg = (type, msg) => {
         msg = msg?.trim();
-        let userNick= JSON.parse(sessionStorage.getItem('data') || localStorage.getItem('data'));
+        let userNick = JSON.parse(sessionStorage.getItem('data') || localStorage.getItem('data'));
         console.log(userNick);
 
-        if ((type === "CHAT" && msg.trim().length === 0) || userNick==="") return;
-        sockClient.current.send("/pub/msg", {}, JSON.stringify({
+        if ((type === "CHAT" && msg.trim().length === 0) || userNick === "") return;
+        sockClient.send("/pub/msg", {}, JSON.stringify({
             type,
             stageId: stageUrl,
-            userNick:userNick?.nick,
+            userNick: userNick?.nick,
             msg
         }));
     };
@@ -80,7 +107,7 @@ function PlayStage() {
 
     return (
         <>
-            {isLoading ? <LoadingScreen msg="접속중입니다." /> : null}
+            {isLoading ? <div onClick={connect}><LoadingScreen msg={conmsg} /></div> : null}
             <div className="stage">
                 {/* {stageUrl} */}
                 <div className="stage-left">
@@ -246,7 +273,7 @@ function PlayStage() {
                     <div className="stagepeoplewrapper" style={{ display: (rightType ? 'none' : 'flex') }}>
                         <div className="stage-people-body">
                             <div className="stage-people-item">
-                                <img className="stage-people-img" src="stage-people-img.png" alt='profileImg' />
+                                <img className="stage-people-img" src="" alt='profileImg' />
                                 <div className="stage-people-nickname">JJ the Master 👑</div>
                             </div>
                         </div>

@@ -4,13 +4,19 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "./Fonts/otf/font.css";
+import { RecoilRoot } from 'recoil';
+import RecoilNexus from 'recoil-nexus';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <RecoilRoot>
+    {/* <RecoilNexus> */}
+    {/* <React.StrictMode> */}
+      <App />
+    {/* </React.StrictMode> */}
+    {/* </RecoilNexus> */}
+  </RecoilRoot>
 );
 
 // If you want to start measuring performance in your app, pass a function

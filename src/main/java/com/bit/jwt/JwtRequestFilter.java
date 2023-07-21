@@ -57,23 +57,27 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             .orElse("");
         }
 
-        // log.info("token: {}", token);
+        //  log.info("token: {}", token);
 
         String nick = null;
         String accessToken = null;
         Map<String, Object> rules = new HashMap<>();
         String authValue = "";
         MypageDto userDto;
+        String path = request.getServletPath();
+        // log.info(path);
+
         // 비회원일경우
         if(token == null || token.equals("")) {
             
         } else if(jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
             // access token이 만료되었을경우
-            log.info("[doFilterInternal] expired");
+            // log.info("[doFilterInternal] expired");
             String refreshToken = ts.accessToRefresh(token);
+            // log.info("doFilterInternal -> {}",refreshToken);
             if(refreshToken != null && !jwtTokenProvider.expiredCheck(refreshToken.substring(6)).equals("expired")) {
                 refreshToken = refreshToken.substring(6);
-                log.info("doFilterInternal refToken after -> {}",refreshToken);
+                // log.info("doFilterInternal refToken after -> {}",refreshToken);
                 // refreshToken이 존재하는 경우 검증
                 boolean refreshTokenChk = jwtTokenProvider.validateToken(refreshToken);
                 if(refreshTokenChk) {
@@ -85,7 +89,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                             userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
                     // JWT 발급
                     String getToken = jwtTokenProvider.generateAccessToken(nick, rules);
-                    log.info(getToken);
+                    // log.info(getToken);
                     accessToken = URLEncoder.encode(getToken, "utf-8");
                     ts.updateAccessToken("Bearer" + refreshToken, "Bearer" + accessToken);
                     // log.info("[JWT regen] accessToken : {}", accessToken);
@@ -105,15 +109,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     cookie.setHttpOnly(true);
 
                     response.addCookie(cookie);
-                    log.info("[reGenerateAccessToken] accessToken Regen");
+                    // log.info("[reGenerateAccessToken] accessToken Regen");
 
                 // refreshToken 사용이 불가능한 경우
                 } else {
-                    log.warn("accessToken Refresh Fail");
+                    // log.warn("accessToken Refresh Fail");
                 }
             } else {
                 // 기존 쿠키 삭제
-                log.info("expired cookie remove");
+                // log.info("expired cookie remove");
                 Cookie cookie = new Cookie("token", null);
                 cookie.setPath("/");
                 cookie.setMaxAge(0);
@@ -157,6 +161,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
+        // log.info("[doFilterInternal]success");
         filterChain.doFilter(request,response);
     }
 
