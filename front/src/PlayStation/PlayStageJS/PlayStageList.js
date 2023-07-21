@@ -5,8 +5,10 @@ import SLPFollowNextIcon from '../PlayStageImage/Icon/SLPFollowNextIcon.svg';
 import StageItemBig from "./StageItemBig";
 import ResultItem from "./ResultItem";
 import CreateStageModal from "./CreateStageModal.js";
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import SearchBar from "./PlayStageSearchBar.js";
-import { Axios } from 'axios';
+
 
 function PlayStageList(props) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -16,7 +18,9 @@ function PlayStageList(props) {
   };
   const [resItems, setResItems] = useState([]);
   useEffect(() => {
-
+    axios.get("/api/lv0/s/stage", { params: { curr: 1, cpp: 6 } })
+      .then(res => { setResItems(res.data); console.log(res.data); })
+      .catch(res => console.log(res));
   }, []);
   
   //최신순(기본값) 인기순 토글 셀렉트
@@ -114,7 +118,13 @@ function PlayStageList(props) {
           </div>
         </div>
         <div className="slpresult">
-          <ResultItem /><ResultItem /><ResultItem /><ResultItem /><ResultItem /><ResultItem />
+          {
+            resItems.map((v, i) =>
+              <Link to={"/stage/" + v.address}>
+                <ResultItem data={v} key={i} />
+              </Link>
+            )
+          }
         </div>
       </div>
     </div>

@@ -43,7 +43,7 @@ public class FollowController {
         4-2. 팔로우 상태가 아니라면 팔로우 추가
         5. 종료
     */
-    //TODO : togglePlaylist 형식으로 로직변경
+    //TODO :(확인) togglePlaylist 형식으로 로직변경
     // 팔로우 추가,삭제
     @PostMapping("/lv2/f/followtoggle")
     public int followAndUnfollow(@CookieValue String token, @RequestParam String target) {

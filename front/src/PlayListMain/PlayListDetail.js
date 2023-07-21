@@ -25,6 +25,10 @@ const PlayListDetail = () => {
         // Please sync "PlayListMain03MyPlayListMain" to the project
     }, []);
 
+    const Testalert = (()=>{
+        alert("테스트");
+    })
+
     return (
         <div className="playlistdetailframe">
             <div className="playlistdetail">
@@ -60,26 +64,31 @@ const PlayListDetail = () => {
                                     className="playlisydetailplaybutton-icon"
                                     alt=""
                                     src={PlayListPlayIcon}
+                                    onClick={Testalert}
                                 />
                                 <img
                                     className="playlisydetaillikebutton-icon"
                                     alt=""
                                     src={PlayListDetailHeart}
+                                    onClick={Testalert}
                                 />
                                 <img
                                     className="playlisydetailinsertmusicbutto-icon"
                                     alt=""
                                     src={PlayListDetaliAddMusic}
+                                    onClick={Testalert}
                                 />
                                 <img
                                     className="playlistdetaillistupdatebutton-icon"
                                     alt=""
                                     src={PlayListDetailOption}
+                                    onClick={Testalert}
                                 />
                                 <img
                                     className="playlisydetailplaybutton-icon"
                                     alt=""
                                     src={PlayListDetailDelete}
+                                    onClick={Testalert}
                                 />
                             </div>
                             <div className="playlistdetailviewicons">
@@ -149,14 +158,12 @@ const PlayListDetail = () => {
                             />
                         </div>
                         <div className="playlistdetailcommentform">
-                            <div className="txtplaylistdetailform">
-                                <p className="p">
-                                    저는 피그마가 좋습니다 그러니까 코딩 안하겠습니다
-                                </p>
-                                <p className="p">감사합니다</p>
-                                <p className="p">즐겁습니다</p>
-                                <p className="p">집에가고싶습니다.</p>
-                            </div>
+                            <textarea className="txtplaylistdetailform">
+                                저는 피그마가 좋습니다 그러니까 코딩 안하겠습니다
+                                감사합니다
+                                즐겁습니다
+                                집에가고싶습니다.
+                            </textarea>
                             <div className="playlistdetailformheader">
                                 <img
                                     className="playlistdetailcreaatecommentpr-icon"

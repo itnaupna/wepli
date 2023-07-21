@@ -410,6 +410,7 @@
     height: 0.94rem;
     text-align: left;
     color: var(--color-black);
+    font-size: 13px;
 }
 .playlistrankinglistiteminfo22 {
     display: flex;
@@ -462,4 +463,14 @@
 }
 .playlistrankinglogotitle-icon:hover{
     cursor: pointer;
+}
+.MyLikePliNoLoging{
+    font-size: 26px !important;
+    text-align: center;
+    width: 100%;
+    margin-top: 220px;
+    font: var(--font-black-han-sans);
+}
+.playlistrankingHidden{
+    display: none;
 }

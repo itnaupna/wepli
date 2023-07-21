@@ -6,6 +6,9 @@
           select * from tblPlaylistComment where playlistID=#{playlistID} order by writeday desc limit #{curr}, #{cpp}
     </select>
 
+    <select id= "selectPliCommentToIdx" parameterType="int" resultType="PliCommentDto">
+        select * from tblPlaylistComment where idx = #{idx}
+    </select>
 
     <insert id="insertPliComment" parameterType="PliCommentDto">
           insert into tblPlaylistComment
@@ -40,18 +43,22 @@
         select * from vwPlaylist where nick = #{nick} order by makeday desc
     </select>
 
+    <select id="selectMyPliToIdx" parameterType="int" resultType="PlaylistDto">
+        select * from tblPlaylist where idx = #{idx}
+    </select>
+ 
     <select id="selectUserFromPublicPli" parameterType="String" resultType="PlaylistDto">
         select * from vwPlaylist where nick = #{nick} and isPublic = 1
         order by makeday desc
     </select>
 
     <delete id="deleteLike" parameterType="hashMap">
-        delete from tblPlaylistLike where user=#{user} and playlistID=#{playlistID}
+        delete from tblPlaylistLike where user=#{nick} and playlistID=#{playlistID}
     </delete>
 
     <insert id="insertLike" parameterType="hashMap">
         insert into tblPlaylistLike
-        values (#{user},#{playlistID})
+        values (#{nick},#{playlistID})
     </insert>
 
     <select id="selectPublicPlaylist" resultType="PlaylistDto">
@@ -95,6 +102,11 @@
         </choose>
     </select>
 
+    <select id="selectLikeTopPli" resultType="PlaylistDto">
+        select * from vwPlaylist where isPublic = 1
+        order by likesCount desc limit 0, 50
+    </select>
+
     <select id="selectLikePli" parameterType="string" resultType="PlaylistDto">
         SELECT * FROM vwPlaylist WHERE idx IN (SELECT playlistID FROM tblPlaylistLike WHERE `user`=#{nick}) order by likesCount desc
     </select>
@@ -113,7 +125,7 @@
 
 
     <update id="updatePlaylist" parameterType="PlaylistDto">
-          update tblPlaylist set title=#{title}, `desc`=#{desc}, genre=#{genre}, tag=#{tag},img=#{img}, isPublic=#{isPublic}
+          update tblPlaylist set title=#{title}, `desc`=#{desc}, img=#{img} genre=#{genre}, tag=#{tag},isPublic=#{isPublic}
           where idx=#{idx}
     </update>
 
@@ -125,11 +137,13 @@
           delete from tblPlaylist where idx=#{idx}
     </delete>
 
+    <select id="detailPlayList" parameterType="int" resultType="PlaylistDto">
+        select * from vwPlaylist where idx = #{idx}
+    </select>
 
     <select id="selectFirstPlaylist" parameterType="string">
           SELECT * FROM vwPlaylist WHERE ispublic=1 and nick=#{nick} ORDER BY likescount DESC LIMIT 1;
     </select>
-
 
     <insert id="insertSong" parameterType="SongDto">
         insert into tblSongs 
@@ -151,7 +165,7 @@
 
     <update id="updateSong" parameterType="SongDto">
         update tblSongs
-        set playlistID=#{playlistID}, title=#{title}, img=#{img}, songlength=#{songlength}, genre=#{genre}, tag=#{tag}, singer=#{singer}, songaddress=#{songaddress}, songorigin=#{songorigin}  
+        set playlistID=#{playlistID}, title=#{title}, songlength=#{songlength}, genre=#{genre}, img = #{img} tag=#{tag}, singer=#{singer}, songaddress=#{songaddress}, songorigin=#{songorigin}  
         where idx=#{idx}
     </update>
 

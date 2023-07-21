@@ -170,9 +170,9 @@ public class UserConfirmService {
     // 아이디, 비번 찾기
     public String VerifyCodeFind(int type, String key, String code, String authType) {
         if (authType.equals("findId")) {
-            if (type == 1) { // phone type
+
                 return FindCheckPhoneCode(key, code);
-            }
+
         } else if (authType.equals("findPw")) {
             if (type == 0) { // email type
                 return FindCheckEmailPw(key, code);

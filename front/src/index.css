@@ -10,6 +10,7 @@ body {
   /*background-image: url("../src/MainIMG/BackIMG.svg");*/
   /*background-size: cover;*/
   /*background-repeat: repeat;*/
+  color: black;
 }
 
 .backgroundImgDiv{
@@ -31,6 +32,18 @@ code {
 }
 
 .playlistbutton{
+  text-decoration: none;
+}
+a{
+  color: black !important;
+  text-decoration: none;
+}
+a:hover{
+  color: black !important;
+  text-decoration: none;
+}
+a:focus{
+  color: black !important;
   text-decoration: none;
 }
 

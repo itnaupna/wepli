@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bit.dto.MypageDto;
 import com.bit.dto.StageDto;
 import com.bit.service.ImgUploadService;
+import com.bit.service.MemberService;
 import com.bit.service.StageService;
 
 @RestController
@@ -27,6 +30,9 @@ public class StageController {
     @Autowired
     ImgUploadService imgUploadService;
 
+    @Autowired
+    MemberService mService;
+
     // @GetMapping("/lv0/s/test")
     // public Map<String,Integer> testMethod(){
     //     // return sService.selectStage();
@@ -34,16 +40,22 @@ public class StageController {
 
     //스테이지 목록 가져오기
     @GetMapping("/lv0/s/stage")
-    public List<StageDto> getStage(String nick, int curr, int cpp) {
-        return sService.selectStageAll(nick, curr, cpp);
+    public List<StageDto> getStage(@CookieValue(required=false) String token, int curr, int cpp) {
+        return sService.selectStageAll(token, curr, cpp);
     }
 
     //스테이지 검색
     //0-제목, 1-닉넴, 2-장르, 3-태그
     //장르와 태그는 , (쉼표)로 구분
+    // @GetMapping("/lv0/s/search")
+    // public List<StageDto> getSearch(@CookieValue(required = false) String token, int type, String queryString) {
+    //     return sService.SearchStages(type, queryString, token);
+    // }
+
     @GetMapping("/lv0/s/search")
-    public List<StageDto> getSearch(@CookieValue(required = false) String token, int type, String queryString) {
-        return sService.SearchStages(type, queryString, token);
+    public List<StageDto> getSearch(@CookieValue(required = false) String token, @RequestParam(required = false) String queryString, 
+    @RequestParam(required = false)String type, boolean orderByDay, int curr, int cpp) {
+        return sService.selectSearchStage(token, queryString, type, orderByDay, curr, cpp);
     }
 
     // //특정 닉네임 스테이지 가져오기
@@ -60,26 +72,26 @@ public class StageController {
 
     //스테이지 생성
     @PostMapping("/lv2/s/stage")
-    public boolean postStage(@RequestBody StageDto sDto) {
-        return sService.insertStage(sDto);
+    public boolean postStage(@RequestBody StageDto sDto,@CookieValue String token) {
+        return sService.insertStage(sDto,token);
     }
 
     //팔로우한 스테이지 목록 가져오기
     @GetMapping("/lv2/s/fstage")
-    public List<StageDto> getFStage(String nick) {
-        return sService.selectStageFollow(nick);
+    public List<StageDto> getFStage(@CookieValue String token) {
+        return sService.selectStageFollow(token);
     }
 
     //스테이지 정보 수정
     @PatchMapping("/lv2/s/stage")
-    public boolean patchStage(@RequestBody StageDto sDto) {
-        return sService.updateStage(sDto);
+    public boolean patchStage(@RequestBody StageDto sDto,@CookieValue String token) {
+        return sService.updateStage(sDto,token);
     }
 
     //스테이지 삭제
     @DeleteMapping("/lv2/s/stage")
-    public boolean deleteStage(String nick, String pw) {
-        return sService.deleteStage(nick, pw);
+    public boolean deleteStage(@CookieValue String token, String pw, String title) {
+        return sService.deleteStage(token, pw, title);
     }
 
     // 방 썸네일 변경
@@ -87,5 +99,12 @@ public class StageController {
     public String postProfileImg(@CookieValue String token, MultipartFile upload) {
         return imgUploadService.uploadImg(token, "stage", upload);
     }
+
+    //유저 정보 불러오기
+    @GetMapping("/lv1/s/userinfo")
+    public MypageDto getMypageDto(@CookieValue String token, @RequestParam(required = false) String userNick) {
+        return mService.selectMypageDto(token, userNick); 
+    }
+    
 
 }

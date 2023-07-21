@@ -76,6 +76,8 @@
 
 .stagebutton {
     background: #fff;
+    cursor:pointer;
+    user-select: none;
 }
 
 .stage-button-stage {
@@ -419,7 +421,9 @@
     box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
     overflow: auto;
 }
-
+.stage-chat-item:hover{
+    background: rgba(230,230,230,0.7);
+}
 .stage-chat-item {
     padding: 5px;
     display: flex;
@@ -464,7 +468,7 @@
 .stage-chat-item-writer {
     color: #000000;
     text-align: center;
-    font: 400 20px "BM DoHyeon", sans-serif;
+    font: 18px var(--font-bm-dohyeon);
     position: relative;
     display: flex;
     align-items: center;
@@ -472,9 +476,9 @@
 }
 
 .stage-chat-item-timestamp {
-    color: #666666;
+    color: rgba(127,127,127,0.7);
     text-align: center;
-    font: 400 15px "BM DoHyeon", sans-serif;
+    font: 14px var(--font-bm-dohyeon);
     position: relative;
     display: flex;
     align-items: center;
@@ -484,12 +488,13 @@
 .stage-chat-item-msg {
     color: #000000;
     text-align: left;
-    font: 400 20px "BM DoHyeon", sans-serif;
+    font: 16px;
     position: relative;
     align-self: stretch;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    word-break:break-all;
 }
 
 .stage-chat-tail {
@@ -513,12 +518,15 @@
 
 .stage-chat-input {
     background: transparent;
-    border:0px;
-
+    border:0px solid;
     flex: 1;
     height: 60px;
     position: relative;
-    overflow: hidden;
+    font-size: 20px;
+}
+
+.stage-chat-input:focus{
+    box-shadow: 0px 0px 4px rgba(0, 0, 255, 0.25);
 }
 
 .stage-chat-send-button {

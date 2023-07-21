@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import "./css/MainWrapper4.css";
 import heart from "./photo/heart.png";
-import albumcover from "./svg/albumcover.svg";
 import Axios from "axios";
 function MainWrapper4(props) {
     const [curr, setCurr] = useState(1);
@@ -45,7 +44,7 @@ function MainWrapper4(props) {
                     </div>
                 </div>
                     {likeTop3.map((item,idx) =>
-                        <div className="mainwrapper4rankingsection">
+                        <div className="mainwrapper4rankingsection" key={idx}>
                             <div className="mainwrapper4secondrankgroup">
                                 <div className="mainwrapper4secondrankimggroup">
                                     <img

@@ -165,4 +165,15 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    animation: fadeIn 0.4s ease-in-out;
+    z-index: 999;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

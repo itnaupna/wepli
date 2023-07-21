@@ -14,10 +14,15 @@ import FindPassModal from "../SideModal/FindPassModal";
 import SignUpModal from "../SideModal/SignUpModal";
 import axios from "axios";
 import PwChkModal from "../SideModal/PwChkModal";
+import FindIdSuccessModal from "../SideModal/FindIdSuccessModal";
+import FindPwChangeModal from "../SideModal/FindPwChangeModal";
 
 
 function SideBar(props) {
 
+
+    const [FindPwChangeModalOpen, setFindPwChangeModalOpen]= useState(false);
+    const [FindIdSuccessModalOpen, setFindIdSuccessModalOpen] = useState(false);
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
     const [FindIdModalOpen, setFindIdModalOpen] = useState(false);
@@ -64,13 +69,14 @@ function SideBar(props) {
 
     // 로그아웃
     const onLogoutSubmit = () => {
-        const url = '/api/lv1/m/logout';
+        const url = '/api/lv0/m/logout';
+        sessionStorage.removeItem('data');
+        localStorage.removeItem('data');
 
         axios
             .post(url)
             .then(res => {
-                sessionStorage.removeItem('data') || localStorage.removeItem('data');
-                navigate('/');
+                navigate(window.location.pathname);
                 window.location.reload();
             })
             .catch(error => {
@@ -82,21 +88,6 @@ function SideBar(props) {
                 }
             });
     };
-
-    // const onLogoutSubmit = (e) => {
-    //     e.preventDefault();
-    //     const url = '/api/lv1/m/logout';
-    //
-    //     axios
-    //         .post(url)
-    //         .then(res => {
-    //             sessionStorage.removeItem('data') || localStorage.removeItem('data');
-    //
-    //             navigate("/");
-    //             window.location.reload();
-    //         })
-    // };
-
 
     // 로그인 했을때 -> 마이페이지
     // 로그인 안했을때 -> 로그인모달
@@ -136,7 +127,7 @@ function SideBar(props) {
                         <img className="icon" alt="" src={stage} />
                     </div>
                 </div>
-                <div style={{position:'relative',width:'50px'}}>
+                <div style={{ position: 'relative', width: '50px' }}>
                     <div className="sidemenumypagebutton sidemnubtn" onClick={handleProfileClick}>
                         <img
                             className="sidemenuuserimg-icon"
@@ -146,19 +137,20 @@ function SideBar(props) {
                     </div>
                     {(sessionStorage.data || localStorage.data) && (
                         <div className="sidemenulogoutbutton" onClick={onLogoutSubmit}>
-                            <img className='icon2' alt="" src={logout}/>
+                            <img className='icon2' alt="" src={logout} />
                         </div>
                     )}
                 </div>
             </div>
             {modalOpen && <LoginModal setModalOpen={setModalOpen} setFindIdModalOpen={setFindIdModalOpen}
                 setFindPassModalOpen={setFindPassModalOpen} setSignUpModalOpen={setSignUpModalOpen}
-                setpwChkmodalOpen={setpwChkmodalOpen} />}
-            {FindIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen} />}
-            {FindPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen} />}
+                setpwChkmodalOpen={setpwChkmodalOpen} setFindPwChangeModalOpen={setFindPwChangeModalOpen}/>}
+            {FindIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen} setFindIdSuccessModalOpen={setFindIdSuccessModalOpen} /> }
+            {FindPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen} setFindPwChangeModalOpen={setFindPwChangeModalOpen}/>}
             {SignUpModalOpen && <SignUpModal setSignUpModalOpen={setSignUpModalOpen} />}
             {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen} />}
-
+            {FindIdSuccessModalOpen && <FindIdSuccessModal setFindIdSuccessModalOpen={setFindIdSuccessModalOpen}/>}
+            {FindPwChangeModalOpen && <FindPwChangeModal setFindPwChangeModalOpen={setFindPwChangeModalOpen}/>}
         </>
 
     );

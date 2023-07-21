@@ -78,6 +78,9 @@
     max-width: 15rem;
     min-height: 3.13rem;
 }
+.playlistbutton:hover{
+
+}
 .playlistbuttonlist,
 .playlistbuttonset1 {
     display: flex;
