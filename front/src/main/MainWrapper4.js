@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import "./css/MainWrapper4.css";
 import heart from "./photo/heart.png";
-import albumcover from "./svg/albumcover.svg";
 import Axios from "axios";
 function MainWrapper4(props) {
     const [curr, setCurr] = useState(1);
@@ -16,6 +15,15 @@ function MainWrapper4(props) {
                 setLikeTop3(res.data));
 
     },[]);
+
+
+    const profileimg = process.env.REACT_APP_BUCKET_URL;
+
+    // ?.은 ?.'앞’의 평가 대상이 undefined나 null이면 평가를 멈추고 undefined를 반환.
+    const img = likeTop3[0]?.img;
+    const img1 = likeTop3[1]?.img;
+    const img2 = likeTop3[2]?.img;
+
     return (
         <div className="mainwrapper4">
             <div className="mainwrapper4group">
@@ -36,13 +44,13 @@ function MainWrapper4(props) {
                     </div>
                 </div>
                     {likeTop3.map((item,idx) =>
-                        <div className="mainwrapper4rankingsection">
+                        <div className="mainwrapper4rankingsection" key={idx}>
                             <div className="mainwrapper4secondrankgroup">
                                 <div className="mainwrapper4secondrankimggroup">
                                     <img
                                         className="mainwrapper4secondrankimg-icon"
                                         alt=""
-                                        src={albumcover}
+                                        src={`${profileimg}/playlist/${img1}`}
                                     />
                                 </div>
                                 <div className="mainwrapper4secondrankingtextg">
@@ -59,7 +67,7 @@ function MainWrapper4(props) {
                                     <img
                                         className="mainwrapper4firstrankimg-icon"
                                         alt=""
-                                        src={albumcover}
+                                        src={`${profileimg}/playlist/${img}`}
                                     />
                                 </div>
                                 <div className="mainwrapper4firstrankingtextgr">
@@ -76,7 +84,7 @@ function MainWrapper4(props) {
                                     <img
                                         className="mainwrapper4thirdrankimg-icon"
                                         alt=""
-                                        src={albumcover}
+                                        src={`${profileimg}/playlist/${img2}`}
                                     />
                                 </div>
                                 <div className="mainwrapper4thirdrankingtextgr">

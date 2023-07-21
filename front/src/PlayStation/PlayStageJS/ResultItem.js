@@ -3,7 +3,7 @@ import SLPMystagePeopleIcon from '../PlayStageImage/Icon/SLPMystagePeopleIcon.sv
 import SLPMystagePlayingTitleIcon from '../PlayStageImage/Icon/SLPMystagePlayingTitleIcon.svg';
 import TestImg from '../PlayStageImage/img/SLPMystageImg.png';
 
-const ResultItem = () => {
+const ResultItem = ({data}) => {
     return (
         <div className="slpresultitem">
             <div className="slpitembigheader">
@@ -11,7 +11,7 @@ const ResultItem = () => {
                 <img
                   className="slpresultitemimg-icon"
                   alt=""
-                  src={TestImg}
+                  src={data.img}
                 />
               </div>
               <div className="slpresultiteminfo">
@@ -21,21 +21,23 @@ const ResultItem = () => {
                     alt=""
                     src={SLPMystagePeopleIcon}
                   />
-                  <div className="slpmystagelikecount">1000</div>
+                  <div className="slpmystagelikecount">{data.info.users.length}</div>
                 </div>
-                <div className="slpresultitemowner">@만든이이름드가는자리</div>
+                <div className="slpresultitemowner">@{data.nick}</div>
                 <div className="slpresultitemcategory">
-                  #일이삼사오육칠팔구십일
+                  {data.genre?.split(',')[0]===undefined ? null : '#'+data.genre?.split(',')[0]}
                 </div>
                 <div className="slpresultitemcategory">
-                  #일이삼사오육칠팔구십일
+                {data.tag?.split(',')[0]===undefined ? null : '#'+data.tag?.split(',')[0]}
                 </div>
               </div>
             </div>
             <div className="slpresultitembottom">
-              <div className="slpresultitemtitle">내 스테이지 생성</div>
+              <div className="slpresultitemtitle">
+                {data.pw ? "🔒" : null} {data.title}
+                </div>
               <div className="slpresultitemdescription">
-                나만의 스테이지를 가져보세요!
+                {data.desc}
               </div>
               <div className="slpresultitemplayinginfo">
                 <img

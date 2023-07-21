@@ -43,16 +43,16 @@ public class UserConfirmService {
         }
     }
 
-    public boolean RequestCodeFind(int type, String key) {
+    public boolean RequestCodeFind(int type, String key,String email,String phone) {
         switch (type) {
             case 0:
-                return mMapper.ConfirmCheckEmail(key) > 0 ? CreateEmailVerifyCode(key) : false;
+                return mMapper.selectCheckEmailConfirm(key) > 0 ? CreateEmailVerifyCode(key) : false;
             case 1:
-                return mMapper.ConfirmCheckEmail(key) > 0 ? CreateEmailVerifyCode(key) : false;
+                return mMapper.selectCheckPhoneConfirm(key) > 0 ? CreatePhoneVerifyCode(key) : false;
             default:
                 return false;
         }
-    }
+    } 
 
     public boolean VerifyCode(int type, String key, String code) {
         switch (type) {
@@ -170,9 +170,9 @@ public class UserConfirmService {
     // 아이디, 비번 찾기
     public String VerifyCodeFind(int type, String key, String code, String authType) {
         if (authType.equals("findId")) {
-            if (type == 1) { // phone type
+
                 return FindCheckPhoneCode(key, code);
-            }
+
         } else if (authType.equals("findPw")) {
             if (type == 0) { // email type
                 return FindCheckEmailPw(key, code);

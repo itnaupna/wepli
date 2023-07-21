@@ -1,5 +1,5 @@
 .slick-slide{
-    width: 600px !important;
+    width: 740px !important;
     height: 700px !important;
     border-radius: 0 !important;
     background: rgba(255, 255, 255, 0) !important;
@@ -48,4 +48,11 @@
     content: url("../MainIMG/Arrow_next.png") !important;
     position: relative !important;
     left: 25px !important;
+}
+.NoLogin{
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    top: 35%;
 }

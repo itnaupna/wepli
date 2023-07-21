@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import Axios from "axios";
 
 function PlayLsitRankingLikeTop(props) {
+    const bucketURl = process.env.REACT_APP_BUCKET_URL;
     const [curr, setCurr] = useState(1);
     const [cpp, setCpp] = useState(50);
     const [orderByDay ,setOrderByDay] = useState(false);
@@ -22,12 +23,12 @@ function PlayLsitRankingLikeTop(props) {
                 <div className="playlistrankinglistitemswrappe">
                     {
                         likeTop50.map((item, idx)=>
-                            <div className="playlistrankinglistitem">
+                            <div className="playlistrankinglistitem" key={idx}>
                                 <div className="playlistrankinglistitemnumber">{idx+1}</div>
                                 <img
                                     className="playlistrankinglistitemthumbna-icon"
                                     alt=""
-                                    src={Aris}
+                                    src={`${bucketURl}/playlist/${item.img}`}
                                 />
                                 <div className="playlistrankinglistiteminfo1">
                                     <div className="playlistrankinglistitemtitle">
@@ -51,10 +52,10 @@ function PlayLsitRankingLikeTop(props) {
                                     </div>
                                     <div className="playlistrankinglistitemtags">
                                         <div className="playlistrankinglistitemcategor">
-                                            #{item.genre}
+                                            {item.genre===""?null:"#" + item.genre?.split(",")[0]}
                                         </div>
                                         <div className="playlistrankinglistitemcategor">
-                                            #{item.tag}
+                                            {item.tag === ""?null:"#" + item.tag?.split(",")[0]}
                                         </div>
                                     </div>
                                 </div>

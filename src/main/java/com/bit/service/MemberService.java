@@ -1,6 +1,7 @@
 package com.bit.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -16,8 +17,11 @@ import com.bit.dto.TokenDto;
 import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.BlacklistMapper;
 import com.bit.mapper.MemberMapper;
+import com.bit.mapper.PlaylistMapper;
+import com.bit.mapper.StageMapper;
 
 import lombok.extern.slf4j.Slf4j;
+import naver.cloud.NcpObjectStorageService;
 
 // import naver.cloud.NcpObjectStorageService;
 
@@ -27,11 +31,17 @@ public class MemberService {
     @Autowired
     MemberMapper memberMapper;
     @Autowired
+    StageMapper stageMapper;
+    @Autowired
+    PlaylistMapper playlistMapper;
+    @Autowired
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     TokenService tokenService;
     @Autowired
     BlacklistMapper blacklistMapper;
+    @Autowired
+    NcpObjectStorageService ncpObjectStorageService;
 
     public final long JWT_TOKEN_VALIDITY_ONEDAY = 1000 * 60 * 60 * 24;
 
@@ -93,8 +103,8 @@ public class MemberService {
     }
 
     // 전화번호 인증여부 확인
-    public boolean checkPhoneConfirm(String email) {
-        return memberMapper.selectCheckPhoneConfirm(email) > 0;
+    public boolean checkPhoneConfirm(String phone) {
+        return memberMapper.selectCheckPhoneConfirm(phone) > 0;
     }
 
     // 이메일 인증
@@ -104,10 +114,10 @@ public class MemberService {
     }
 
     // 전화번호 인증
-    public boolean phoneConfirm(String email) {
+    public boolean phoneConfirm(String phone) {
 
-        // TODO :(확인)전화 인증 알고리즘 추가
-        return memberMapper.updatePhoneConfirm(email) > 0;
+        // TODO : 전화 인증 알고리즘 추가
+        return memberMapper.updatePhoneConfirm(phone) > 0;
 
     }
 
@@ -180,6 +190,32 @@ public class MemberService {
         cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
+        String bucketname = "wepli";
+        String profile = memberMapper.selectMypageDto(nick).getImg();
+        if(profile != null && !profile.equals("")) {
+            ncpObjectStorageService.deleteFile(bucketname, "profile", profile);
+        }
+        String stageImg = stageMapper.selectStageOneByMasterNick(nick).getImg();
+        if(stageImg != null && !stageImg.equals("")) {
+            ncpObjectStorageService.deleteFile(bucketname, "stage", stageImg);
+            
+        }
+        List<String> playlistImg = playlistMapper.selectMyPliImg(nick);
+        if(playlistImg != null && playlistImg.size() > 0) {
+            for(int i = 0 ; i < playlistImg.size(); i++) {
+                ncpObjectStorageService.deleteFile(bucketname, "playlist", playlistImg.get(i));            
+            }
+        }
+        List<String> songsImg = playlistMapper.selectMySongAllImg(nick);
+        if(songsImg != null && songsImg.size() > 0) {
+            for(int i = 0; i < songsImg.size(); i++) {
+                ncpObjectStorageService.deleteFile(bucketname, "songimg", songsImg.get(i));
+            }
+        }
+        log.info("profile -> {}",profile);
+        log.info("stageImg -> {}",stageImg);
+        log.info("playlistImg -> {}",playlistImg);
+        log.info("songsImg -> {}",songsImg);
         return memberMapper.deleteMember(mDto) > 0;
     }
 
@@ -296,4 +332,8 @@ public class MemberService {
         response.addCookie(cookie);
     }
 
+    //프사이미지
+    public String getUserImg(String nick){
+        return memberMapper.selectMemberImgByNick(nick);
+    }
 }

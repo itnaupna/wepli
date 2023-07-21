@@ -1,5 +1,21 @@
 import { useCallback } from "react";
 import "./PlayListDetail.css";
+import Molu from  "../MainIMG/Molu.gif";
+import Aru from  "../MainIMG/ARu.gif";
+import MusicList from "../MainIMG/MusicList.png";
+import Aris from "../MainIMG/Aris.gif";
+import Axios from "axios";
+import HeartImg from "../MainIMG/Heart.png";
+import SearchCommentIcon from "../MainIMG/SearchCommentIcon.png";
+import CommentIcon from "../MainIMG/CommentImg.png";
+import PlayListPlayIcon from "../MainIMG/PlayListDetailPlayIcon.png";
+import PlayListDetailHeart from "../MainIMG/PlayListDetailHeartIcon.png";
+import PlayListDetaliAddMusic from "../MainIMG/PlayListDetailAddMusic.png";
+import PlayListDetailOption from "../MainIMG/PlayListDetailOption.png";
+import PlayListDetailDelete from "../MainIMG/PlayListDetailDelete.png";
+import PlayListDetailCommentDelete from "../MainIMG/PlayListDetailCommentDelete.png";
+import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
+
 const PlayListDetail = () => {
     const onIconsClick = useCallback(() => {
         // Please sync "PlayListMain03MyPlayListMain" to the project
@@ -9,6 +25,10 @@ const PlayListDetail = () => {
         // Please sync "PlayListMain03MyPlayListMain" to the project
     }, []);
 
+    const Testalert = (()=>{
+        alert("테스트");
+    })
+
     return (
         <div className="playlistdetailframe">
             <div className="playlistdetail">
@@ -16,7 +36,7 @@ const PlayListDetail = () => {
                     <img
                         className="playlistdetailcover-icon"
                         alt=""
-                        src="/playlistdetailcover@2x.png"
+                        src={Aris}
                     />
                     <div className="playlistdetailinplaylistinfos">
                         <div className="playlistdetailinplaylisttitle">
@@ -26,16 +46,15 @@ const PlayListDetail = () => {
                             <img
                                 className="playlistdetailprofileimage-icon"
                                 alt=""
-                                src="/playlistdetailprofileimage@2x.png"
+                                src={Aris}
                             />
                             <div className="playlistdetailinplaylistnickna">
                                 춤추는 아리스
                             </div>
                         </div>
                         <div className="playlistdetailinplaylistinfo">
-                            <p className="p">{`저는 지금 몰루 오케스트라를 듣고 있는 이상혁입니다 `}</p>
-                            <p className="p">정말 재미있습니다 감사합니다</p>
-                            <p className="p">
+                            <p className="p">저는 지금 몰루 오케스트라를 듣고 있는 이상혁입니다<br/>
+                            정말 재미있습니다 감사합니다<br/>
                                 저는 피그마를 사랑합니다 피그마와 평생을 함께 할겁니다.
                             </p>
                         </div>
@@ -44,27 +63,32 @@ const PlayListDetail = () => {
                                 <img
                                     className="playlisydetailplaybutton-icon"
                                     alt=""
-                                    src="/playlisydetailplaybutton@2x.png"
+                                    src={PlayListPlayIcon}
+                                    onClick={Testalert}
                                 />
                                 <img
                                     className="playlisydetaillikebutton-icon"
                                     alt=""
-                                    src="/playlisydetaillikebutton@2x.png"
+                                    src={PlayListDetailHeart}
+                                    onClick={Testalert}
                                 />
                                 <img
                                     className="playlisydetailinsertmusicbutto-icon"
                                     alt=""
-                                    src="/playlisydetailinsertmusicbutton@2x.png"
+                                    src={PlayListDetaliAddMusic}
+                                    onClick={Testalert}
                                 />
                                 <img
                                     className="playlistdetaillistupdatebutton-icon"
                                     alt=""
-                                    src="/playlistdetaillistupdatebutton.svg"
+                                    src={PlayListDetailOption}
+                                    onClick={Testalert}
                                 />
                                 <img
                                     className="playlisydetailplaybutton-icon"
                                     alt=""
-                                    src="/playlisydetaildeletebutton@2x.png"
+                                    src={PlayListDetailDelete}
+                                    onClick={Testalert}
                                 />
                             </div>
                             <div className="playlistdetailviewicons">
@@ -74,7 +98,7 @@ const PlayListDetail = () => {
                                         <img
                                             className="playlistmessegeicon"
                                             alt=""
-                                            src="/playlistmessegeicon.svg"
+                                            src={CommentIcon}
                                         />
                                     </div>
                                     <div className="playlistdetailviewmusic">
@@ -82,7 +106,7 @@ const PlayListDetail = () => {
                                         <img
                                             className="playlistmain03musicicon"
                                             alt=""
-                                            src="/playlistmain03musicicon.svg"
+                                            src={MusicList}
                                         />
                                     </div>
                                 </div>
@@ -90,7 +114,7 @@ const PlayListDetail = () => {
                                     <img
                                         className="playlistdetailviewlikeicon"
                                         alt=""
-                                        src="/playlistdetailviewlikeicon.svg"
+                                        src={HeartImg}
                                     />
                                     <div className="playlistdetailviewlikecount">1000</div>
                                 </div>
@@ -104,12 +128,12 @@ const PlayListDetail = () => {
                             <img
                                 className="playlistdetaillistupdatebutton-icon"
                                 alt=""
-                                src="/playlistdetaillistoption.svg"
+                                src={PlayListDetailOption}
                             />
                             <img
                                 className="playlistdetaillistdelete-icon"
                                 alt=""
-                                src="/playlistdetaillistdelete.svg"
+                                src={PlayListDetailClose}
                             />
                         </div>
                         <div className="txtlength">07:01</div>
@@ -118,7 +142,7 @@ const PlayListDetail = () => {
                         <img
                             className="imgthumbnail-icon"
                             alt=""
-                            src="/imgthumbnail@2x.png"
+                            src={Aru}
                         />
                         <div className="txtrank">1</div>
                     </div>
@@ -130,23 +154,21 @@ const PlayListDetail = () => {
                             <img
                                 className="commettilteiconbody"
                                 alt=""
-                                src="/commettilteiconbody.svg"
+                                src={SearchCommentIcon}
                             />
                         </div>
                         <div className="playlistdetailcommentform">
-                            <div className="txtplaylistdetailform">
-                                <p className="p">
-                                    저는 피그마가 좋습니다 그러니까 코딩 안하겠습니다
-                                </p>
-                                <p className="p">감사합니다</p>
-                                <p className="p">즐겁습니다</p>
-                                <p className="p">집에가고싶습니다.</p>
-                            </div>
+                            <textarea className="txtplaylistdetailform">
+                                저는 피그마가 좋습니다 그러니까 코딩 안하겠습니다
+                                감사합니다
+                                즐겁습니다
+                                집에가고싶습니다.
+                            </textarea>
                             <div className="playlistdetailformheader">
                                 <img
                                     className="playlistdetailcreaatecommentpr-icon"
                                     alt=""
-                                    src="/playlistdetailcreaatecommentprofileimage@2x.png"
+                                    src={Aru}
                                 />
                                 <div className="playlistdetailcreatecommentpro">닉네임</div>
                                 <div className="playlistdetailcreatecommentcre">댓글작성</div>
@@ -176,13 +198,13 @@ const PlayListDetail = () => {
                                     <img
                                         className="playlistdetailcommentdeletefra-icon"
                                         alt=""
-                                        src="/playlistdetailcommentdeleteframe.svg"
+                                        src={PlayListDetailCommentDelete}
                                     />
                                     <div className="playlistdetailcommentprofileim">
                                         <img
                                             className="playlistdetailcommentprofileim-icon"
                                             alt=""
-                                            src="/playlistdetailcommentprofileimage@2x.png"
+                                            src={Molu}
                                         />
                                     </div>
                                     <div className="playlistdetailcommentnicknameb">
@@ -198,7 +220,7 @@ const PlayListDetail = () => {
                 <img
                     className="playlistdetailclose-icon"
                     alt=""
-                    src="/playlistdetailclose.svg"
+                    src={PlayListDetailClose}
                 />
             </div>
         </div>

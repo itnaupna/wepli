@@ -1,5 +1,6 @@
 package com.bit.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -12,6 +13,9 @@ import com.bit.Interceptor.SocketInterceptor;
 @Configuration
 @EnableWebSocketMessageBroker
 public class WsConfig implements WebSocketMessageBrokerConfigurer{
+
+    @Autowired
+    private SocketInterceptor sInterceptor;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -26,7 +30,7 @@ public class WsConfig implements WebSocketMessageBrokerConfigurer{
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(new SocketInterceptor());
+        registration.interceptors(sInterceptor);
     }
 
     

@@ -1,13 +1,51 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./css/OutMemberModal.css";
 import backarrow from "./svg/backarrow.svg";
 import btnarrow from "./svg/btnarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 function OutMemberModal({setIsOutMemberModalOpen}) {
+
+    const [pw, setPw] = useState('');
 
     const closeOutMemberModal = async () => {
         await setIsOutMemberModalOpen(false);
     };
+
+    const handleInputPw = (e) => {
+        setPw(e.target.value);
+    }
+
+    const navi = useNavigate();
+    const onDeleteMemberSubmit = (e) => {
+        e.preventDefault();
+
+        const url = "/api/lv1/m/member";
+        const params = { pw };
+
+        axios
+            .delete(url, { params })
+            .then((res) => {
+                if (res.data === true) {
+                    if(window.confirm("정말로 회원을 삭제하시겠습니까?")){
+                    console.log(res.data);
+                    sessionStorage.removeItem('data') || localStorage.removeItem('data');
+                    navi("/");
+                    window.location.reload();
+                } }else {
+                    console.log("실패");
+                }
+            })
+            .catch((error) => {
+                if (error.response && error.response.status === 405) {
+                    console.log("405 오류");
+                } else {
+                    console.log("오류:", error.message);
+                }
+            });
+    };
+
 
     return (
         <div>
@@ -32,13 +70,14 @@ function OutMemberModal({setIsOutMemberModalOpen}) {
                         <div className="mypageoutmemebermodalcentertex">회원탈퇴</div>
                     </div>
                     <div className="mypageoutmemebermodalpassinput">
-                        <input type={'password'} className="mypageoutmemebermodalpassinput1"></input>
+                        <input type={'password'} value={pw} onChange={handleInputPw} className="mypageoutmemebermodalpassinput1"></input>
                     </div>
 
                     <div className="mypageoutmemebermodalbtngroup">
                         <div className="mypageoutmemebermodalmypagebtn">
                             <div className="mypageoutmemebermodalbtnrectan" />
-                            <button type={'button'} className="mypageoutmemebermodalbtntext">회원탈퇴</button>
+                            <button type={'button'} className="mypageoutmemebermodalbtntext"
+                            onClick={onDeleteMemberSubmit}>회원탈퇴</button>
                         </div>
                         <img
                             className="mypageoutmemebermodalbtnarrow-icon"

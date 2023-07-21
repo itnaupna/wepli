@@ -38,8 +38,8 @@ function KakaoCallback() {
                             let email = kakao_account.email;
                             console.log("dd", email);
 
-                            axios.post("/api/lv0/social", { email, socialtype: 'kakao' })
-                                .then(res => {
+                            axios.post("/api/lv0/m/social", { email, socialtype: 'kakao' })
+                        .then(res => {
                                     if (res.data.result === 'true') {
                                         console.log("res.data입니당", res.data);
 

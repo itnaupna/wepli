@@ -20,17 +20,18 @@ public interface MemberMapper {
     public int selectCheckPhoneExists(String phone);
     //유저정보 받아오기
     public MemberDto selectMemberDto(String email);
+    public String selectMemberImgByNick(String nick);
     //비밀번호 확인
     public int selectCheckPasswordByEmail(MemberDto mDto);
     public int selectCheckPasswordByNick(MemberDto mDto);
     //이메일 인증여부 확인
     public int selectCheckEmailConfirm(String email);
     //전화번호 인증여부 확인
-    public int selectCheckPhoneConfirm(String email);
+    public int selectCheckPhoneConfirm(String phone);
     //이메일 인증
     public int updateEmailConfirm(String email);
     //전화번호 인증
-    public int updatePhoneConfirm(String email);
+    public int updatePhoneConfirm(String phone);
     //닉넴 변경
     public int updateNick(Map<String,String> data);
     //비밀번호 변경
@@ -58,9 +59,4 @@ public interface MemberMapper {
     public void FindCheckPhonePw(Map<String, String> data);
     //비밀번호찾기(이메일) 
     public void FindCheckEmailPw(Map<String, String> data);
-
-    public int ConfirmCheckEmail(String email);
-    public int ConfirmCheckPhone(String phone);
-    
-    
 }
