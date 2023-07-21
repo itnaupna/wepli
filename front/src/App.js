@@ -15,6 +15,7 @@ import TestPage from './TestPage';
 import {useEffect, useState} from "react";
 import KakaoCallback from "./KakaoCallback";
 import Mypage from "./mypage/Mypage";
+import AddPlayLsit from "./PlayListMain/AddPlayList";
 function App() {
     // <<<<<<< HEAD
 
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
                 <Route path="/pli/:pliId" element={<PlayListDetail />} />
+                <Route path="/addpli" element={<AddPlayLsit />} />
                 <Route path="/mypli" element={<PlayListMain03MyPlayListMain />} />
                 <Route path="/stage/:stageUrl" element={<PlayStage />} />
                 <Route path="/stage" element={<PlayStageList />} />

@@ -7,20 +7,16 @@ import Molu from "../MainIMG/Molu.gif";
 import Follow from "../MainIMG/Follow.png";
 import MusicList from "../MainIMG/MusicList.png";
 
-function MyLikeAndFollowList(props) {
-    const [myLikeList, setMyLikeList] = useState([]);
+function MyLikeAndFollowList({myLikeList}) {
+    const bucketURl = process.env.REACT_APP_BUCKET_URL;
     const [noLoginLike , setNoLoginLike] = useState("좋아요 한 플레이 리스트가 없습니다.");
     const [noLoginFollow , setNoLoginFollow] = useState("팔로우 한 유저가 없습니다.");
     const [isLikeHidden, setIsLikeHidden]  = useState(true);
     const [isFollowHidden , setIsFollowHidden] = useState(false);
+    const [myFollowList , setMyFollowList] =useState([]);
 
     useEffect(()=>{
         if(sessionStorage.getItem("data")!=null) {
-            const myLikeListUrl = "/api/lv2/p/listlike";
-            Axios.get(myLikeListUrl)
-                .then(res =>
-                    setMyLikeList(res.data));
-        }else{
             setNoLoginLike("로그인 후 이용하실 수 있습니다");
             setNoLoginFollow("로그인 후 이용하실 수 있습니다");
         }
@@ -29,18 +25,35 @@ function MyLikeAndFollowList(props) {
     const LikeToggle = (() =>{
         setIsLikeHidden(true);
         setIsFollowHidden(false);
+        if(sessionStorage.getItem("data")==null) {
+            setNoLoginLike("로그인 후 이용하실 수 있습니다");
+            setNoLoginFollow("로그인 후 이용하실 수 있습니다");
+        }else{
+            setNoLoginLike("좋아요 한 플레이 리스트가 없습니다.");
+            setNoLoginFollow("팔로우 한 유저가 없습니다.");
+        }
     });
 
     const FollowToggle = (() =>{
         setIsLikeHidden(false);
         setIsFollowHidden(true);
+        if(sessionStorage.getItem("data")!=null) {
+            const myFollowListUrl = "/api/lv2/p/listfollow";
+            Axios.get(myFollowListUrl)
+                .then(res =>
+                    setMyFollowList(res.data));
+            setNoLoginLike("좋아요 한 플레이 리스트가 없습니다.");
+            setNoLoginFollow("팔로우 한 유저가 없습니다.");
+        }else{
+            setNoLoginLike("로그인 후 이용하실 수 있습니다");
+            setNoLoginFollow("로그인 후 이용하실 수 있습니다");
+        }
     });
 
     return (
         <div className="playlistrankinglistwapper">
             <div className={isFollowHidden?"playlistrankinglistwrapper playlistrankingHidden":"playlistrankinglistwrapper"}>
                 <div className="playlistrankinglistitemswrappe">
-                    <div>시발</div>
                     {
                         myLikeList.length === 0?<div className="MyLikePliNoLoging">{noLoginLike}</div>:
                         myLikeList.map((item, idx) =>
@@ -99,43 +112,42 @@ function MyLikeAndFollowList(props) {
 
             <div className={isLikeHidden? "playlistrankinglistwrapper playlistrankingHidden":"playlistrankinglistwrapper"}>
                 <div className="playlistrankinglistitemswrappe">
-                    <div>지랄</div>
                     {
                         myLikeList.length === 0?<div className="MyLikePliNoLoging">{noLoginFollow}</div>:
                             myLikeList.map((item, idx) =>
-                                <div className="playlistrankinglistitem" key={idx}>
-                                    <div className="playlistrankinglistitemnumber">{idx+1}</div>
+                                <div className="playlistrankinglistitem">
+                                    <div className="playlistrankinglistitemnumber">50</div>
                                     <img
-                                        className="playlistmain01followprofillimg-icon"
+                                        className="playlistrankinglistitemthumbna-icon"
                                         alt=""
-                                        src={Molu}
+                                        src={Aru}
                                     />
-                                    <div className="playlistrankinglistiteminfo12">
+                                    <div className="playlistrankinglistiteminfo1">
                                         <div className="playlistrankinglistitemtitle">
-                                            {item.t}
+                                            열글자까지가능합니다
+                                        </div>
+                                        <div className="playlistrankinglistitemowner">
+                                            닉네임
                                         </div>
                                     </div>
-                                    <div className="playlistrankinglistiteminfo22">
-                                        <div className="playlistmain01followitems">
-                                            <div className="playlistmain01follow">
-                                                <div className="follow">
-                                                    <div className="follownum">{item.cnt}</div>
-                                                </div>
-                                                <img
-                                                    className="followrankinglsitfollowicons"
-                                                    alt=""
-                                                    src={Follow}
-                                                />
+                                    <div className="playlistrankinglistiteminfo2">
+                                        <div className="playlistrankinglistitemmakeday">
+                                            생성일 : 2024-07-05
+                                        </div>
+                                        <div className="playlistrankinglistitemlikegro">
+                                            <div className="playlistrankinglistitemlikenum">1000</div>
+                                            <img
+                                                className="playlistrankinglistitemlikeico-icon"
+                                                alt=""
+                                                src={HeartImg}
+                                            />
+                                        </div>
+                                        <div className="playlistrankinglistitemtags">
+                                            <div className="playlistrankinglistitemcategor">
+                                                #발라드
                                             </div>
-                                            <div className="playlistmain01followcount">
-                                                <div className="playlistmain01playlistcount">
-                                                    <div className="follownum">1000</div>
-                                                </div>
-                                                <img
-                                                    className="followrankinglsitmusicicon"
-                                                    alt=""
-                                                    src={MusicList}
-                                                />
+                                            <div className="playlistrankinglistitemcategor">
+                                                #치킨을 먹고싶다
                                             </div>
                                         </div>
                                     </div>
@@ -153,7 +165,7 @@ function MyLikeAndFollowList(props) {
                 </div>
             </div>
             <div className={isLikeHidden? "playlistrankinglisttitle playlistrankingHidden":"playlistrankinglisttitle"}>
-                팔로우 한 유저
+                팔로우 한 유저 플레이리스트
             </div>
         </div>
     );

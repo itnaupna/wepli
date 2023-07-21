@@ -25,9 +25,6 @@ const PlayListDetail = () => {
         // Please sync "PlayListMain03MyPlayListMain" to the project
     }, []);
 
-    const Testalert = (()=>{
-        alert("테스트");
-    })
 
     return (
         <div className="playlistdetailframe">
@@ -61,34 +58,30 @@ const PlayListDetail = () => {
                         <div className="playlistdetailinplaylistinfobu">
                             <div className="playlistdetailbuttonbody">
                                 <img
-                                    className="playlisydetailplaybutton-icon"
+                                    className="playlistdetailplaybutton-icon"
                                     alt=""
                                     src={PlayListPlayIcon}
-                                    onClick={Testalert}
                                 />
                                 <img
-                                    className="playlisydetaillikebutton-icon"
+                                    className="playlistdetaillikebutton-icon"
                                     alt=""
                                     src={PlayListDetailHeart}
-                                    onClick={Testalert}
                                 />
                                 <img
-                                    className="playlisydetailinsertmusicbutto-icon"
+                                    className="playlistdetailinsertmusicbutto-icon"
                                     alt=""
                                     src={PlayListDetaliAddMusic}
-                                    onClick={Testalert}
+
                                 />
                                 <img
                                     className="playlistdetaillistupdatebutton-icon"
                                     alt=""
                                     src={PlayListDetailOption}
-                                    onClick={Testalert}
                                 />
                                 <img
-                                    className="playlisydetailplaybutton-icon"
+                                    className="playlistdetailplaybutton-icon"
                                     alt=""
                                     src={PlayListDetailDelete}
-                                    onClick={Testalert}
                                 />
                             </div>
                             <div className="playlistdetailviewicons">
