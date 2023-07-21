@@ -130,22 +130,22 @@ public class ImgUploadService {
     Map<String, List<String>> storageImg = new HashMap<>();
 
     public String storageImgUpload(String token, String directoryPath, MultipartFile upload) {
-    String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-    List<String> imgData;
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        List<String> imgData;
 
-    String img = ncpObjectStorageService.uploadFile(BUCKET_NAME, directoryPath, upload);
+        String img = ncpObjectStorageService.uploadFile(BUCKET_NAME, directoryPath, upload);
 
-    if(storageImg.get(directoryPath + nick) != null) {
-        log.info("[storageImgUpload] -> {}", storageImg.get(directoryPath + nick));
-        imgData = storageImg.get(directoryPath + nick);
-        imgData.add(img);
-        storageImg.put(directoryPath + nick, imgData);
-    } else {
-        imgData = new ArrayList<>();
-        imgData.add(img);
-        storageImg.put(directoryPath + nick, imgData);
-    }
-    return "/" + directoryPath + "/" + img;
+        if(storageImg.get(directoryPath + nick) != null) {
+            log.info("[storageImgUpload] -> {}", storageImg.get(directoryPath + nick));
+            imgData = storageImg.get(directoryPath + nick);
+            imgData.add(img);
+            storageImg.put(directoryPath + nick, imgData);
+        } else {
+            imgData = new ArrayList<>();
+            imgData.add(img);
+            storageImg.put(directoryPath + nick, imgData);
+        }
+        return "/" + directoryPath + "/" + img;
     }
 
     public void storageImgDelete(String token, String directoryPath) {

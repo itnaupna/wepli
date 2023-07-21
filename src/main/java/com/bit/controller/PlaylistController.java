@@ -164,6 +164,12 @@ public class PlaylistController {
         return pService.deletePliComment(token, data, response);
     }
 
+    // 플레이리스트나 음악 img 업로드
+    @PostMapping("/lv1/p/imgupload")
+    public String storageUpload(@CookieValue String token, String directoryPath, MultipartFile upload) {
+        return imgUploadService.storageImgUpload(token, directoryPath, upload);
+    }
+
     // 플레이리스트나 음악 insert, update 도중 취소 시
     @DeleteMapping("/lv1/p/imgdelete")
     public void storageDelete(@CookieValue String token, String directoryPath) {
