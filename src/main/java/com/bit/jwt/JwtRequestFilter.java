@@ -68,7 +68,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         log.info(path);
 
         // 비회원일경우
-        if((token == null || token.equals("")) && path.startsWith("/api/lv0/")) {
+        if((token == null || token.equals("")) && (path.startsWith("/api/lv0/") || (path.startsWith("/ws/")))) {
             
         } else if(jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
             // access token이 만료되었을경우

@@ -1,7 +1,6 @@
 
 import './App.css';
 import {BrowserRouter, Navigate, Route, Routes, useLocation} from "react-router-dom";
-import PlayListMain from "./PlayListMain/PlayListMain";
 import PlayListMain01PlayListRangkingMain from "./PlayListMain/PlayListMain01PlayListRangkingMain";
 import PlayListMain02PlayListSearchMain from "./PlayListMain/PlayListMain02PlayListSearchMain";
 import MainPage from "./main/MainPage";
@@ -12,15 +11,17 @@ import PlayListDetail from "./PlayListMain/PlayListDetail";
 import PlayStage from "./PlayStation/PlayStageJS/PlayStage";
 import PlayStageList from "./PlayStation/PlayStageJS/PlayStageList"
 import TestPage from './TestPage';
-import {useEffect, useState} from "react";
 import KakaoCallback from "./KakaoCallback";
 import Mypage from "./mypage/Mypage";
+import { useRecoilState } from 'recoil';
+import { VideoInfoAtom } from './recoil/VideoInfoAtom';
 function App() {
-    // <<<<<<< HEAD
+    const [videoInfo, setVideoInfo] = useRecoilState(VideoInfoAtom);
 
     return (
         <BrowserRouter>
             <SideBar />
+            {videoInfo.isPlaying ? <MusicPlayerBar/> : null}
             {/*<MusicPlayerBar/>*/}
             <div className="backgroundImgDiv" />
             <Routes>
