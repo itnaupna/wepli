@@ -8,6 +8,7 @@ import CreateStageModal from "./CreateStageModal.js";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import SearchBar from "./PlayStageSearchBar.js";
+import StageSlide from './StageSlide.js';
 
 
 function PlayStageList(props) {
@@ -48,6 +49,9 @@ function PlayStageList(props) {
 
   return (
     <div className="slp">
+      {
+        
+      }
       <div className="slptop">
         <div className="slpmystagewrapper">
           <StageItemBig />
@@ -66,7 +70,7 @@ function PlayStageList(props) {
               src={SLPFollowBackIcon}
             />
           </div>
-          <StageItemBig />
+          <StageSlide />
           <div className="slpfollowback">
             <img
               className="slpfollowbackicon"

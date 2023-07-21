@@ -1,620 +1,696 @@
-.stage,
-.stage * {
-    box-sizing: border-box;
+.StageModalContainer{
+    /* width: 1000px;
+    height: 1000px; */
+    z-index: 999;
+    position: absolute;
+    margin:auto;
+    top:340px;
+    left:510px;
+    right: auto;
+  }
+  /* 모달버튼 css */
+*:after,
+*:before {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.cf:before,
+.cf:after {
+	content: '';
+	display: table;
+}
+.cf:after {
+	clear: both;
+}
+body {
+	background: #cfd8dc;
+	color: #37474f;
+	font-weight: 400;
+	font-size: 1em;
+	font-family: 'Raleway', Arial, sans-serif;
+}
+.support {
+	font-weight: bold;
+	padding: 2em 0 0 0;
+	font-size: 1.4em;
+	color: #ee2563;
+	display: none;
+}
+a {
+	color: #7986cb;
+	text-decoration: none;
+	outline: none;
+}
+a:hover,
+a:focus {
+	color: #3f51b5;
+}
+.hidden {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+.container {
+	margin: 0 auto;
+	text-align: center;
+	overflow: hidden;
+}
+.content {
+	padding: 2em 1em 5em;
+	z-index: 1;
+	max-width: 1000px;
+	margin: 0 auto;
+}
+.content h2 {
+	margin: 0 0 2em;
+}
+.content p {
+	margin: 1em 0;
+	padding: 0 0 2em;
+	font-size: 0.85em;
+}
+.box {
+	padding: 4.5em 0;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-justify-content: center;
+	justify-content: center;
 }
 
-.stage {
-    padding: 10px 80px 10px 80px;
-    margin: auto;
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-    align-items: flex-start;
-    justify-content: center;
-    flex-wrap: wrap;
-    width: 1380px;
-    height: 810px;
-    min-width: 1380px;
-    max-width: 1710px;
-    position: relative;
-    overflow: hidden;
+/* Header */
+.codrops-header {
+	padding: 3em 190px 4em;
+	letter-spacing: -1px;
+}
+.codrops-header h1 {
+	font-weight: 200;
+	font-size: 4em;
+	line-height: 1;
+	margin-bottom: 0;
+}
+.codrops-header h1 span {
+	display: block;
+	font-size: 40%;
+	letter-spacing: 0;
+	padding: 0.5em 0 1em 0;
+	color: #A8B3B8;
 }
 
-.stage-left {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: flex-start;
-    flex: 1;
-    height: 790px;
-    min-width: 710px;
-    position: relative;
-    overflow: hidden;
+/* Top Navigation Style */
+.codrops-links {
+	position: relative;
+	display: inline-block;
+	white-space: nowrap;
+	font-size: 1.25em;
+	text-align: center;
+}
+.codrops-links::after {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 1px;
+	height: 100%;
+	background: #BFCACF;
+	content: '';
+	-webkit-transform: rotate3d(0, 0, 1, 22.5deg);
+	transform: rotate3d(0, 0, 1, 22.5deg);
+}
+.codrops-icon {
+	display: inline-block;
+	margin: 0.5em;
+	padding: 0em 0;
+	width: 1.5em;
+	text-decoration: none;
+}
+.codrops-icon:before {
+	margin: 0 5px;
+	text-transform: none;
+	font-weight: normal;
+	font-style: normal;
+	font-variant: normal;
+	font-family: 'codropsicons';
+	line-height: 1;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+}
+.codrops-icon span {
+	display: none;
+}
+.codrops-icon--drop:before {
+	content: "\e001";
+}
+.codrops-icon--prev:before {
+	content: "\e004";
 }
 
-.stage-left-header {
-    padding: 5px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
+/* Related demos */
+.content--related {
+	text-align: center;
+	font-weight: 600;
+}
+.media-item {
+	display: inline-block;
+	padding: 1em;
+	margin: 1em 0 0 0;
+	vertical-align: top;
+	-webkit-transition: color 0.3s;
+	transition: color 0.3s;
+}
+.media-item__img {
+	opacity: 0.8;
+	max-width: 100%;
+	-webkit-transition: opacity 0.3s;
+	transition: opacity 0.3s;
+}
+.media-item:hover .media-item__img,
+.media-item:focus .media-item__img {
+	opacity: 1;
+}
+.media-item__title {
+	font-size: 0.85em;
+	margin: 0;
+	padding: 0.5em;
+}
+@media screen and (max-width:50em) {
+	.codrops-header {
+		padding: 3em 10% 4em;
+	}
+}
+@media screen and (max-width:40em) {
+	.codrops-header h1 {
+		font-size: 2.8em;
+	}
 }
 
-.stage-left-button-group-a {
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    width: 270px;
-    height: 90px;
-    min-width: 250px;
-    position: relative;
-    overflow: hidden;
+/* Box colors */
+.bg-1 {
+	background: #ECEFF1;
+	color: #37474f;
+}
+.bg-2 {
+	background: #7986cb;
+	color: #ECEFF1;
+}
+.bg-3 {
+	background: #37474f;
+	color: #fff;
 }
 
-.stageactive {
-    background: #8f8fff !important;
+/* Common button styles */
+.button {
+	float: left;
+	min-width: 150px;
+	max-width: 250px;
+	display: block;
+	margin: 1em;
+	padding: 1em 2em;
+	border: none;
+	background: none;
+	color: inherit;
+	vertical-align: middle;
+	position: relative;
+	z-index: 1;
+	-webkit-backface-visibility: hidden;
+	-moz-osx-font-smoothing: grayscale;
+}
+.button:focus {
+	outline: none;
+}
+.button > span {
+	vertical-align: middle;
 }
 
-.stagebutton:hover {
-    background: #bcbcff
+/* Text color adjustments (we could stick to the "inherit" but that does not work well in Safari) */
+.bg-1 .button {
+	color: #37474f;
+	border-color: #37474f;
+}
+.bg-2 .button {
+	color: #ECEFF1;
+	border-color: #ECEFF1;
+}
+.bg-3 .button {
+	color: #fff;
+	border-color: #fff;
 }
 
-.stagebutton:active {
-    background: #aaf
+/* Sizes */
+.button--size-s {
+	font-size: 14px;
+}
+.button--size-m {
+	font-size: 16px;
+}
+.button--size-l {
+	font-size: 18px;
 }
 
-.stagebutton {
-    background: #fff;
+/* Typography and Roundedness */
+.button--text-upper {
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+.button--text-thin {
+	font-weight: 300;
+}
+.button--text-medium {
+	font-weight: 500;
+}
+.button--text-thick {
+	font-weight: 600;
+}
+.button--round-s {
+	border-radius: 5px;
+}
+.button--round-m {
+	border-radius: 15px;
+}
+.button--round-l {
+	border-radius: 40px;
 }
 
-.stage-button-stage {
-    background: #fff;
-    border-radius: 10px;
-    padding: 0px 20px 0px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 136px;
-    min-height: 70px;
-    position: relative;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+/* Borders */
+.button--border-thin {
+	border: 1px solid;
+}
+.button--border-medium {
+	border: 2px solid;
+}
+.button--border-thick {
+	border: 3px solid;
 }
 
-.stage-button-stage-text {
-    color: #000000;
-    text-align: center;
-    font: 400 20px "BM DoHyeon", sans-serif;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+/* Nina */
+.button--nina {
+	padding: 0 2em;
+	background: #7986cb;
+	color: #fff;
+	overflow: hidden;
+	-webkit-transition: background-color 0.3s;
+	transition: background-color 0.3s;
+}
+.button--nina.button--inverted {
+	background: #fff;
+	color: #7986cb;
+}
+.button--nina > span {
+	display: inline-block;
+	padding: 1em 0;
+	opacity: 0;
+	color: #fff;
+	-webkit-transform: translate3d(0, -10px, 0);
+	transform: translate3d(0, -10px, 0);
+	-webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+	transition: transform 0.3s, opacity 0.3s;
+	-webkit-transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+	transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+}
+.button--nina::before {
+	content: attr(data-text);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding: 1em 0;
+	-webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+	transition: transform 0.3s, opacity 0.3s;
+	-webkit-transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+	transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+}
+.button--nina:hover {
+	background-color: #3f51b5;
+}
+.button--nina:hover::before {
+	opacity: 0;
+	-webkit-transform: translate3d(0, 100%, 0);
+	transform: translate3d(0, 100%, 0);
+}
+.button--nina:hover > span {
+	opacity: 1;
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
+}
+.button--nina:hover > span:nth-child(1) {
+	-webkit-transition-delay: 0.045s;
+	transition-delay: 0.045s;
+}
+.button--nina:hover > span:nth-child(2) {
+	-webkit-transition-delay: 0.09s;
+	transition-delay: 0.09s;
+}
+.button--nina:hover > span:nth-child(3) {
+	-webkit-transition-delay: 0.135s;
+	transition-delay: 0.135s;
+}
+.button--nina:hover > span:nth-child(4) {
+	-webkit-transition-delay: 0.18s;
+	transition-delay: 0.18s;
+}
+.button--nina:hover > span:nth-child(5) {
+	-webkit-transition-delay: 0.225s;
+	transition-delay: 0.225s;
+}
+.button--nina:hover > span:nth-child(6) {
+	-webkit-transition-delay: 0.27s;
+	transition-delay: 0.27s;
+}
+.button--nina:hover > span:nth-child(7) {
+	-webkit-transition-delay: 0.315s;
+	transition-delay: 0.315s;
+}
+.button--nina:hover > span:nth-child(8) {
+	-webkit-transition-delay: 0.36s;
+	transition-delay: 0.36s;
+}
+.button--nina:hover > span:nth-child(9) {
+	-webkit-transition-delay: 0.405s;
+	transition-delay: 0.405s;
+}
+.button--nina:hover > span:nth-child(10) {
+	-webkit-transition-delay: 0.45s;
+	transition-delay: 0.45s;
 }
 
-.stage-button-queue {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 0px 20px 0px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 112px;
-    min-height: 70px;
-    position: relative;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-}
 
-.stage-button-queue-text {
-    color: #000000;
-    text-align: center;
-    font: 400 20px "BM DoHyeon", sans-serif;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.stage-left-button-group-b {
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: flex-end;
-    flex-shrink: 0;
-    width: 420px;
-    height: 90px;
-    min-width: 420px;
-    position: relative;
-    overflow: hidden;
-}
-.stage-left-button-group-c{
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: flex-end;
-    flex-shrink: 0;
-    width: 420px;
-    height: 90px;
-    min-width: 420px;
-    position: relative;
-    overflow: hidden;
-}
-
-.stage-button-grab {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 0px 20px 0px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-}
-
-.stage-button-grab-icon {
-    flex-shrink: 0;
-    position: relative;
-    overflow: visible;
-}
-
-.stage-button-up {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 0px 20px 0px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-}
-
-.stage-button-up-icon {
-    flex-shrink: 0;
-    position: relative;
-    overflow: visible;
-}
-
-.stage-button-down {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 0px 20px 0px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-}
-
-.stage-button-down-icon {
-    flex-shrink: 0;
-    position: relative;
-    overflow: visible;
-}
-
-.stage-button-skip {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 0px 20px 0px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    min-height: 70px;
-    position: relative;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-}
-
-.stage-button-skip-text {
-    color: #000000;
-    text-align: center;
-    font: 400 25px "BM DoHyeon", sans-serif;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.stage-button-setting{
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 0px 20px 0px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    min-height: 70px;
-    position: relative;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-}
-.stage-button-Exit{
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 0px 20px 0px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    min-height: 70px;
-    position: relative;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-}
-
-.stage-left-body {
-    /* background: #bac1ff; */
-    align-self: stretch;
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-}
-.stage-left-body iframe{
-    margin: auto;
-    left: 0;
-    right: 0;
+/* 모달 백그라운드 */
+.frame-child {
+    position: absolute;
+    border-radius: 29px;
+    background-color: #fff;
+    box-shadow: 0 12px 14px 8px rgba(0, 0, 0, 0.15);
+    width: 46.94rem;
+    height: 31.69rem;
+    opacity: 1;
+  }
+  .createstagemodal-inner {
     position: absolute;
     top: 0;
-}
-
-.stage-right {
+    left: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: center;
-    flex: 1;
-    height: 790px;
-    min-width: 480px;
-    max-width: 600px;
-    position: relative;
-    overflow: hidden;
-}
-
-.stage-right-header {
-    padding: 15px 5px 15px 5px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-self: stretch;
-    flex-shrink: 0;
-    height: 100px;
-    position: relative;
-    overflow: hidden;
-}
-
-.stage-button-chat-icon {
-    flex-shrink: 0;
-    position: relative;
-    overflow: visible;
-}
-
-.rightbutton {
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 10px;
-    padding: 0px 20px 0px 20px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    align-self: stretch;
-    flex: 1;
-    position: relative;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-}
-
-.rightbutton:hover{
-    background:#eee;
-}
-
-.rightbutton:active{
-    background:#ccc;
-}
-.rightactive{
-    background:#fff;
-}
-.stage-button-people-icon {
-    flex-shrink: 0;
-    position: relative;
-    overflow: visible;
-}
-
-.stage-button-people-count {
-    color: #000000;
-    text-align: center;
-    font: 400 20px "BM DoHyeon", sans-serif;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* . {
-    color: #707070;
-    text-align: center;
-    font: 400 15px "BM DoHyeon", sans-serif;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-} */
-
-.stage-button-guest-count {
-    color: #707070;
-    text-align: center;
-    font: 400 15px "BM DoHyeon", sans-serif;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.stagechatwrapper {
-    border-radius: 10px;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
-    align-items: flex-start;
-    justify-content: center;
-    align-self: stretch;
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-}
-
-.stage-chat-body {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 10px 10px 0px 0px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
     align-items: flex-start;
     justify-content: flex-start;
-    align-self: stretch;
-    flex: 1;
-    position: relative;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-    overflow: auto;
-}
-
-.stage-chat-item {
-    padding: 5px;
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.stage-chat-item-user-img {
-    flex-shrink: 0;
-    width: 50px;
-    height: 50px;
-    position: relative;
-}
-
-.stage-chat-item-detail {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-}
-
-.stage-chat-item-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-}
-
-.stage-chat-item-writer {
-    color: #000000;
-    text-align: center;
-    font: 400 20px "BM DoHyeon", sans-serif;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.stage-chat-item-timestamp {
-    color: #666666;
-    text-align: center;
-    font: 400 15px "BM DoHyeon", sans-serif;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.stage-chat-item-msg {
-    color: #000000;
-    text-align: left;
-    font: 400 20px "BM DoHyeon", sans-serif;
-    position: relative;
-    align-self: stretch;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.stage-chat-tail {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 0px 0px 10px 10px;
-    border-style: solid;
-    border-color: #000000;
-    border-width: 1px 0px 0px 0px;
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    gap: 0px;
-    align-items: flex-start;
-    justify-content: center;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-}
-
-.stage-chat-input {
-    background: transparent;
-    border:0px;
-
-    flex: 1;
-    height: 60px;
-    position: relative;
-    overflow: hidden;
-}
-
-.stage-chat-send-button {
-    flex-shrink: 0;
-    position: relative;
-    overflow: visible;
-}
-
-.stagepeoplewrapper {
-    border-radius: 10px;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
-    align-items: flex-start;
-    justify-content: center;
-    flex: 1;
-    width: 480px;
-    position: relative;
-    overflow: hidden;
-}
-
-.stage-people-body {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: flex-start;
-    flex: 1;
-    width: 470px;
-    position: relative;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-}
-
-.stage-people-item {
-    padding: 5px 10px 5px 10px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.stage-people-img {
-    flex-shrink: 0;
-    width: 50px;
-    height: 50px;
-    position: relative;
-}
-
-.stage-people-nickname {
-    color: #000000;
-    text-align: center;
-    font: 400 20px "BM DoHyeon", sans-serif;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.stage-people-master-icon {
-    flex-shrink: 0;
-    position: relative;
-    overflow: visible;
-}
-
-.stage-people-vaild-icon {
-    flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    position: relative;
-}
-
-.vector6 {
+  }
+  .child,
+  .div1 {
     position: absolute;
-    left: 2.14px;
-    top: 2.14px;
-    overflow: visible;
-}
+  }
+  .child {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 8px;
+    background-color: #d0e0f4;
+  }
+  .div1 {
+    border:0;
+    outline: 0;
+    top: 35.94%;
+    left: 43.57%;
+    font-weight: 600;
+    box-shadow: 0px 0px 0px 0px #01939A;
+    background: rgba(185, 160, 255, 0.6);
+    border-radius: 5px;
+    color:#fff;
+    font-size: 12px;
+    cursor: pointer;
+  }
 
-.check {
+
+  .div,
+  .wrapper {
     position: absolute;
-    left: 12.86px;
-    top: 12.86px;
-    overflow: visible;
-}
-.setting-button{
-    border:none;
-    outline: none;
-    background: transparent;
-}
+    width: 37.35rem;
+    height: 4.53rem;
+  }
+  .div {
+    top: 0;
+    left: 0;
+  }
+  .wrapper {
+    top: 24rem;
+    left: 4.56rem;
+    color: #fff;
+  }
+  .createstagemodal-child {
+    position: absolute;
+    top: 25.38rem;
+    left: 33.19rem;
+    width: 3.03rem;
+    height: 1.81rem;
+  }
+  .wepli {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: 500;
+    display: inline-block;
+    width: 11.23rem;
+    height: 3.31rem;
+  }
+  .findmodaltitle,
+  .Makestage {
+    position: absolute;
+    opacity: 0.5;
+  }
+  .findmodaltitle {
+    top: 1.88rem;
+    left: 17.81rem;
+    width: 11.23rem;
+    height: 3.31rem;
+    font-size: 2.5rem;
+    border: none!important;
+  }
+  .Makestage {
+    top: 5.81rem;
+    left: 13.38rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    display: inline-block;
+    width: 20.31rem;
+  }
+  .group-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 8px;
+    background-color: #d0e0f4;
+    width: 16.06rem;
+    height: 11.44rem;
+  }
+  .input-file-button{
+    padding: 6px 25px;
+    background-color:#a649da;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    top:70px;
+    left: 33%;
+  }
+  .groupChildImage{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:50px;
+    margin:auto;
+  }
+  .div2 {
+    position: absolute;
+    top: 5.14rem;
+    left: 0.75rem;
+    font-weight: 500;
+    display: inline-block;
+    width: 14.56rem;
+    height: 1.16rem;
+  }
+  .rectangle-parent {
+    position: absolute;
+    top: 7.19rem;
+    left: 1.88rem;
+    width: 16.06rem;
+    height: 11.44rem;
+    font-size: 0.63rem;
+    color: #fff;
+  }
+  .mypageemailmodal-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2.5rem;
+    height: 2rem;
+    opacity: 0.5;
+  }
+  .group-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 8px;
+    background-color: #f4f4f5;
+    width: 19.45rem;
+    height: 2.25rem;
+  }
+  .container,
+  .div3,
+  .rectangle-group {
+    position: absolute;
+    width: 15.47rem;
+    height: 1.44rem;
+  }
+  .div3 {
+    top: 0;
+    left: -15px;
+    bottom: 10px;
+    margin:auto;
+    font-weight: 500;
+    display: inline-block;
+  }
+  .div3 input{
+    background-color: transparent!important;
+  }
+  .container,
+  .rectangle-group {
+    top: 0.81rem;
+    left: 1.69rem;
+  }
+  .rectangle-group {
+    top: 7.19rem;
+    left: 19.94rem;
+    width: 19.45rem;
+    height: 2.25rem;
+  }
+  .group-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 8px;
+    background-color: #f4f4f5;
+    width: 19.5rem;
+    height: 2.5rem;
+  }
+  .checkbox-,
+  .checkbox-wrapper {
+    position: absolute;
+    width: 17.38rem;
+    height: 1.19rem;
+  }
+  .checkbox- {
+    top: 0;
+    left: 0;
+    font-weight: 500;
+    display: inline-block;
+  }
+  .checkbox-wrapper {
+    top: 0.69rem;
+    left: 1.94rem;
+  }
+  .checkboxPW{
+    background-color: transparent;
+  }
+  .rectangle-container {
+    position: absolute;
+    top: 10rem;
+    left: 19.94rem;
+    width: 19.5rem;
+    height: 2.5rem;
+  }
+  .div4,
+  .frame {
+    position: absolute;
+    width: 14.88rem;
+    height: 1.19rem;
+  }
+  .div4 {
+    top: 0;
+    left: 30px;
+    font-weight: 500;
+    display: inline-block;
+    background-color: transparent;
+  }
+  .frame {
+    top: 0.69rem;
+    left:17px;
+  }
+  .frame2{
+    top:0.69rem;
+    position:absolute;
+    width: 14.99rem;
+    height: 1.19rem;
+    left: 45px;
+  }
+  .frameGenre{
+    background-color: transparent;
+  }
+  .frameDesc{
+    background-color: transparent;
+    width: 280px;
+  }
+  .group-div,
+  .rectangle-parent1 {
+    position: absolute;
+    top: 13.06rem;
+    left: 19.94rem;
+    width: 19.5rem;
+    height: 2.5rem;
+  }
+  .rectangle-parent2{
+    position: absolute;
+    top:19.06rem;
+    left:19.94rem;
+    width: 19.5rem;
+    height: 2.5rem;
+  }
+  .rectangle-parent1 {
+    top: 16.13rem;
+  }
+  .mypageemailmodal {
+    position: absolute;
+    top: 2.25rem;
+    left: 2.69rem;
+    width: 39.44rem;
+    height: 25.63rem;
+    overflow: hidden;
+    font-size: 0.94rem;
+    color: #a2a7ad;
+  }
+  .wplieonlylogo-4-icon {
+    position: absolute;
+    top: 1.69rem;
+    left: 34.69rem;
+    width: 6.31rem;
+    height: 7rem;
+    object-fit: cover;
+    opacity: 0.5;
+  }
+  .createstagemodal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin:auto;
+  }
+  .createstagemodal-parent {
+    position: fixed;
+    width: 1000px;
+    height: 700px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 1rem;
+    color: #000;
+    font-family: Inter;
+    z-index: 999;
+    top:200px;
+    left:400px;
+  }

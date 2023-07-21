@@ -10,7 +10,7 @@ import '../PlayStageCss/SettingModal.css';
 function SettingModal({setModalOpen}) {
  // const [address,setAdress] =('');
  const [title,setTitle] = useState('');
- const [desc,setDesc] = ('');
+ const [desc,setDesc] = useState('');
  const [genre,setGenre] = useState('');
  const [tag,setTag] = useState('');
  const [pw,setPw] = useState('');
@@ -95,7 +95,7 @@ function SettingModal({setModalOpen}) {
          <div className="div">
            <div className="child" />
            <form onSubmit={handleSubmit}>
-             <button type='submit' className='div1'>Stage 생성</button>                
+             <button type='submit' className='div1'>저장 완료</button>                
            </form>
          </div>
        </div>
@@ -105,7 +105,7 @@ function SettingModal({setModalOpen}) {
        <div className="findmodaltitle">
          <div className="wepli">WEPLi</div>
        </div>
-       <div className="Makestage">Stage 생성</div>
+       <div className="Makestage">Stage 설정</div>
        <div className="mypageemailmodal">
          <div className="rectangle-parent">
            <div className="group-child" />
@@ -157,6 +157,12 @@ function SettingModal({setModalOpen}) {
            <div className="frame">
              <input type='text' className='frameGenre' placeholder='장르입력' value={genre} onChange={(e)=>setGenre(e.target.value)}/>
            </div>
+         </div>
+         <div className='rectangle-parent2'>
+            <div className='group-inner'/>
+            <div className='frame2'>
+                <input type='text' className='frameDesc' placeholder='스테이지 소개글을 작성해주세요' value={desc} onChange={(e)=>setDesc(e.target.value)}/>
+            </div>
          </div>
        </div>
        <img

@@ -79,15 +79,22 @@ function PlayStage() {
     const showModal = () =>{
         setModalOpen(true);
     };
-    
+
     useEffect(() => {
         chatLogs.current.scrollTop = chatLogs.current.scrollHeight;
     }, [chatLog]);
-
+    //스테이지 삭제 버튼
+    const RemoveStage = () =>{
+        if(window.confirm("스테이지를 삭제하시겠습니까?(스테이지 삭제 시 스테이지에 저장된 정보는 모두 삭제됩니다.)")){
+            alert("삭제되었습니다.");   
+        }else{
+            return;
+        }
+    }
 
     return (
         <>
-            {isLoading ? <LoadingScreen msg="접속중입니다." /> : null}
+            {/* {isLoading ? <LoadingScreen msg="접속중입니다." /> : null} */}
             <div className="stage">
                 {/* {stageUrl} */}
                 <div className="stage-left">
@@ -194,8 +201,8 @@ function PlayStage() {
                         </button>
                         {modalOpen && <SettingModal setModalOpen={setModalOpen}/>}
                     </div>
-                    <div className='stage-button-Exit'>
-                    <svg 
+                    <div className='stage-button-Exit' onClick={RemoveStage}>
+                    <svg onCl
                         width="50" 
                         height="50" 
                         viewBox="0 0 40 40" 

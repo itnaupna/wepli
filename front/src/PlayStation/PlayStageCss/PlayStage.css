@@ -74,12 +74,18 @@
     background: #aaf
 }
 
+
 .stagebutton {
     background: #fff;
     cursor:pointer;
     user-select: none;
 }
-
+.stage-button-setting:hover{
+    background: #aaf;
+}
+.stage-button-Exit:hover{
+    background: #aaf;
+}
 .stage-button-stage {
     background: #fff;
     border-radius: 10px;
@@ -264,6 +270,7 @@
     min-height: 70px;
     position: relative;
     box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 }
 .stage-button-Exit{
     background: #ffffff;
@@ -278,6 +285,7 @@
     min-height: 70px;
     position: relative;
     box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 }
 
 .stage-left-body {
@@ -625,4 +633,5 @@
     border:none;
     outline: none;
     background: transparent;
+    cursor: pointer;
 }
