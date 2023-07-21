@@ -14,15 +14,12 @@ import FindPassModal from "../SideModal/FindPassModal";
 import SignUpModal from "../SideModal/SignUpModal";
 import axios from "axios";
 import PwChkModal from "../SideModal/PwChkModal";
-import FindIdSuccessModal from "../SideModal/FindIdSuccessModal";
-import FindPwChangeModal from "../SideModal/FindPwChangeModal";
+import { useRecoilState } from 'recoil';
+import { LoginStatusAtom } from '../recoil/LoginStatusAtom';
 
 
 function SideBar(props) {
 
-
-    const [FindPwChangeModalOpen, setFindPwChangeModalOpen]= useState(false);
-    const [FindIdSuccessModalOpen, setFindIdSuccessModalOpen] = useState(false);
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
     const [FindIdModalOpen, setFindIdModalOpen] = useState(false);
@@ -30,6 +27,7 @@ function SideBar(props) {
     const [SignUpModalOpen, setSignUpModalOpen] = useState(false);
     const [profileImage, setProfileImage] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [pwChkmodalOpen, setpwChkmodalOpen] = useState(false);
 
     // 프로필 이미지 꺼내기
@@ -45,6 +43,16 @@ function SideBar(props) {
             setIsLoggedIn(false);
         }
     }, []);
+
+    useEffect(()=>{
+        console.log(loginStatus);
+        try {
+            setProfileImage(JSON.parse(localStorage.data || sessionStorage.data)?.img);
+        } catch (error) {
+            console.log(error);
+        }
+    },[loginStatus])
+
 
     //로그인 모달 오픈
     const showModal = () => {
@@ -69,15 +77,15 @@ function SideBar(props) {
 
     // 로그아웃
     const onLogoutSubmit = () => {
-        const url = '/api/lv0/m/logout';
+        const url = '/api/lv1/m/logout';
         sessionStorage.removeItem('data');
         localStorage.removeItem('data');
-
+        navigate(window.location.pathname);
+        setLoginStatus(false);
         axios
             .post(url)
             .then(res => {
-                navigate(window.location.pathname);
-                window.location.reload();
+                // window.location.reload();
             })
             .catch(error => {
                 if (error.response && error.response.status === 405) {
@@ -127,30 +135,29 @@ function SideBar(props) {
                         <img className="icon" alt="" src={stage} />
                     </div>
                 </div>
-                <div style={{ position: 'relative', width: '50px' }}>
+                <div style={{position:'relative',width:'50px'}}>
                     <div className="sidemenumypagebutton sidemnubtn" onClick={handleProfileClick}>
-                        <img
-                            className="sidemenuuserimg-icon"
-                            alt=""
-                            src={isLoggedIn ? `${profileimg}/profile/${profileImage}` : defaultprofile}
-                        />
+                         <img className='sidemenuuserimg-icon' alt=''
+                        src={
+                            !(sessionStorage.data || localStorage.data) ? defaultprofile : `${profileimg}/profile/${JSON.parse(sessionStorage.data || localStorage.data).img}`
+                        }/>
+
                     </div>
                     {(sessionStorage.data || localStorage.data) && (
                         <div className="sidemenulogoutbutton" onClick={onLogoutSubmit}>
-                            <img className='icon2' alt="" src={logout} />
+                            <img className='icon2' alt="" src={logout}/>
                         </div>
                     )}
                 </div>
             </div>
             {modalOpen && <LoginModal setModalOpen={setModalOpen} setFindIdModalOpen={setFindIdModalOpen}
-                setFindPassModalOpen={setFindPassModalOpen} setSignUpModalOpen={setSignUpModalOpen}
-                setpwChkmodalOpen={setpwChkmodalOpen} setFindPwChangeModalOpen={setFindPwChangeModalOpen}/>}
-            {FindIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen} setFindIdSuccessModalOpen={setFindIdSuccessModalOpen} /> }
-            {FindPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen} setFindPwChangeModalOpen={setFindPwChangeModalOpen}/>}
+                                      setFindPassModalOpen={setFindPassModalOpen} setSignUpModalOpen={setSignUpModalOpen}
+                                      setpwChkmodalOpen={setpwChkmodalOpen} />}
+            {FindIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen} />}
+            {FindPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen} />}
             {SignUpModalOpen && <SignUpModal setSignUpModalOpen={setSignUpModalOpen} />}
             {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen} />}
-            {FindIdSuccessModalOpen && <FindIdSuccessModal setFindIdSuccessModalOpen={setFindIdSuccessModalOpen}/>}
-            {FindPwChangeModalOpen && <FindPwChangeModal setFindPwChangeModalOpen={setFindPwChangeModalOpen}/>}
+
         </>
 
     );

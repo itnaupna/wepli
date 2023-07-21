@@ -19,12 +19,12 @@ function Mypage(props) {
     let profile = '';
     if (data) {
         const parsedData = JSON.parse(data);
-        nick = parsedData[1];
-        profile = parsedData[5];
+        nick = parsedData.nick;
+        profile = parsedData.img;
         console.log(nick);
     }
 
-    const profileimg = process.env.REACT_APP_BUCKET_URL;
+    const bucket = process.env.REACT_APP_BUCKET_URL;
 
     const [isOutMemberModalOpen, setIsOutMemberModalOpen] = useState(false);
     const [isInfoChangeModalOpen, setIsInfoChangeModalOpen] = useState(false);
@@ -33,50 +33,6 @@ function Mypage(props) {
     const [isBlackListOptionModalOpen, setisBlackListOptionModalOpen] = useState(false);
     const [isFollowListModalOpen, setisFollowListModalOpen] = useState(false);
     const [memberProfile, setmemberProfile] = useState();
-    const [myinfo, setMyinfo] = useState(
-        {
-            email: "",
-            nick: "",
-            phone: "",
-            emailconfirm: "",
-            phoneconfirm: "",
-            img: "",
-            desc: "",
-            socialtype: "",
-            lstblack: [],
-            hidechat: 0,
-            mute: 0,
-            lstfollow: [],
-            lstpli: [
-                {
-                    idx: 0,
-                    title: "",
-                    makeday: "",
-                    ispublic: 0
-                }
-            ],
-            stagetitle: "",
-            stageaddress: ""
-        }
-    );
-
-    console.log(myinfo);
-    const [infonick, setInfonick] = useState('');
-
-    const handleGetInfo = async () => {
-        const mypage = "/api/lv1/m/mypage";
-
-        try {
-            const res = await axios.get(mypage, { params: { nick: infonick } });
-            console.log("마페이지 인포",res);
-            console.log("마페이지 인포",res.data);
-            setMyinfo(res.data);
-
-        } catch (error) {
-            alert(error);
-        }
-    }
-
 
     const showOutMemberModal = () => {
         setIsOutMemberModalOpen(true);
@@ -102,6 +58,7 @@ function Mypage(props) {
         setisFollowListModalOpen(true);
     }
 
+
     const memberProfileChange = (e) => {
         const uploadFile = new FormData();
         const url ="/api/lv1/m/profile";
@@ -117,12 +74,14 @@ function Mypage(props) {
         })
     }
 
+
     return (
         <div>
             <div className="mypageframe">
                 <div className="mypagelogoheader">
                     <div className="mypagemembernicknameframe">
                         <div className="memebersmypage">{nick}님 마이페이지</div>
+
                     </div>
                     <div className="mypageweplilogobox">
                         <img
@@ -140,13 +99,15 @@ function Mypage(props) {
                                 <div className="mypagechangeinfolabel">회원정보변경</div>
                             </div>
                         </div>
-                        <button type={'button'} onClick={handleGetInfo}>ddddx</button>
-                        <div className="mypagechangeinfobox" onClick={showEmailConfirmModal}>
-                            <div className="mypagechangeinfobutton">
-                                <div className="mypagechangeinfosurface"/>
-                                <div className="mypageemailsendlabel">이메일 인증</div>
-                            </div>
-                        </div>
+
+                                <div className="mypagechangeinfobox" onClick={showEmailConfirmModal}>
+                                    <div className="mypagechangeinfobutton">
+                                        <div className="mypagechangeinfosurface" />
+                                        <div className="mypageemailsendlabel">이메일 인증</div>
+                                    </div>
+                                </div>
+
+
                         <div className="mypagechangeinfobox" onClick={showPhoneConfirmModal}>
                             <div className="mypagechangeinfobutton">
                                 <div className="mypagechangeinfosurface"/>
@@ -196,7 +157,7 @@ function Mypage(props) {
                     <img
                         className="mypagememberprofileimg-icon"
                         alt=""
-                        src={`${profileimg}/profile/${profile}`}
+                        src={`${bucket}/profile/${profile}`}
                     />
                         <input
                             type="file"

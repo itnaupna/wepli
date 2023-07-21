@@ -14,6 +14,7 @@ function LoginModal({ setModalOpen, setFindIdModalOpen, setFindPassModalOpen, se
     const [pw, setPw] = useState('');
     const navi = useNavigate();
     const [isChecked, setIsChecked] = useState(false);
+    const [userData, setUserData] = useState(null);
 
     //로그인 모달 오픈
     const showFindIdModal = async () => {
@@ -48,6 +49,7 @@ function LoginModal({ setModalOpen, setFindIdModalOpen, setFindPassModalOpen, se
             if(res.data.result==="true"){
                 let data = JSON.stringify(res.data.data)
                 isChecked ? localStorage.setItem('data',data) : sessionStorage.setItem('data',data);
+                setUserData(JSON.parse(data));
                 navi(window.location.pathname);
                 setModalOpen(false);
             }else if(res.data.result==="error"){
@@ -58,6 +60,11 @@ function LoginModal({ setModalOpen, setFindIdModalOpen, setFindPassModalOpen, se
         })
 
     }
+
+    const data = sessionStorage.getItem('data') || localStorage.getItem('data');
+    useEffect(()=>{
+        localStorage.setItem("data",data);
+    },[data]);
 
     // 라디오 체크 onchange
     const handleRadioChange = (e) => {
