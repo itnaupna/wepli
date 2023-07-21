@@ -5,17 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "./Fonts/otf/font.css";
 import { RecoilRoot } from 'recoil';
-import RecoilNexus from 'recoil-nexus';
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <RecoilRoot>
-    {/* <RecoilNexus> */}
-    {/* <React.StrictMode> */}
+    <React.StrictMode>
       <App />
-    {/* </React.StrictMode> */}
-    {/* </RecoilNexus> */}
+    </React.StrictMode>
   </RecoilRoot>
 );
 
