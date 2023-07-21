@@ -35,7 +35,7 @@
     </select>
 
     <select id="selectCheckPhoneConfirm" parameterType="string">
-        select phoneconfirm from tblMember where phone=#{phone}
+        select count(phoneconfirm) from tblMember where phone=#{phone}
     </select>
 
     <update id="updateEmailConfirm" parameterType="string">

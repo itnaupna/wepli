@@ -30,7 +30,7 @@ function FindIdModal({setFindIdModalOpen,setFindIdSuccessModalOpen}) {
 
         try {
             const res = await axios.post(url, { type: 1, key: verifyKey, email: verifyKey, phone: verifyKey });
-            console.log(res);
+            console.log("아이디 찾기",res);
             if (res.data === true) {
                 setResultRV(res.data);
                 alert("인증 성공");
@@ -62,6 +62,7 @@ function FindIdModal({setFindIdModalOpen,setFindIdSuccessModalOpen}) {
                 setRecoveredEmail(res.data);
                 alert('인증 성공!');
             } else {
+                console.log(res.data);
                 setRecoveredEmail(null);
                 alert('해당 전화번호로 가입된 아이디가 없습니다.');
             }

@@ -15,8 +15,10 @@ import KakaoCallback from "./KakaoCallback";
 import Mypage from "./mypage/Mypage";
 import { useRecoilState } from 'recoil';
 import { VideoInfoAtom } from './recoil/VideoInfoAtom';
+import { LoginStatusAtom } from '../src/recoil/LoginStatusAtom';
 function App() {
     const [videoInfo, setVideoInfo] = useRecoilState(VideoInfoAtom);
+    const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
 
     return (
         <BrowserRouter>
@@ -26,7 +28,7 @@ function App() {
             <div className="backgroundImgDiv" />
             <Routes>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/mypage" element={sessionStorage.getItem("data")!=null?<Mypage/>:<MainPage/>}/>
+                {loginStatus ? <Route path="/mypage" element={<Mypage />} /> : null}
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
                 <Route path="/pli/:pliId" element={<PlayListDetail />} />

@@ -6,6 +6,9 @@ import logo from "./photo/weplieonlylogoonlylogo.png";
 import arrow from "./svg/backarrow.svg";
 import axios from "axios";
 import {Await, useLocation, useNavigate} from "react-router-dom";
+import { LoginStatusAtom } from '../recoil/LoginStatusAtom';
+import {useRecoilState} from "recoil";
+
 
 
 function LoginModal({ setModalOpen, setFindIdModalOpen, setFindPassModalOpen, setSignUpModalOpen }) {
@@ -15,7 +18,7 @@ function LoginModal({ setModalOpen, setFindIdModalOpen, setFindPassModalOpen, se
     const navi = useNavigate();
     const [isChecked, setIsChecked] = useState(false);
     const [userData, setUserData] = useState(null);
-
+    const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
     //로그인 모달 오픈
     const showFindIdModal = async () => {
         await setModalOpen(false);
@@ -47,6 +50,8 @@ function LoginModal({ setModalOpen, setFindIdModalOpen, setFindPassModalOpen, se
             { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
         ).then(res=>{
             if(res.data.result==="true"){
+                setLoginStatus(true);
+                console.log("로그인 시 ",setLoginStatus);
                 let data = JSON.stringify(res.data.data)
                 isChecked ? localStorage.setItem('data',data) : sessionStorage.setItem('data',data);
                 setUserData(JSON.parse(data));
@@ -87,10 +92,9 @@ function LoginModal({ setModalOpen, setFindIdModalOpen, setFindPassModalOpen, se
     const location = useLocation();
     const params = new URL(document.location.toString()).searchParams;
     const code = new URL(window.location.href).searchParams.get("code");
-    console.log(params);
-    console.log(code);
+
     const PARAMS = new URL(document.location).searchParams
-    console.log(PARAMS);
+
     // const KAKAO_CODE = PARAMS.get('code');
 
 

@@ -74,7 +74,6 @@ function Mypage(props) {
         })
     }
 
-
     return (
         <div>
             <div className="mypageframe">

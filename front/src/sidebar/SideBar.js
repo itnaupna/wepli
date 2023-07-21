@@ -30,19 +30,6 @@ function SideBar(props) {
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [pwChkmodalOpen, setpwChkmodalOpen] = useState(false);
 
-    // 프로필 이미지 꺼내기
-    useEffect(() => {
-        const storedData = window.sessionStorage.getItem('data') ||
-            window.localStorage.getItem('data');
-        if (storedData) {
-            setIsLoggedIn(true);
-            const data = JSON.parse(storedData);
-            const profileImg = data[5];
-            setProfileImage(profileImg);
-        } else {
-            setIsLoggedIn(false);
-        }
-    }, []);
 
     useEffect(()=>{
         console.log(loginStatus);
@@ -100,9 +87,8 @@ function SideBar(props) {
     // 로그인 했을때 -> 마이페이지
     // 로그인 안했을때 -> 로그인모달
     const handleProfileClick = () => {
-        const isLoggedIn = sessionStorage.getItem('data') ||
-            localStorage.getItem('data');
-        if (isLoggedIn) {
+
+        if (loginStatus) {
             showpwChkModal();
             // navigate('/mypage');
         } else {
@@ -137,17 +123,23 @@ function SideBar(props) {
                 </div>
                 <div style={{position:'relative',width:'50px'}}>
                     <div className="sidemenumypagebutton sidemnubtn" onClick={handleProfileClick}>
-                         <img className='sidemenuuserimg-icon' alt=''
-                        src={
-                            !(sessionStorage.data || localStorage.data) ? defaultprofile : `${profileimg}/profile/${JSON.parse(sessionStorage.data || localStorage.data).img}`
-                        }/>
 
+                        <img
+                            className="sidemenuuserimg-icon"
+                            alt=""
+                            src={loginStatus ? `${profileimg}/profile/${profileImage}` : defaultprofile}
+                        />
                     </div>
-                    {(sessionStorage.data || localStorage.data) && (
-                        <div className="sidemenulogoutbutton" onClick={onLogoutSubmit}>
-                            <img className='icon2' alt="" src={logout}/>
-                        </div>
-                    )}
+                    {/*{(sessionStorage.data !=null || localStorage.data !=null) && (*/}
+                    {/*    <div className="sidemenulogoutbutton" onClick={onLogoutSubmit}>*/}
+                    {/*        <img className='icon2' alt="" src={logout}/>*/}
+                    {/*    </div>*/}
+                    {/*)}*/}
+                    {
+                        loginStatus ? <div className="sidemenulogoutbutton" onClick={onLogoutSubmit}>
+                                    <img className='icon2' alt="" src={logout}/>
+                              </div> : null
+                    }
                 </div>
             </div>
             {modalOpen && <LoginModal setModalOpen={setModalOpen} setFindIdModalOpen={setFindIdModalOpen}
