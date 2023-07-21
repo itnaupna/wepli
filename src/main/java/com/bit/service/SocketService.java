@@ -1,5 +1,6 @@
 package com.bit.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class SocketService {
     public void SendMsg(SocketDto msg) {
         switch (msg.getType()) {
             case ENTER:
+                // Map<String, Object> data = new HashMap<>();
+                // data.put("count", stageService.getUserCount(msg.getStageId()));
+                // msg.setMsg(data);
                 break;
             case EXIT:
                 break;

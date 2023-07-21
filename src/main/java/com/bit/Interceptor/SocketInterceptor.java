@@ -61,7 +61,7 @@ public class SocketInterceptor implements ChannelInterceptor {
             System.out.println(sDto);
         } catch (Exception e) {
         }
-        
+
         String type = message.getHeaders().get("simpMessageType").toString();
         Object sessionId = message.getHeaders().get("simpSessionId");
         Object dest = message.getHeaders().get("simpDestination");
@@ -69,10 +69,10 @@ public class SocketInterceptor implements ChannelInterceptor {
 
         switch (type) {
             case "CONNECT":
-            System.out.println("소켓접속");
+                System.out.println("소켓접속");
                 break;
             case "SUBSCRIBE":
-            System.out.println("소켓구독");
+                System.out.println("소켓구독");
                 destStr = dest.toString().split(SUB_PREFIX)[1];
                 userPosition.put(sessionId.toString(), destStr);
                 stageService.addUser(destStr, sessionId.toString());
@@ -81,17 +81,24 @@ public class SocketInterceptor implements ChannelInterceptor {
             case "MESSAGE":
                 break;
             case "DISCONNECT":
-            System.out.println("소켓끊김");
-            try {
-                destStr = userPosition.get(sessionId.toString());
-                userPosition.remove(sessionId.toString());
-                stageService.subUser(destStr, sessionId.toString());
-                System.out.println(destStr + stageService.getUserCount(destStr));
-            } catch (Exception e) {
-            }
+                System.out.println("소켓끊김");
+                try {
+                    destStr = userPosition.get(sessionId.toString());
+                    userPosition.remove(sessionId.toString());
+                    stageService.subUser(destStr, sessionId.toString());
+                    System.out.println(destStr + stageService.getUserCount(destStr));
+                } catch (Exception e) {
+                }
                 break;
             case "UNSUBSCRIBE":
-            System.out.println("소켓구취");
+                System.out.println("소켓구취");
+                try {
+                    destStr = userPosition.get(sessionId.toString());
+                    userPosition.remove(sessionId.toString());
+                    stageService.subUser(destStr, sessionId.toString());
+                    System.out.println(destStr + stageService.getUserCount(destStr));
+                } catch (Exception e) {
+                }
                 break;
 
             default:

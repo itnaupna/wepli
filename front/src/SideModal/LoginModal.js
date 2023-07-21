@@ -6,10 +6,12 @@ import logo from "./photo/weplieonlylogoonlylogo.png";
 import arrow from "./svg/backarrow.svg";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useRecoilState } from 'recoil';
+import { LoginStatusAtom } from '../recoil/LoginStatusAtom';
 
 
 function LoginModal({ setModalOpen, setFindIdModalOpen, setFindPassModalOpen, setSignUpModalOpen }) {
-
+    const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
     const navi = useNavigate();
@@ -47,8 +49,9 @@ function LoginModal({ setModalOpen, setFindIdModalOpen, setFindPassModalOpen, se
             if(res.data.result==="true"){
                 let data = JSON.stringify(res.data.data)
                 isChecked ? localStorage.setItem('data',data) : sessionStorage.setItem('data',data);
-                navi(window.location.pathname);
                 setModalOpen(false);
+                setLoginStatus(true);
+                navi(window.location.pathname);
             }else if(res.data.result==="error"){
                 alert('로그인에 실패하였습니다.');
             }

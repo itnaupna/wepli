@@ -14,6 +14,8 @@ import FindPassModal from "../SideModal/FindPassModal";
 import SignUpModal from "../SideModal/SignUpModal";
 import axios from "axios";
 import PwChkModal from "../SideModal/PwChkModal";
+import { useRecoilState } from 'recoil';
+import { LoginStatusAtom } from '../recoil/LoginStatusAtom';
 
 
 function SideBar(props) {
@@ -25,6 +27,7 @@ function SideBar(props) {
     const [SignUpModalOpen, setSignUpModalOpen] = useState(false);
     const [profileImage, setProfileImage] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [pwChkmodalOpen, setpwChkmodalOpen] = useState(false);
 
     // 프로필 이미지 꺼내기
@@ -40,6 +43,16 @@ function SideBar(props) {
             setIsLoggedIn(false);
         }
     }, []);
+
+    useEffect(()=>{
+        console.log(loginStatus);
+        try {
+            setProfileImage(JSON.parse(localStorage.data || sessionStorage.data)?.img);
+        } catch (error) {
+            console.log(error);
+        }
+    },[loginStatus])
+
 
     //로그인 모달 오픈
     const showModal = () => {
@@ -68,7 +81,7 @@ function SideBar(props) {
         sessionStorage.removeItem('data');
         localStorage.removeItem('data');
         navigate(window.location.pathname);
-
+        setLoginStatus(false);
         axios
             .post(url)
             .then(res => {
@@ -124,10 +137,15 @@ function SideBar(props) {
                 </div>
                 <div style={{position:'relative',width:'50px'}}>
                     <div className="sidemenumypagebutton sidemnubtn" onClick={handleProfileClick}>
+                        {/* <img className='sidemenuuserimg-icon' alt='' 
+                        src={
+                            !(sessionStorage.data || localStorage.data) ? defaultprofile : `${profileimg}/profile/${JSON.parse(sessionStorage.data || localStorage.data).img}`
+                        }/> */}
+                        
                         <img
                             className="sidemenuuserimg-icon"
                             alt=""
-                            src={isLoggedIn ? `${profileimg}/profile/${profileImage}` : defaultprofile}
+                            src={loginStatus ? `${profileimg}/profile/${profileImage}` : defaultprofile}
                         />
                     </div>
                     {(sessionStorage.data || localStorage.data) && (

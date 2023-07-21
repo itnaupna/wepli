@@ -15,14 +15,10 @@ import {useEffect, useState} from "react";
 import KakaoCallback from "./KakaoCallback";
 import Mypage from "./mypage/Mypage";
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { VideoInfoAtom } from './recoil/VideoInfoAtom';
+// import { VideoInfoAtom } from './recoil/VideoInfoAtom';
 import { SocketAtom } from './recoil/SocketAtom';
-import { useEffect } from 'react';
-import { Stomp } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
-import { getRecoil } from 'recoil-nexus';
 function App() {
-    const [videoInfo, setVideoInfo] = useRecoilState(VideoInfoAtom);
+    // const [videoInfo, setVideoInfo] = useRecoilState(VideoInfoAtom);
     const [socketAtom, setSocketAtom] = useRecoilState(SocketAtom);
     // const socketAtom = userecoil
 
@@ -36,7 +32,7 @@ function App() {
     return (
         <BrowserRouter>
             <SideBar />
-            {videoInfo.isPlaying ? <MusicPlayerBar /> : null}
+            {/* {videoInfo.isPlaying ? <MusicPlayerBar /> : null} */}
             {/*<MusicPlayerBar/>*/}
             <div className="backgroundImgDiv" />
             <Routes>
