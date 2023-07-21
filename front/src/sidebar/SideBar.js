@@ -64,15 +64,15 @@ function SideBar(props) {
 
     // 로그아웃
     const onLogoutSubmit = () => {
-        const url = '/api/lv1/m/logout';
+        const url = '/api/lv0/m/logout';
         sessionStorage.removeItem('data');
         localStorage.removeItem('data');
-        navigate(window.location.pathname);
 
         axios
             .post(url)
             .then(res => {
-                // window.location.reload();
+                navigate(window.location.pathname);
+                window.location.reload();
             })
             .catch(error => {
                 if (error.response && error.response.status === 405) {
@@ -122,7 +122,7 @@ function SideBar(props) {
                         <img className="icon" alt="" src={stage} />
                     </div>
                 </div>
-                <div style={{position:'relative',width:'50px'}}>
+                <div style={{ position: 'relative', width: '50px' }}>
                     <div className="sidemenumypagebutton sidemnubtn" onClick={handleProfileClick}>
                         <img
                             className="sidemenuuserimg-icon"
@@ -132,7 +132,7 @@ function SideBar(props) {
                     </div>
                     {(sessionStorage.data || localStorage.data) && (
                         <div className="sidemenulogoutbutton" onClick={onLogoutSubmit}>
-                            <img className='icon2' alt="" src={logout}/>
+                            <img className='icon2' alt="" src={logout} />
                         </div>
                     )}
                 </div>
