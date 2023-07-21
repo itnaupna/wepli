@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.bit.dto.BuiltStageDto;
 import com.bit.dto.MemberDto;
 import com.bit.dto.StageDto;
+import com.bit.dto.StageHistoryDto;
 import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.BlacklistMapper;
 import com.bit.mapper.MemberMapper;
@@ -160,6 +161,23 @@ public class StageService {
         return sMapper.selectSearchStage(searchAndBlack, data, typeString[(type == null ? 4 : Integer.parseInt(type))]);
 
     }
+
+    public boolean insertStageHistory(StageHistoryDto shDto) {
+        return sMapper.insertStageHistory(shDto) > 0;
+    }
+
+    public List<Map<String, Object>> selectStageHistory(String stageaddress){
+        return sMapper.selectStageHistory(stageaddress);
+    }
+
+    public boolean selectCheckAddress(String address){
+        return sMapper.selectCheckAddress(address) > 0;
+    }
+
+    
+
+
+
 
     // public List<StageDto> SearchStages(int type, String queryString, String
     // token) {

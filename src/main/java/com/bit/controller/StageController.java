@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bit.dto.MypageDto;
 import com.bit.dto.StageDto;
+import com.bit.dto.StageHistoryDto;
 import com.bit.service.ImgUploadService;
 import com.bit.service.MemberService;
 import com.bit.service.StageService;
@@ -100,10 +101,23 @@ public class StageController {
         return imgUploadService.uploadImg(token, "stage", upload);
     }
 
-    //유저 정보 불러오기
-    @GetMapping("/lv1/s/userinfo")
-    public MypageDto getMypageDto(@CookieValue String token, @RequestParam(required = false) String userNick) {
-        return mService.selectMypageDto(token, userNick); 
+    // 스테이지 히스토리 추가
+    @PostMapping("/lv2/s/stagehistory")
+    public boolean postStageHistory(@RequestBody StageHistoryDto shDto) {
+        return sService.insertStageHistory(shDto);
+    }
+
+    // 스테이지 히스토리 불러오기
+    @GetMapping("/lv2/s/stagehistory")
+    public List<Map<String, Object>> selectStageHistory(@RequestParam String stageaddress){
+        return sService.selectStageHistory(stageaddress);
+    }
+    
+    // 스테이지 주소 중복체크
+    // 중복이면 true 반환
+    @GetMapping("/lv2/s/stageaddress")
+    public boolean getStageAddress(@RequestParam String address) {
+        return sService.selectCheckAddress(address);
     }
     
 
