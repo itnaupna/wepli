@@ -15,8 +15,10 @@ import PlayListDetailOption from "../MainIMG/PlayListDetailOption.png";
 import PlayListDetailDelete from "../MainIMG/PlayListDetailDelete.png";
 import PlayListDetailCommentDelete from "../MainIMG/PlayListDetailCommentDelete.png";
 import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
+import {useNavigate} from "react-router-dom";
 
 const PlayListDetail = () => {
+    const bucketURl = process.env.REACT_APP_BUCKET_URL;
     const onIconsClick = useCallback(() => {
         // Please sync "PlayListMain03MyPlayListMain" to the project
     }, []);
@@ -25,6 +27,11 @@ const PlayListDetail = () => {
         // Please sync "PlayListMain03MyPlayListMain" to the project
     }, []);
 
+    const closBacknavigate = useNavigate();
+
+    const closBack = () =>{
+        closBacknavigate(-1);
+    };
 
     return (
         <div className="playlistdetailframe">
@@ -214,6 +221,7 @@ const PlayListDetail = () => {
                     className="playlistdetailclose-icon"
                     alt=""
                     src={PlayListDetailClose}
+                    onClick={closBack}
                 />
             </div>
         </div>

@@ -119,7 +119,7 @@
 
 
     <insert id="insertPlaylist" parameterType="PlaylistDto">
-          insert into tblPlaylist (title, desc, genre, tag, img, isPublic, nick)
+          insert into tblPlaylist (title, `desc`, genre, tag, img, isPublic, nick)
           values (#{title},#{desc},#{genre},#{tag},#{img},#{isPublic},#{nick})
     </insert>
 

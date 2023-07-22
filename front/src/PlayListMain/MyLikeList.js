@@ -6,6 +6,7 @@ import Axios from "axios";
 import Molu from "../MainIMG/Molu.gif";
 import Follow from "../MainIMG/Follow.png";
 import MusicList from "../MainIMG/MusicList.png";
+import dayjs from "dayjs";
 
 function MyLikeList({item, idx}) {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
@@ -17,11 +18,11 @@ function MyLikeList({item, idx}) {
             <img
                 className="playlistrankinglistitemthumbna-icon"
                 alt=""
-                src={Aru}
+                src={`${bucketURl}${item.img}`}
             />
             <div className="playlistrankinglistiteminfo1">
                 <div className="playlistrankinglistitemtitle">
-                    열글자까지가능합니다
+                    {item.title}
                 </div>
                 <div className="playlistrankinglistitemowner">
                     {item.nick}
@@ -29,10 +30,10 @@ function MyLikeList({item, idx}) {
             </div>
             <div className="playlistrankinglistiteminfo2">
                 <div className="playlistrankinglistitemmakeday">
-                    생성일 : 2024-07-05
+                    생성일 : {dayjs(item.makeday).format('YYYY-MM-DD')}
                 </div>
                 <div className="playlistrankinglistitemlikegro">
-                    <div className="playlistrankinglistitemlikenum">1000</div>
+                    <div className="playlistrankinglistitemlikenum">{item.likescount}</div>
                     <img
                         className="playlistrankinglistitemlikeico-icon"
                         alt=""
@@ -41,10 +42,10 @@ function MyLikeList({item, idx}) {
                 </div>
                 <div className="playlistrankinglistitemtags">
                     <div className="playlistrankinglistitemcategor">
-                        #발라드
+                        {item.genre===""?null:"#" + item.genre?.split(",")[0]}
                     </div>
                     <div className="playlistrankinglistitemcategor">
-                        #치킨을 먹고싶다
+                        {item.tag === ""?null:"#" + item.tag.split(",")[0]}
                     </div>
                 </div>
             </div>

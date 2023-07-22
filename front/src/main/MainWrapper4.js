@@ -50,7 +50,7 @@ function MainWrapper4(props) {
                                     <img
                                         className="mainwrapper4secondrankimg-icon"
                                         alt=""
-                                        src={`${profileimg}/playlist/${img1}`}
+                                        src={`${profileimg}${img1}`}
                                     />
                                 </div>
                                 <div className="mainwrapper4secondrankingtextg">
@@ -67,7 +67,7 @@ function MainWrapper4(props) {
                                     <img
                                         className="mainwrapper4firstrankimg-icon"
                                         alt=""
-                                        src={`${profileimg}/playlist/${img}`}
+                                        src={`${profileimg}${img}`}
                                     />
                                 </div>
                                 <div className="mainwrapper4firstrankingtextgr">
@@ -84,7 +84,7 @@ function MainWrapper4(props) {
                                     <img
                                         className="mainwrapper4thirdrankimg-icon"
                                         alt=""
-                                        src={`${profileimg}/playlist/${img2}`}
+                                        src={`${profileimg}${img2}`}
                                     />
                                 </div>
                                 <div className="mainwrapper4thirdrankingtextgr">

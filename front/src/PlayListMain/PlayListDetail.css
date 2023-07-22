@@ -94,6 +94,7 @@
     -webkit-line-clamp: 64;
     -webkit-box-orient: vertical;
     width: 42.81rem;
+    height: 60px;
 }
 .playlistdetaillikebutton-icon,
 .playlistdetailplaybutton-icon {

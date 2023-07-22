@@ -23,7 +23,6 @@ function MyPliSlider() {
         };
         const bucketURl = process.env.REACT_APP_BUCKET_URL;
         const [myPliL, setMyPli] = useState([]);
-        const [noLogin , setNoLogin] = useState("내 플레이 리스트가 없습니다.");
 
         useEffect(()=>{
             if(sessionStorage.getItem("data")!=null) {
@@ -31,22 +30,22 @@ function MyPliSlider() {
                 Axios.get(myPliLUrl)
                     .then(res =>
                         setMyPli(res.data));
-            }else{
             }
-            setNoLogin("로그인 후 이용해주세요");
         },[]);
 
         return (
             <div className="MyPliSliderBody">
                 <Slider {...settings}>
                     {
-                        myPliL.length === 0? <h1 className="NoLogin">{noLogin}</h1>:
+                        sessionStorage.getItem("data") == null? <h1 className="NoLogin">로그인 후 이용 가능합니다</h1>:
+                        myPliL === undefined ?<h1 className="NoLogin">Loading...</h1>:
+                        myPliL.length === 0? <h1 className="NoLogin">내 플레이 리스트가 없습니다</h1>:
                         myPliL.map((item,idx) =>
                         <div className="myplaylistitem" key={idx}>
                             <img
                             className="myplaylistitemBgImg"
                             alt=""
-                            src={`${bucketURl}/playlist/${item.img}`}
+                            src={`${bucketURl}${item.img}`}
                         />
                             <div className="myplaylistitembottom">
                                 <div className="myplaylistiteminfo">
@@ -93,7 +92,7 @@ function MyPliSlider() {
                                 <img
                                     className="myplaylistitemthumbnail-icon"
                                     alt=""
-                                    src={`${bucketURl}/playlist/${item.img}`}
+                                    src={`${bucketURl}${item.img}`}
                                 />
                             </div>
                         </div>

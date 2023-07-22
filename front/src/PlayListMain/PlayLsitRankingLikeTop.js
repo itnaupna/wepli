@@ -14,7 +14,7 @@ function PlayLsitRankingLikeTop({item, ranking}) {
                 <img
                     className="playlistrankinglistitemthumbna-icon"
                     alt=""
-                    src={`${bucketURl}/playlist/${item.img}`}
+                    src={`${bucketURl}${item.img}`}
                 />
                 <div className="playlistrankinglistiteminfo1">
                     <div className="playlistrankinglistitemtitle">
