@@ -6,8 +6,6 @@ import home from "./svg/homeicon.svg";
 import stage from "./svg/stageicon.svg";
 import list from "./svg/musiclisticon.svg";
 import logout from "./photo/logout.png";
-import cover from "./svg/albumcover.svg";
-
 import LoginModal from "../SideModal/LoginModal";
 import FindIdModal from "../SideModal/FindIdModal";
 import FindPassModal from "../SideModal/FindPassModal";
@@ -16,21 +14,29 @@ import axios from "axios";
 import PwChkModal from "../SideModal/PwChkModal";
 import { useRecoilState } from 'recoil';
 import { LoginStatusAtom } from '../recoil/LoginStatusAtom';
-
+import {
+    findIdModalOpenState,
+    findIdSuccessModalOpenState,
+    LoginModalOpen,
+    pwChkModalOpen,
+    FindPassModalOpen,
+    SignUpModalOpen, FindPwChangeModalOpen
+} from "../recoil/FindIdModalAtom";
+import FindIdSuccessModal from "../SideModal/FindIdSuccessModal";
 
 function SideBar(props) {
 
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
-    const [FindIdModalOpen, setFindIdModalOpen] = useState(false);
-    const [FindPassModalOpen, setFindPassModalOpen] = useState(false);
-    const [SignUpModalOpen, setSignUpModalOpen] = useState(false);
+    const [signUpModalOpen, setSignUpModalOpen] = useRecoilState(SignUpModalOpen);
     const [profileImage, setProfileImage] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
-    const [pwChkmodalOpen, setpwChkmodalOpen] = useState(false);
-
-
+    const [pwChkmodalOpen, setpwChkmodalOpen] = useRecoilState(pwChkModalOpen);
+    const [findIdModalOpen, setFindIdModalOpen] = useRecoilState(findIdModalOpenState);
+    const [loginmodalopen, setloginmodalopen] = useRecoilState(LoginModalOpen);
+    const [findIdSuccessModalOpen,setfindIdSuccessModalOpen] =useRecoilState(findIdSuccessModalOpenState);
+    const [findPassModalOpen, setFindPassModalOpen] = useRecoilState(FindPassModalOpen);
+    const [findPwChangeModalOpen,setFindPwChangeModalOpen] = useRecoilState(FindPwChangeModalOpen);
     useEffect(()=>{
         console.log(loginStatus);
         try {
@@ -38,12 +44,12 @@ function SideBar(props) {
         } catch (error) {
             console.log(error);
         }
-    },[loginStatus])
+    },[loginStatus]);
 
-
+    {/* 사이드 메뉴 이동 */}
     //로그인 모달 오픈
     const showModal = () => {
-        setModalOpen(true);
+        setloginmodalopen(true);
     }
 
     //플레이리스트 이동
@@ -61,8 +67,9 @@ function SideBar(props) {
     const handleStageClick = () => {
         navigate('/stage');
     };
+    {/* 끝 */}
 
-    // 로그아웃
+    {/* 로그아웃 */}
     const onLogoutSubmit = () => {
         const url = '/api/lv1/m/logout';
         sessionStorage.removeItem('data');
@@ -84,27 +91,25 @@ function SideBar(props) {
             });
     };
 
-    // 로그인 했을때 -> 마이페이지
-    // 로그인 안했을때 -> 로그인모달
-    const handleProfileClick = () => {
 
+    {/*
+    로그인 했을때 -> 마이페이지
+    로그인 안했을때 -> 로그인모달
+    */}
+
+    const handleProfileClick = () => {
         if (loginStatus) {
-            showpwChkModal();
-            // navigate('/mypage');
+            setpwChkmodalOpen(true);
         } else {
             showModal();
         }
     };
 
-    // 버킷 주소
-    const profileimg = process.env.REACT_APP_BUCKET_URL;
+    {/* 버밋 url */}
+    const bucket = process.env.REACT_APP_BUCKET_URL;
 
-    // 로고 디폴트 이미지
+    {/* 로고 default 이미지 */}
     const defaultprofile = weplilogo;
-
-    const showpwChkModal = async () => {
-        setpwChkmodalOpen(true);
-    };
 
     return (
         <>
@@ -127,7 +132,7 @@ function SideBar(props) {
                         <img
                             className="sidemenuuserimg-icon"
                             alt=""
-                            src={loginStatus ? `${profileimg}/profile/${profileImage}` : defaultprofile}
+                            src={loginStatus ? `${bucket}/profile/${profileImage}` : defaultprofile}
                         />
                     </div>
                     {/*{(sessionStorage.data !=null || localStorage.data !=null) && (*/}
@@ -142,13 +147,14 @@ function SideBar(props) {
                     }
                 </div>
             </div>
-            {modalOpen && <LoginModal setModalOpen={setModalOpen} setFindIdModalOpen={setFindIdModalOpen}
+            {loginmodalopen && <LoginModal setloginmodalopen={setloginmodalopen} setFindIdModalOpen={setFindIdModalOpen}
                                       setFindPassModalOpen={setFindPassModalOpen} setSignUpModalOpen={setSignUpModalOpen}
                                       setpwChkmodalOpen={setpwChkmodalOpen} />}
-            {FindIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen} />}
-            {FindPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen} />}
-            {SignUpModalOpen && <SignUpModal setSignUpModalOpen={setSignUpModalOpen} />}
+            {findIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen} setfindIdSuccessModalOpen={setfindIdSuccessModalOpen}/>}
+            {findPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen} setfindPwChangeModalOpen={findPwChangeModalOpen} />}
+            {signUpModalOpen && <SignUpModal setSignUpModalOpen={setSignUpModalOpen} />}
             {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen} />}
+            {findIdSuccessModalOpen && <FindIdSuccessModal setfindIdSuccessModalOpen={setfindIdSuccessModalOpen}/> }
 
         </>
 

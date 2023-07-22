@@ -9,20 +9,30 @@ import PhoneConfirmModal from "../MypageModal/PhoneConfirmModal";
 import BlackListOptionModal from "../MypageModal/BlackListOptionModal";
 import FollowListModal from "../MypageModal/FollowListModal";
 import axios from "axios";
+import {useRecoilState} from "recoil";
+import {LoginStatusAtom} from "../recoil/LoginStatusAtom";
 
 function Mypage(props) {
 
 
     const data = sessionStorage.getItem('data') || localStorage.getItem('data');
     console.log("d",data);
-    let nick = '';
+    let userNick = '';
     let profile = '';
     if (data) {
         const parsedData = JSON.parse(data);
-        nick = parsedData.nick;
+        userNick = parsedData.nick;
         profile = parsedData.img;
-        console.log(nick);
+        console.log(userNick);
     }
+
+    const nick1= JSON.parse(data);
+    const nick = nick1.nick;
+    const parsedData = JSON.parse(data);
+    const emailconfirm = parsedData.emailconfirm;
+    console.log(emailconfirm);
+    console.log("제이슨",nick);
+
 
     const bucket = process.env.REACT_APP_BUCKET_URL;
 
@@ -32,8 +42,8 @@ function Mypage(props) {
     const [isPhoneConfirmModalOpen, setisPhoneConfirmModalOpen] = useState(false);
     const [isBlackListOptionModalOpen, setisBlackListOptionModalOpen] = useState(false);
     const [isFollowListModalOpen, setisFollowListModalOpen] = useState(false);
-    const [memberProfile, setmemberProfile] = useState();
-
+    const [memberProfile, setmemberProfile] = useState('');
+    const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
     const showOutMemberModal = () => {
         setIsOutMemberModalOpen(true);
     };
@@ -61,25 +71,46 @@ function Mypage(props) {
 
     const memberProfileChange = (e) => {
         const uploadFile = new FormData();
-        const url ="/api/lv1/m/profile";
+        const url = "/api/lv1/m/profile";
         uploadFile.append("upload", e.target.files[0]);
-        console.log(e.target.files[0]);
+
+        console.log("프사변경", e.target.files[0]);
+
         axios({
             method: "post",
             url: url,
             data: uploadFile,
-            headers: {"Content-Type" : "multipart/form-data"}
+            headers: { "Content-Type": "multipart/form-data" }
         }).then(res => {
-            setmemberProfile(res.data);
-        })
+            const mypageurl = "/api/lv1/m/mypage";
+            axios({
+                method: "get",
+                url: mypageurl,
+                data: {userNick:nick},
+            }).then(res=>{
+                if(res.data){
+                    console.log("if res",res);
+                    console.log("if data",res.data);
+                    const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
+                    storedData.img = res.data.img;
+
+                    const newData = JSON.stringify(storedData);
+                    sessionStorage.setItem("data", newData);
+                }else{
+                    alert("꽝");
+                }
+            });
+        });
     }
+
+
 
     return (
         <div>
             <div className="mypageframe">
                 <div className="mypagelogoheader">
                     <div className="mypagemembernicknameframe">
-                        <div className="memebersmypage">{nick}님 마이페이지</div>
+                        <div className="memebersmypage">{userNick}님 마이페이지</div>
 
                     </div>
                     <div className="mypageweplilogobox">
@@ -153,17 +184,19 @@ function Mypage(props) {
                     </div>
                 </div>
                 <div className="mypagememberprofileframe">
-                    <img
-                        className="mypagememberprofileimg-icon"
-                        alt=""
-                        src={`${bucket}/profile/${profile}`}
-                    />
-                        <input
-                            type="file"
-                            id="profileUpload"
-                            className="file-input"
-                            onChange={memberProfileChange}
+
+                        <img
+                            className="mypagememberprofileimg-icon"
+                            alt=""
+                            src={`${bucket}/profile/${profile}`}
                         />
+
+                    <input
+                        type="file"
+                        id="profileUpload"
+                        className="file-input"
+                        onChange={memberProfileChange}
+                    />
                 </div>
                 {isOutMemberModalOpen && <OutMemberModal setIsOutMemberModalOpen={setIsOutMemberModalOpen}/>}
                 {isInfoChangeModalOpen && <InfoChageModal setIsInfoChangeModalOpen={setIsInfoChangeModalOpen}/>}

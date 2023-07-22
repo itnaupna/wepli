@@ -64,7 +64,8 @@
     width: 12.38rem;
     height: 4rem;
 }
-.phoneconfirmsendbtn {
+
+.phoneconfirmphonebtntext {
     position: absolute;
     top: 0;
     left: 0;
@@ -72,13 +73,7 @@
     background-color: #d0e0f4;
     width: 4rem;
     height: 1.88rem;
-}
-.phoneconfirmphonebtntext {
-    position: absolute;
-    top: 0.3rem;
-    left: 1.2rem;
-    font-size: 1rem;
-    font-weight: 500;
+    border: none;
 }
 .phoneconfirmphonebtngroup {
     position: relative;

@@ -15,7 +15,7 @@ import KakaoCallback from "./KakaoCallback";
 import Mypage from "./mypage/Mypage";
 import { useRecoilState } from 'recoil';
 import { VideoInfoAtom } from './recoil/VideoInfoAtom';
-import { LoginStatusAtom } from '../src/recoil/LoginStatusAtom';
+import { LoginStatusAtom } from './recoil/LoginStatusAtom';
 function App() {
     const [videoInfo, setVideoInfo] = useRecoilState(VideoInfoAtom);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);

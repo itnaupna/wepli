@@ -5,12 +5,15 @@ import btnarrow from "./svg/btnarrow.svg";
 import "./css/FindPassModal.css";
 import axios from "axios";
 import FindPwChangeModal from "./FindPwChangeModal";
-function FindPassModal({setFindPassModalOpen,setFindPwChangeModalOpen}) {
+import {useRecoilState} from "recoil";
+import {FindPassModalOpen, FindPwChangeModalOpen} from "../recoil/FindIdModalAtom";
+function FindPassModal() {
 
     const closeFindPassModal = () => {
         setFindPassModalOpen(false);
     }
-    // const [FindPwChangeModalOpen, setFindPwChangeModalOpen]= useState(false);
+    const [findPwChangeModalOpen,setFindPwChangeModalOpen] = useRecoilState(FindPwChangeModalOpen);
+    const [findPassModalOpen, setFindPassModalOpen] = useRecoilState(FindPassModalOpen);
     const [verifyKey, setVerifyKey] = useState('');
     const [verifyCode, setVerifyCode] = useState('');
     const [verifyType, setVerifyType] = useState(0);
@@ -18,9 +21,10 @@ function FindPassModal({setFindPassModalOpen,setFindPwChangeModalOpen}) {
     const [resultVerify, setResultVerify] = useState(false);
     const [recoveredEmail, setRecoveredEmail] = useState(null);
 
+
     const showPwChangeModal =  async () => {
         setFindPwChangeModalOpen(true);
-        // setFindPassModalOpen(false);
+        setFindPassModalOpen(false);
     }
     const handleRequestCodeFind = async () => {
         const url = "/api/lv0/m/requestcode";
@@ -59,6 +63,9 @@ function FindPassModal({setFindPassModalOpen,setFindPwChangeModalOpen}) {
             if (res.data) {
                 console.log(res.data);
                 setRecoveredEmail(res.data);
+                await setFindPassModalOpen(false);
+                setFindPwChangeModalOpen(true);
+
             } else {
                 setRecoveredEmail(null);
                 // 실패 시 특별한 처리를 하지 않습니다.
@@ -122,7 +129,7 @@ function FindPassModal({setFindPassModalOpen,setFindPwChangeModalOpen}) {
                     />
                 </div>
             </div>
-            {recoveredEmail && <FindPwChangeModal recoveredEmail={recoveredEmail} setFindPwChangeModalOpen={setFindPwChangeModalOpen} />}
+            {recoveredEmail && findPwChangeModalOpen && <FindPwChangeModal recoveredEmail={recoveredEmail} setFindPwChangeModalOpen={setFindPwChangeModalOpen} />}
         </div>
     );
 }

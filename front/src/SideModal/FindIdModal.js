@@ -5,24 +5,23 @@ import logo from "./photo/weplieonlylogoonlylogo.png";
 import btnarrow from "./svg/btnarrow.svg";
 import axios from "axios";
 import FindIdSuccessModal from "./FindIdSuccessModal";
+import {useRecoilState} from "recoil";
+import {findIdModalOpenState, findIdSuccessModalOpenState} from "../recoil/FindIdModalAtom";
 
 function FindIdModal({setFindIdModalOpen,setFindIdSuccessModalOpen}) {
     const closeFindIdModal =  async() => {
-        await setFindIdModalOpen(false);
+        await setfindIdMOdalOpen(false);
     }
 
     const [recoveredEmail, setRecoveredEmail] = useState(null);
     const [verifyCode, setVerifyCode] = useState('');
     const [verifyKey, setVerifyKey] = useState('');
     const [resultRV, setResultRV] = useState(false);
+    const [findIdSuccessModalOpen,setfindIdSuccessModalOpen] =useRecoilState(findIdSuccessModalOpenState);
+    const [findIdMOdalOpen, setfindIdMOdalOpen]= useRecoilState(findIdModalOpenState);
 
 
 
-    const showIdSuccessModal = async () => {
-        await setRecoveredEmail(recoveredEmail);
-        await setFindIdModalOpen(false);
-        await setFindIdSuccessModalOpen(true);
-    }
 
 
     const handleRequestCodeFind = async () => {
@@ -60,6 +59,8 @@ function FindIdModal({setFindIdModalOpen,setFindIdSuccessModalOpen}) {
             console.log("인증번호",res);
             if (res.data) {
                 setRecoveredEmail(res.data);
+                await setfindIdMOdalOpen(false);
+                setfindIdSuccessModalOpen(true);
                 alert('인증 성공!');
             } else {
                 console.log(res.data);
@@ -100,25 +101,25 @@ function FindIdModal({setFindIdModalOpen,setFindIdSuccessModalOpen}) {
                     <button type={'button'} onClick={handleRequestCodeFind} className="findidemailbtnsendtext" >인증번호 전송</button>
                 </div>
                 <div className="findidinputemailgroup">
-                    <input className="findidinputemail" type={'text'} value={verifyCode} onChange={(e)=>setVerifyCode(e.target.value)}
+                    <input className="findidinputverfiy" type={'text'} value={verifyCode} onChange={(e)=>setVerifyCode(e.target.value)}
                            placeholder={'인증번호를 입력해주세요'}></input>
                 </div>
-                <div className="findidemailbtngroup">
-                    <div className="findidemailbtn"/>
-                    <button type={'button'} onClick={handleVerifyCodeFind} className="findidemailbtnsendtext">인증번호 확인</button>
-                </div>
-                <div
-                    className="findidgofindpasstextgroup"
-                >
-                    <div className="findidgofindpasstext">
-                        비밀번호가 생각나지 않으십니까?
-                    </div>
-                </div>
+                {/*<div className="findidemailbtngroup">*/}
+                {/*    <div className="findidemailbtn"/>*/}
+                {/*    <button type={'button'}  className="findidemailbtnsendtext">인증번호 확인</button>*/}
+                {/*</div>*/}
+                {/*<div*/}
+                {/*    className="findidgofindpasstextgroup"*/}
+                {/*>*/}
+                {/*    <div className="findidgofindpasstext">*/}
+                {/*        비밀번호가 생각나지 않으십니까?*/}
+                {/*    </div>*/}
+                {/*</div>*/}
 
                 <div className="findidmodalbottombtngroup">
                     <div className="findidmodalbottombtn">
                         <div className="findidmodalbottombtnrectangle"/>
-                        <button type={'button'} onClick={showIdSuccessModal} className="findidmodalbottombtntext">아이디 찾기</button>
+                        <button type={'button'} onClick={handleVerifyCodeFind} className="findidmodalbottombtntext">인증확인</button>
                     </div>
                     <img
                         className="findidmodalbottomarrow-icon"
@@ -126,12 +127,11 @@ function FindIdModal({setFindIdModalOpen,setFindIdSuccessModalOpen}) {
                         src={btnarrow}
                     />
                 </div>
-                {recoveredEmail && <FindIdSuccessModal setFindIdSuccessModalOpen={setFindIdSuccessModalOpen} recoveredEmail={recoveredEmail} setFindIdModalOpen={setFindIdModalOpen}/>}
+                {recoveredEmail && <FindIdSuccessModal setFindIdSuccessModalOpen={setFindIdSuccessModalOpen} recoveredEmail={recoveredEmail} />}
             </div>
-
-
         </div>
     );
 }
+
 
 export default FindIdModal;

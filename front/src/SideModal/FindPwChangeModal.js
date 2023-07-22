@@ -4,23 +4,22 @@ import logo from "./photo/weplieonlylogoonlylogo.png";
 import btnarrow from "./svg/btnarrow.svg";
 import "./css/FindPwChangeModal.css";
 import axios from "axios";
-function FindPwChangeModal({setFindPwChangeModalOpen,recoveredEmail}) {
+function FindPwChangeModal({setFindPwChangeModalOpen,recoveredEmail,setFindPassModalOpen}) {
 
     const closeFindIdModal =  async() => {
-        await setFindPwChangeModalOpen(false);
+        await setFindPassModalOpen(false);
+        setFindPwChangeModalOpen(false);
     }
 
     const [newPw, setNewPw] = useState('');
-    const [verifyType, setVerifyType] = useState(0);
-    const [verifyKey, setVerifyKey] = useState('');
-    const [resultVerify, setResultVerify] = useState(false);
+    const [oldPw, setOldPw]=useState('');
 
     // pw
     const handleChangeNewPw = async () => {
-        const url = "/api/lv0/m/findPw";
+        const url = "/api/lv1/m/pw";
 
         try {
-            const res = await axios.post(url, {type: verifyType, key: verifyKey, email: recoveredEmail, newPw: newPw, phone:recoveredEmail});
+            const res = await axios.patch(url, {newPw: newPw, oldPw: oldPw});
             if(res.data){
                 alert('비밀번호 변경 성공!');
             }else{
@@ -34,7 +33,6 @@ function FindPwChangeModal({setFindPwChangeModalOpen,recoveredEmail}) {
         }
     };
 
-    console.log(recoveredEmail);
     return (
         <div>
             <div className="findpwchangemodalframe" onClick={closeFindIdModal}></div>
@@ -56,15 +54,15 @@ function FindPwChangeModal({setFindPwChangeModalOpen,recoveredEmail}) {
                         />
                     </div>
                     <div className="findpwchangemodaltextgroup">
-                        {recoveredEmail}ㅇㅇㅇ
-                        <div className="findpwchangemodalcentertext">비밀번호 변경</div>
+                        아이디 : {recoveredEmail}
                     </div>
                     <div className="findpwchangemodalphoneinputgro">
                         <input type={"password"} className="findpwchangemodalphoneinput" placeholder={'비밀번호를 입력해주세요'}
-                        value={newPw} onChange={(e)=>setNewPw(e.target.value)}></input>
+                        value={oldPw} onChange={(e)=>setNewPw(e.target.value)}></input>
                     </div>
                     <div className="findpwchangemodalphoneinputgro">
-                        <div className="findpwchangemodalphoneinput" />
+                        <input type={"password"} value={newPw} className="findpwchangemodalphoneinput"
+                        onChange={(e)=>setOldPw(e.target.value)}></input>
                     </div>
                     <div className="findpwchangemodalchangetext">{`비밀번호가 일치하지 않을때 `}</div>
                     <div className="findpwchangemodalbtngroup">
