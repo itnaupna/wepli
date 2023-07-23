@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,12 @@ public class StageService {
 
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         sDto.setNick(nick);
+
+        // Stage 주소 문자열만 허용 (공백 미허용)
+        boolean checkAddress = Pattern.matches("^[\\w]*$", sDto.getAddress());
+        if(!checkAddress)
+           return false;
+
         return sMapper.insertStage(sDto) > 0;
     }
 

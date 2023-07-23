@@ -3,6 +3,7 @@ package com.bit.service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 import javax.mail.internet.MimeMessage;
 import javax.mail.MessagingException;
@@ -86,7 +87,12 @@ public class UserConfirmService {
     private boolean CreatePhoneVerifyCode(String phone) {
         String code = BuildCode();
         String res = "";
+
         try {
+            // 핸드폰 번호 정규식 ex) 01012345678
+            boolean checkPhone = Pattern.matches("^[\\d]{11}+$",phone);
+            if(!checkPhone)
+            return false;
             res = sms.Send(phone, code).getStatusCode();
         } catch (Exception e) {
             System.out.println("문자 발송 실패");

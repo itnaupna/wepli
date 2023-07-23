@@ -170,7 +170,15 @@ public class PlaylistService {
     public boolean insertPlaylist(String token, PlaylistDto data, HttpServletResponse response){
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         data.setNick(nick);
+
+        String genres[] = data.getGenre().split(",");
+        String tags[] = data.getTag().split(",");
+
         if(uncertifiMemberChk(data.getNick())) {
+            if (genres.length > 4 || tags.length > 4) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return false;
+            }
             return pMapper.insertPlaylist(data)>0;
         } else {
             if(data.getIsPublic() == 0) {
@@ -252,9 +260,17 @@ public class PlaylistService {
 
     public boolean insertSong(String token, SongDto data, HttpServletResponse response){
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        String genres[] = data.getGenre().split(",");
+        String tags[] = data.getTag().split(",");
+
         if(pMapper.selectMyPliToIdx(data.getPlaylistID()).getNick().equals(nick)) {
             if(data.getImg() != null && !data.getImg().equals("")) {
                 imgUploadService.storageImgDelete(token, data.getImg(), "songimg");
+            }
+
+            if (genres.length > 4 || tags.length > 4) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return false;
             }
             return pMapper.insertSong(data)>0;
         } else {

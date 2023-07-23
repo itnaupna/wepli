@@ -177,7 +177,4 @@
           delete from tblSongs where idx=#{idx}
     </delete>
 
-    
-    
-
 </mapper>

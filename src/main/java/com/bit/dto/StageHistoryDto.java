@@ -14,5 +14,4 @@ public class StageHistoryDto {
     private int dislikes;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private Timestamp playdate;
-    private SongDto song;
 }
