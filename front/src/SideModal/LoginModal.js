@@ -75,11 +75,6 @@ function LoginModal() {
 
     }
 
-    const data = sessionStorage.getItem('data') || localStorage.getItem('data');
-    useEffect(()=>{
-        localStorage.setItem("data",data);
-    },[data]);
-
     // 라디오 체크 onchange
     const handleRadioChange = (e) => {
         setIsChecked(e.target.checked);

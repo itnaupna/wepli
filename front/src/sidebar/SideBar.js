@@ -41,7 +41,8 @@ function SideBar(props) {
     useEffect(()=>{
         console.log(loginStatus);
         try {
-            setProfileImage(JSON.parse(localStorage.data || sessionStorage.data)?.img);
+            setProfileImage(JSON.parse(localStorage.data || sessionStorage.data).img);
+            console.log("개발개발",setProfileImage);
         } catch (error) {
             console.log(error);
         }
@@ -68,7 +69,6 @@ function SideBar(props) {
     const handleStageClick = () => {
         navigate('/stage');
     };
-    {/* 끝 */}
 
     {/* 로그아웃 */}
     const onLogoutSubmit = () => {
@@ -76,7 +76,6 @@ function SideBar(props) {
         sessionStorage.removeItem('data');
         localStorage.removeItem('data');
         navigate(window.location.pathname);
-        setLoginStatus(false);
         axios
             .post(url)
             .then(res => {
@@ -98,13 +97,13 @@ function SideBar(props) {
     로그인 안했을때 -> 로그인모달
     */}
 
-    const handleProfileClick = () => {
+    const handleProfileClick = (e) => {
+        e.preventDefault();
         if (loginStatus) {
-            console.log("로그인상태",loginStatus);
+            console.log("뭐냐?", loginStatus);
             setpwChkmodalOpen(true);
         } else {
-            console.log("로그인상태",loginStatus);
-            showModal();
+            setloginmodalopen(true);
         }
     };
 
@@ -143,6 +142,7 @@ function SideBar(props) {
                     {/*        <img className='icon2' alt="" src={logout}/>*/}
                     {/*    </div>*/}
                     {/*)}*/}
+
                     {loginStatus && (
                         <div className="sidemenulogoutbutton" onClick={onLogoutSubmit}>
                             <img className='icon2' alt="" src={logout}/>
