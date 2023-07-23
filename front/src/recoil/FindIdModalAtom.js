@@ -43,6 +43,11 @@ export const recoveredEmailState = atom({
     default: null,
 });
 
+export const recoveredPhoneState = atom({
+    key: 'recoveredPhoneState',
+    default: null,
+})
+
 export const FindPwChangeModalOpen = atom({
     key: 'FindPwChangeModalOpen',
     default: false,

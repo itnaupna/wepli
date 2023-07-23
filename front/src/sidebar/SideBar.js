@@ -23,20 +23,21 @@ import {
     SignUpModalOpen, FindPwChangeModalOpen
 } from "../recoil/FindIdModalAtom";
 import FindIdSuccessModal from "../SideModal/FindIdSuccessModal";
+import FindPwChangeModal from "../SideModal/FindPwChangeModal";
 
 function SideBar(props) {
 
     const navigate = useNavigate();
-    const [modalOpen, setModalOpen] = useState(false);
     const [signUpModalOpen, setSignUpModalOpen] = useRecoilState(SignUpModalOpen);
     const [profileImage, setProfileImage] = useState('');
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [pwChkmodalOpen, setpwChkmodalOpen] = useRecoilState(pwChkModalOpen);
     const [findIdModalOpen, setFindIdModalOpen] = useRecoilState(findIdModalOpenState);
     const [loginmodalopen, setloginmodalopen] = useRecoilState(LoginModalOpen);
-    const [findIdSuccessModalOpen,setfindIdSuccessModalOpen] =useRecoilState(findIdSuccessModalOpenState);
+    const [findIdSuccessModalOpen,setFindIdSuccessModalOpen] =useRecoilState(findIdSuccessModalOpenState);
     const [findPassModalOpen, setFindPassModalOpen] = useRecoilState(FindPassModalOpen);
     const [findPwChangeModalOpen,setFindPwChangeModalOpen] = useRecoilState(FindPwChangeModalOpen);
+
     useEffect(()=>{
         console.log(loginStatus);
         try {
@@ -79,7 +80,7 @@ function SideBar(props) {
         axios
             .post(url)
             .then(res => {
-                // window.location.reload();
+
             })
             .catch(error => {
                 if (error.response && error.response.status === 405) {
@@ -99,8 +100,10 @@ function SideBar(props) {
 
     const handleProfileClick = () => {
         if (loginStatus) {
+            console.log("로그인상태",loginStatus);
             setpwChkmodalOpen(true);
         } else {
+            console.log("로그인상태",loginStatus);
             showModal();
         }
     };
@@ -140,21 +143,34 @@ function SideBar(props) {
                     {/*        <img className='icon2' alt="" src={logout}/>*/}
                     {/*    </div>*/}
                     {/*)}*/}
-                    {
-                        loginStatus ? <div className="sidemenulogoutbutton" onClick={onLogoutSubmit}>
-                                    <img className='icon2' alt="" src={logout}/>
-                              </div> : null
-                    }
+                    {loginStatus && (
+                        <div className="sidemenulogoutbutton" onClick={onLogoutSubmit}>
+                            <img className='icon2' alt="" src={logout}/>
+                        </div>
+                    )}
                 </div>
             </div>
-            {loginmodalopen && <LoginModal setloginmodalopen={setloginmodalopen} setFindIdModalOpen={setFindIdModalOpen}
-                                      setFindPassModalOpen={setFindPassModalOpen} setSignUpModalOpen={setSignUpModalOpen}
-                                      setpwChkmodalOpen={setpwChkmodalOpen} />}
-            {findIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen} setfindIdSuccessModalOpen={setfindIdSuccessModalOpen}/>}
-            {findPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen} setfindPwChangeModalOpen={findPwChangeModalOpen} />}
+
+            {/*로그인 모달*/}
+            {loginmodalopen && <LoginModal setloginmodalopen={setloginmodalopen}/>}
+
+            {/*회원가입*/}
             {signUpModalOpen && <SignUpModal setSignUpModalOpen={setSignUpModalOpen} />}
+
+            {/*이메일찾기*/}
+            {findIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen}/>}
+
+            {/*아이디찾기성공*/}
+            {findIdSuccessModalOpen && <FindIdSuccessModal setFindIdSuccessModalOpen={setFindIdSuccessModalOpen}/>}
+
+            {/*비밀번호찾기*/}
+            {findPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen} />}
+
+            {/*비밀먼호재설정*/}
+            {findPwChangeModalOpen && <FindPwChangeModal setFindPwChangeModalOpen={setFindPwChangeModalOpen}/>}
+
+            {/*비밀번호검증*/}
             {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen} />}
-            {findIdSuccessModalOpen && <FindIdSuccessModal setfindIdSuccessModalOpen={setfindIdSuccessModalOpen}/> }
 
         </>
 

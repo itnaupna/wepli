@@ -5,14 +5,14 @@ import logo from "./photo/weplieonlylogoonlylogo.png";
 import btnarrow from "./svg/btnarrow.svg";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {findIdSuccessModalOpenState, recoveredEmailState} from "../recoil/FindIdModalAtom";
-function FindIdSuccessModal({setFindIdSuccessModalOpen,recoveredEmail}) {
+function FindIdSuccessModal() {
 
     const [findIdSuccessModalopen,setfindIdSuccessModalopen] = useRecoilState(findIdSuccessModalOpenState);
     const closeFindIdSuccessModal = () => {
         setfindIdSuccessModalopen(false);
     }
 
-    // const recoveredEmail = useRecoilValue(recoveredEmailState);
+    const recoveredEmail = useRecoilValue(recoveredEmailState);
 
     return (
         <div>

@@ -8,19 +8,25 @@ import axios from "axios";
 import {Await, useLocation, useNavigate} from "react-router-dom";
 import { LoginStatusAtom } from '../recoil/LoginStatusAtom';
 import {useRecoilState} from "recoil";
-import {LoginModalOpen} from "../recoil/FindIdModalAtom";
+import {findIdModalOpenState, FindPassModalOpen, LoginModalOpen, SignUpModalOpen} from "../recoil/FindIdModalAtom";
+import FindPassModal from "./FindPassModal";
+import FindIdModal from "./FindIdModal";
 
 
 
-function LoginModal({ setModalOpen, setFindIdModalOpen, setFindPassModalOpen, setSignUpModalOpen }) {
+function LoginModal() {
 
+    const navi = useNavigate();
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
-    const navi = useNavigate();
     const [isChecked, setIsChecked] = useState(false);
     const [userData, setUserData] = useState(null);
+
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [loginmodalopen, setloginmodalopen] = useRecoilState(LoginModalOpen);
+    const [findIdModalOpen, setFindIdModalOpen] = useRecoilState(findIdModalOpenState);
+    const [findPassModalOpen, setFindPassModalOpen] = useRecoilState(FindPassModalOpen);
+    const [signUpModalOpen, setSignUpModalOpen] = useRecoilState(SignUpModalOpen);
     //로그인 모달 오픈
     const showFindIdModal = async () => {
         await setloginmodalopen(false);
@@ -205,6 +211,7 @@ function LoginModal({ setModalOpen, setFindIdModalOpen, setFindPassModalOpen, se
                     />
                 </div>
             </div>
+
         </div>
     );
 }

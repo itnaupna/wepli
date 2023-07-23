@@ -6,22 +6,19 @@ import btnarrow from "./svg/btnarrow.svg";
 import axios from "axios";
 import FindIdSuccessModal from "./FindIdSuccessModal";
 import {useRecoilState} from "recoil";
-import {findIdModalOpenState, findIdSuccessModalOpenState} from "../recoil/FindIdModalAtom";
+import {findIdModalOpenState, findIdSuccessModalOpenState, recoveredEmailState} from "../recoil/FindIdModalAtom";
 
-function FindIdModal({setFindIdModalOpen,setFindIdSuccessModalOpen}) {
+function FindIdModal() {
     const closeFindIdModal =  async() => {
-        await setfindIdMOdalOpen(false);
+        await setFindPassModalOpen(false);
     }
 
-    const [recoveredEmail, setRecoveredEmail] = useState(null);
+    const [recoveredEmail, setRecoveredEmail] = useRecoilState(recoveredEmailState);
     const [verifyCode, setVerifyCode] = useState('');
     const [verifyKey, setVerifyKey] = useState('');
     const [resultRV, setResultRV] = useState(false);
     const [findIdSuccessModalOpen,setfindIdSuccessModalOpen] =useRecoilState(findIdSuccessModalOpenState);
-    const [findIdMOdalOpen, setfindIdMOdalOpen]= useRecoilState(findIdModalOpenState);
-
-
-
+    const [findIdMOdalOpen, setFindPassModalOpen]= useRecoilState(findIdModalOpenState);
 
 
     const handleRequestCodeFind = async () => {
@@ -32,7 +29,7 @@ function FindIdModal({setFindIdModalOpen,setFindIdSuccessModalOpen}) {
             console.log("아이디 찾기",res);
             if (res.data === true) {
                 setResultRV(res.data);
-                alert("인증 성공");
+                alert("인증번호를 전송했습니다.");
             } else {
                 console.log(res.data);
                 console.log(res);
@@ -59,9 +56,9 @@ function FindIdModal({setFindIdModalOpen,setFindIdSuccessModalOpen}) {
             console.log("인증번호",res);
             if (res.data) {
                 setRecoveredEmail(res.data);
-                await setfindIdMOdalOpen(false);
+                await setFindPassModalOpen(false);
                 setfindIdSuccessModalOpen(true);
-                alert('인증 성공!');
+                alert('인증이 완료되었습니다.');
             } else {
                 console.log(res.data);
                 setRecoveredEmail(null);
@@ -127,7 +124,7 @@ function FindIdModal({setFindIdModalOpen,setFindIdSuccessModalOpen}) {
                         src={btnarrow}
                     />
                 </div>
-                {recoveredEmail && <FindIdSuccessModal setFindIdSuccessModalOpen={setFindIdSuccessModalOpen} recoveredEmail={recoveredEmail} />}
+                {recoveredEmail && <FindIdSuccessModal setfindIdSuccessModalOpen={setfindIdSuccessModalOpen} />}
             </div>
         </div>
     );
