@@ -2,6 +2,8 @@ package com.bit.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -98,8 +100,8 @@ public class StageController {
 
     //유저 정보 불러오기
     @GetMapping("/lv1/s/userinfo")
-    public MypageDto getMypageDto(@CookieValue String token, @RequestParam(required = false) String userNick) {
-        return mService.selectMypageDto(token, userNick); 
+    public MypageDto getMypageDto(@CookieValue String token, @RequestParam(required = false) String userNick, HttpServletResponse response) {
+        return mService.selectMypageDto(token, userNick, response); 
     }
     
 

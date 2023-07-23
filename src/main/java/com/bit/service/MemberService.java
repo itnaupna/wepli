@@ -233,10 +233,13 @@ public class MemberService {
     }
 
     // 닉넴으로 마이페이지 정보 불러오기
-    public MypageDto selectMypageDto(String token, String userNick) {
-        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        // log.info("token parsing ->  {}", nick);
-        // log.info("nick ->  {}", userNick);
+    public MypageDto selectMypageDto(String token, String userNick, HttpServletResponse response) {
+        String nick = null;
+        if(token == null && userNick == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);            
+        } else if(token != null && !token.equals("")) {
+            nick = jwtTokenProvider.getUsernameFromToken(token.substring(6)); 
+        }
         if(userNick == null || userNick.equals("")) {
             userNick = nick;
         }

@@ -24,12 +24,12 @@ public class SecurityConfig {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
-    // // 정적 자원에 대한 Security 설정 적용 x
-    @Bean
-    public WebSecurityCustomizer configure() {
-        return (web) -> web.ignoring()
-                .antMatchers("/**");
-    }
+    // 정적 자원에 대한 Security 설정 적용 x
+    // @Bean
+    // public WebSecurityCustomizer configure() {
+    //     return (web) -> web.ignoring()
+    //             .antMatchers("/**");
+    // }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -42,7 +42,12 @@ public class SecurityConfig {
         // .ignoringRequestMatchers(new AntPathRequestMatcher("/api/**")));
         // return http.build();
 
-        http.cors().and().csrf().disable() // csrf 보안 비활성화
+        return http
+                .requiresChannel()
+                .anyRequest()
+                .requiresSecure()
+                .and()    
+                .cors().and().csrf().disable() // csrf 보안 비활성화
                 // .antMatcher("/stage").
                 .antMatcher("/**").authorizeRequests()
 
@@ -66,7 +71,6 @@ public class SecurityConfig {
 
                 // JWT filter 적용
                 .and()
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 }

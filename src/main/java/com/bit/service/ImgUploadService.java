@@ -35,11 +35,6 @@ public class ImgUploadService {
 
     @Autowired
     NcpObjectStorageService ncpObjectStorageService;
-    
-    // TODO 수정 작업 취소시 이미지로 원래대로 돌림?
-    /*이미지 변경 이벤트 -> 이미지 수정시 db에 img 이름 변수에 저장, 마지막 img 이름 저장
-    * 컨펌 이벤트 -> 마지막 img 빼고 버킷 삭제 후 img + 변경 데이터 저장
-      캔슬 이벤트 -> 첫번째 img 빼고 버킷 삭제 */ 
 
     public String uploadMemberImg(String token, String directoryPath, MultipartFile upload) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));

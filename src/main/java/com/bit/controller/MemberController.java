@@ -136,10 +136,9 @@ public class MemberController {
     }
 
     // 마이페이지 데이터 일괄
-    //TODO 둘다 없을시 에러, 토큰 O 닉네임 X -> 본인, 토큰 유무와 상관없이 userNick 있으면 그 유저의 myPageDto
     @GetMapping("/lv0/m/mypage")
-    public MypageDto getMypageDto(@CookieValue(required = false) String token, @RequestParam(required = false) String userNick) {
-        return mService.selectMypageDto(token, userNick); 
+    public MypageDto getMypageDto(@CookieValue(required = false) String token, @RequestParam(required = false) String userNick, HttpServletResponse response) {
+        return mService.selectMypageDto(token, userNick, response); 
     }
 
     //로그인
