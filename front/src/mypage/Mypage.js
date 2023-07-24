@@ -105,7 +105,9 @@ function Mypage(props) {
         });
     };
 
-
+    useEffect(() => {
+        setProfileImageUrl(profile);
+    }, [profile]);
 
 
     return (

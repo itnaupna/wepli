@@ -53,6 +53,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
             console.log('나와라 얍', response.data.result);
 
             if (response.data.result) {
+                console.log("else",response.data.result);
                 alert('정보가 성공적으로 수정되었습니다.');
             } else {
                 console.log("else",response.data.result);
