@@ -1,9 +1,6 @@
 package com.bit.service;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +18,8 @@ import com.bit.mapper.BlacklistMapper;
 import com.bit.mapper.MemberMapper;
 import com.bit.mapper.StageMapper;
 
+import naver.cloud.NcpObjectStorageService;
+
 @Service
 public class StageService {
     @Autowired
@@ -31,6 +30,12 @@ public class StageService {
     BlacklistMapper blacklistMapper;
     @Autowired
     JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    ImgUploadService imgUploadService;
+    @Autowired
+    NcpObjectStorageService ncpObjectStorageService;
+
+    public final String BUCKET_NAME = "wepli";
 
     private final Map<String, BuiltStageDto> builtStages = new HashMap<>();
 
@@ -81,15 +86,11 @@ public class StageService {
 
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         sDto.setNick(nick);
-        return sMapper.insertStage(sDto) > 0;
-    }
 
-    public void updateImg(String token, String img) {
-        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        Map<String, String> nickAndImg = new HashMap<>();
-        nickAndImg.put("nick", nick);
-        nickAndImg.put("img", img);
-        sMapper.updateImg(nickAndImg);
+        if(sDto.getImg() != null && !sDto.getImg().equals("")) {
+            imgUploadService.storageImgDelete(token, sDto.getImg(), "stage");
+        }
+        return sMapper.insertStage(sDto) > 0;
     }
 
     public List<StageDto> selectStageAll(String token, int curr, int cpp) {
@@ -128,6 +129,13 @@ public class StageService {
     public boolean updateStage(StageDto sDto, String token) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         sDto.setNick(nick);
+        if(sDto.getImg() != null && !sDto.getImg().equals("")) {
+            imgUploadService.storageImgDelete(token, sDto.getImg(), "stage");
+            String img = sMapper.selectStageOneByMasterNick(nick).getImg();
+            if(img != null && !img.equals("")) {
+                ncpObjectStorageService.deleteFile(BUCKET_NAME, "stage", img);
+            }
+        }
         return sMapper.updateStage(sDto) > 0;
     }
 
@@ -142,8 +150,15 @@ public class StageService {
         data.put("nick",nick);
         data.put("title",title);
 
-        if (mMapper.selectCheckPasswordByNick(mDto) < 1 || sMapper.selectCheckStageTitle(data) < 1)
+        if (mMapper.selectCheckPasswordByNick(mDto) < 1 || sMapper.selectCheckStageTitle(data) < 1) 
             return false;
+        
+        String img = sMapper.selectStageOneByMasterNick(nick).getImg();
+
+        if(img != null && !img.equals("")) {
+            ncpObjectStorageService.deleteFile(BUCKET_NAME, "stage", img);
+        }
+        
         return sMapper.deleteStage(nick) > 0;
     }
 

@@ -72,7 +72,7 @@ function SideBar(props) {
 
     {/* 로그아웃 */}
     const onLogoutSubmit = () => {
-        const url = '/api/lv0/m/logout';
+        const url = '/api/lv1/m/logout';
         sessionStorage.removeItem('data');
         localStorage.removeItem('data');
         navigate(window.location.pathname);

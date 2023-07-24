@@ -96,4 +96,14 @@
           select img from tblMember where nick=#{nick}
     </select>
 
+    <select id="selectMemberAllImg" parameterType="String" resultType="String">
+        SELECT img FROM tblMember where nick = #{nick}
+        UNION
+        SELECT img FROM tblStage where nick = #{nick}
+        union
+        select img from tblPlaylist where nick = #{nick}
+        union
+        select img from tblSongs where playlistID IN (select idx from tblPlaylist where nick = #{nick});
+    </select>
+
 </mapper>

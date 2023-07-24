@@ -9,12 +9,12 @@
 
     <update id="updateStage" parameterType="StageDto">
         update tblStage 
-        set address=#{address}, title=#{title}, `desc`=#{desc}, genre=#{genre}, tag=#{tag}, img=#{img}, pw=#{pw}, maxlength=#{maxlength}, skipratio=#{skipratio} 
+        set address=#{address}, title=#{title}, `desc`=#{desc}, genre=#{genre}, tag=#{tag},img=#{img},
+        <if test="pw != null">
+            pw=#{pw},
+        </if>
+        maxlength=#{maxlength}, skipratio=#{skipratio} 
         where nick=#{nick}
-    </update>
-
-    <update id="updateImg" parameterType="Map">
-        update tblStage set img = #{img} where nick = #{nick}
     </update>
 
     <select id="selectStageOneByMasterNick" parameterType="string" resultType="StageDto">
@@ -85,8 +85,17 @@
 
 
     <insert id="insertStage" parameterType="StageDto">
-        insert into tblStage
-        values (#{address},#{title},#{desc},#{genre},#{tag},#{nick},default,#{img},#{pw},#{maxlength},#{skipratio})
+        insert into tblStage 
+        (address, title, `desc`, genre, tag, nick, makeday, img,
+        <if test="pw != null"> 
+            pw,
+        </if>
+        maxlength, skipratio)
+        values (#{address},#{title},#{desc},#{genre},#{tag},#{nick},default,#{img},
+        <if test="pw != null">
+           #{pw},
+        </if>
+        #{maxlength},#{skipratio})
     </insert>
 
 

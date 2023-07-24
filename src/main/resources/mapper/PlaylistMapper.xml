@@ -34,13 +34,16 @@
           select * from vwPlaylist where idx=#{idx}
     </select>
 
-
     <select id="selectLike" parameterType="hashMap" resultType="map">
         select count(*) from tblPlaylistLike where user=#{user} and playlistID=#{playlistID}
     </select>
 
     <select id="selectMyPli" parameterType="String" resultType="PlaylistDto">
         select * from vwPlaylist where nick = #{nick} order by makeday desc
+    </select>
+
+    <select id="selectMyPliImg" parameterType="String" resultType="String">
+        select img from tblPlaylist where nick = #{nick}
     </select>
 
     <select id="selectMyPliToIdx" parameterType="int" resultType="PlaylistDto">
@@ -114,7 +117,7 @@
     <select id="selectFollowPli" parameterType="String" resultType="PlaylistDto">
         select * from vwPlaylist
         where nick in (select target from tblFollow where follow = #{nick})
-        order by likesCount desc;
+        order by likesCount desc
     </select>
 
 
@@ -125,12 +128,8 @@
 
 
     <update id="updatePlaylist" parameterType="PlaylistDto">
-          update tblPlaylist set title=#{title}, `desc`=#{desc}, img=#{img} genre=#{genre}, tag=#{tag},isPublic=#{isPublic}
+          update tblPlaylist set title=#{title}, `desc`=#{desc}, img=#{img}, genre=#{genre}, tag=#{tag}, isPublic=#{isPublic}
           where idx=#{idx}
-    </update>
-
-    <update id="updatePlayListImg" parameterType="PlaylistDto">
-        update tblPlaylist set img = #{img} where idx = #{idx}
     </update>
 
     <delete id="deletePlaylist" parameterType="int">
@@ -152,25 +151,22 @@
             (#{playlistID}, #{title}, #{img}, #{songlength}, #{genre}, #{tag}, #{singer}, #{songaddress}, #{songorigin})
     </insert>
 
+    <select id="selectMySongAllImg" parameterType="String" resultType="String">
+        select img from tblSongs where playlistID IN (select idx from tblPlaylist where nick = #{nick})
+    </select>
 
     <select id="selectSong" parameterType="int" resultType="SongDto">
           select * from tblSongs where idx=#{idx}
     </select>
 
-
     <select id="selectSongsAll" parameterType="int" resultType="SongDto">
         select * from tblSongs where playlistID=#{playlistID}          
     </select>
 
-
     <update id="updateSong" parameterType="SongDto">
         update tblSongs
-        set playlistID=#{playlistID}, title=#{title}, songlength=#{songlength}, genre=#{genre}, img = #{img} tag=#{tag}, singer=#{singer}, songaddress=#{songaddress}, songorigin=#{songorigin}  
+        set playlistID=#{playlistID}, title=#{title}, songlength=#{songlength}, genre=#{genre}, img = #{img}, tag=#{tag}, singer=#{singer}, songaddress=#{songaddress}, songorigin=#{songorigin}  
         where idx=#{idx}
-    </update>
-
-    <update id="updateSongImg" parameterType="SongDto">
-        update tblSongs set img = #{img} where idx = #{idx}
     </update>
 
     <delete id="deleteSong" parameterType="int">
