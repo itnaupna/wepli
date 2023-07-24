@@ -188,6 +188,7 @@ public class MemberService {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         MemberDto mDto = new MemberDto();
         mDto.setNick(nick);
+        System.out.println(desc);
         mDto.setDesc(desc);
         return memberMapper.updateDesc(mDto) > 0;
     }

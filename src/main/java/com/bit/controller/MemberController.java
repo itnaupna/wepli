@@ -131,16 +131,11 @@ public class MemberController {
 
     // 자기소개 변경
     @PatchMapping("/lv1/m/desc")
-    public boolean patchDesc(@CookieValue String token,  @RequestParam String desc) {
+    public boolean patchDesc(@CookieValue String token, @RequestBody String desc) {
+        System.out.println(desc);
         return mService.updateDesc(token, desc);
     }
 
-    // 프사 변경
-    // TODO : (확인) 밑에 새로 만들었는데 따로 사용할 일 있을지 체크
-    // @PatchMapping("/lv1/m/img")
-    // public boolean patchImg(@RequestBody MemberDto mDto) {
-    //     return mService.updateImg(mDto);
-    // }
 
     // 마이페이지 데이터 일괄
     @GetMapping("/lv1/m/mypage")

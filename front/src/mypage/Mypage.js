@@ -9,8 +9,9 @@ import PhoneConfirmModal from "../MypageModal/PhoneConfirmModal";
 import BlackListOptionModal from "../MypageModal/BlackListOptionModal";
 import FollowListModal from "../MypageModal/FollowListModal";
 import axios from "axios";
-import {useRecoilState, useRecoilValue} from "recoil";
-import {DataState, LoginStatusAtom, ProfileImageUrl, profileImageUrl} from "../recoil/LoginStatusAtom";
+import {useRecoilState} from "recoil";
+import {DataState, LoginStatusAtom, ProfileImageUrl} from "../recoil/LoginStatusAtom";
+import {params} from "superagent/lib/utils";
 
 function Mypage(props) {
 
@@ -27,13 +28,13 @@ function Mypage(props) {
     }
 
     const parse= JSON.parse(data);
-    const nick = parse.nick;
-    const desc = parse.desc;
-    console.log("자기소개 나오는지"+desc);
+    const usernick = parse.nick;
+    const userdesc = parse.desc;
+    // console.log("자기소개 나오는지"+desc);
     const parsedData = JSON.parse(data);
     const emailconfirm = parsedData.emailconfirm;
     console.log(emailconfirm);
-    console.log("제이슨",nick);
+    console.log("제이슨",usernick);
 
 
     const bucket = process.env.REACT_APP_BUCKET_URL;
@@ -47,7 +48,7 @@ function Mypage(props) {
     const [memberProfile, setmemberProfile] = useState('');
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [profileImageUrl, setProfileImageUrl] = useRecoilState(ProfileImageUrl);
-
+    const [desc, setUserDescInput] = useState('');
     const showOutMemberModal = () => {
         setIsOutMemberModalOpen(true);
     };
@@ -88,7 +89,7 @@ function Mypage(props) {
             axios({
                 method: "get",
                 url: mypageurl,
-                data: { userNick: nick },
+                data: { userNick: userNick },
             }).then(res => {
                 if (res.data) {
                     console.log("if res", res);
@@ -108,15 +109,20 @@ function Mypage(props) {
         });
     };
 
-    // const handleDescChange = async () => {
-    //     const url = "/api/lv1/m/desc";
-    //     axios({
-    //         method: "patch",
-    //         url: url,
-    //         data: {desc}
-    //         }
-    //     })
-    // }
+    const handleDescChange = async () => {
+        const url = "/api/lv1/m/desc";
+        try {
+            const res = await axios.patch(url, desc,{ headers: { 'Content-Type': 'application/json' } } );
+            if (res.data === true) {
+                console.log(res.data);
+                alert("되는거");
+            } else {
+                alert("안되는거");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     useEffect(() => {
         setProfileImageUrl(profile);
@@ -178,17 +184,20 @@ function Mypage(props) {
                     <div className="mypagemyinfoboxframe">
                         <div className="mypageonelineinfotext">
                             <div className="mypageonelinetext">
-                                {desc}
+                                {userdesc}
                             </div>
                         </div>
-                        <button type={'button'} className="mypageonelinerbox">
+                        <input type={'text'} style={{marginTop:'50px'}} value={desc}
+                               onChange={(e)=>setUserDescInput(e.target.value)}></input>
+                        <button type={'button'} onClick={handleDescChange}>테스트</button>
+                        <div  className="mypageonelinerbox">
                             <div className="mypageonelinertext">한줄소개</div>
                             <img
                                 className="mypagecommunicationicon"
                                 alt=""
                                 src={message}
                             />
-                        </button>
+                        </div>
                     </div>
                     <div className="mypagefollowframe">
                         <label className="mypagefollowingbox" onClick={showFollowListModal}>
