@@ -29,8 +29,8 @@ function App() {
                 <Route path="/mypage" element={sessionStorage.getItem("data")!=null?<Mypage/>:<MainPage/>}/>
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
-                <Route path="/pli/:pliId" element={<PlayListDetail />} />
-                <Route path="/addpli" element={<AddPlayLsit />} />
+                <Route path="/pli/:pliId" element={<PlayListDetail />}/>
+                <Route path="/addpli" element={<AddPlayLsit/>} />
                 <Route path="/mypli" element={<PlayListMain03MyPlayListMain />} />
                 <Route path="/stage/:stageUrl" element={<PlayStage />} />
                 <Route path="/stage" element={<PlayStageList />} />

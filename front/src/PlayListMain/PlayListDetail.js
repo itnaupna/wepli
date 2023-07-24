@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import {useCallback, useEffect, useState} from "react";
 import "./PlayListDetail.css";
 import Molu from  "../MainIMG/Molu.gif";
 import Aru from  "../MainIMG/ARu.gif";
@@ -16,9 +16,13 @@ import PlayListDetailDelete from "../MainIMG/PlayListDetailDelete.png";
 import PlayListDetailCommentDelete from "../MainIMG/PlayListDetailCommentDelete.png";
 import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
 import {useNavigate} from "react-router-dom";
+import {useParams} from "react-router-dom";
+import dayjs from "dayjs";
 
 const PlayListDetail = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
+    const idx = useParams().pliId;
+
     const onIconsClick = useCallback(() => {
         // Please sync "PlayListMain03MyPlayListMain" to the project
     }, []);
@@ -32,7 +36,24 @@ const PlayListDetail = () => {
     const closBack = () =>{
         closBacknavigate(-1);
     };
+    const [plaListDetailResult, setPlaListDetailResult] = useState([]);
+    const [plaListDetailComment, setPlaListDetailComment] = useState([]);
+    const [plaListDetailInfo, setPlaListDetailInfo] = useState([]);
+    const [plaListDetailSong , setPlaListDetailSong] = useState([]);
 
+    useEffect(() =>{
+        const plaListDetailUrl = "/api/lv0/p/playdetail";
+        Axios.get(plaListDetailUrl, { params: {idx: idx, curr: 1, cpp: 6 } })
+            .then(res => { setPlaListDetailResult(res.data); console.log(res.data);
+                setPlaListDetailComment(res.data.comment);
+                setPlaListDetailInfo(res.data.play[0]);
+                setPlaListDetailSong(res.data.song);})
+            .catch(res => console.log(res));
+    },[]);
+
+    useEffect(() =>{
+        console.log(plaListDetailComment);
+    },[plaListDetailResult]);
     return (
         <div className="playlistdetailframe">
             <div className="playlistdetail">
@@ -40,11 +61,19 @@ const PlayListDetail = () => {
                     <img
                         className="playlistdetailcover-icon"
                         alt=""
-                        src={Aris}
+                        src={bucketURl + plaListDetailInfo.img}
                     />
                     <div className="playlistdetailinplaylistinfos">
                         <div className="playlistdetailinplaylisttitle">
-                            코딩할때 듣기좋은음악
+                            {plaListDetailInfo.title}
+                        </div>
+                        <div className="tagcontainer">
+                            <span className="genreitems">
+                                {plaListDetailInfo.genre === "" ? null :"#장르 : " + plaListDetailInfo.genre}
+                            </span>
+                            <span className="tagitems">
+                               {plaListDetailInfo.tag === "" ? null : "#태그 : "+ plaListDetailInfo.tag}
+                            </span>
                         </div>
                         <div className="playlistdetailinplaylistuserin">
                             <img
@@ -53,48 +82,57 @@ const PlayListDetail = () => {
                                 src={Aris}
                             />
                             <div className="playlistdetailinplaylistnickna">
-                                춤추는 아리스
+                                {plaListDetailInfo.nick}
                             </div>
                         </div>
                         <div className="playlistdetailinplaylistinfo">
-                            <p className="p">저는 지금 몰루 오케스트라를 듣고 있는 이상혁입니다<br/>
-                            정말 재미있습니다 감사합니다<br/>
-                                저는 피그마를 사랑합니다 피그마와 평생을 함께 할겁니다.
-                            </p>
+                            {
+                                plaListDetailInfo.desc == "" ? null : plaListDetailInfo.desc
+                            }
                         </div>
                         <div className="playlistdetailinplaylistinfobu">
                             <div className="playlistdetailbuttonbody">
-                                <img
-                                    className="playlistdetailplaybutton-icon"
-                                    alt=""
-                                    src={PlayListPlayIcon}
-                                />
-                                <img
-                                    className="playlistdetaillikebutton-icon"
-                                    alt=""
-                                    src={PlayListDetailHeart}
-                                />
-                                <img
-                                    className="playlistdetailinsertmusicbutto-icon"
-                                    alt=""
-                                    src={PlayListDetaliAddMusic}
+                                <div className="playlistdetailbuttons">
+                                    <img
+                                        className="playlistdetailplaybutton-icon"
+                                        alt=""
+                                        src={PlayListPlayIcon}
+                                    />
+                                </div>
+                                <div className="playlistdetailbuttons">
+                                    <img
+                                        className="playlistdetaillikebutton-icon"
+                                        alt=""
+                                        src={PlayListDetailHeart}
+                                    />
+                                </div>
+                                <div className="playlistdetailbuttons">
+                                    <img
+                                        className="playlistdetailinsertmusicbutto-icon"
+                                        alt=""
+                                        src={PlayListDetaliAddMusic}
 
-                                />
-                                <img
-                                    className="playlistdetaillistupdatebutton-icon"
-                                    alt=""
-                                    src={PlayListDetailOption}
-                                />
-                                <img
-                                    className="playlistdetailplaybutton-icon"
-                                    alt=""
-                                    src={PlayListDetailDelete}
-                                />
+                                    />
+                                </div>
+                                <div className="playlistdetailbuttons">
+                                    <img
+                                        className="playlistdetaillistupdatebutton-icon"
+                                        alt=""
+                                        src={PlayListDetailOption}
+                                    />
+                                </div>
+                                <div className="playlistdetailbuttons">
+                                    <img
+                                        className="playlistdetailplaybutton-icon"
+                                        alt=""
+                                        src={PlayListDetailDelete}
+                                    />
+                                </div>
                             </div>
                             <div className="playlistdetailviewicons">
                                 <div className="playlistdetailviewicon">
                                     <div className="playlistdetailviewcomment">
-                                        <div className="playlistmessegecount">1000</div>
+                                        <div className="playlistmessegecount">{plaListDetailInfo.commentscount}</div>
                                         <img
                                             className="playlistmessegeicon"
                                             alt=""
@@ -116,13 +154,84 @@ const PlayListDetail = () => {
                                         alt=""
                                         src={HeartImg}
                                     />
-                                    <div className="playlistdetailviewlikecount">1000</div>
+                                    <div className="playlistdetailviewlikecount">{plaListDetailInfo.likescount}</div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
+
                 <div className="playlistdetaillist">
+                    <div className="playlistdetailitems">
+                        <div className="grpbtnset">
+                            <img
+                                className="playlistdetaillistupdatebutton-icon"
+                                alt=""
+                                src={PlayListDetailOption}
+                            />
+                            <img
+                                className="playlistdetaillistdelete-icon"
+                                alt=""
+                                src={PlayListDetailClose}
+                            />
+                        </div>
+                        <div className="txtlength">07:01</div>
+                        <div className="txtsinger">이상혁</div>
+                        <div className="txttitle">We live in the Jurassic Park</div>
+                        <img
+                            className="imgthumbnail-icon"
+                            alt=""
+                            src={Aru}
+                        />
+                        <div className="txtrank">1</div>
+                    </div>
+                    <div className="playlistdetailitems">
+                        <div className="grpbtnset">
+                            <img
+                                className="playlistdetaillistupdatebutton-icon"
+                                alt=""
+                                src={PlayListDetailOption}
+                            />
+                            <img
+                                className="playlistdetaillistdelete-icon"
+                                alt=""
+                                src={PlayListDetailClose}
+                            />
+                        </div>
+                        <div className="txtlength">07:01</div>
+                        <div className="txtsinger">이상혁</div>
+                        <div className="txttitle">We live in the Jurassic Park</div>
+                        <img
+                            className="imgthumbnail-icon"
+                            alt=""
+                            src={Aru}
+                        />
+                        <div className="txtrank">1</div>
+                    </div>
+                    <div className="playlistdetailitems">
+                        <div className="grpbtnset">
+                            <img
+                                className="playlistdetaillistupdatebutton-icon"
+                                alt=""
+                                src={PlayListDetailOption}
+                            />
+                            <img
+                                className="playlistdetaillistdelete-icon"
+                                alt=""
+                                src={PlayListDetailClose}
+                            />
+                        </div>
+                        <div className="txtlength">07:01</div>
+                        <div className="txtsinger">이상혁</div>
+                        <div className="txttitle">We live in the Jurassic Park</div>
+                        <img
+                            className="imgthumbnail-icon"
+                            alt=""
+                            src={Aru}
+                        />
+                        <div className="txtrank">1</div>
+                    </div>
                     <div className="playlistdetailitems">
                         <div className="grpbtnset">
                             <img
@@ -158,64 +267,55 @@ const PlayListDetail = () => {
                             />
                         </div>
                         <div className="playlistdetailcommentform">
-                            <textarea className="txtplaylistdetailform">
-                                저는 피그마가 좋습니다 그러니까 코딩 안하겠습니다
-                                감사합니다
-                                즐겁습니다
-                                집에가고싶습니다.
+                            <textarea className="txtplaylistdetailform" placeholder="최대 길이는 200자 입니다" maxLength="200">
                             </textarea>
                             <div className="playlistdetailformheader">
                                 <img
                                     className="playlistdetailcreaatecommentpr-icon"
                                     alt=""
-                                    src={Aru}
+                                    src={bucketURl + "/profile/" + JSON.parse(sessionStorage.getItem("data")).img}
                                 />
-                                <div className="playlistdetailcreatecommentpro">닉네임</div>
+                                <div className="playlistdetailcreatecommentpro">{JSON.parse(sessionStorage.getItem("data")).nick}</div>
                                 <div className="playlistdetailcreatecommentcre">댓글작성</div>
                                 <div className="playlistdetailcreatecommentcre1">작성</div>
                             </div>
                         </div>
                     </div>
-                    <div className="playlistdetailcommentswrapper">
-                        <div className="playlistdetailcommentitems">
-                            <img
-                                className="playlistdetailcommenttextbody-icon"
-                                alt=""
-                                src="/playlistdetailcommenttextbody.svg"
-                            />
-                            <div className="playlistdetailcommenttext">
-                                안녕하세요 저는 이상혁이구요 페이커 이고 사기꾼이에요
-                                반갑습니다.
-                            </div>
-                            <div className="playlistdetailcommentinfo">
-                                <div className="playlistdetailcommentprofilebo" />
-                                <div className="playlistdetailcommentinfobody">
-                                    <div className="playlistdetailcommentcreateday">
-                                        <div className="playlistdetailcommentcreateday1">
-                                            작성일 : 2024-07-05
+                    {plaListDetailComment.map ((commentList, idx) =>
+                        <div className="playlistdetailcommentswrapper">
+                            <div className="playlistdetailcommentitems">
+                            <span className="playlistdetailcommenttext">
+                               {commentList.content}
+                            </span>
+                                <div className="playlistdetailcommentinfo">
+                                    <div className="playlistdetailcommentprofilebo" />
+                                    <div className="playlistdetailcommentinfobody">
+                                        <div className="playlistdetailcommentcreateday">
+                                            <div className="playlistdetailcommentcreateday1">
+                                                작성일 : {dayjs(commentList.writeda).format('YYYY-MM-DD')}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <img
-                                        className="playlistdetailcommentdeletefra-icon"
-                                        alt=""
-                                        src={PlayListDetailCommentDelete}
-                                    />
-                                    <div className="playlistdetailcommentprofileim">
                                         <img
-                                            className="playlistdetailcommentprofileim-icon"
+                                            className="playlistdetailcommentdeletefra-icon"
                                             alt=""
-                                            src={Molu}
+                                            src={PlayListDetailCommentDelete}
                                         />
-                                    </div>
-                                    <div className="playlistdetailcommentnicknameb">
-                                        <div className="playlistdetailcommentnickname">
-                                            여기는 닉네임이 써지는 자리입니다.
+                                        <div className="playlistdetailcommentprofileim">
+                                            <img
+                                                className="playlistdetailcommentprofileim-icon"
+                                                alt=""
+                                                src={Molu}
+                                            />
+                                        </div>
+                                        <div className="playlistdetailcommentnicknameb">
+                                            {commentList.writer}
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
                 <img
                     className="playlistdetailclose-icon"

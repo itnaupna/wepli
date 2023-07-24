@@ -6,6 +6,11 @@ import MypliIcon from "../MainIMG/MyPliIcon.png";
 import AddPliIcon from "../MainIMG/AddPliIcon.png";
 
 function PlayListMenu(props) {
+    const noLoginAddPli = () =>{
+        if (sessionStorage.getItem("data") == null ){
+            alert("로그인 후 이용가능 합니다.");
+        }
+    }
     return (
         <div className="playlistbuttonlist">
             <div className="playlistbuttonset1">
@@ -31,7 +36,7 @@ function PlayListMenu(props) {
                     <img className="playlistbuttonicon" alt="" src={MypliIcon} />
                     <div className="playlistbuttontext">내 플리</div>
                 </Link>
-                <Link to="../addpli" className="playlistbutton">
+                <Link to={sessionStorage.getItem("data")!=null?"../addpli":""} className="playlistbutton" onClick={noLoginAddPli}>
                     <img
                         className="playlistbuttonicon"
                         alt=""
