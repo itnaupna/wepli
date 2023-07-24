@@ -33,6 +33,17 @@
     font-size: 2.5rem;
     color: #000;
 }
+
+.findpassinputcode{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 8px;
+    background-color: #f4f4f5;
+    width: 18rem;
+    height: 4rem;
+    border: none;
+}
 .findpassinputemail {
     position: absolute;
     top: 0;
@@ -41,6 +52,7 @@
     background-color: #f4f4f5;
     width: 12.75rem;
     height: 4rem;
+    border: none;
 }
 .findpassinputemailgroup {
     position: relative;
@@ -58,10 +70,15 @@
 }
 .findpassemailbtnsendtext {
     position: absolute;
-    top: 0.56rem;
-    left: 0.19rem;
-    font-weight: 500;
-    font-size: 10px;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 8px;
+    background-color: #d0e0f4;
+    border: none;
 }
 .findpassemailbtngroup {
     position: relative;
@@ -84,6 +101,8 @@
     cursor: pointer;
     font-size: 0.75rem;
     color: #aeb2b8;
+
+    margin-right: 100px;
 }
 .findpassmodalbottombtnrectangl {
     position: absolute;
@@ -145,8 +164,8 @@
 .findpassmodalframe {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.2);
-    width: 100%;
-    height: 60.46rem;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
     text-align: center;
     font-size: 0.63rem;
@@ -155,4 +174,5 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 99;
 }

@@ -23,7 +23,8 @@
         select target t,
         (select img from tblMember where nick = t) img,
         count(*) cnt,
-        (select count(*) from vwPlaylist where nick = t) pliCnt
+        (select count(*) from vwPlaylist where nick = t) pliCnt,
+        (select title from vwPlaylist where nick = t order by likesCount desc limit 1) mainPli
         from tblFollow group by target order by cnt desc limit 0, 50;
     </select>
 

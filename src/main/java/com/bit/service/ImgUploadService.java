@@ -1,7 +1,11 @@
 package com.bit.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +19,11 @@ import com.bit.mapper.MemberMapper;
 import com.bit.mapper.PlaylistMapper;
 import com.bit.mapper.StageMapper;
 
+import lombok.extern.slf4j.Slf4j;
 import naver.cloud.NcpObjectStorageService;
 
 @Service
+@Slf4j
 public class ImgUploadService {
 
     public final String BUCKET_NAME = "wepli";
@@ -81,7 +87,7 @@ public class ImgUploadService {
         return "/" + directoryPath + "/" + changeImage;
     }
 
-    public String uploadImg(int idx, String directoryPath, MultipartFile upload) {
+    public String uploadImg(String token, int idx, String directoryPath, MultipartFile upload, HttpServletResponse response) {
 
          if (upload == null || upload.isEmpty()) {
             return "No image";
@@ -89,11 +95,23 @@ public class ImgUploadService {
 
         String originImage = "";
         String changeImage = "";
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
 
         if(directoryPath.equals("playlist")) {
-            originImage = playlistMapper.selectPlaylist(idx).getImg();
+            if(playlistMapper.selectMyPliToIdx(idx).getNick().equals(nick)) {
+                originImage = playlistMapper.selectPlaylist(idx).getImg();
+            } else {
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                return "권한없음";
+            }
         } else {
-            originImage = playlistMapper.selectSong(idx).getImg();
+            SongDto sDto = playlistMapper.selectSong(idx);
+            if(playlistMapper.selectMyPliToIdx(sDto.getPlaylistID()).getNick().equals(nick)) {
+                originImage = sDto.getImg();
+            } else {
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                return "권한없음";
+            }
         }
 
         if(originImage != null && !originImage.equals("")) {
@@ -115,5 +133,58 @@ public class ImgUploadService {
         }
 
         return "/" + directoryPath + "/" + changeImage;
+    }
+
+    Map<String, List<String>> storageImg = new HashMap<>();
+
+    public String storageImgUpload(String token, String directoryPath, MultipartFile upload) {
+    String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+    List<String> imgData;
+
+    String img = ncpObjectStorageService.uploadFile(BUCKET_NAME, directoryPath, upload);
+
+    if(storageImg.get(directoryPath + nick) != null) {
+        log.info("[storageImgUpload] -> {}", storageImg.get(directoryPath + nick));
+        imgData = storageImg.get(directoryPath + nick);
+        imgData.add(img);
+        storageImg.put(directoryPath + nick, imgData);
+    } else {
+        imgData = new ArrayList<>();
+        imgData.add(img);
+        storageImg.put(directoryPath + nick, imgData);
+    }
+    return "/" + directoryPath + "/" + img;
+    }
+
+    public void storageImgDelete(String token, String directoryPath) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        
+        List<String> imgData;
+
+        if(storageImg.get(directoryPath + nick) != null) {
+            log.info("[storageImgUpload] -> {}", storageImg.get(directoryPath + nick));
+            imgData = storageImg.get(directoryPath + nick);
+            for(int i = 0; i < imgData.size(); i++) {
+                ncpObjectStorageService.deleteFile(BUCKET_NAME, directoryPath, imgData.get(i));
+            }
+            storageImg.remove(directoryPath + nick);
+        }
+    }
+
+    public void storageImgDelete(String token, String img, String directoryPath) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        
+        List<String> imgData;
+
+        if(storageImg.get(directoryPath + nick) != null) {
+            log.info("[storageImgUpload] -> {}", storageImg.get(directoryPath + nick));
+            imgData = storageImg.get(directoryPath + nick);
+            for(int i = 0; i < imgData.size(); i++) {
+                if(!imgData.get(i).equals(img)) {
+                    ncpObjectStorageService.deleteFile(BUCKET_NAME, directoryPath, imgData.get(i));
+                }
+            }
+            storageImg.remove(directoryPath + nick);
+        }
     }
 }

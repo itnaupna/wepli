@@ -102,15 +102,27 @@
     height: 2.5rem;
     object-fit: cover;
 }
+.playlisydetailplaybutton-icon:hover{
+    cursor: pointer;
+}
 .playlisydetaillikebutton-icon {
     width: 1.69rem;
     height: 1.69rem;
+}
+
+.playlisydetaillikebutton-icon:hover{
+    cursor: pointer;
 }
 .playlisydetailinsertmusicbutto-icon {
     position: relative;
     width: 2.19rem;
     height: 2.19rem;
     object-fit: cover;
+    padding-bottom: 10px;
+}
+
+.playlisydetailinsertmusicbutto-icon:hover{
+    cursor: pointer;
 }
 .playlistdetaillistupdatebutton-icon {
     position: relative;
@@ -119,6 +131,10 @@
     overflow: hidden;
     flex-shrink: 0;
 }
+.playlistdetaillistupdatebutton-icon:hover{
+    cursor: pointer;
+}
+
 .playlistdetailbuttonbody {
     border-radius: var(--br-3xs);
     background-color: var(--color-gray-300);
@@ -250,6 +266,9 @@
     overflow: hidden;
     flex-shrink: 0;
 }
+.playlistdetaillistdelete-icon:hover{
+    cursor: pointer;
+}
 .grpbtnset,
 .txtlength {
     display: flex;
@@ -366,12 +385,16 @@
 }
 .txtplaylistdetailform {
     position: absolute;
-    top: 2.56rem;
+    top: 2.5rem;
     left: 1.25rem;
     text-transform: capitalize;
     display: inline-block;
-    width: 56.88rem;
-    height: 4.38rem;
+    width: 56.5rem;
+    height: 4rem;
+    resize: none;
+    background-color: rgba(0, 0, 0 ,0);
+    border: none;
+    outline:none;
 }
 .playlistdetailcreaatecommentpr-icon {
     position: absolute;
@@ -422,6 +445,17 @@
     width: 1.63rem;
     height: 1.25rem;
     z-index: 3;
+    padding-left:5px;
+    padding-right: 3px;
+    border: 1px solid var(--color-gray-100);;
+    text-align: center;
+    top: 6px;
+    border-radius: 0.375rem;
+
+}
+.playlistdetailcreatecommentcre1:hover{
+    cursor: pointer;
+    background-color: #f0f0f0;
 }
 .playlistdetailformheader {
     position: absolute;
@@ -516,6 +550,9 @@
     right: 0;
     width: 0.73rem;
     height: 0.59rem;
+}
+.playlistdetailcommentdeletefra-icon:hover{
+    cursor: pointer;
 }
 .playlistdetailcommentprofileim-icon {
     position: relative;
@@ -623,6 +660,9 @@
     overflow: hidden;
     flex-shrink: 0;
     z-index: 3;
+}
+.playlistdetailclose-icon:hover{
+    cursor: pointer;
 }
 .playlistdetail,
 .playlistdetailframe {

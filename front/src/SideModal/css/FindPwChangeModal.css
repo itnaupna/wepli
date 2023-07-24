@@ -1,26 +1,25 @@
-.emailconfirmmodaltitle {
+.findpwchangemodaltitle {
     position: absolute;
     top: 0;
     left: 0;
     display: inline-block;
     width: 7.86rem;
-    font-size: 2.5rem;
 }
-.emailconfirmmodaltitlegroup {
+.findpwchangemodaltitlegroup {
     position: absolute;
     top: 0.19rem;
-    left: 5.61rem;
+    left: 5.55rem;
     width: 7.86rem;
     height: 3rem;
 }
-.emailconfirmmodalarrowgroup-icon {
+.findpwchangemodalarrowgroup-icon {
     position: absolute;
     top: 0.63rem;
     left: 0;
     width: 2.06rem;
     height: 2rem;
 }
-.emailconfirmmodalweplilogo-icon {
+.findpwchangemodalweplilogo-icon {
     position: absolute;
     top: 0;
     left: 15.28rem;
@@ -28,63 +27,48 @@
     height: 3.39rem;
     object-fit: cover;
 }
-.emailconfirmmodalheader {
+.findpwchangemodalheader {
     position: relative;
     width: 18.5rem;
     height: 3.39rem;
     font-size: 2.5rem;
-    color: #000;
 }
-.emailconfirmmodalcentertext {
+.findpwchangemodalcentertext {
     position: absolute;
     top: 0;
     left: 0;
     display: inline-block;
     width: 18.5rem;
-    text-align: center;
 }
-.emailconfirmmodaltextgroup {
+.findpwchangemodaltextgroup {
     position: relative;
     width: 18.5rem;
     height: 0;
-    font-size: 1.13rem;
-    color: #000;
     font-family: "SF Pro Text";
-    margin-bottom: 10px;
 }
-.emailconfirmmodalemailinput {
+.findpwchangemodalphoneinput {
     position: absolute;
     top: 0;
     left: 0;
     border-radius: 8px;
     background-color: #f4f4f5;
-    width: 12.38rem;
+    width: 18.5rem;
     height: 4rem;
 }
-.emailconfirmmodalemailinputgro {
+.findpwchangemodalphoneinputgro {
     position: relative;
-    width: 12.38rem;
+    width: 18.5rem;
     height: 4rem;
 }
-
-.emailconfirmemailbtntext {
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 8px;
-    background-color: #d0e0f4;
-    width: 4rem;
-    height: 1.88rem;
-    border: none;
-    cursor: pointer;
-}
-.emailconfirmemailbtngroup {
+.div {
     position: relative;
-    width: 4rem;
-    height: 1.88rem;
+    font-family: "SF Pro Text";
+    display: inline-block;
+    width: 18.5rem;
+    flex-shrink: 0;
 }
 
-.emailconfirmmodalbtntext {
+.findpwchangemodalbtntext {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -95,15 +79,16 @@
     border-radius: 8px;
     background-color: #d0e0f4;
     border: none;
+    cursor: pointer;
 }
-.emailconfirmmypagebtn {
+.findpwchangemypagebtn {
     position: absolute;
     top: 0;
     left: 0;
     width: 18.5rem;
     height: 3.75rem;
 }
-.emailconfirmmodalbtnarrow-icon {
+.findpwchangemodalbtnarrow-icon {
     position: absolute;
     top: 1.19rem;
     left: 15.75rem;
@@ -111,16 +96,19 @@
     height: 1.5rem;
     overflow: hidden;
 }
-.emailconfirmmodalbtngroup {
+.findpwchangemodalbtngroup {
     position: relative;
     width: 18.5rem;
     height: 3.75rem;
     font-size: 1rem;
+    color: #fff;
 }
-.emailconfirmmodalgroup {
-    position: fixed;
+.findpwchangemodalgroup {
+    position: absolute;
+    z-index: 9999;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);
     border-radius: 30px;
     background-color: #fff;
     width: 22.88rem;
@@ -133,9 +121,8 @@
     align-items: center;
     justify-content: flex-start;
     gap: 1.75rem;
-    transform: translate(-50%, -50%);
 }
-.emailconfirmmodalframe {
+.findpwchangemodalframe {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.2);
     width: 100vw;
@@ -149,6 +136,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     animation: fadeIn 0.4s ease-in-out;
+    z-index: 999;
 }
 
 @keyframes fadeIn {
@@ -158,4 +146,11 @@
     to {
         opacity: 1;
     }
+}
+
+.findpwchangemodaltextgroup{
+    /*border: 1px solid red;*/
+    height: 2vh;
+    display: inline-block;
+    text-align: center;
 }

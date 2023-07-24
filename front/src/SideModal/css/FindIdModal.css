@@ -3,8 +3,9 @@
 .findmodaltitle {
     position: absolute;
     top: 0;
-    left: 0;
+    text-align: center;
     font-weight: 500;
+    border: 1px solid green;
 }
 .findmodaltitlegroup {
     position: absolute;
@@ -34,6 +35,7 @@
     height: 3.39rem;
     font-size: 2.5rem;
     color: #000;
+    border: 1px solid blue;
 }
 .findidinputemail {
     position: absolute;
@@ -43,6 +45,17 @@
     background-color: #f4f4f5;
     width: 12.75rem;
     height: 4rem;
+    border: none;
+}
+.findidinputverfiy{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 8px;
+    background-color: #f4f4f5;
+    width: 17.8rem;
+    height: 4rem;
+    border: none;
 }
 .findidinputemailgroup {
     position: relative;
@@ -50,7 +63,7 @@
     height: 4rem;
 }
 
-.findidemailbtn {
+.findidemailbtnsendtext {
     position: absolute;
     top: 0;
     left: 0;
@@ -58,14 +71,7 @@
     background-color: #d0e0f4;
     width: 4rem;
     height: 1.88rem;
-}
-.findidemailbtnsendtext {
-    position: absolute;
-    top: 0.56rem;
-    left: 0.19rem;
-    font-weight: 500;
-    font-size: 10px;
-    color: black;
+    border: none;
 }
 .findidemailbtngroup {
     position: relative;
@@ -89,7 +95,7 @@
     font-size: 0.75rem;
     color: #aeb2b8;
 }
-.findidmodalbottombtnrectangle {
+.findidmodalbottombtntext {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -99,12 +105,8 @@
     left: 0;
     border-radius: 8px;
     background-color: #d0e0f4;
-}
-.findidmodalbottombtntext {
-    position: absolute;
-    top: 35.94%;
-    left: 36.82%;
-    font-weight: 600;
+    border: none;
+    font-size: 18px;
 }
 .findidmodalbottombtn {
     position: absolute;
@@ -161,12 +163,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
     animation: fadeIn 0.4s ease-in-out;
+    z-index: 999;
     border: 1px solid red;
-}
-
-input{
-    outline: none;
-    border: none;
 }
 
 @keyframes fadeIn {

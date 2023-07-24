@@ -131,16 +131,11 @@ public class MemberController {
 
     // 자기소개 변경
     @PatchMapping("/lv1/m/desc")
-    public boolean patchDesc(@RequestBody MemberDto mDto) {
-        return mService.updateDesc(mDto);
+    public boolean patchDesc(@CookieValue String token, @RequestBody String desc) {
+        System.out.println(desc);
+        return mService.updateDesc(token, desc);
     }
 
-    // 프사 변경
-    // TODO : (확인) 밑에 새로 만들었는데 따로 사용할 일 있을지 체크
-    // @PatchMapping("/lv1/m/img")
-    // public boolean patchImg(@RequestBody MemberDto mDto) {
-    //     return mService.updateImg(mDto);
-    // }
 
     // 마이페이지 데이터 일괄
     @GetMapping("/lv1/m/mypage")
@@ -163,7 +158,8 @@ public class MemberController {
 
     //로그아웃
     //TODO : (확인) 로그아웃시 엑세스토큰이 만료되어있으면 해당 유저의 리프레시 토큰이 삭제가 안되는점 수정
-    @PostMapping("/lv1/m/logout")
+    
+    @PostMapping("/lv0/m/logout")
     public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) throws Exception {
         mService.logout(token, request, response);
     }

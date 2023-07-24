@@ -5,25 +5,28 @@ import MusicList from "../MainIMG/MusicList.png";
 import HeartImg from "../MainIMG/Heart.png";
 import dayjs from 'dayjs';
 import Axios from "axios";
+import {Link} from "react-router-dom";
 
 function PlayListSearchDetail({searchResult}) {
+    const bucketURl = process.env.REACT_APP_BUCKET_URL;
     return (
         <div className="playlistsearchbody">
             <div className="playlistitemwrapperframe">
-                {searchResult.length === 0? <h1 className="NoResearch">검색 결과가 없습니다</h1>:
+                {
+                    searchResult.length === 0? <h1 className="NoResearch">검색 결과가 없습니다</h1>:
                     searchResult?.map((item, idx)=>
-                        <div className="playlistsearchitem">
+                        <Link to="../Pli" className="playlistsearchitem" key={idx} style={{backgroundImage:`linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8)),url(${bucketURl}/playlist/${item.img})`}}>
                             <img
                                 className="playlistsearchthumbnail-icon"
                                 alt=""
-                                src={Aris}
+                                src={`${bucketURl}/playlist/${item.img}`}
                             />
                             <div className="playlistsearchinfowrapper">
                                 <div className="playlistsearchtagswrapper">
                                     <div className="playlistsearchcategory">
-                                        {item.genre===""?null:"#" + item.genre}
+                                        {item.genre===""?null:"#" + item.genre?.split(",")[0]}
                                     </div>
-                                    <div className="playlistsearchtag">{item.tag === ""?null:"#" + item.tag}</div>
+                                    <div className="playlistsearchtag">{item.tag === ""?null:"#" + item.tag?.split(",")[0]}</div>
                                 </div>
                                 <div className="playlistsearchcommentwrapper">
                                     <div className="playlistsearchcommentcount">{item.commentscount}</div>
@@ -53,7 +56,7 @@ function PlayListSearchDetail({searchResult}) {
                                     <div className="playlistsearchlikecount">{item.likescount}</div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     )
                 }
 

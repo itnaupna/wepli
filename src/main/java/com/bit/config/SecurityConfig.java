@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .antMatcher("/**").authorizeRequests()
 
                 .antMatchers("/api/lv0/**").permitAll()
+                .antMatchers("/ws").permitAll()
                 .antMatchers("/api/lv2/**").hasRole("auth2") // auth2 문자 or 이메일 인증을 받은 사람만 허용가능 api
 
                 // 위에 해당하지 않는 url은 security 인증 적용

@@ -27,16 +27,15 @@
     </select>
 
     <select id="selectCheckEmailConfirm" parameterType="string">
-        select emailconfirm from tblMember where email=#{email}
+        select count(emailconfirm) from tblMember where email=#{email}
     </select>
 
     <select id="selectLogin" parameterType="Map" resultType="int">
         select count(*) from tblMember where email=#{email} and pw=sha2(#{pw},256)
     </select>
-        
 
     <select id="selectCheckPhoneConfirm" parameterType="string">
-        select phoneconfirm from tblMember where email=#{email}
+        select count(phoneconfirm) from tblMember where phone=#{phone}
     </select>
 
     <update id="updateEmailConfirm" parameterType="string">
@@ -52,14 +51,14 @@
         update tblMember set pw=sha2(#{pw},256) where nick=#{nick}
     </update>
     <update id="updateInfo" parameterType="Map">
-        update tblMember set email = #{email}, nick = #{newNick}, pw = sha2(#{pw},256), `desc` = #{desc}
+        update tblMember set email = #{email}, nick = #{newNick}, pw = sha2(#{pw},256)
         where nick = #{nick}
     </update>
     <delete id="deleteMember" parameterType="MemberDto">
         delete from tblMember where nick=#{nick} and pw=sha2(#{pw},256)
     </delete>
     <update id="updateDesc" parameterType="MemberDto">
-        update tblMember set `desc`=#{desc} where email=#{email}
+        update tblMember set `desc`=#{desc} where nick=#{nick}
     </update>
     <update id="updateImg" parameterType="MemberDto">
         update tblMember set img=#{img} where nick=#{nick}
@@ -92,15 +91,6 @@
     <update id="FindCheckEmailPw" parameterType="hashMap">
         update tblMember set pw=sha2(#{newPw},256) where email=#{email}
     </update>
-
-    <select id="ConfirmCheckEmail" parameterType="string" resultType="int">
-        select emailconfirm from tblMember where email=#{email}
-    </select>
-    
-    <select id="ConfirmCheckPhone"  parameterType="string" resultType="int">
-        select phoneconfirm from tblMember where phone=#{phone}
-    </select>
-
 
     <select id="selectMemberImgByNick" parameterType="string" resultType="string">
           select img from tblMember where nick=#{nick}

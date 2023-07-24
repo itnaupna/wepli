@@ -159,6 +159,10 @@
         select count(*) from tblStage where address=#{address} and pw=#{pw}
     </select>
 
+    <select id="selectCheckStageTitle" parameterType="Map" resultType="int">
+        select count(*) from tblStage where nick = #{nick} and title=#{title}
+    </select>
+
 
     <select id="selectFollowStage">
         SELECT ts.address, ts.title, ts.desc, ts.genre, ts.tag, ts.nick, ts.makeday, ts.img, CASE WHEN ts.pw IS NOT NULL THEN 1 ELSE NULL END AS pw, ts.maxlength, ts.skipratio

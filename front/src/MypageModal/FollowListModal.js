@@ -8,6 +8,9 @@ function FollowListModal({setisFollowListModalOpen}) {
     const closeFollowListModal = async () => {
         await setisFollowListModalOpen(false);
     }
+
+
+
     return (
         <div>
             <div className="followmodalframe" onClick={closeFollowListModal}></div>
