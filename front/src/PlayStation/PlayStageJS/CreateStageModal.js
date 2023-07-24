@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../PlayStageCss/CreateStageModal.css';
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import Cancel from '../PlayStageImage/Icon/Cancel.svg';
 import Create from '../PlayStageImage/Icon/Create.svg';
 import Logo from '../PlayStageImage/img/Logo.png';
@@ -23,6 +23,9 @@ function CreateStageModal({setModalOpen}) {
     //파일 업로드/미리보기 이벤트
     const onUpload = (e)=>{
         const file = e.target.files[0];
+        if(!file){
+          return;
+        }
         const reader = new FileReader();
         reader.readAsDataURL(file);
 
@@ -93,18 +96,22 @@ function CreateStageModal({setModalOpen}) {
             console.log('Create success!')
         }
     }
-    // //스테이지 생성
-    // const MakeStage = async () =>{
-    //   const url = "/api/lv2/s/stage";
+    //스테이지 생성
+    const MakeStage = async () =>{
+      const url = "/api/lv2/s/stage";
 
-    // //   try {
-    // //     const res = await axios.post(url,{title,pw: pw, tag, genre});
-    // //     if(res.data){
-    // //         window.onload.reload();
-    // //         Navigate("/stage/url");
-    // //     }
-    // //   }
-    // // };
+      try {
+        const res = await axios.post(url,{title,pw: pw, tag, genre});
+        if(res.data){
+            window.onload.reload();
+            Navigate("/stage/url");
+        }
+  
+      }catch(error){
+        console.log(error);
+        alert(error);
+      }
+    };
     return (
         <div ref={modalRef} className="createstagemodal-parent">
         <div className="createstagemodal">
@@ -115,7 +122,7 @@ function CreateStageModal({setModalOpen}) {
             <div className="div">
               <div className="child" />
               <form onSubmit={handleSubmit}>
-                <button type='submit' className='div1'>Stage 생성</button>                
+                <button type='submit' className='CreateStage'>Stage 생성</button>                
               </form>
             </div>
           </div>
@@ -127,11 +134,11 @@ function CreateStageModal({setModalOpen}) {
           </div>
           <div className="Makestage">Stage 생성</div>
           <div className="mypageemailmodal">
-            <div className="rectangle-parent">
+            <div className="Crectangle-parent">
               <div className="group-child" />
               {isPhoto? (
-              <div className='div2'>
-                <label className="input-file-button" for="ImageUpload">
+              <div className='PhotoUploadSpace'>
+                <label className="PhotoUpload-file-button" for="ImageUpload">
                   <img src={Upload} alt=''/>
                     </label>
                       <input 
@@ -148,6 +155,9 @@ function CreateStageModal({setModalOpen}) {
                     onChange={e=>onUpload(e)}>
                     </input>  
                 <img 
+
+
+                
                   
                 width={'60%'} src={img} alt='' className='groupChildImage' for='ImageUpload' onClick={handleImageClick}/>
                 </div>             
@@ -168,8 +178,8 @@ function CreateStageModal({setModalOpen}) {
             <div className="rectangle-group">
               <div className="group-item" />
               <div className="container">
-                <div className="div3">
-                    <input type='text' placeholder='스테이지 제목' value={title} onChange={(e)=>setTitle(e.target.value)}/>
+                <div className="StageTitle">
+                    <input type='text' className='StageTitleSpace' placeholder='스테이지 제목' value={title} onChange={(e)=>setTitle(e.target.value)}/>
                 </div>
               </div>
             </div>
@@ -185,13 +195,13 @@ function CreateStageModal({setModalOpen}) {
             <div className="group-div">
               <div className="group-inner" />
               <div className="frame">
-                <input type='text' className='div4' placeholder='태그입력' value={tag} onChange={(e)=>setTag(e.target.value)}/>
+                <input type='text' className='TagSpace' placeholder='태그입력' value={tag} onChange={(e)=>setTag(e.target.value)}/>
               </div>
             </div>
-            <div className="rectangle-parent1">
+            <div className="Crectangle-parent1">
               <div className="group-inner" />
               <div className="frame">
-                <input type='text' className='frameGenre' placeholder='장르입력' value={genre} onChange={(e)=>setGenre(e.target.value)}/>
+                <input type='text' className='CframeGenre' placeholder='장르입력' value={genre} onChange={(e)=>setGenre(e.target.value)}/>
               </div>
             </div>
           </div>

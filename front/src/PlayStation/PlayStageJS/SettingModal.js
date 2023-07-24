@@ -19,23 +19,31 @@ function SettingModal({setModalOpen}) {
  const [img, setImg] = useState('');
  const [disable,setDisable] = useState(true);
  const [isPublic,setIsPublic]= useState(true);
- const [isImageUpload,setIsImageUpload]=useState(false);
+ const [isPhoto,setIsPhoto] = useState(true);
+ const fileInputRef = useRef(null);
  //파일 업로드/미리보기 이벤트
  const onUpload = (e)=>{
      const file = e.target.files[0];
+     if(!file){
+       return;
+     }
      const reader = new FileReader();
      reader.readAsDataURL(file);
 
      return new Promise((resolve)=>{
          reader.onload=()=>{
              setImg(reader.result || null);//파일의 컨텐츠
-             setIsImageUpload(true);
+             setIsPhoto(false);
              resolve();
-             console.log(setIsImageUpload);
          };
      });
- }
-
+ };
+ const handleImageClick = () => {
+   if (fileInputRef.current) {
+     fileInputRef.current.click(); // ref가 null이 아닐 때만 click() 메소드 호출
+   } // ref를 사용하여 파일 업로드 input 요소 클릭 이벤트 호출
+   
+ };
  //Private일 경우 비밀번호 나오게 div 나오게 만들기
 
  const OpenPw = (e)=> {
@@ -53,7 +61,7 @@ function SettingModal({setModalOpen}) {
  const closeModal = () => {
      setModalOpen(false);
  };
- 
+
  // const MakeStage = useNavigate("/PlayStage.js/${address}")
  //모달 외부 클릭 시 끄기 처리
  //Modal 창을 useRef로 취득
@@ -99,10 +107,10 @@ function SettingModal({setModalOpen}) {
          <div className="frame-child" />
        </div>
        <div className="wrapper">
-         <div className="div">
+         <div className="ModifyContainer">
            <div className="child" />
            <form onSubmit={handleSubmit}>
-             <button type='submit' className='div1'>저장 완료</button>                
+             <button type='submit' className='ModifySubmitButton'>수정 완료</button>                
            </form>
          </div>
        </div>
@@ -116,21 +124,28 @@ function SettingModal({setModalOpen}) {
        <div className="mypageemailmodal">
          <div className="rectangle-parent">
            <div className="group-child" />
-            {isImageUpload?(
-                <div>
-                    <img width={'60%'} src={img} alt='' className='groupChildImage' />
-                </div>
-            ):(
-              <div className="div2">
-              <label className="input-file-button" for="ImageUpload">
+            {isPhoto?(
+              <div className="Modify-Photo">
+              <label className="Modify-Photo-button" for="ImageUpload">
                 <img src={Upload} alt=''/>
               </label>
-              <input accept='image/*' multiple type='file' id='ImageUpload' style={{display:'none'}}
+              <input 
+              ref={fileInputRef}
+              accept='image/*' multiple type='file' id='ImageUpload' style={{display:'none'}}
               onChange={e=>onUpload(e)}>
              </input>
              </div>
-            )
-            }
+            ): (
+              <div>
+              <input 
+              ref={fileInputRef} // 파일 업로드 input 요소에 ref 연결
+              accept='image/*' multiple type='file' id='ImageUpload' style={{display:'none'}}
+              onChange={e=>onUpload(e)}>
+              </input>  
+          <img   
+          width={'60%'} src={img} alt='' className='groupChildImage' for='ImageUpload' onClick={handleImageClick}/>
+          </div>   
+            )}
          </div>
          
          <img
@@ -143,8 +158,8 @@ function SettingModal({setModalOpen}) {
          <div className="rectangle-group">
            <div className="group-item" />
            <div className="container">
-             <div className="div3">
-                 <input type='text' placeholder='스테이지 제목' value={title} onChange={(e)=>setTitle(e.target.value)}/>
+             <div className="ModifyTitle">
+                 <input type='text' className='ModifyTitleSpace'placeholder='스테이지 제목' value={title} onChange={(e)=>setTitle(e.target.value)}/>
              </div>
            </div>
          </div>
@@ -159,19 +174,19 @@ function SettingModal({setModalOpen}) {
          </div>
          <div className="group-div">
            <div className="group-inner" />
-           <div className="frame">
-             <input type='text' className='div4' placeholder='태그입력' value={tag} onChange={(e)=>setTag(e.target.value)}/>
+           <div className="Modifyframe">
+             <input type='text' className='ModifyTag' placeholder='태그입력' value={tag} onChange={(e)=>setTag(e.target.value)}/>
            </div>
          </div>
          <div className="rectangle-parent1">
            <div className="group-inner" />
-           <div className="frame">
+           <div className="Modifyframe">
              <input type='text' className='frameGenre' placeholder='장르입력' value={genre} onChange={(e)=>setGenre(e.target.value)}/>
            </div>
          </div>
          <div className='rectangle-parent2'>
             <div className='group-inner'/>
-            <div className='frame2'>
+            <div className='Modifyframe2'>
                 <input type='text' className='frameDesc' placeholder='스테이지 소개글을 작성해주세요' value={desc} onChange={(e)=>setDesc(e.target.value)}/>
             </div>
          </div>

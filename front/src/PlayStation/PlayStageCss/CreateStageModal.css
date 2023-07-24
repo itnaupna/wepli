@@ -394,7 +394,7 @@ a:focus {
     justify-content: flex-start;
   }
   .child,
-  .div1 {
+  .CreateStage {
     position: absolute;
   }
   .child {
@@ -407,7 +407,7 @@ a:focus {
     border-radius: 8px;
     background-color: #d0e0f4;
   }
-  .div1 {
+  .CreateStage {
     border:0;
     outline: 0;
     top: 35.94%;
@@ -482,14 +482,16 @@ a:focus {
     width: 16.06rem;
     height: 11.44rem;
   }
-  .input-file-button{
+  .PhotoUpload-file-button{
     padding: 6px 25px;
-    background-color:#a649da;
+    background-color:transparent;
     border-radius: 4px;
     color: white;
     cursor: pointer;
     position: absolute;
-    top:70px;
+    top:0;
+    bottom: 0;
+    margin:auto;
     left: 33%;
   }
   .groupChildImage{
@@ -499,7 +501,7 @@ a:focus {
     left:50px;
     margin:auto;
   }
-  .div2 {
+  .PhotoUploadSpace {
     position: absolute;
     top: 5.14rem;
     left: 0.75rem;
@@ -508,7 +510,7 @@ a:focus {
     width: 14.56rem;
     height: 1.16rem;
   }
-  .rectangle-parent {
+  .Crectangle-parent {
     position: absolute;
     top: 7.19rem;
     left: 1.88rem;
@@ -535,13 +537,13 @@ a:focus {
     height: 2.25rem;
   }
   .container,
-  .div3,
+  .StageTitle,
   .rectangle-group {
     position: absolute;
     width: 15.47rem;
     height: 1.44rem;
   }
-  .div3 {
+  .StageTitle {
     top: 0;
     left: -15px;
     bottom: 10px;
@@ -549,7 +551,7 @@ a:focus {
     font-weight: 500;
     display: inline-block;
   }
-  .div3 input{
+  .StageTitleSpace{
     background-color: transparent!important;
   }
   .container,
@@ -598,13 +600,13 @@ a:focus {
     width: 19.5rem;
     height: 2.5rem;
   }
-  .div4,
+  .TagSpace,
   .frame {
     position: absolute;
     width: 14.88rem;
     height: 1.19rem;
   }
-  .div4 {
+  .TagSpace {
     top: 0;
     left: 30px;
     font-weight: 500;
@@ -615,18 +617,18 @@ a:focus {
     top: 0.69rem;
     left:17px;
   }
-  .frameGenre{
+  .CframeGenre{
     background-color: transparent;
   }
   .group-div,
-  .rectangle-parent1 {
+  .Crectangle-parent1 {
     position: absolute;
     top: 13.06rem;
     left: 19.94rem;
     width: 19.5rem;
     height: 2.5rem;
   }
-  .rectangle-parent1 {
+  .Crectangle-parent1 {
     top: 16.13rem;
   }
   .mypageemailmodal {
