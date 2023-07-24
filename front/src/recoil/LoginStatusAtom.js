@@ -5,15 +5,15 @@ export const LoginStatusAtom = atom({
     default: (localStorage.data||sessionStorage.data) != null,
 });
 
-export const dataState = atom({
-    key: 'dataState',
+export const DataState = atom({
+    key: 'DataState',
     default: JSON.parse(sessionStorage.getItem('data')) || JSON.parse(localStorage.getItem('data')) || {},
 });
 
 export const emailConfirmState = selector({
     key: 'emailConfirmState',
     get: ({ get }) => {
-        const data = get(dataState);
+        const data = get(DataState);
         return data.emailconfirm;
     },
 });
@@ -22,3 +22,8 @@ export const ProfileImageUrl = atom({
    key: 'ProfileImageUrl',
    default: null
 });
+
+export const UserStorageNick = atom({
+    key: 'UserStorageNick',
+    default: null
+})

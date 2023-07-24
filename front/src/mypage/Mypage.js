@@ -9,8 +9,8 @@ import PhoneConfirmModal from "../MypageModal/PhoneConfirmModal";
 import BlackListOptionModal from "../MypageModal/BlackListOptionModal";
 import FollowListModal from "../MypageModal/FollowListModal";
 import axios from "axios";
-import {useRecoilState} from "recoil";
-import {LoginStatusAtom, ProfileImageUrl, profileImageUrl} from "../recoil/LoginStatusAtom";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {DataState, LoginStatusAtom, ProfileImageUrl, profileImageUrl} from "../recoil/LoginStatusAtom";
 
 function Mypage(props) {
 
@@ -26,8 +26,10 @@ function Mypage(props) {
         console.log(userNick);
     }
 
-    const nick1= JSON.parse(data);
-    const nick = nick1.nick;
+    const parse= JSON.parse(data);
+    const nick = parse.nick;
+    const desc = parse.desc;
+    console.log("자기소개 나오는지"+desc);
     const parsedData = JSON.parse(data);
     const emailconfirm = parsedData.emailconfirm;
     console.log(emailconfirm);
@@ -45,6 +47,7 @@ function Mypage(props) {
     const [memberProfile, setmemberProfile] = useState('');
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [profileImageUrl, setProfileImageUrl] = useRecoilState(ProfileImageUrl);
+
     const showOutMemberModal = () => {
         setIsOutMemberModalOpen(true);
     };
@@ -104,6 +107,16 @@ function Mypage(props) {
             });
         });
     };
+
+    // const handleDescChange = async () => {
+    //     const url = "/api/lv1/m/desc";
+    //     axios({
+    //         method: "patch",
+    //         url: url,
+    //         data: {desc}
+    //         }
+    //     })
+    // }
 
     useEffect(() => {
         setProfileImageUrl(profile);
@@ -165,17 +178,17 @@ function Mypage(props) {
                     <div className="mypagemyinfoboxframe">
                         <div className="mypageonelineinfotext">
                             <div className="mypageonelinetext">
-                                안녕하세요 저는 인디음악을 좋아해요 오늘도 좋은하루 보내세요
+                                {desc}
                             </div>
                         </div>
-                        <div className="mypageonelinerbox">
+                        <button type={'button'} className="mypageonelinerbox">
                             <div className="mypageonelinertext">한줄소개</div>
                             <img
                                 className="mypagecommunicationicon"
                                 alt=""
                                 src={message}
                             />
-                        </div>
+                        </button>
                     </div>
                     <div className="mypagefollowframe">
                         <label className="mypagefollowingbox" onClick={showFollowListModal}>

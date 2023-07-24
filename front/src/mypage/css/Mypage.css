@@ -144,6 +144,9 @@
     height: 3rem;
     font-size: 1.5rem;
     font-family: "KBO Dia Gothic";
+    background: transparent;
+    border: none;
+    cursor: pointer;
 }
 .mypagemyinfoboxframe {
     position: absolute;

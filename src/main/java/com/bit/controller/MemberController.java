@@ -131,8 +131,8 @@ public class MemberController {
 
     // 자기소개 변경
     @PatchMapping("/lv1/m/desc")
-    public boolean patchDesc(@RequestBody MemberDto mDto) {
-        return mService.updateDesc(mDto);
+    public boolean patchDesc(@CookieValue String token,  @RequestParam String desc) {
+        return mService.updateDesc(token, desc);
     }
 
     // 프사 변경

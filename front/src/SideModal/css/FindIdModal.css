@@ -45,6 +45,7 @@
     background-color: #f4f4f5;
     width: 12.75rem;
     height: 4rem;
+    border: none;
 }
 .findidinputverfiy{
     position: absolute;
@@ -54,6 +55,7 @@
     background-color: #f4f4f5;
     width: 17.8rem;
     height: 4rem;
+    border: none;
 }
 .findidinputemailgroup {
     position: relative;
@@ -163,11 +165,6 @@
     animation: fadeIn 0.4s ease-in-out;
     z-index: 999;
     border: 1px solid red;
-}
-
-input{
-    outline: none;
-    border: none;
 }
 
 @keyframes fadeIn {

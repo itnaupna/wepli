@@ -137,11 +137,6 @@ function SideBar(props) {
                             src={loginStatus ? `${bucket}/profile/${profileImage}` : defaultprofile}
                         />
                     </div>
-                    {/*{(sessionStorage.data !=null || localStorage.data !=null) && (*/}
-                    {/*    <div className="sidemenulogoutbutton" onClick={onLogoutSubmit}>*/}
-                    {/*        <img className='icon2' alt="" src={logout}/>*/}
-                    {/*    </div>*/}
-                    {/*)}*/}
 
                     {loginStatus && (
                         <div className="sidemenulogoutbutton" onClick={onLogoutSubmit}>
