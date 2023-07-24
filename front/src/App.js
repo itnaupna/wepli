@@ -19,6 +19,7 @@ import { useRecoilState } from 'recoil';
 import { YoutubeAtom } from './recoil/YoutubeAtom';
 import Hyukmain from "./hyukmain";
 import { LoginStatusAtom } from './recoil/LoginStatusAtom';
+import AddPlayLsit from "./PlayListMain/AddPlayList";
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
                 <Route path="/pli/:pliId" element={<PlayListDetail />} />
+                <Route path="/addpli" element={<AddPlayLsit />} />
                 <Route path="/mypli" element={<PlayListMain03MyPlayListMain />} />
                 <Route path="/stage/:stageUrl" element={<PlayStage />} />
                 <Route path="/stage" element={<PlayStageList />} />

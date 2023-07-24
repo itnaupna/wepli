@@ -358,6 +358,10 @@
     margin-top: 30px;
     margin-bottom: 20px;
 }
+.playlistsearchitem:hover{
+    transform: translate(-3px, -3px);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.75);
+}
 .playlistitemwrapperframe,
 .playlistsearchbody {
     align-self: stretch;

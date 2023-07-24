@@ -76,6 +76,18 @@
     min-width: 10rem;
     max-width: 15rem;
     min-height: 3.13rem;
+    color: #6340EE !important;
+}
+.playlistbutton:hover{
+    color: #a649da !important;
+}
+.playlistbutton:active{
+    transform: translate(3px, 3px);
+    box-shadow: -2px -2px 2px rgba(0, 0, 0, 0.75);
+    color: #a649da !important;
+}
+.playlistbutton:focus{
+    color: #6340EE !important;
 }
 .playlistbuttonset1 {
     align-items: flex-start;
