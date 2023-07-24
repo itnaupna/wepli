@@ -51,7 +51,7 @@
         update tblMember set pw=sha2(#{pw},256) where nick=#{nick}
     </update>
     <update id="updateInfo" parameterType="Map">
-        update tblMember set email = #{email}, nick = #{newNick}, pw = sha2(#{pw},256), `desc` = #{desc}
+        update tblMember set email = #{email}, nick = #{newNick}, pw = sha2(#{pw},256)
         where nick = #{nick}
     </update>
     <delete id="deleteMember" parameterType="MemberDto">

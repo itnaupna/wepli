@@ -25,11 +25,12 @@ public class SecurityConfig {
     private JwtRequestFilter jwtRequestFilter;
 
     // 정적 자원에 대한 Security 설정 적용 x
-    // @Bean
-    // public WebSecurityCustomizer configure() {
-    //     return (web) -> web.ignoring()
-    //             .antMatchers("/**");
-    // }
+    @Bean
+    public WebSecurityCustomizer configure() {
+        return (web) -> web.ignoring()
+                .antMatchers("/static/**")
+                .antMatchers("/resources/**");
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -42,16 +43,10 @@ public class SecurityConfig {
         // .ignoringRequestMatchers(new AntPathRequestMatcher("/api/**")));
         // return http.build();
 
-        return http
-                .requiresChannel()
-                .anyRequest()
-                .requiresSecure()
-                .and()    
-                .cors().and().csrf().disable() // csrf 보안 비활성화
-                // .antMatcher("/stage").
+        return http.cors().and().csrf().disable() // csrf 보안 비활성화
                 .antMatcher("/**").authorizeRequests()
 
-                .antMatchers("/api/lv0/**").permitAll()
+                .antMatchers("/api/lv0/**", "/", "/mypage/**", "/stage/**", "/ranking", "/pli", "/mypli", "/pli/:pliId").permitAll()
                 .antMatchers("/ws").permitAll()
                 .antMatchers("/api/lv2/**").hasRole("auth2") // auth2 문자 or 이메일 인증을 받은 사람만 허용가능 api
 

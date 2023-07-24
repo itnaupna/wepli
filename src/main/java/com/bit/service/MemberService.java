@@ -220,7 +220,12 @@ public class MemberService {
     }
 
     // 자기소개 변경
-    public boolean updateDesc(MemberDto mDto) {
+    public boolean updateDesc(String token, String desc) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        MemberDto mDto = new MemberDto();
+        mDto.setNick(nick);
+        mDto.setDesc(desc);
+
         return memberMapper.updateDesc(mDto) > 0;
     }
 

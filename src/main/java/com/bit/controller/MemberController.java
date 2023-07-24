@@ -131,8 +131,8 @@ public class MemberController {
 
     // 자기소개 변경
     @PatchMapping("/lv1/m/desc")
-    public boolean patchDesc(@RequestBody MemberDto mDto) {
-        return mService.updateDesc(mDto);
+    public boolean patchDesc(@CookieValue String token, @RequestParam String desc) {
+        return mService.updateDesc(token, desc);
     }
 
     // 마이페이지 데이터 일괄
@@ -155,7 +155,7 @@ public class MemberController {
     }
 
     //로그아웃
-    @PostMapping("/lv0/m/logout")
+    @PostMapping("/lv1/m/logout")
     public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) throws Exception {
         mService.logout(token, request, response);
     }

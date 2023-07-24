@@ -21,6 +21,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 
@@ -46,6 +47,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private MemberMapper membermMapper;
 
+    private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
+    	// 인증에서 제외할 url
+	private static final List<String> EXCLUDE_URL =
+    Collections.unmodifiableList(
+        Arrays.asList(
+            "/static/**",
+            "/favicon.ico",
+            "/ws/"
+            // "/"
+    ));
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 //         jwt cookie 사용 시 해당 코드를 사용하여 쿠키에서 토큰을 받아오도록 함
@@ -68,9 +80,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         log.info(path);
 
         // 비회원일경우
-        if((token == null || token.equals("")) && (path.startsWith("/api/lv0/") || (path.startsWith("/ws/")))) {
+        if((token == null || token.equals("")) && (path.startsWith("/api/lv0"))) {
             log.info("JwtRequestFilter -> no member");
-        } else if(token.startsWith("Bearer") && jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
+        } else 
+        if(token.startsWith("Bearer") && jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
             // access token이 만료되었을경우
             log.info("[doFilterInternal] expired");
             String refreshToken = ts.accessToRefresh(token);
@@ -164,5 +177,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         log.info("[doFilterInternal]success");
         filterChain.doFilter(request,response);
     }
+
+    // Filter에서 제외할 URL 설정
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    
+        String servletPath = request.getServletPath();
+		return EXCLUDE_URL.stream().anyMatch(pattern -> PATH_MATCHER.match(pattern, servletPath));
+	}
 
 }
