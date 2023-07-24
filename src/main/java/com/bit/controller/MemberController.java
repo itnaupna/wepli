@@ -159,7 +159,7 @@ public class MemberController {
     }
 
     //로그아웃
-    @PostMapping("/lv1/m/logout")
+    @PostMapping("/lv0/m/logout")
     public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) throws Exception {
         mService.logout(token, request, response);
     }

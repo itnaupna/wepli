@@ -85,7 +85,7 @@ function Mypage(props) {
             data: uploadFile,
             headers: { "Content-Type": "multipart/form-data" }
         }).then(res => {
-            const mypageurl = "/api/lv1/m/mypage";
+            const mypageurl = "/api/lv0/m/mypage";
             axios({
                 method: "get",
                 url: mypageurl,
