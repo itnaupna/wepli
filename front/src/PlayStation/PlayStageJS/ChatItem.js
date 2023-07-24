@@ -2,7 +2,6 @@ import React from 'react';
 
 
 const ChatItem = ({data}) => {
-    // let date = new Date();
     return (
         <div className="stage-chat-item">
             <img

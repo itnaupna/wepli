@@ -1,63 +1,53 @@
-import { atom } from 'recoil';
+import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import SockJS from 'sockjs-client';
 import * as StompJS from '@stomp/stompjs';
+import { ChatItemsAtom } from './ChatItemAtom';
 
-const ws = StompJS.Stomp.over(new SockJS("https://localhost/ws"));
+// const [ws, setWs] = useRecoilState();
+const sc = new SockJS("https://localhost/ws");
+const ws= StompJS.Stomp.over(sc);
+
 let subs;
-export const subSocket = (endpoint,callback)=>{
-  subs?.unsubscribe();
-  subs = ws.subscribe(endpoint,callback);
+let sessionId=null;
+
+export const conSocket = () =>{
+  // let sock = new SockJS("https://localhost/ws");
+  // ws = StompJS.Stomp.over(sock);
+  ws.disconnect();  
+  ws.connect({},()=>{
+    sessionId = sc._transport.url.split("/ws/")[1].split("/")[1];
+    console.log("웨오옹" + sessionId);
+  });
 }
 
-export const SendMsg = (e)=>{
+export const subSocket = (endpoint, callback) => {
+  subs?.unsubscribe();
+  subs = ws.subscribe(endpoint, callback);
+}
+
+export const SendMsg = (e) => {
   ws.send("/pub/msg", {}, JSON.stringify(e));
 }
 
-export const handleSendMsg = (type, msg) => {
-  // msg = msg?.trim();
-  // let userNick = JSON.parse(sessionStorage.getItem('data') || localStorage.getItem('data'));
-  // switch (type) {
-  //     case 'ENTER':
-  //         break;
-  //     case 'EXIT':
-  //         break;
-  //     case 'SKIP':
-  //         break;
-  //     case 'VOTE_UP':
-  //         break;
-  //     case 'VOTE_DOWN':
-  //         break;
-  //     case 'KICK':
-  //         break;
-  //     case 'BAN':
-  //         break;
-  //     case 'DELETE':
-  //         break;
-  //     case 'QUEUE_IN':
-  //         break;
-  //     case 'QUEUE_OUT':
-  //         break;
-  //     case 'QUEUE_ORDER_CHANGE':
-  //         break;
-  //     case 'QUEUE_ORDER_SONG':
-  //         break;
-  //     case 'CHAT':
-  //         if (msg.trim().length === 0 || !userNick) break;
-  //         SendMsg({
-  //             type,
-  //             stageId: stageUrl,
-  //             userNick: userNick?.nick,
-  //             msg
-  //         });
-  //         break;
-  //     default:
-  //         break;
-  // }
+export const handleSendMsg = (type, msg, stageId) => {
+  msg = msg?.trim();
+  let userNick = (JSON.parse(sessionStorage.getItem('data') || localStorage.getItem('data')))?.nick;
+  // console.log(userNick);
+
+  if ((type === 'CHAT' && (msg.trim().length === 0 || userNick===undefined))) return;
+  SendMsg({
+    type,
+    stageId,
+    userNick,
+    sessionId,
+    msg
+  });
+
 };
 
 
 export const SocketAtom = atom({
   key: 'SocketAtom',
   default: ws,
-  dangerouslyAllowMutability:true
+  dangerouslyAllowMutability: true
 });

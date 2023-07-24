@@ -170,4 +170,14 @@
         ) order by makeday desc;
     </select>
 
+
+    <select id="selectStageUserList">
+          select nick, img, stageaddress as addr
+          from vwMypage
+          where nick in
+          <foreach collection="list" open="(" separator="," close=")" item="nick">
+            #{nick}
+          </foreach>
+    </select>
+
 </mapper>

@@ -64,7 +64,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         Map<String, Object> rules = new HashMap<>();
         String authValue = "";
         MypageDto userDto;
-        String path = request.getServletPath();
+        // String path = request.getServletPath();
         // log.info(path);
 
         // 비회원일경우

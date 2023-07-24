@@ -18,10 +18,12 @@ public class SocketDto {
         QUEUE_OUT,          //큐 탈퇴
         QUEUE_ORDER_CHANGE, //큐 순서 변경
         QUEUE_CHANGE_SONG,  //큐 등록된 노래 교체
-        CHAT                //채팅
+        CHAT,               //채팅
+        PLAY                //재생
     }
 
     private Types type;
+    private String sessionId;
     private String stageId;
     private String userNick;
     private String img;

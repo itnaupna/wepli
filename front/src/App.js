@@ -11,26 +11,24 @@ import PlayListDetail from "./PlayListMain/PlayListDetail";
 import PlayStage from "./PlayStation/PlayStageJS/PlayStage";
 import PlayStageList from "./PlayStation/PlayStageJS/PlayStageList"
 import TestPage from './TestPage';
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import KakaoCallback from "./KakaoCallback";
 import Mypage from "./mypage/Mypage";
-import { useRecoilState, useRecoilValue } from 'recoil';
-// import { VideoInfoAtom } from './recoil/VideoInfoAtom';
-import { SocketAtom } from './recoil/SocketAtom';
+import { conSocket } from './recoil/SocketAtom';
+import { useRecoilState } from 'recoil';
+import { YoutubeAtom } from './recoil/YoutubeAtom';
 function App() {
-    // const [videoInfo, setVideoInfo] = useRecoilState(VideoInfoAtom);
-    const [socketAtom, setSocketAtom] = useRecoilState(SocketAtom);
-    // const socketAtom = userecoil
+    const [YTP, setYTP] = useRecoilState(YoutubeAtom);
+
 
     useEffect(() => {
-        socketAtom.connect({},()=>{
-            setSocketAtom(socketAtom);
-        });
+        conSocket();
     }, []);
 
 
     return (
         <BrowserRouter>
+            {YTP}
             <SideBar />
             {/* {videoInfo.isPlaying ? <MusicPlayerBar /> : null} */}
             {/*<MusicPlayerBar/>*/}

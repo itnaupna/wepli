@@ -134,7 +134,7 @@
   padding: 20px;
   align-items: flex-start;
   gap: 13px;
-  background-image: linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("../PlayStageImage/img/SLPMystageImg.png");
+  background-image: linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("");
   /* background-color: rgba(255, 255, 255, 0.4); */
   background-size: cover;
   background-repeat: no-repeat;
@@ -362,7 +362,7 @@
   padding: 20px;
   box-sizing: border-box;
   gap: 13px;
-  background-image: linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("../PlayStageImage/img/SLPMystageImg.png");
+  background-image: linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;

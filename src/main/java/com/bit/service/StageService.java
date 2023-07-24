@@ -1,5 +1,6 @@
 package com.bit.service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.bit.dto.BuiltStageDto;
 import com.bit.dto.MemberDto;
 import com.bit.dto.StageDto;
+import com.bit.dto.StageUserListDto;
 import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.BlacklistMapper;
 import com.bit.mapper.MemberMapper;
@@ -30,30 +32,50 @@ public class StageService {
     @Autowired
     JwtTokenProvider jwtTokenProvider;
 
-    final Map<String, BuiltStageDto> builtStages = new HashMap<>();
+    private final Map<String, BuiltStageDto> builtStages = new HashMap<>();
 
     public int getUserCount(String stageUrl) {
         return builtStages.getOrDefault(stageUrl, new BuiltStageDto()).getUsers().size();
     }
 
-    public List<String> addUser(String stageUrl, String nick) {
-        return builtStages.compute(stageUrl, (k, v) -> {
-            if (v == null) {
-                v = new BuiltStageDto();
-            }
-            v.getUsers().add(nick);
-            return v;
-        }).getUsers();
+    public void addUserToStage(String stageUrl, String sessionId) {
+        builtStages.compute(stageUrl, (k,v)->{
+        if(v==null){
+        v = new BuiltStageDto();
+        }
+        v.getUsers().put(sessionId, "");
+        return v;
+        });
     }
 
-    public List<String> subUser(String stageUrl, String nick) {
-        return builtStages.compute(stageUrl, (k, v) -> {
-            v.getUsers().remove(nick);
+    public void subUserToStage(String stageUrl, String sessionId) {
+        builtStages.compute(stageUrl, (k, v) -> {
+            v.getUsers().remove(sessionId);
             return v;
-        }).getUsers();
+        });
     }
 
-    // public List<Map<String> 
+    public void setUserNickInStage(String stageUrl, String sessionId, String nick) {
+        builtStages.get(stageUrl).getUsers().replace(sessionId, nick);
+    }
+
+    public String getUserNickInStage(String stageUrl, String sessionId){
+        return builtStages.getOrDefault(stageUrl,new BuiltStageDto()).getUsers().get(sessionId);
+    }
+
+    private List<String> _getMembersListInStage(String stageUrl) {
+        // System.out.println(builtStages.toString());
+        // return null;
+        return List.copyOf(builtStages.get(stageUrl).getUsers().values());
+        // .stream()
+        //         .filter(u -> !u.isEmpty())
+        //         .collect(Collectors.toList());
+    }
+
+    public List<StageUserListDto> getMembersListInStage(String stageUrl) {
+        System.out.println(_getMembersListInStage(stageUrl));
+        return sMapper.selectStageUserList(_getMembersListInStage(stageUrl));
+    }
 
     public boolean insertStage(StageDto sDto, String token) {
 
@@ -72,8 +94,8 @@ public class StageService {
 
     public List<StageDto> selectStageAll(String token, int curr, int cpp) {
         String nick = "";
-        if(token!=null)
-        nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        if (token != null)
+            nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         Map<String, Object> data = new HashMap<>();
         System.out.println(nick);
         data.put("nick", nick);

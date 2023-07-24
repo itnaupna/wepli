@@ -3,7 +3,7 @@ import SLPMystageLikeIcon from '../PlayStageImage/Icon/SLPMystageLikeIcon.svg';
 import SLPMystagePeopleIcon from '../PlayStageImage/Icon/SLPMystagePeopleIcon.svg';
 import SLPMystageQIcon from '../PlayStageImage/Icon/SLPMystageQIcon.svg';
 import SLPMystagePlayingTitleIcon from '../PlayStageImage/Icon/SLPMystagePlayingTitleIcon.svg';
-import TestImg from '../PlayStageImage/img/SLPMystageImg.png';
+// import TestImg from '../PlayStageImage/img/SLPMystageImg.png';
 
 const StageItemBig = () => {
     return (
@@ -13,7 +13,7 @@ const StageItemBig = () => {
                 <img
                   className="slpitembigimg-icon"
                   alt="스테이지썸네일"
-                  src={TestImg}
+                  src={null}
                 />
                 <div className="slpitembigday">생성일 : 2024-07-05</div>
               </div>

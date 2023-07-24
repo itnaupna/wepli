@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import QueueComponent from './QueueComponent';
+import YouTube from 'react-youtube';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { YTPOptionAtom, YoutubeAtom, loadVideoById, videoStatus } from '../../recoil/YoutubeAtom';
 
-const StageLeftSide = ({ data }) => {
+
+const StageLeftSide = () => {
+    const [leftType, setLeftType] = useState(true);
+    const [YTP,setYTP] = useRecoilState(YoutubeAtom);
+    const YTPO = useRecoilValue(YTPOptionAtom);
+    console.log(YTPO);
+    // const AAA = <YouTube onReady={(e)=>{setYTA([ e.target);}}/>;
     return (
+
         <div className="stage-left">
             <div className="stage-left-header">
                 <div className="stage-left-button-group-a">
-                    <div className={"stagebutton stage-button-stage" + (data.leftType ? ' stageactive' : '')}
-                        onClick={() => data.setLeftType(true)}>
+                    <div className={"stagebutton stage-button-stage" + (leftType ? ' stageactive' : '')}
+                        onClick={() => setLeftType(true)}>
                         <div className="stage-button-stage-text">스테이지</div>
                     </div>
 
-                    <div className={"stagebutton stage-button-queue" + (data.leftType ? '' : ' stageactive')}
-                        onClick={() => data.setLeftType(false)}>
+                    <div className={"stagebutton stage-button-queue" + (leftType ? '' : ' stageactive')}
+                        onClick={() => setLeftType(false)}>
                         <div className="stage-button-queue-text">대기열</div>
                     </div>
                 </div>
@@ -90,11 +101,29 @@ const StageLeftSide = ({ data }) => {
                 </div>
             </div>
 
-            <div className="stage-left-body">
-                asdf
-                {/* <YouTube
+            <div className="stage-left-body" style={{ display: leftType ? 'block' : 'none' }}>
+                <div className='youtubebox'>
+                    <button onClick={()=>{
+                        loadVideoById("bHQqvYy5KYo", 5, "large");
+                    }}>
+                    즐
+                    </button><br/>
+                    <button onClick={()=>{
+                        videoStatus();
+                    }}>
+                    즐
+                    </button>
+                    <br/>
+                  {/* {YTP} */}
+                  <YouTube opts={YTPOptionAtom}/>
+                    {/* {YTP} */}
+                    {/* <YouTube
                             key={'YTP'}
-                            videoId={youtube} /> */}
+                            videoId={null} /> */}
+                </div>
+            </div>
+            <div  style={{display:!leftType?'block':'none', width:'100%'}}>
+            <QueueComponent/>
             </div>
         </div>
     );

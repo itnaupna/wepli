@@ -1,21 +1,32 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { ChatItemsAtom } from '../../recoil/ChatItemAtom';
+import { ChatItemsAtom, StageUrlAtom, UserCountInStageAtom, UsersItemsAtom } from '../../recoil/ChatItemAtom';
 import ChatItem from './ChatItem';
 import { handleSendMsg } from '../../recoil/SocketAtom';
 import StageButtonChatIcon from '../PlayStageImage/Icon/StageButtonChatIcon.svg';
+import UserItem from './UserItem';
+import SysMsgItem from './SysMsgItem';
 
-const StageRightSide = ({ data }) => {
+const StageRightSide = () => {
+    const [rightType, setRightType] = useState(true);
+
     const chatLog = useRecoilValue(ChatItemsAtom);
-    const [chat,setChat] = useState('');
+    const [chat, setChat] = useState('');
     const chatLogs = useRef();
-    // const handleSendMsg = usere
+    const userCount = useRecoilValue(UserCountInStageAtom);
+    const users = useRecoilValue(UsersItemsAtom);
+
+    const stageUrl = useRecoilValue(StageUrlAtom);
+
+    useEffect(()=>{
+        chatLogs.current.scrollTop = chatLogs.current.scrollHeight;
+    },[chatLog]);
 
     return (
         <div className="stage-right">
             <div className="stage-right-header">
-                <div className={(data.rightType ? 'rightactive ' : '') + "rightbutton stage-button-chat"}
-                    onClick={() => data.setRightType(true)}>
+                <div className={(rightType ? 'rightactive ' : '') + "rightbutton stage-button-chat"}
+                    onClick={() => setRightType(true)}>
                     <svg
                         className="stage-button-chat-icon"
                         width="60"
@@ -33,8 +44,8 @@ const StageRightSide = ({ data }) => {
                     </svg>
                 </div>
 
-                <div className={(data.rightType ? '' : 'rightactive ') + "rightbutton stage-button-people"}
-                    onClick={() => data.setRightType(false)}>
+                <div className={(rightType ? '' : 'rightactive ') + "rightbutton stage-button-people"}
+                    onClick={() => setRightType(false)}>
                     <svg
                         className="stage-button-people-icon"
                         width="40"
@@ -49,19 +60,23 @@ const StageRightSide = ({ data }) => {
                         />
                     </svg>
 
-                    <div className="stage-button-people-count">0</div>
+                    <div className="stage-button-people-count">{users.length}</div>
+                    {userCount - users.length > 0 ? <>
+                        <div className="">+</div>
 
-                    <div className="">+</div>
-
-                    <div className="stage-button-guest-count">0</div>
+                        <div className="stage-button-guest-count">{userCount - users.length}</div>
+                    </>
+                        :
+                        null
+                    }
                 </div>
             </div>
 
-            <div className="stagechatwrapper" style={{ display: (data.rightType ? 'flex' : 'none') }}>
+            <div className="stagechatwrapper" style={{ display: (rightType ? 'flex' : 'none') }}>
                 <div className="stage-chat-body" ref={chatLogs}>
-                    {chatLog.map((v, i) =>
-                        <ChatItem key={i} data={v} />
-                    )}
+                    {chatLog.map((v, i) => {
+                        return v.type === 'CHAT' ? <ChatItem key={i} data={v} /> : <SysMsgItem key={i} data={v} />
+                    })}
                 </div>
 
                 <div className="stage-chat-tail">
@@ -69,20 +84,21 @@ const StageRightSide = ({ data }) => {
                         onChange={(e) => setChat(e.target.value)}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
-                                handleSendMsg("CHAT", chat); setChat('');
+                                handleSendMsg("CHAT", chat, stageUrl); setChat('');
                             }
                         }}
                     />
-                    <img alt='' src={StageButtonChatIcon} onClick={() => { handleSendMsg("CHAT", chat); setChat(''); }} />
+                    <img alt='' src={StageButtonChatIcon} onClick={() => { handleSendMsg("CHAT", chat, stageUrl); setChat(''); }} />
                 </div>
             </div>
 
-            <div className="stagepeoplewrapper" style={{ display: (data.rightType ? 'none' : 'flex') }}>
+            <div className="stagepeoplewrapper" style={{ display: (rightType ? 'none' : 'flex') }}>
                 <div className="stage-people-body">
-                    <div className="stage-people-item">
-                        <img className="stage-people-img" src="" alt='profileImg' />
-                        <div className="stage-people-nickname">JJ the Master 👑</div>
-                    </div>
+                    {
+                        users.map((v, i) =>
+                            <UserItem key={i} data={v} />
+                        )
+                    }
                 </div>
             </div>
         </div>

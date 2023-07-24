@@ -7,9 +7,12 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.bit.dto.StageDto;
+import com.bit.dto.StageUserListDto;
 
 @Mapper
 public interface StageMapper {
+    //스테이지 접속자 목록 가져오기
+    public List<StageUserListDto> selectStageUserList(List<String> nicks);
 
     // 스테이지 생성
     public int insertStage(StageDto sDto);
