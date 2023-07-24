@@ -16,6 +16,7 @@ import Mypage from "./mypage/Mypage";
 import { useRecoilState } from 'recoil';
 import { VideoInfoAtom } from './recoil/VideoInfoAtom';
 import { LoginStatusAtom } from './recoil/LoginStatusAtom';
+import Hyukmain from "./hyukmain";
 function App() {
     const [videoInfo, setVideoInfo] = useRecoilState(VideoInfoAtom);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/*" element={
                     <h1 style={{ width: "100%", textAlign: "center", marginTop: "25%", position: "absolute" }}>페이지가 없습니다</h1>
                 } />
+                <Route path={"/hyuk"} element={<Hyukmain/>}/>
             </Routes>
         </BrowserRouter>
     );
