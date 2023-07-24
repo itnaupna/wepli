@@ -184,7 +184,7 @@ public class PlaylistService {
                 }
                 return pMapper.insertPlaylist(data)>0;
             } else {
-                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return false;
             }
         }
@@ -214,7 +214,7 @@ public class PlaylistService {
                 }
                 return pMapper.updatePlaylist(data)>0;
             } else {
-                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return false;
             }
         }

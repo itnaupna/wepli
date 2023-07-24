@@ -59,7 +59,7 @@ public class PlaylistController {
 
     // 플레이리스트 디테일
     @GetMapping("/lv0/p/playdetail")
-    public Map<String, Object> getDetailPlayList(int idx, int curr, int cpp){
+    public Map<String, Object> getDetailPlayList(@RequestParam int idx, @RequestParam int curr, @RequestParam int cpp){
         return pService.getDetailPlayList(idx, curr, cpp);
     }
     // 플레이리스트 추가
@@ -71,7 +71,7 @@ public class PlaylistController {
 
     // 좋아요 추가, 삭제
     @PostMapping("/lv2/p/like")
-    public List<Object> postLike(@CookieValue String token, int playlistID){
+    public List<Object> postLike(@CookieValue String token, @RequestParam int playlistID){
         return pService.togglePlaylist(token, playlistID);
     }
 
@@ -84,7 +84,7 @@ public class PlaylistController {
 
     // 플레이리스트 삭제
     @DeleteMapping("/lv1/p/list")
-    public boolean deleteList(@CookieValue String token, int idx){
+    public boolean deleteList(@CookieValue String token, @RequestParam int idx){
         return pService.deletePlaylist(token, idx);
     }
 
@@ -97,13 +97,13 @@ public class PlaylistController {
 
     // 곡 1개 가져오기
     @GetMapping("/lv0/p/song")
-    public SongDto getSong(int idx){
+    public SongDto getSong(@RequestParam int idx){
         return pService.selectSong(idx);
     }
 
     // 플레이리스트 내 곡 모두 가져오기
     @GetMapping("/lv0/p/songs")
-    public List<SongDto> getSongs(int playlistID){
+    public List<SongDto> getSongs(@RequestParam int playlistID){
         return pService.selectSongsAll(playlistID);
     }
 
@@ -117,13 +117,13 @@ public class PlaylistController {
     // 곡 1개 삭제
     // 데이터 -> 곡의 idx
     @DeleteMapping("/lv1/p/song")
-    public boolean deleteSong(@CookieValue String token, int idx, HttpServletResponse response){
+    public boolean deleteSong(@CookieValue String token, @RequestParam int idx, HttpServletResponse response){
         return pService.deleteSong(token, idx, response);
     }
 
     // 플레이리스트 댓글 출력
     @GetMapping("/lv0/p/comments")
-    public List<PliCommentDto> getComments(int playlistID, int curr, int cpp){
+    public List<PliCommentDto> getComments(@RequestParam int playlistID, @RequestParam int curr, @RequestParam int cpp){
         return pService.selectPliComments(playlistID, curr, cpp);
     }
 

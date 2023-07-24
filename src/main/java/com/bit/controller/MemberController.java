@@ -106,13 +106,13 @@ public class MemberController {
 
     // 닉넴 변경
     @PatchMapping("/lv1/m/nick")
-    public boolean patchNick(@CookieValue String token, String nick, HttpServletRequest request ,HttpServletResponse response) throws Exception {
+    public boolean patchNick(@CookieValue String token, @RequestBody String nick, HttpServletRequest request ,HttpServletResponse response) throws Exception {
         return mService.changeNick(token, nick, request, response);
     }
 
     // 비번 변경
     @PatchMapping("/lv1/m/pw")
-    public boolean patchPw(@CookieValue String token, String oldPw, String newPw, HttpServletResponse response) {
+    public boolean patchPw(@CookieValue String token, @RequestBody String oldPw, @RequestBody String newPw, HttpServletResponse response) {
         return mService.changePassword(token, oldPw, newPw, response);
     }
 
@@ -131,7 +131,7 @@ public class MemberController {
 
     // 자기소개 변경
     @PatchMapping("/lv1/m/desc")
-    public boolean patchDesc(@CookieValue String token, @RequestParam String desc) {
+    public boolean patchDesc(@CookieValue String token, @RequestBody String desc) {
         return mService.updateDesc(token, desc);
     }
 
