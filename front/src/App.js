@@ -18,6 +18,7 @@ import { conSocket } from './recoil/SocketAtom';
 import { useRecoilState } from 'recoil';
 import { YoutubeAtom } from './recoil/YoutubeAtom';
 import Hyukmain from "./hyukmain";
+import { LoginStatusAtom } from './recoil/LoginStatusAtom';
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
@@ -32,7 +33,7 @@ function App() {
         <BrowserRouter>
             {YTP}
             <SideBar />
-            {videoInfo.isPlaying ? <MusicPlayerBar/> : null}
+            {/* {videoInfo.isPlaying ? <MusicPlayerBar/> : null} */}
             {/*<MusicPlayerBar/>*/}
             <div className="backgroundImgDiv" />
             <Routes>
