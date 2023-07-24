@@ -1,8 +1,6 @@
 package com.bit.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +14,13 @@ import com.bit.dto.BuiltStageDto;
 import com.bit.dto.MemberDto;
 import com.bit.dto.StageDto;
 import com.bit.dto.StageHistoryDto;
+import com.bit.dto.StageUserListDto;
 import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.BlacklistMapper;
 import com.bit.mapper.MemberMapper;
 import com.bit.mapper.StageMapper;
+
+import naver.cloud.NcpObjectStorageService;
 
 @Service
 public class StageService {
@@ -31,28 +32,56 @@ public class StageService {
     BlacklistMapper blacklistMapper;
     @Autowired
     JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    ImgUploadService imgUploadService;
+    @Autowired
+    NcpObjectStorageService ncpObjectStorageService;
 
-    final Map<String, BuiltStageDto> builtStages = new HashMap<>();
+    public final String BUCKET_NAME = "wepli";
+
+    private final Map<String, BuiltStageDto> builtStages = new HashMap<>();
 
     public int getUserCount(String stageUrl) {
         return builtStages.getOrDefault(stageUrl, new BuiltStageDto()).getUsers().size();
     }
 
-    public List<String> addUser(String stageUrl, String nick) {
-        return builtStages.compute(stageUrl, (k, v) -> {
-            if (v == null) {
-                v = new BuiltStageDto();
-            }
-            v.getUsers().add(nick);
-            return v;
-        }).getUsers();
+    public void addUserToStage(String stageUrl, String sessionId) {
+        builtStages.compute(stageUrl, (k,v)->{
+        if(v==null){
+        v = new BuiltStageDto();
+        }
+        v.getUsers().put(sessionId, "");
+        return v;
+        });
     }
 
-    public List<String> subUser(String stageUrl, String nick) {
-        return builtStages.compute(stageUrl, (k, v) -> {
-            v.getUsers().remove(nick);
+    public void subUserToStage(String stageUrl, String sessionId) {
+        builtStages.compute(stageUrl, (k, v) -> {
+            v.getUsers().remove(sessionId);
             return v;
-        }).getUsers();
+        });
+    }
+
+    public void setUserNickInStage(String stageUrl, String sessionId, String nick) {
+        builtStages.get(stageUrl).getUsers().replace(sessionId, nick);
+    }
+
+    public String getUserNickInStage(String stageUrl, String sessionId){
+        return builtStages.getOrDefault(stageUrl,new BuiltStageDto()).getUsers().get(sessionId);
+    }
+
+    private List<String> _getMembersListInStage(String stageUrl) {
+        // System.out.println(builtStages.toString());
+        // return null;
+        return List.copyOf(builtStages.get(stageUrl).getUsers().values());
+        // .stream()
+        //         .filter(u -> !u.isEmpty())
+        //         .collect(Collectors.toList());
+    }
+
+    public List<StageUserListDto> getMembersListInStage(String stageUrl) {
+        System.out.println(_getMembersListInStage(stageUrl));
+        return sMapper.selectStageUserList(_getMembersListInStage(stageUrl));
     }
 
     public boolean insertStage(StageDto sDto, String token) {
@@ -65,21 +94,18 @@ public class StageService {
         if(!checkAddress)
            return false;
 
-        return sMapper.insertStage(sDto) > 0;
-    }
+        
 
-    public void updateImg(String token, String img) {
-        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        Map<String, String> nickAndImg = new HashMap<>();
-        nickAndImg.put("nick", nick);
-        nickAndImg.put("img", img);
-        sMapper.updateImg(nickAndImg);
+        if(sDto.getImg() != null && !sDto.getImg().equals("")) {
+            imgUploadService.storageImgDelete(token, sDto.getImg(), "stage");
+        }
+        return sMapper.insertStage(sDto) > 0;
     }
 
     public List<StageDto> selectStageAll(String token, int curr, int cpp) {
         String nick = "";
-        if(token!=null)
-        nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        if (token != null)
+            nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         Map<String, Object> data = new HashMap<>();
         System.out.println(nick);
         data.put("nick", nick);
@@ -112,6 +138,13 @@ public class StageService {
     public boolean updateStage(StageDto sDto, String token) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         sDto.setNick(nick);
+        if(sDto.getImg() != null && !sDto.getImg().equals("")) {
+            imgUploadService.storageImgDelete(token, sDto.getImg(), "stage");
+            String img = sMapper.selectStageOneByMasterNick(nick).getImg();
+            if(img != null && !img.equals("")) {
+                ncpObjectStorageService.deleteFile(BUCKET_NAME, "stage", img);
+            }
+        }
         return sMapper.updateStage(sDto) > 0;
     }
 
@@ -126,8 +159,15 @@ public class StageService {
         data.put("nick",nick);
         data.put("title",title);
 
-        if (mMapper.selectCheckPasswordByNick(mDto) < 1 || sMapper.selectCheckStageTitle(data) < 1)
+        if (mMapper.selectCheckPasswordByNick(mDto) < 1 || sMapper.selectCheckStageTitle(data) < 1) 
             return false;
+        
+        String img = sMapper.selectStageOneByMasterNick(nick).getImg();
+
+        if(img != null && !img.equals("")) {
+            ncpObjectStorageService.deleteFile(BUCKET_NAME, "stage", img);
+        }
+        
         return sMapper.deleteStage(nick) > 0;
     }
 

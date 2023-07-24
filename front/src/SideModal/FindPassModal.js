@@ -5,22 +5,37 @@ import btnarrow from "./svg/btnarrow.svg";
 import "./css/FindPassModal.css";
 import axios from "axios";
 import FindPwChangeModal from "./FindPwChangeModal";
-function FindPassModal({setFindPassModalOpen,setFindPwChangeModalOpen}) {
+import {useRecoilState} from "recoil";
+import {
+    FindPassModalOpen,
+    FindPwChangeModalOpen,
+    recoveredEmailState,
+    recoveredPhoneState
+} from "../recoil/FindIdModalAtom";
+
+function FindPassModal() {
 
     const closeFindPassModal = () => {
         setFindPassModalOpen(false);
     }
-    // const [FindPwChangeModalOpen, setFindPwChangeModalOpen]= useState(false);
+
+
+    const [findPwChangeModalOpen,setFindPwChangeModalOpen] = useRecoilState(FindPwChangeModalOpen);
+    const [findPassModalOpen, setFindPassModalOpen] = useRecoilState(FindPassModalOpen);
     const [verifyKey, setVerifyKey] = useState('');
     const [verifyCode, setVerifyCode] = useState('');
     const [verifyType, setVerifyType] = useState(0);
     const [resultRV, setResultRV] = useState(false);
     const [resultVerify, setResultVerify] = useState(false);
-    const [recoveredEmail, setRecoveredEmail] = useState(null);
+    const [recoveredEmail, setRecoveredEmail] = useRecoilState(recoveredEmailState);
+    const [recoveredPhone, setRecoveredPhone] = useRecoilState(recoveredPhoneState);
+
+
+    const type = recoveredEmail ? 0 : recoveredPhone ? 1 : null;
 
     const showPwChangeModal =  async () => {
         setFindPwChangeModalOpen(true);
-        // setFindPassModalOpen(false);
+        setFindPassModalOpen(false);
     }
     const handleRequestCodeFind = async () => {
         const url = "/api/lv0/m/requestcode";
@@ -51,22 +66,41 @@ function FindPassModal({setFindPassModalOpen,setFindPwChangeModalOpen}) {
         }
     };
 
-    const handleVerifyCodeFind = async () => {
+    const handleVerifyCodeFind = () => {
         const url = "/api/lv0/m/verifycodefind";
-        try {
-            const res = await axios.post(url, { type: verifyType, key: verifyKey, code: verifyCode, authType: "findPw" });
-            console.log("인증번호", res);
-            if (res.data) {
-                console.log(res.data);
-                setRecoveredEmail(res.data);
-            } else {
-                setRecoveredEmail(null);
-                // 실패 시 특별한 처리를 하지 않습니다.
-            }
-        } catch (error) {
-            alert(error);
-        }
+
+        axios.post(url, {
+            type: verifyType,
+            key: verifyKey,
+            code: verifyCode,
+            authType: "findPw",
+        })
+            .then(res => {
+                console.log("sibal" + res.data);
+                if (res.data) {
+                    // 이메일인 경우
+                    if (+verifyType === 0) {
+                        setRecoveredEmail(res.data);
+                        console.log("sibalemail" + res.data);
+                        // 문자인 경우
+                    } else if (+verifyType === 1) {
+                        setRecoveredPhone(res.data);
+                        console.log("sibalphone" + res.data);
+                    }
+
+                    setFindPassModalOpen(false);
+                    setFindPwChangeModalOpen(true);
+                    alert('인증이 완료되었습니다.');
+                } else {
+                    setRecoveredEmail(null);
+                    setRecoveredPhone('');
+                }
+            })
+            .catch(error => {
+                alert(error);
+            });
     };
+
 
     return (
         <div>
@@ -122,7 +156,16 @@ function FindPassModal({setFindPassModalOpen,setFindPwChangeModalOpen}) {
                     />
                 </div>
             </div>
-            {recoveredEmail && <FindPwChangeModal recoveredEmail={recoveredEmail} setFindPwChangeModalOpen={setFindPwChangeModalOpen} />}
+            {findPwChangeModalOpen &&
+                type === 0 &&
+                recoveredEmail && (
+                    <FindPwChangeModal recoveredEmail={recoveredEmail} />
+                )}
+            {findPwChangeModalOpen &&
+                type === 1 &&
+                recoveredPhone && (
+                    <FindPwChangeModal recoveredPhone={recoveredPhone} />
+                )}
         </div>
     );
 }

@@ -291,17 +291,11 @@
     }
 }
 
-input{
-    padding-left: 10px;
-}
 
 .loginmodalloginbtna{
     color: black;
     list-style: none;
 }
 
-.loginmodalsignuptext-child:hover{
-    border: 2px solid mediumpurple;
-}
 
 

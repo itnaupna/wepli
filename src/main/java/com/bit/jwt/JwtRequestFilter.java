@@ -21,6 +21,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 
@@ -46,6 +47,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private MemberMapper membermMapper;
 
+    private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
+    	// 인증에서 제외할 url
+	private static final List<String> EXCLUDE_URL =
+    Collections.unmodifiableList(
+        Arrays.asList(
+            "/static/**",
+            "/favicon.ico",
+            "/ws/"
+            // "/"
+    ));
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 //         jwt cookie 사용 시 해당 코드를 사용하여 쿠키에서 토큰을 받아오도록 함
@@ -68,16 +80,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         log.info(path);
 
         // 비회원일경우
-        if((token == null || token.equals("")) && (path.startsWith("/api/lv0/") || (path.startsWith("/ws/")))) {
-            log.info("chachachachahca");
-        } else if(jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
+        if((token == null || token.equals("")) && (path.startsWith("/api/lv0"))) {
+            log.info("JwtRequestFilter -> no member");
+        } else 
+        if(token.startsWith("Bearer") && jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
             // access token이 만료되었을경우
-            log.info("[doFilterInternal] expired");
+            // log.info("[doFilterInternal] expired");
             String refreshToken = ts.accessToRefresh(token);
             log.info("doFilterInternal -> {}",refreshToken);
             if(refreshToken != null && !jwtTokenProvider.expiredCheck(refreshToken.substring(6)).equals("expired")) {
                 refreshToken = refreshToken.substring(6);
-                log.info("doFilterInternal refToken after -> {}",refreshToken);
+                // log.info("doFilterInternal refToken after -> {}",refreshToken);
                 // refreshToken이 존재하는 경우 검증
                 boolean refreshTokenChk = jwtTokenProvider.validateToken(refreshToken);
                 if(refreshTokenChk) {
@@ -89,7 +102,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                             userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
                     // JWT 발급
                     String getToken = jwtTokenProvider.generateAccessToken(nick, rules);
-                    log.info(getToken);
+                    // log.info(getToken);
                     accessToken = URLEncoder.encode(getToken, "utf-8");
                     ts.updateAccessToken("Bearer" + refreshToken, "Bearer" + accessToken);
                     // log.info("[JWT regen] accessToken : {}", accessToken);
@@ -109,15 +122,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     cookie.setHttpOnly(true);
 
                     response.addCookie(cookie);
-                    log.info("[reGenerateAccessToken] accessToken Regen");
+                    // log.info("[reGenerateAccessToken] accessToken Regen");
 
                 // refreshToken 사용이 불가능한 경우
                 } else {
-                    log.warn("accessToken Refresh Fail");
+                    // log.warn("accessToken Refresh Fail");
                 }
             } else {
                 // 기존 쿠키 삭제
-                log.info("expired cookie remove");
+                // log.info("expired cookie remove");
                 Cookie cookie = new Cookie("token", null);
                 cookie.setPath("/");
                 cookie.setMaxAge(0);
@@ -164,5 +177,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         log.info("[doFilterInternal]success");
         filterChain.doFilter(request,response);
     }
+
+    // Filter에서 제외할 URL 설정
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    
+        String servletPath = request.getServletPath();
+		return EXCLUDE_URL.stream().anyMatch(pattern -> PATH_MATCHER.match(pattern, servletPath));
+	}
 
 }
