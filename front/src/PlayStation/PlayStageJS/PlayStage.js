@@ -34,7 +34,7 @@ function PlayStage() {
                 setChatLog([]);
                 setIsLoading(false);
                 setSu(stageUrl);
-                handleSendMsg('ENTER',null,stageUrl);
+                handleSendMsg('ENTER', null, stageUrl);
             }
             catch (ex) {
                 setConmsg(ex.toString());
@@ -46,8 +46,8 @@ function PlayStage() {
             setChatLog([]);
             setIsLoading(false);
             setSu(stageUrl);
-            handleSendMsg('ENTER',null,stageUrl);
-            
+            handleSendMsg('ENTER', null, stageUrl);
+
         }
     }
 
@@ -84,25 +84,25 @@ function PlayStage() {
                 setUserList(data.msg.memberlist);
                 setUserCount(+data.msg.count);
                 addChatLog({
-                    type:data.type,
-                    nick:data.userNick,
-                    msg:'님이 입장하였습니다.'
+                    type: data.type,
+                    nick: data.userNick,
+                    msg: '님이 입장하였습니다.'
                 });
                 break;
             case 'EXIT':
                 setUserList(data.msg.memberlist);
                 setUserCount(+data.msg.count);
                 addChatLog({
-                    type:data.type,
-                    nick:data.userNick,
-                    msg:'님이 퇴장하였습니다.'
+                    type: data.type,
+                    nick: data.userNick,
+                    msg: '님이 퇴장하였습니다.'
                 });
                 break;
             case 'SKIP':
                 addChatLog({
-                    type:data.type,
-                    nick:data.userNick,
-                    msg:'님이 현재 곡을 스킵하였습니다.'
+                    type: data.type,
+                    nick: data.userNick,
+                    msg: '님이 현재 곡을 스킵하였습니다.'
                 });
                 break;
             case 'VOTE_UP':

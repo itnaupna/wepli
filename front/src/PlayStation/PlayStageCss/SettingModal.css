@@ -22,7 +22,13 @@
 .cf:after {
 	clear: both;
 }
-
+body {
+	background: #cfd8dc;
+	color: #37474f;
+	font-weight: 400;
+	font-size: 1em;
+	font-family: 'Raleway', Arial, sans-serif;
+}
 .support {
 	font-weight: bold;
 	padding: 2em 0 0 0;
@@ -198,18 +204,19 @@ a:focus {
 
 /* Common button styles */
 .button {
-	float: left;
 	min-width: 150px;
 	max-width: 250px;
 	display: block;
+  float: right;
 	margin: 1em;
 	padding: 1em 2em;
 	border: none;
 	background: none;
 	color: inherit;
-	vertical-align: middle;
 	position: relative;
 	z-index: 1;
+  text-align: center;
+  left: 140px;
 	-webkit-backface-visibility: hidden;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -464,6 +471,7 @@ a:focus {
     width: 11.23rem;
     height: 3.31rem;
     font-size: 2.5rem;
+    border: none!important;
   }
   .Makestage {
     top: 5.81rem;
@@ -484,13 +492,14 @@ a:focus {
   }
   .input-file-button{
     padding: 6px 25px;
-    background-color:#a649da;
+    background-color:transparent;
     border-radius: 4px;
     color: white;
     cursor: pointer;
     position: absolute;
-    top:70px;
-    left: 33%;
+    margin: auto;
+    top:0;
+    bottom: 0;
   }
   .groupChildImage{
     position: absolute;
@@ -615,14 +624,32 @@ a:focus {
     top: 0.69rem;
     left:17px;
   }
+  .frame2{
+    top:0.69rem;
+    position:absolute;
+    width: 14.99rem;
+    height: 1.19rem;
+    left: 45px;
+  }
   .frameGenre{
     background-color: transparent;
+  }
+  .frameDesc{
+    background-color: transparent;
+    width: 280px;
   }
   .group-div,
   .rectangle-parent1 {
     position: absolute;
     top: 13.06rem;
     left: 19.94rem;
+    width: 19.5rem;
+    height: 2.5rem;
+  }
+  .rectangle-parent2{
+    position: absolute;
+    top:19.06rem;
+    left:19.94rem;
     width: 19.5rem;
     height: 2.5rem;
   }
@@ -634,7 +661,7 @@ a:focus {
     top: 2.25rem;
     left: 2.69rem;
     width: 39.44rem;
-    height: 18.63rem;
+    height: 25.63rem;
     overflow: hidden;
     font-size: 0.94rem;
     color: #a2a7ad;
@@ -657,7 +684,7 @@ a:focus {
     margin:auto;
   }
   .createstagemodal-parent {
-    position: absolute;
+    position: fixed;
     width: 1000px;
     height: 700px;
     overflow: hidden;
@@ -666,4 +693,6 @@ a:focus {
     color: #000;
     font-family: Inter;
     z-index: 999;
+    top:200px;
+    left:400px;
   }

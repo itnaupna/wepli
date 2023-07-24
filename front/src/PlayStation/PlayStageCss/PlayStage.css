@@ -74,12 +74,18 @@
     background: #aaf
 }
 
+
 .stagebutton {
     background: #fff;
     cursor:pointer;
     user-select: none;
 }
-
+.stage-button-setting:hover{
+    background: #aaf;
+}
+.stage-button-Exit:hover{
+    background: #aaf;
+}
 .stage-button-stage {
     background: #fff;
     border-radius: 10px;
@@ -133,6 +139,20 @@
 }
 
 .stage-left-button-group-b {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    width: 420px;
+    height: 90px;
+    min-width: 420px;
+    position: relative;
+    overflow: hidden;
+}
+.stage-left-button-group-c{
     padding: 10px;
     display: flex;
     flex-direction: row;
@@ -236,6 +256,36 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.stage-button-setting{
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0px 20px 0px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-height: 70px;
+    position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+.stage-button-Exit{
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0px 20px 0px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-height: 70px;
+    position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 }
 
 .stage-left-body {
@@ -610,4 +660,11 @@
 #queueLeftSide{
     border-right: 1px solid black;
     width:10rem;
+}
+
+.setting-button{
+    border:none;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
 }
