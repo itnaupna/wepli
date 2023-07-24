@@ -109,20 +109,41 @@ function Mypage(props) {
         });
     };
 
+    // const handleDescChange = async () => {
+    //     const url = "/api/lv1/m/desc";
+    //     try {
+    //         const res = await axios.patch(url, desc,{ headers: { 'Content-Type': 'application/json' } } );
+    //         if (res.data === true) {
+    //             console.log(desc);
+    //             console.log(res.data);
+    //             alert("되는거");
+    //         } else {
+    //             alert("안되는거");
+    //         }
+    //     } catch (error) {
+    //         console.error("Error:", error);
+    //     }
+    // };
+
     const handleDescChange = async () => {
         const url = "/api/lv1/m/desc";
-        try {
-            const res = await axios.patch(url, desc,{ headers: { 'Content-Type': 'application/json' } } );
-            if (res.data === true) {
-                console.log(res.data);
-                alert("되는거");
-            } else {
-                alert("안되는거");
+        axios({
+            method: 'patch',
+            url: url,
+            data: JSON.stringify({"desc":desc}),
+            headers: { 'Content-Type': 'application/json' }
+        }).then(res=>{
+            console.log("왜 따옴표 ?",desc);
+            if(res.data === true){
+                console.log("왜 따옴표 ?",desc);
+                alert("성공");
+            }else {
+                alert("실패");
             }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
+        })
+    }
+
+
 
     useEffect(() => {
         setProfileImageUrl(profile);
@@ -187,7 +208,7 @@ function Mypage(props) {
                                 {userdesc}
                             </div>
                         </div>
-                        <input type={'text'} style={{marginTop:'50px'}} value={desc}
+                        <input type='text' style={{marginTop:'50px'}} value={desc}
                                onChange={(e)=>setUserDescInput(e.target.value)}></input>
                         <button type={'button'} onClick={handleDescChange}>테스트</button>
                         <div  className="mypageonelinerbox">

@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
@@ -131,13 +132,14 @@ public class MemberController {
 
     // 자기소개 변경
     @PatchMapping("/lv1/m/desc")
-    public boolean patchDesc(@CookieValue String token, @RequestBody String desc) {
+    public boolean patchDesc(@CookieValue String token, @RequestBody JsonNode desc) {
         System.out.println(desc);
-        return mService.updateDesc(token, desc);
+        return mService.updateDesc(token, desc.get("desc").asText());
     }
 
 
     // 마이페이지 데이터 일괄
+    // 수정
     @GetMapping("/lv1/m/mypage")
     public MypageDto getMypageDto(@CookieValue String token, @RequestParam(required = false) String userNick) {
         return mService.selectMypageDto(token, userNick); 
