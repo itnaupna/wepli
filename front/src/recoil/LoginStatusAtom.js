@@ -18,3 +18,7 @@ export const emailConfirmState = selector({
     },
 });
 
+export const ProfileImageUrl = atom({
+   key: 'ProfileImageUrl',
+   default: null
+});

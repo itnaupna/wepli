@@ -10,7 +10,7 @@ import BlackListOptionModal from "../MypageModal/BlackListOptionModal";
 import FollowListModal from "../MypageModal/FollowListModal";
 import axios from "axios";
 import {useRecoilState} from "recoil";
-import {LoginStatusAtom} from "../recoil/LoginStatusAtom";
+import {LoginStatusAtom, ProfileImageUrl, profileImageUrl} from "../recoil/LoginStatusAtom";
 
 function Mypage(props) {
 
@@ -44,6 +44,7 @@ function Mypage(props) {
     const [isFollowListModalOpen, setisFollowListModalOpen] = useState(false);
     const [memberProfile, setmemberProfile] = useState('');
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
+    const [profileImageUrl, setProfileImageUrl] = useRecoilState(ProfileImageUrl);
     const showOutMemberModal = () => {
         setIsOutMemberModalOpen(true);
     };
@@ -74,8 +75,6 @@ function Mypage(props) {
         const url = "/api/lv1/m/profile";
         uploadFile.append("upload", e.target.files[0]);
 
-        console.log("프사변경", e.target.files[0]);
-
         axios({
             method: "post",
             url: url,
@@ -86,22 +85,26 @@ function Mypage(props) {
             axios({
                 method: "get",
                 url: mypageurl,
-                data: {userNick:nick},
-            }).then(res=>{
-                if(res.data){
-                    console.log("if res",res);
-                    console.log("if data",res.data);
+                data: { userNick: nick },
+            }).then(res => {
+                if (res.data) {
+                    console.log("if res", res);
+                    console.log("if data", res.data);
                     const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
                     storedData.img = res.data.img;
 
                     const newData = JSON.stringify(storedData);
+                    console.log("이미지" + newData);
                     sessionStorage.setItem("data", newData);
-                }else{
+
+                    setProfileImageUrl(res.data.img);
+                } else {
                     alert("꽝");
                 }
             });
         });
-    }
+    };
+
 
 
 
@@ -188,7 +191,7 @@ function Mypage(props) {
                         <img
                             className="mypagememberprofileimg-icon"
                             alt=""
-                            src={`${bucket}/profile/${profile}`}
+                            src={`${bucket}/profile/${profileImageUrl}`}
                         />
 
                     <input

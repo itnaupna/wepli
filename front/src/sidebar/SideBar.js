@@ -12,8 +12,8 @@ import FindPassModal from "../SideModal/FindPassModal";
 import SignUpModal from "../SideModal/SignUpModal";
 import axios from "axios";
 import PwChkModal from "../SideModal/PwChkModal";
-import { useRecoilState } from 'recoil';
-import { LoginStatusAtom } from '../recoil/LoginStatusAtom';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {LoginStatusAtom, ProfileImageUrl} from '../recoil/LoginStatusAtom';
 import {
     findIdModalOpenState,
     findIdSuccessModalOpenState,
@@ -37,7 +37,7 @@ function SideBar(props) {
     const [findIdSuccessModalOpen,setFindIdSuccessModalOpen] =useRecoilState(findIdSuccessModalOpenState);
     const [findPassModalOpen, setFindPassModalOpen] = useRecoilState(FindPassModalOpen);
     const [findPwChangeModalOpen,setFindPwChangeModalOpen] = useRecoilState(FindPwChangeModalOpen);
-
+    const profileImage1= useRecoilValue(ProfileImageUrl);
     useEffect(()=>{
         console.log(loginStatus);
         try {
@@ -46,7 +46,7 @@ function SideBar(props) {
         } catch (error) {
             console.log(error);
         }
-    },[loginStatus]);
+    },[loginStatus,profileImage1]);
 
     {/* 사이드 메뉴 이동 */}
     //로그인 모달 오픈
