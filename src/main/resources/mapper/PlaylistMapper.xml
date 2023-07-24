@@ -177,4 +177,8 @@
           delete from tblSongs where idx=#{idx}
     </delete>
 
+    <update id="updateSongIdx" parameterType="hashMap">
+        update tblSongs set idx = #{newIdx} where idx = #{oldIdx}
+    </update>
+
 </mapper>

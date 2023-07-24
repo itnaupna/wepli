@@ -174,5 +174,12 @@ public class PlaylistController {
     public void storageDelete(@CookieValue String token, String directoryPath) {
         imgUploadService.storageImgDelete(token, directoryPath);
     }
+
+    // 플리 순서 변경
+    // 데이터 -> oldIdx : 기존 idx, newIdx : 변경될 idx
+    @GetMapping("/lv2/p/updateOrder")
+    public boolean updateOrder(@RequestBody Map<String,Integer> data){
+        return pService.updateSongOrder(data);
+    }
     
 }

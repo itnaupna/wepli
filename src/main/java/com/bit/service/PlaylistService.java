@@ -361,5 +361,31 @@ public class PlaylistService {
         }
     }
 
+    public boolean updateSongOrder(Map<String, Integer> data){
+        int tempIdx = -1;
+    
+        int oldIdx = data.get("oldIdx");
+        int newIdx = data.get("newIdx");
+    
+        // oldIdx-> tempIdx
+        Map<String,Integer> tempUpdate = new HashMap<>();
+        tempUpdate.put("oldIdx", oldIdx);
+        tempUpdate.put("newIdx", tempIdx);
+        pMapper.updateSongIdx(tempUpdate);
+    
+        // newIdx -> oldIdx
+        Map<String,Integer> newUpdate = new HashMap<>();
+        newUpdate.put("oldIdx", newIdx);
+        newUpdate.put("newIdx", oldIdx);
+        pMapper.updateSongIdx(newUpdate);
+    
+        // tempIdx -> newIdx로 변경합니다.
+        Map<String,Integer> finalUpdate = new HashMap<>();
+        finalUpdate.put("oldIdx", tempIdx);
+        finalUpdate.put("newIdx", newIdx);
+        pMapper.updateSongIdx(finalUpdate);
+    
+        return true;
+    }
 
 }
