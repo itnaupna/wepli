@@ -46,8 +46,8 @@ public class SecurityConfig {
         return http.cors().and().csrf().disable() // csrf 보안 비활성화
                 .antMatcher("/**").authorizeRequests()
 
-                .antMatchers("/api/lv0/**", "/", "/mypage/**", "/stage/**", "/ranking", "/pli", "/mypli", "/pli/:pliId").permitAll()
-                .antMatchers("/ws").permitAll()
+                .antMatchers("/api/lv0/**", "/", "/mypage/**", "/stage/**", "/ranking", "/pli", "/mypli", "/pli/**").permitAll()
+                .antMatchers("/ws","/ws/**").permitAll()
                 .antMatchers("/api/lv2/**").hasRole("auth2") // auth2 문자 or 이메일 인증을 받은 사람만 허용가능 api
 
                 // 위에 해당하지 않는 url은 security 인증 적용
