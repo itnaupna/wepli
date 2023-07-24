@@ -607,3 +607,28 @@
   cursor: pointer;
 }
 
+.StageModalContainer{
+  align-self: stretch;
+  border-radius: 30px;
+  padding: 20px;
+  align-items: flex-start;
+  gap: 13px;
+  background-image: linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("../PlayStageImage/img/SLPMystageImg.png");
+  /* background-color: rgba(255, 255, 255, 0.4); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  max-width: 500px;
+  max-height: 500px;
+  margin:auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  justify-content: center;
+  width: 489.953px;
+  height: 394px;
+  top:11px;
+  left: 225px;
+}

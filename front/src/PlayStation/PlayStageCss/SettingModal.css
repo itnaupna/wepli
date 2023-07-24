@@ -204,18 +204,19 @@ a:focus {
 
 /* Common button styles */
 .button {
-	float: left;
 	min-width: 150px;
 	max-width: 250px;
 	display: block;
+  float: right;
 	margin: 1em;
 	padding: 1em 2em;
 	border: none;
 	background: none;
 	color: inherit;
-	vertical-align: middle;
 	position: relative;
 	z-index: 1;
+  text-align: center;
+  left: 140px;
 	-webkit-backface-visibility: hidden;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -491,13 +492,14 @@ a:focus {
   }
   .input-file-button{
     padding: 6px 25px;
-    background-color:#a649da;
+    background-color:transparent;
     border-radius: 4px;
     color: white;
     cursor: pointer;
     position: absolute;
-    top:70px;
-    left: 33%;
+    margin: auto;
+    top:0;
+    bottom: 0;
   }
   .groupChildImage{
     position: absolute;

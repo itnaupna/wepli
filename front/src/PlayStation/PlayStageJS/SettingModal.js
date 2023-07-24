@@ -5,6 +5,7 @@ import Cancel from '../PlayStageImage/Icon/Cancel.svg';
 import Create from '../PlayStageImage/Icon/Create.svg';
 import Logo from '../PlayStageImage/img/Logo.png';
 import '../PlayStageCss/SettingModal.css';
+import Upload from '../PlayStageImage/Icon/upload.svg';
 
 
 function SettingModal({setModalOpen}) {
@@ -18,6 +19,7 @@ function SettingModal({setModalOpen}) {
  const [img, setImg] = useState('');
  const [disable,setDisable] = useState(true);
  const [isPublic,setIsPublic]= useState(true);
+ const [isImageUpload,setIsImageUpload]=useState(false);
  //파일 업로드/미리보기 이벤트
  const onUpload = (e)=>{
      const file = e.target.files[0];
@@ -27,10 +29,13 @@ function SettingModal({setModalOpen}) {
      return new Promise((resolve)=>{
          reader.onload=()=>{
              setImg(reader.result || null);//파일의 컨텐츠
+             setIsImageUpload(true);
              resolve();
+             console.log(setIsImageUpload);
          };
      });
  }
+
  //Private일 경우 비밀번호 나오게 div 나오게 만들기
 
  const OpenPw = (e)=> {
@@ -48,6 +53,7 @@ function SettingModal({setModalOpen}) {
  const closeModal = () => {
      setModalOpen(false);
  };
+ 
  // const MakeStage = useNavigate("/PlayStage.js/${address}")
  //모달 외부 클릭 시 끄기 처리
  //Modal 창을 useRef로 취득
@@ -85,6 +91,7 @@ function SettingModal({setModalOpen}) {
          console.log('Create success!')
      }
  }
+
  return (
      <div ref={modalRef} className="createstagemodal-parent">
      <div className="createstagemodal">
@@ -109,17 +116,21 @@ function SettingModal({setModalOpen}) {
        <div className="mypageemailmodal">
          <div className="rectangle-parent">
            <div className="group-child" />
-           <div className="div2">
-             <div class>
-                 <img width={'60%'} src={img} alt='' className='groupChildImage'/>
+            {isImageUpload?(
+                <div>
+                    <img width={'60%'} src={img} alt='' className='groupChildImage' />
+                </div>
+            ):(
+              <div className="div2">
+              <label className="input-file-button" for="ImageUpload">
+                <img src={Upload} alt=''/>
+              </label>
+              <input accept='image/*' multiple type='file' id='ImageUpload' style={{display:'none'}}
+              onChange={e=>onUpload(e)}>
+             </input>
              </div>
-             <label className="input-file-button" for="ImageUpload">
-                 업로드
-             </label>
-           <input accept='image/*' multiple type='file' id='ImageUpload' style={{display:'none'}}
-           onChange={e=>onUpload(e)}>
-           </input>
-           </div>
+            )
+            }
          </div>
          
          <img

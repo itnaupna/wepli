@@ -31,6 +31,8 @@ function PlayStageList(props) {
   const [toggleOption2,setToggleOption2]=useState(["제목","닉네임","장르","태그"]);
   const [isOpen1,setIsOpen1] = useState(false);
   const [isOpen2,setIsOpen2] = useState(false);
+  const [isLogin,setIsLogin] = useState(false);
+  const [checkStage,SetCheckStage] = useState(false);
   const toggle1Dropdown = () =>{
     setIsOpen1(!isOpen1);
   };
@@ -46,21 +48,29 @@ function PlayStageList(props) {
   const reload = () =>{
     window.location.replace("");
   }
+  useEffect(()=>{
+    if(sessionStorage.getItem("data")!=null){
+      setIsLogin(true);
+    }else{
+      setIsLogin(false);
+    }
+  },[]);
 
+
+
+    
   return (
     <div className="slp">
-      {
-        
-      }
-      <div className="slptop">
+
+      <div className="slptop" style={{display: (isLogin ? 'flex' : 'none')}}>
         <div className="slpmystagewrapper">
-          <StageItemBig />
-          <div className="StageModalContainer">                
+          <StageItemBig/>
+          {/* <div className="StageModalContainer" style={{display :(IsCheckStage ? 'flex':'none')}}>                
                 <button onClick={showModal} className="button button--nina button--round-l button--text-thick button--inverted" data-text="스테이지생성">
                 <span>스</span><span>테</span><span>이</span><span>지</span><span>생</span><span>성</span>
                 </button>
                 {modalOpen && <CreateStageModal setModalOpen={setModalOpen}/>}
-        </div>
+        </div> */}
         </div>
         <div className="slpfollowwrapper">
           <div className="slpfollowback">
