@@ -23,27 +23,16 @@ public class FollowController {
 
     // 팔로우 리스트 얻기
     @GetMapping("/lv2/f/follow")
-    public List<Map<String, Object>> getFollow(@CookieValue String token) {
-        return followService.selectFollowList(token);
+    public List<Map<String, Object>> getFollow(@CookieValue String token, @RequestParam(required = false) String userNick) {
+        return followService.selectFollowList(token, userNick);
     }
 
     // 팔로워 리스트 얻기
     @GetMapping("/lv2/f/follower")
-    public List<Map<String, Object>> getFollower(@CookieValue String token) {
-        return followService.selectFollowerlist(token);
+    public List<Map<String, Object>> getFollower(@CookieValue String token, @RequestParam(required = false) String userNick) {
+        return followService.selectFollowerlist(token, userNick);
     }
 
-    //TODO :(확인) 블랙유저 팔로우시, 그 반대일경우에 대해 처리
-    /*
-        1. 해당 유저가 블랙상태인지 검사
-        2-1. 블랙상태라면 블랙상태라고 안내 후 팔로우시 블랙상태가 해제된다고 알림. 동의시 진행, 미동의시 종료
-        2-2. 블랙상태가 아니라면 진행
-        3. 팔로우 상태인지 검사
-        4-1. 팔로우 상태면 팔로우 해제
-        4-2. 팔로우 상태가 아니라면 팔로우 추가
-        5. 종료
-    */
-    //TODO :(확인) togglePlaylist 형식으로 로직변경
     // 팔로우 추가,삭제
     @PostMapping("/lv2/f/followtoggle")
     public int followAndUnfollow(@CookieValue String token, @RequestParam String target) {
@@ -51,7 +40,6 @@ public class FollowController {
     }
 
     // 팔로우 추가
-    // TODO : 쓸일 있을지 확인 필요
     @PostMapping("/lv2/f/addfollow")
     public boolean postFollow(@CookieValue String token, @RequestParam String target) {
         return followService.insertFollowlist(token, target);

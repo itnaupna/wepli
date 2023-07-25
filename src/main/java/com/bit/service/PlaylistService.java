@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
@@ -133,8 +134,6 @@ public class PlaylistService {
         }
     }
 
-    
-
     // 플레이리스트 디테일
     public Map<String, Object> getDetailPlayList(int idx, int curr, int cpp){
 
@@ -168,7 +167,6 @@ public class PlaylistService {
         
     }
 
-    //TODO : (확인) 미인증 회원일경우 공개로 추가할 수 없도록 강제해야함
     public boolean insertPlaylist(String token, PlaylistDto data, HttpServletResponse response){
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         data.setNick(nick);
@@ -195,7 +193,6 @@ public class PlaylistService {
         }
     }
 
-    //TODO : (확인) 미인증 회원일경우 공개여부 검증
     public boolean updatePlaylist(String token, PlaylistDto data, HttpServletResponse response){
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         data.setNick(nick);
@@ -255,7 +252,6 @@ public class PlaylistService {
     }
 
     public boolean deletePlaylist(String token, int idx){
-        //TODO : (확인) 소유주 정보에 대한 검증이 필요한지 확인
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         PlaylistDto pDto = pMapper.selectPlaylist(idx);
         
@@ -337,15 +333,30 @@ public class PlaylistService {
         return pMapper.selectPliComments(data);
     }
 
-    public boolean insertPliComment(String token, PliCommentDto data){
+    public boolean insertPliComment(String token, PliCommentDto data, HttpServletResponse response){
         String writer = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        boolean checkCommnetLength = Pattern.matches("^.{1,100}$", data.getContent());
+
+        if(!checkCommnetLength) {
+            log.info("실패");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return false;
+        }
         data.setWriter(writer);
         return pMapper.insertPliComment(data)>0;
     }
     public boolean updatePliComment(String token, PliCommentDto data, HttpServletResponse response){
         String writer = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        
+        boolean checkCommnetLength = Pattern.matches("^.{1,100}$", data.getContent());
         if(pMapper.selectPliCommentToIdx(data.getIdx()).getWriter().equals(writer)) {
-            return pMapper.updatePliComment(data)>0;
+            if(!checkCommnetLength) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return false;
+            } else {
+                return pMapper.updatePliComment(data)>0;
+            }
+        
         } else {
             response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
             return false;

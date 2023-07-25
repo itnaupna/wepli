@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bit.dto.MemberDto;
-import com.bit.dto.MypageDto;
 import com.bit.dto.UserConfirmDto;
 import com.bit.service.ImgUploadService;
 import com.bit.service.MemberService;
@@ -138,12 +137,11 @@ public class MemberController {
     }
 
     // 마이페이지 데이터 일괄
-
     @GetMapping("/lv0/m/mypage")
-    public MypageDto getMypageDto(@CookieValue(required = false) String token, @RequestParam(required = false) String userNick, HttpServletResponse response) {
+    public Map<String, Object> getMypageDto(@CookieValue(required = false) String token, @RequestParam(required = false) String userNick, HttpServletResponse response) {
+        log.info("userNick -> {}", userNick);
         return mService.selectMypageDto(token, userNick, response); 
     }
-
 
     //로그인
     @PostMapping("/lv0/m/login")

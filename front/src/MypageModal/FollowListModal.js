@@ -40,6 +40,7 @@ function FollowListModal({setisFollowListModalOpen}) {
                                     className="followmodalmodalarrow-icon"
                                     alt=""
                                     src={backarrow}
+                                    onClick={closeFollowListModal}
                                 />
                                 <div className="followmodaltitle">
                                     <div className="followmodalwepli">WEPLi</div>

@@ -25,14 +25,23 @@ public class FollowService {
     @Autowired
     JwtTokenProvider jwtTokenProvider;
     // 팔로우 목록 받아오기
-    public List<Map<String, Object>> selectFollowList(String token) {
+    public List<Map<String, Object>> selectFollowList(String token, String userNick) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+
+        if(userNick != null && !userNick.equals("")) {
+            nick = userNick;
+        }
+        
         return followMapper.selectFollowlist(nick); 
     }
     
     // 팔로워 목록 받아오기
-    public List<Map<String, Object>> selectFollowerlist(String token) {
+    public List<Map<String, Object>> selectFollowerlist(String token, String userNick) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+
+        if(userNick != null && !userNick.equals("")) {
+            nick = userNick;
+        }
         return followMapper.selectFollowerlist(nick);
     }
 

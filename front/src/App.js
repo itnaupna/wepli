@@ -20,6 +20,7 @@ import { YoutubeAtom } from './recoil/YoutubeAtom';
 import Hyukmain from "./hyukmain";
 import { LoginStatusAtom } from './recoil/LoginStatusAtom';
 import AddPlayLsit from "./PlayListMain/AddPlayList";
+import MemberPage from './mypage/MemberPage';
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
@@ -40,6 +41,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<MainPage />} />
                 {loginStatus ? <Route path="/mypage" element={<Mypage />} /> : null}
+                <Route path="/mypage/:userNick" element={<MemberPage/>}/>
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
                 <Route path="/pli/:pliId" element={<PlayListDetail />} />

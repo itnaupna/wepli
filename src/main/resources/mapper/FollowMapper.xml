@@ -24,7 +24,7 @@
             (select count(*) from tblFollow where target = nick) cnt,
             (select count(*) from vwPlaylist where nick = mNick and isPublic = 1) pliCnt,
             (select title from vwPlaylist where nick = mNick and isPublic = 1 order by likesCount desc limit 1) mainPli
-        from tblMember order by cnt desc;
+        from tblMember order by cnt desc limit 0, 50;
     </select>
 
     <insert id="insertFollowlist" parameterType="Map">

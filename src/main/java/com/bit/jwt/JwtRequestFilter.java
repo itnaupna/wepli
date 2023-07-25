@@ -54,8 +54,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         Arrays.asList(
             "/static/**",
             "/favicon.ico",
-            "/ws/"
-            // "/"
+            "/ws/**"
     ));
 
     @Override
@@ -82,8 +81,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // 비회원일경우
         if((token == null || token.equals("")) && (path.startsWith("/api/lv0"))) {
             log.info("JwtRequestFilter -> no member");
-        } else 
-        if(token.startsWith("Bearer") && jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
+        } else if(token.startsWith("Bearer") && jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
             // access token이 만료되었을경우
             // log.info("[doFilterInternal] expired");
             String refreshToken = ts.accessToRefresh(token);
