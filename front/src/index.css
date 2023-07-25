@@ -47,3 +47,6 @@ a:focus{
   text-decoration: none;
 }
 
+:focus-visible{
+  outline:inherit !important;
+}
