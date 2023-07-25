@@ -27,22 +27,27 @@ public class FollowService {
     // 팔로우 목록 받아오기
     public List<Map<String, Object>> selectFollowList(String token, String userNick) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        Map<String, String> nickAndUserNick = new HashMap<>();
+        nickAndUserNick.put("nick", nick);
 
         if(userNick != null && !userNick.equals("")) {
-            nick = userNick;
+            nickAndUserNick.put("userNick", userNick);
         }
         
-        return followMapper.selectFollowlist(nick); 
+        return followMapper.selectFollowlist(nickAndUserNick); 
     }
     
     // 팔로워 목록 받아오기
     public List<Map<String, Object>> selectFollowerlist(String token, String userNick) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-
+        Map<String, String> nickAndUserNick = new HashMap<>();
+        nickAndUserNick.put("nick", nick);
+        
         if(userNick != null && !userNick.equals("")) {
-            nick = userNick;
+            nickAndUserNick.put("userNick", userNick);
         }
-        return followMapper.selectFollowerlist(nick);
+
+        return followMapper.selectFollowerlist(nickAndUserNick);
     }
 
     // 팔로우 추가, 삭제

@@ -2,21 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.mapper.FollowMapper">
 
-    <select id="selectFollowlist" parameterType="String" resultType="Map">
+    <select id="selectFollowlist" parameterType="Map" resultType="Map">
         select target t,
         (select img from tblMember where nick = t) img,
-        (select count(*) from tblFollow where target = t) cnt 
+        (select count(*) from tblFollow where target = t) cnt,
+        (select exists(select * from tblFollow where target = t and follow = #{nick})) isfollow 
         from tblFollow
-        where follow = #{nick};
+        where follow = 
+        <choose>
+            <when test="userNick != null">
+                #{userNick}
+            </when>
+            <otherwise>
+                #{nick}
+            </otherwise>
+        </choose>
     </select>
 
-    <select id="selectFollowerlist" parameterType="String" resultType="Map">
-        select follow f,
-        (select img from tblMember where nick = f) img,
-        (select count(*) from tblFollow where target = f) cnt,
-        (select exists(select * from tblFollow where target = f and follow = #{nick})) isfollow 
+    <select id="selectFollowerlist" parameterType="Map" resultType="Map">
+        select follow t,
+        (select img from tblMember where nick = t) img,
+        (select count(*) from tblFollow where target = t) cnt,
+        (select exists(select * from tblFollow where target = t and follow = #{nick})) isfollow 
         from tblFollow
-        where target = #{nick};
+        where target = 
+        <choose>
+            <when test="userNick != null">
+                #{userNick}
+            </when>
+            <otherwise>
+                #{nick}
+            </otherwise>
+        </choose>
     </select>
 
     <select id="selectFollowTop" resultType="Map">

@@ -59,8 +59,7 @@ function MemberPage(props) {
 
     useEffect(() => {
         hadlememberPage();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data.followChk]);
+    }, [data.followChk,userNick]);
     return (
         <div>
             <div className="mypageframe">

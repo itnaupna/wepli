@@ -50,7 +50,7 @@ public class FollowController {
     public boolean unFollow(@CookieValue String token, @RequestParam String target) {
         return followService.unFollowlist(token, target);
     }
-
+    
     // 특정 유저가 나를 팔로우 했을시 팔로우 끊기(대상이 날 팔로우 한것을 끊음)
     @DeleteMapping("/lv2/f/delfollow")
     public boolean deleteFollow(@CookieValue String token, @RequestParam String target) {
