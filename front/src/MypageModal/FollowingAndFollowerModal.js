@@ -3,18 +3,29 @@ import backarrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import Axios from 'axios';
 
-function FollowingAndFollowerModal({setFollowingAndFollowerModalOpen, value}) {
+function FollowingAndFollowerModal({setFollowingAndFollowerModalOpen, value, nick}) {
 
     const closeFollowingAndFollowModal = async () => {
         await setFollowingAndFollowerModalOpen(false);
     }
-
+    console.log(nick);
     const [followMember, setFollowMemeber] = useState([]);
+
     const followerListHandler = () => {
-        
+        Axios({
+            method: "get",
+            url: "/api/lv2/f/follower",
+            params: {userNick: nick}
+        }).then(res => {
+            setFollowMemeber(res.data);
+            console.log(res.data);
+        }).catch(error => {
+            alert(error);
+        })
     }
     useEffect(() => {
         if(value === "follower") {
+            followerListHandler();
             console.log(value);
         } else {
             console.log(value);

@@ -128,7 +128,7 @@ function MemberPage(props) {
 
         
                 </div>
-                {followingAndFollowerModalOpen && <FollowingAndFollowerModal value={value} setFollowingAndFollowerModalOpen={setFollowingAndFollowerModalOpen}/>}
+                {followingAndFollowerModalOpen && <FollowingAndFollowerModal nick={data.nick} value={value} setFollowingAndFollowerModalOpen={setFollowingAndFollowerModalOpen}/>}
             </div>
         </div>
     );
