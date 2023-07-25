@@ -170,7 +170,7 @@ const AddPlayLsit = () => {
                             </div>
                         </div>
                         <textarea className="playlistaddinplaylistinfo" placeholder="소개글을 적어주세요 (이미지는 클릭시 변경하실 수 있습니다.)"
-                                  onChange={pliDescOnChange}>
+                                  onChange={pliDescOnChange} maxLength="50">
                         </textarea>
                         <div className="playlistaddinplaylistinfobu">
                             <div className="playlistaddbuttonbody" onClick={addPli}>

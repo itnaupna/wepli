@@ -163,98 +163,32 @@ const PlayListDetail = () => {
                 </div>
 
                 <div className="playlistdetaillist">
-                    <div className="playlistdetailitems">
-                        <div className="grpbtnset">
-                            <img
-                                className="playlistdetaillistupdatebutton-icon"
-                                alt=""
-                                src={PlayListDetailOption}
-                            />
-                            <img
-                                className="playlistdetaillistdelete-icon"
-                                alt=""
-                                src={PlayListDetailClose}
-                            />
-                        </div>
-                        <div className="txtlength">07:01</div>
-                        <div className="txtsinger">이상혁</div>
-                        <div className="txttitle">We live in the Jurassic Park</div>
-                        <img
-                            className="imgthumbnail-icon"
-                            alt=""
-                            src={Aru}
-                        />
-                        <div className="txtrank">1</div>
-                    </div>
-                    <div className="playlistdetailitems">
-                        <div className="grpbtnset">
-                            <img
-                                className="playlistdetaillistupdatebutton-icon"
-                                alt=""
-                                src={PlayListDetailOption}
-                            />
-                            <img
-                                className="playlistdetaillistdelete-icon"
-                                alt=""
-                                src={PlayListDetailClose}
-                            />
-                        </div>
-                        <div className="txtlength">07:01</div>
-                        <div className="txtsinger">이상혁</div>
-                        <div className="txttitle">We live in the Jurassic Park</div>
-                        <img
-                            className="imgthumbnail-icon"
-                            alt=""
-                            src={Aru}
-                        />
-                        <div className="txtrank">1</div>
-                    </div>
-                    <div className="playlistdetailitems">
-                        <div className="grpbtnset">
-                            <img
-                                className="playlistdetaillistupdatebutton-icon"
-                                alt=""
-                                src={PlayListDetailOption}
-                            />
-                            <img
-                                className="playlistdetaillistdelete-icon"
-                                alt=""
-                                src={PlayListDetailClose}
-                            />
-                        </div>
-                        <div className="txtlength">07:01</div>
-                        <div className="txtsinger">이상혁</div>
-                        <div className="txttitle">We live in the Jurassic Park</div>
-                        <img
-                            className="imgthumbnail-icon"
-                            alt=""
-                            src={Aru}
-                        />
-                        <div className="txtrank">1</div>
-                    </div>
-                    <div className="playlistdetailitems">
-                        <div className="grpbtnset">
-                            <img
-                                className="playlistdetaillistupdatebutton-icon"
-                                alt=""
-                                src={PlayListDetailOption}
-                            />
-                            <img
-                                className="playlistdetaillistdelete-icon"
-                                alt=""
-                                src={PlayListDetailClose}
-                            />
-                        </div>
-                        <div className="txtlength">07:01</div>
-                        <div className="txtsinger">이상혁</div>
-                        <div className="txttitle">We live in the Jurassic Park</div>
-                        <img
-                            className="imgthumbnail-icon"
-                            alt=""
-                            src={Aru}
-                        />
-                        <div className="txtrank">1</div>
-                    </div>
+                    {
+                        plaListDetailSong.map ((songList, idx) =>
+                            <div className="playlistdetailitems" key={idx}>
+                                <div className="grpbtnset">
+                                    <img
+                                        className="playlistdetaillistupdatebutton-icon"
+                                        alt=""
+                                        src={PlayListDetailOption}
+                                    />
+                                    <img
+                                        className="playlistdetaillistdelete-icon"
+                                        alt=""
+                                        src={PlayListDetailClose}
+                                    />
+                                </div>
+                                <div className="txtlength">{songList.songlength}</div>
+                                <div className="txtsinger">{songList.singer}</div>
+                                <div className="txttitle">{songList.title}</div>
+                                <img
+                                    className="imgthumbnail-icon"
+                                    alt=""
+                                    src={`${bucketURl}/songimg/${songList.img}`}
+                                />
+                                <div className="txtrank">{idx + 1}</div>
+                            </div>
+                    )}
                 </div>
                 <div className="playlistdetailcommentframe">
                     <div className="playlistdetailcommentgroup1">
@@ -275,14 +209,15 @@ const PlayListDetail = () => {
                                     alt=""
                                     src={bucketURl + "/profile/" + JSON.parse(sessionStorage.getItem("data")).img}
                                 />
-                                <div className="playlistdetailcreatecommentpro">{JSON.parse(sessionStorage.getItem("data")).nick}</div>
+                                    <div className="playlistdetailcreatecommentpro">{JSON.parse(sessionStorage.getItem("data")).nick}</div>
                                 <div className="playlistdetailcreatecommentcre">댓글작성</div>
                                 <div className="playlistdetailcreatecommentcre1">작성</div>
                             </div>
                         </div>
                     </div>
-                    {plaListDetailComment.map ((commentList, idx) =>
-                        <div className="playlistdetailcommentswrapper">
+                    {
+                        plaListDetailComment.map ((commentList, idx) =>
+                        <div className="playlistdetailcommentswrapper" key={idx}>
                             <div className="playlistdetailcommentitems">
                             <span className="playlistdetailcommenttext">
                                {commentList.content}
