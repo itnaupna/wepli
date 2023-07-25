@@ -10,17 +10,17 @@ import BlackListOptionModal from "../MypageModal/BlackListOptionModal";
 import FollowListModal from "../MypageModal/FollowListModal";
 import axios from "axios";
 import {useRecoilState} from "recoil";
-import {DataState, LoginStatusAtom, ProfileImageUrl} from "../recoil/LoginStatusAtom";
-import {params} from "superagent/lib/utils";
+import {LoginStatusAtom, ProfileImageUrl, UserStorageDesc} from "../recoil/LoginStatusAtom";
 import {FollowMemberAtom} from "../recoil/FollowAtom";
 
 function Mypage(props) {
 
 
     const data = sessionStorage.getItem('data') || localStorage.getItem('data');
-    console.log("d",data);
+    console.log("d", data);
     let userNick = '';
     let profile = '';
+    // let desc = '';
     if (data) {
         const parsedData = JSON.parse(data);
         userNick = parsedData.nick;
@@ -28,14 +28,14 @@ function Mypage(props) {
         console.log(userNick);
     }
 
-    const parse= JSON.parse(data);
+    const parse = JSON.parse(data);
     const usernick = parse.nick;
     const userdesc = parse.desc;
     // console.log("자기소개 나오는지"+desc);
     const parsedData = JSON.parse(data);
     const emailconfirm = parsedData.emailconfirm;
     console.log(emailconfirm);
-    console.log("제이슨",usernick);
+    console.log("제이슨", usernick);
 
 
     const bucket = process.env.REACT_APP_BUCKET_URL;
@@ -47,9 +47,11 @@ function Mypage(props) {
     const [isBlackListOptionModalOpen, setisBlackListOptionModalOpen] = useState(false);
     const [isFollowListModalOpen, setisFollowListModalOpen] = useState(false);
     const [memberProfile, setmemberProfile] = useState('');
-    const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
+    const [loginStatus, setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [profileImageUrl, setProfileImageUrl] = useRecoilState(ProfileImageUrl);
+    const [followMember, setFollowMember] = useRecoilState(FollowMemberAtom);
     const [desc, setUserDescInput] = useState('');
+
     const showOutMemberModal = () => {
         setIsOutMemberModalOpen(true);
     };
@@ -91,13 +93,13 @@ function Mypage(props) {
             method: "post",
             url: url,
             data: uploadFile,
-            headers: { "Content-Type": "multipart/form-data" }
+            headers: {"Content-Type": "multipart/form-data"}
         }).then(res => {
             const mypageurl = "/api/lv0/m/mypage";
             axios({
                 method: "get",
                 url: mypageurl,
-                data: { userNick: userNick },
+                data: {userNick: userNick},
             }).then(res => {
                 if (res.data) {
                     console.log("if res", res);
@@ -118,31 +120,44 @@ function Mypage(props) {
     };
 
 
+    const [userStorageDesc, setUserStorageDesc] = useRecoilState(UserStorageDesc);
+
     const handleDescChange = async () => {
         const url = "/api/lv1/m/desc";
         axios({
             method: 'patch',
             url: url,
-            data: JSON.stringify({"desc":desc}),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(res=>{
-            console.log("왜 따옴표 ?",desc);
-            if(res.data === true){
-                console.log("왜 따옴표 ?",desc);
-                alert("성공");
-            }else {
-                alert("실패");
-            }
-        })
+            data: JSON.stringify({"desc": desc}),
+            headers: {'Content-Type': 'application/json'}
+        }).then(res => {
+            const mypageurl = "/api/lv0/m/mypage";
+            axios({
+                method: 'get',
+                url: mypageurl,
+                data: {nick: userNick},
+            }).then(res => {
+                if (res.data === true) {
+                    const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
+                    storedData.desc = res.data.desc;
+
+                    const newData = JSON.stringify(storedData);
+                    console.log("이미지" + newData);
+                    sessionStorage.setItem("data", newData);
+                    setUserStorageDesc(res.data.desc);
+                    alert("변경되었습니다.");
+                } else {
+                    alert("다시작성해주세요");
+                }
+            })
+        });
     }
-
-
 
     useEffect(() => {
         setProfileImageUrl(profile);
-    }, [profile]);
+        setUserStorageDesc(desc);
+    }, [profile, desc]);
 
-    const [followMember, setFollowMember] = useRecoilState(FollowMemberAtom);
+
 
     return (
         <div>
@@ -169,12 +184,12 @@ function Mypage(props) {
                             </div>
                         </div>
 
-                                <div className="mypagechangeinfobox" onClick={showEmailConfirmModal}>
-                                    <div className="mypagechangeinfobutton">
-                                        <div className="mypagechangeinfosurface" />
-                                        <div className="mypageemailsendlabel">이메일 인증</div>
-                                    </div>
-                                </div>
+                        <div className="mypagechangeinfobox" onClick={showEmailConfirmModal}>
+                            <div className="mypagechangeinfobutton">
+                                <div className="mypagechangeinfosurface"/>
+                                <div className="mypageemailsendlabel">이메일 인증</div>
+                            </div>
+                        </div>
 
 
                         <div className="mypagechangeinfobox" onClick={showPhoneConfirmModal}>
@@ -191,7 +206,7 @@ function Mypage(props) {
                         </div>
                         <div className="mypagechangeinfobox" onClick={showOutMemberModal}>
                             <div className="mypagechangeinfobutton">
-                                <div className="mypagechangeinfosurface" />
+                                <div className="mypagechangeinfosurface"/>
                                 <div className="mypagesecessionlabel">회원탈퇴</div>
                             </div>
                         </div>
@@ -202,10 +217,12 @@ function Mypage(props) {
                                 {userdesc}
                             </div>
                         </div>
-                        <input type='text' style={{marginTop:'50px'}} value={desc}
-                               onChange={(e)=>setUserDescInput(e.target.value)}></input>
-                        <button type={'button'} onClick={handleDescChange}>테스트</button>
-                        <div  className="mypageonelinerbox">
+                        <div className={'userdescchangegroup'}>
+                            <input type='text' style={{marginTop: '50px'}} value={desc}
+                                   onChange={(e) => setUserDescInput(e.target.value)}></input>
+                            <button type={'button'} onClick={handleDescChange}>테스트</button>
+                        </div>
+                        <div className="mypageonelinerbox">
                             <div className="mypageonelinertext">한줄소개</div>
                             <img
                                 className="mypagecommunicationicon"
@@ -227,11 +244,11 @@ function Mypage(props) {
                 </div>
                 <div className="mypagememberprofileframe">
 
-                        <img
-                            className="mypagememberprofileimg-icon"
-                            alt=""
-                            src={`${bucket}/profile/${profileImageUrl}`}
-                        />
+                    <img
+                        className="mypagememberprofileimg-icon"
+                        alt=""
+                        src={`${bucket}/profile/${profileImageUrl}`}
+                    />
 
                     <input
                         type="file"
@@ -242,9 +259,12 @@ function Mypage(props) {
                 </div>
                 {isOutMemberModalOpen && <OutMemberModal setIsOutMemberModalOpen={setIsOutMemberModalOpen}/>}
                 {isInfoChangeModalOpen && <InfoChageModal setIsInfoChangeModalOpen={setIsInfoChangeModalOpen}/>}
-                {isEmailConfirmModalOpen && <EmailConfirmModal setisEmailConfirmModalOpen={setisEmailConfirmModalOpen}/>}
-                {isPhoneConfirmModalOpen && <PhoneConfirmModal setisPhoneConfirmModalOpen={setisPhoneConfirmModalOpen}/>}
-                {isBlackListOptionModalOpen && <BlackListOptionModal setisBlackListOptionModalOpen={setisBlackListOptionModalOpen}/>}
+                {isEmailConfirmModalOpen &&
+                    <EmailConfirmModal setisEmailConfirmModalOpen={setisEmailConfirmModalOpen}/>}
+                {isPhoneConfirmModalOpen &&
+                    <PhoneConfirmModal setisPhoneConfirmModalOpen={setisPhoneConfirmModalOpen}/>}
+                {isBlackListOptionModalOpen &&
+                    <BlackListOptionModal setisBlackListOptionModalOpen={setisBlackListOptionModalOpen}/>}
                 {isFollowListModalOpen && (
                     <FollowListModal
                         setisFollowListModalOpen={setisFollowListModalOpen}

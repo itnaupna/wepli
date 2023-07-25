@@ -63,7 +63,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
         }).then(res => {
             if (res.data.result) {
 
-                const mypageurl = "/api/lv1/m/mypage";
+                const mypageurl = "/api/lv0/m/mypage";
                 axios({
                     method: 'get',
                     url: mypageurl,
@@ -83,7 +83,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
                 }).catch(error => {
                     // 두 번째 요청 실패 시 처리
                     console.error('두 번째 요청 실패:', error);
-                    alert('두 번째 요청에 실패하였습니다.');
+                    alert('인포안됨');
                 });
             } else {
                 // 첫 번째 요청이 실패한 경우

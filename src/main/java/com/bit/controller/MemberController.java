@@ -144,7 +144,6 @@ public class MemberController {
         return mService.selectMypageDto(token, userNick, response); 
     }
 
-
     //로그인
     @PostMapping("/lv0/m/login")
     public Map<String, Object> access(String email, String pw,@RequestParam(required = false) boolean autoLogin,

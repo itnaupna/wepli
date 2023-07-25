@@ -26,4 +26,9 @@ export const ProfileImageUrl = atom({
 export const UserStorageNick = atom({
     key: 'UserStorageNick',
     default: null
+});
+
+export const UserStorageDesc = atom({
+    key: 'UserStorageDesc',
+    default: null
 })

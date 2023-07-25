@@ -54,6 +54,8 @@
     background-color: #f4f4f5;
     width: 18.5rem;
     height: 4rem;
+    border: none;
+    outline: none;
 }
 .findpwchangemodalphoneinputgro {
     position: relative;

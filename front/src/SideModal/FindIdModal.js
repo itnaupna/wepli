@@ -95,23 +95,12 @@ function FindIdModal() {
                 </div>
                 <div className="findidemailbtngroup">
                     <div className="findidemailbtn"></div>
-                    <button type={'button'} onClick={handleRequestCodeFind} className="findidemailbtnsendtext" >인증번호 전송</button>
+                    <button type={'button'} onClick={handleRequestCodeFind} className="findidemailbtnsendtext" >전송</button>
                 </div>
                 <div className="findidinputemailgroup">
                     <input className="findidinputverfiy" type={'text'} value={verifyCode} onChange={(e)=>setVerifyCode(e.target.value)}
                            placeholder={'인증번호를 입력해주세요'}></input>
                 </div>
-                {/*<div className="findidemailbtngroup">*/}
-                {/*    <div className="findidemailbtn"/>*/}
-                {/*    <button type={'button'}  className="findidemailbtnsendtext">인증번호 확인</button>*/}
-                {/*</div>*/}
-                {/*<div*/}
-                {/*    className="findidgofindpasstextgroup"*/}
-                {/*>*/}
-                {/*    <div className="findidgofindpasstext">*/}
-                {/*        비밀번호가 생각나지 않으십니까?*/}
-                {/*    </div>*/}
-                {/*</div>*/}
 
                 <div className="findidmodalbottombtngroup">
                     <div className="findidmodalbottombtn">

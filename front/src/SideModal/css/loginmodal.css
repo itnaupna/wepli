@@ -7,7 +7,7 @@
 
 .loginmodalautologintext {
     margin-right: 1vw;
-    width: 10vw;
+    width: 9vw;
 }
 
 .loginmodalautologinlabel {
@@ -25,6 +25,7 @@
     top: 0;
     left: 0;
     font-weight: 500;
+
 }
 .loginmodalfindpasstext {
     position: absolute;
@@ -175,8 +176,8 @@
     position: absolute;
     top: 25.88rem;
     left: 2.19rem;
-    width: 18.69rem;
-    height: 0.94rem;
+    width: 20rem;
+    height: 2rem;
     color: #aeb2b8;
 }
 .loginmodalpassrectangle-child {
@@ -188,6 +189,8 @@
     border: none;
     width: 18.5rem;
     height: 4rem;
+    outline: none;
+    padding-left: 10px !important;
 }
 .loginmodalidlogininputgroup,
 .loginmodalpasslogininput {
@@ -262,7 +265,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    animation: fadeIn 0.4s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
     z-index: 100;
 }
 

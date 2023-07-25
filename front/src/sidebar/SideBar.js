@@ -75,11 +75,10 @@ function SideBar(props) {
         const url = '/api/lv0/m/logout';
         sessionStorage.removeItem('data');
         localStorage.removeItem('data');
-        navigate(window.location.pathname);
         axios
             .post(url)
             .then(res => {
-                window.location.reload();
+                setLoginStatus(false);
             })
             .catch(error => {
                 if (error.response && error.response.status === 405) {
