@@ -12,6 +12,7 @@ import axios from "axios";
 import {useRecoilState} from "recoil";
 import {DataState, LoginStatusAtom, ProfileImageUrl} from "../recoil/LoginStatusAtom";
 import {params} from "superagent/lib/utils";
+import {FollowMemberAtom} from "../recoil/FollowAtom";
 
 function Mypage(props) {
 
@@ -71,6 +72,13 @@ function Mypage(props) {
 
     const showFollowListModal = () => {
         setisFollowListModalOpen(true);
+        const url = "/api/lv2/f/follow";
+
+        axios
+            .get(url).then(res => {
+            setFollowMember(res.data);
+            console.log("follow 멤버", res.data);
+        });
     }
 
 
@@ -109,21 +117,6 @@ function Mypage(props) {
         });
     };
 
-    // const handleDescChange = async () => {
-    //     const url = "/api/lv1/m/desc";
-    //     try {
-    //         const res = await axios.patch(url, desc,{ headers: { 'Content-Type': 'application/json' } } );
-    //         if (res.data === true) {
-    //             console.log(desc);
-    //             console.log(res.data);
-    //             alert("되는거");
-    //         } else {
-    //             alert("안되는거");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error:", error);
-    //     }
-    // };
 
     const handleDescChange = async () => {
         const url = "/api/lv1/m/desc";
@@ -149,6 +142,7 @@ function Mypage(props) {
         setProfileImageUrl(profile);
     }, [profile]);
 
+    const [followMember, setFollowMember] = useRecoilState(FollowMemberAtom);
 
     return (
         <div>
@@ -251,7 +245,12 @@ function Mypage(props) {
                 {isEmailConfirmModalOpen && <EmailConfirmModal setisEmailConfirmModalOpen={setisEmailConfirmModalOpen}/>}
                 {isPhoneConfirmModalOpen && <PhoneConfirmModal setisPhoneConfirmModalOpen={setisPhoneConfirmModalOpen}/>}
                 {isBlackListOptionModalOpen && <BlackListOptionModal setisBlackListOptionModalOpen={setisBlackListOptionModalOpen}/>}
-                {isFollowListModalOpen && <FollowListModal setisFollowListModalOpen={setisFollowListModalOpen}/>}
+                {isFollowListModalOpen && (
+                    <FollowListModal
+                        setisFollowListModalOpen={setisFollowListModalOpen}
+                        followMember={followMember} // Pass the followMember state to FollowListModal
+                    />
+                )}
             </div>
         </div>
     );
