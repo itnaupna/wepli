@@ -125,39 +125,38 @@ function Mypage(props) {
     const handleDescChange = async () => {
         const url = "/api/lv1/m/desc";
         axios({
-            method: 'patch',
+            method: "patch",
             url: url,
             data: JSON.stringify({"desc": desc}),
-            headers: {'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json'},
         }).then(res => {
             const mypageurl = "/api/lv0/m/mypage";
-            axios({
-                method: 'get',
-                url: mypageurl,
-                data: {nick: userNick},
-            }).then(res => {
-                if (res.data === true) {
-                    const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
-                    storedData.desc = res.data.desc;
+            const data = {userNick:userNick}
+            axios
+                .get(mypageurl, data)
+                .then(res => {
+                    if (res.data) {
+                        console.log("if res 변경 성공 후 데이터 가져오기",res.data);
+                        const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
+                        console.log("storedData desc true" + storedData);
+                        storedData.desc = res.data.desc;
 
-                    const newData = JSON.stringify(storedData);
-                    console.log("이미지" + newData);
-                    sessionStorage.setItem("data", newData);
-                    setUserStorageDesc(res.data.desc);
-                    alert("변경되었습니다.");
-                } else {
-                    alert("다시작성해주세요");
-                }
-            })
-        });
+                        const newData = JSON.stringify(storedData);
+                        console.log("이미지" + newData);
+                        sessionStorage.setItem("data", newData);
+                        setUserStorageDesc(res.data.desc);
+                        alert("변경됨");
+                    } else {
+                        alert("변경안됨");
+                    }
+                })
+        })
     }
+
 
     useEffect(() => {
         setProfileImageUrl(profile);
-        setUserStorageDesc(desc);
-    }, [profile, desc]);
-
-
+    }, [profile]);
 
     return (
         <div>

@@ -3,9 +3,8 @@
 .findmodaltitle {
     position: absolute;
     top: 0;
-    text-align: center;
+    left: 1000px;
     font-weight: 500;
-    border: 1px solid green;
 }
 .findmodaltitlegroup {
     position: absolute;

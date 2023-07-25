@@ -71,7 +71,7 @@ function FollowListModal({ setisFollowListModalOpen  }) {
                     // sessionStorage.setItem("data", newData);
                     //
                     // setFollowList(res.data.lstfollow);
-                    alert("dd");
+                    alert("언팔로우 후 데이터 값 넣기");
                 } else {
                     alert("꽝");
                 }
