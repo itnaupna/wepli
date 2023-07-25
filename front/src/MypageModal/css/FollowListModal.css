@@ -40,6 +40,7 @@
     width: 3.75rem;
     height: 3.75rem;
     object-fit: cover;
+    border-radius: 30px;
 }
 .followmodalmembercounttext,
 .followmodalmembernicknametext {
@@ -51,10 +52,17 @@
     height: 1.25rem;
     flex-shrink: 0;
 }
+
+.followmodalmembernicknametext{
+    margin-left: 10px;
+
+}
 .followmodalmembercounttext {
     font-size: 0.81rem;
     font-family: "BM HANNA Air";
     height: 0.94rem;
+    margin-left: 10px;
+    color: gray;
 }
 .followmodalinfogroup {
     width: 9.38rem;
@@ -74,19 +82,27 @@
     bottom: 0;
     left: 0;
     border-radius: 20px;
-    background-color: #a649da;
+    background-color: blue;
     box-shadow: 10px 10px 10px red;
     opacity: 0.15;
     mix-blend-mode: normal;
 }
 .followmodalblackbtntext {
     position: absolute;
-    width: 40%;
-    top: calc(50% - 4px);
-    left: 36%;
-    font-weight: 500;
-    display: inline-block;
-    font-size: 10px;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 20px;
+    background-color: rgba(166, 73, 218, 0.012);
+    box-shadow: 10px 10px 10px red;
+    mix-blend-mode: normal;
+    color: black;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
 }
 .followmodalblackbtnframe {
     position: absolute;
@@ -98,19 +114,43 @@
     height: 1.25rem;
     overflow: hidden;
 }
+.followmodalfollowbtnrectangle{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 20px;
+    background-color: blue;
+    box-shadow: 10px 10px 10px red;
+    opacity: 0.15;
+    mix-blend-mode: normal;
+}
 .followmodalfollowbtntext {
     position: absolute;
-    width: 60%;
-    top: calc(50% - 4px);
-    left: 28%;
-    font-weight: 500;
-    display: inline-block;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 20px;
+    background-color: rgba(166, 73, 218, 0.012);
+    box-shadow: 10px 10px 10px red;
+    mix-blend-mode: normal;
+    color: black;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
 }
 .followmodalfollowbtnframe {
     position: absolute;
     top: calc(50% - 25px);
     left: calc(50% - 25px);
     border-radius: 20px;
+    background-color: rgba(166, 73, 218, 0.012);
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
     width: 3.13rem;
     height: 1.25rem;
@@ -125,7 +165,9 @@
 .followmodallist {
     display: flex;
     justify-content: flex-start;
+    margin-top: 15px;
 }
+
 .followmodalbtngroup {
     width: 3.25rem;
     flex-direction: column;

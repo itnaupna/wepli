@@ -1,7 +1,7 @@
 import React from 'react';
 import SLPMystagePeopleIcon from '../PlayStageImage/Icon/SLPMystagePeopleIcon.svg';
 import SLPMystagePlayingTitleIcon from '../PlayStageImage/Icon/SLPMystagePlayingTitleIcon.svg';
-import TestImg from '../PlayStageImage/img/SLPMystageImg.png';
+// import TestImg from '../PlayStageImage/img/SLPMystageImg.png';
 
 const ResultItem = ({data}) => {
     return (

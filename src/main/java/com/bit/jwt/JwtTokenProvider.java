@@ -64,7 +64,7 @@ public class JwtTokenProvider {
 				.setId(nick)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
                 //access 토큰 유효기한 30분
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY3))
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
 				.signWith(SignatureAlgorithm.HS512, secret)
 				.compact();
 		
@@ -89,7 +89,7 @@ public class JwtTokenProvider {
 				.setClaims(claims)
 				.setId(nick)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY3))// 30분
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))// 30분
 				.signWith(SignatureAlgorithm.HS512, secret)
 				.compact();
 		

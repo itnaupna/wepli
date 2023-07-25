@@ -16,23 +16,23 @@ function PwChkModal({setpwChkmodalOpen}) {
 
     // 비밀번호 일치하는지 확인
     // 맞을경우 -> 모달닫고 마이페이지로
-    const pwChkHandler = () => {
+    const pwChkHandler = async () => {
         const url = `/api/lv1/m/checkpassword?pw=${pwChk}`;
-        axios
-            .post(url, { pw: pwChk })
-            .then((res) => {
-                if (res.data === true) {
-                    closePwChkModal();
-                    navigate('/mypage');
-                } else {
-                    alert("비밀번호 좀 똑바로 입력해라");
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("오류가 나왔다. 리액트 펀치가즈아");
-            });
+        try {
+            const res = await axios.post(url, { pw: pwChk });
+            if (res.data === true) {
+                closePwChkModal();
+                navigate('/mypage');
+
+            } else {
+                alert("비밀번호를 정확히 입력해주세요.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("오류가 발생했습니다. 리액트 펀치가즈아");
+        }
     };
+
     return (
         <div >
             <div className="mypagepwchkmodalframe" onClick={closePwChkModal}></div>

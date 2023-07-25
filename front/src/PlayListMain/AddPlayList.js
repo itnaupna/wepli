@@ -14,7 +14,7 @@ import PlayListDetailOption from "../MainIMG/PlayListDetailOption.png";
 import PlayListDetailDelete from "../MainIMG/PlayListDetailDelete.png";
 import PlayListDetailCommentDelete from "../MainIMG/PlayListDetailCommentDelete.png";
 import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
-import PlayListSave from "../MainIMG/playListSave.png";
+import PlayListSave from "../MainIMG/PlayListSave.png";
 import PlusIcon from "../MainIMG/plusIcon.png";
 import "./AddPlayList.css";
 import {useNavigate} from "react-router-dom";

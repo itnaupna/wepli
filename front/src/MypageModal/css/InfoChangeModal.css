@@ -40,6 +40,7 @@
     display: inline-block;
     width: 18.5rem;
     text-align: center;
+
 }
 .mypageinfochangermodaltextgrou {
     position: relative;
@@ -56,6 +57,7 @@
     background-color: #f4f4f5;
     width: 18.5rem;
     height: 4rem;
+    border: none;
 }
 .mypageinfochangemodalpassnickn {
     position: relative;

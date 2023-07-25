@@ -3,11 +3,16 @@ import "./css/FindIdSuccessModal.css";
 import arrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import btnarrow from "./svg/btnarrow.svg";
-function FindIdSuccessModal({setFindIdSuccessModalOpen,recoveredEmail}) {
+import {useRecoilState, useRecoilValue} from "recoil";
+import {findIdSuccessModalOpenState, recoveredEmailState} from "../recoil/FindIdModalAtom";
+function FindIdSuccessModal() {
 
+    const [findIdSuccessModalopen,setfindIdSuccessModalopen] = useRecoilState(findIdSuccessModalOpenState);
     const closeFindIdSuccessModal = () => {
-        setFindIdSuccessModalOpen(false);
+        setfindIdSuccessModalopen(false);
     }
+
+    const recoveredEmail = useRecoilValue(recoveredEmailState);
 
     return (
         <div>
@@ -31,9 +36,7 @@ function FindIdSuccessModal({setFindIdSuccessModalOpen,recoveredEmail}) {
                     <div className="findidsuccessmodaltextgroup">
                         {recoveredEmail ? `회원님의 아이디는 ${recoveredEmail}입니다.` : '아이디가 없어요'}
                     </div>
-                    {/*<div className="findidsuccessmodalphoneinputgr">*/}
-                    {/*    <input className="findidsuccessmodalphoneinput"></input>*/}
-                    {/*</div>*/}
+
                     <div className="findidsuccessmodalbtngroup">
                         <div className="findidsuccessmypagebtn">
                             <div className="findidsuccessmodalbtnrectangle" />

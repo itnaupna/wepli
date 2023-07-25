@@ -4,10 +4,13 @@ import {useNavigate} from "react-router-dom";
 import Cancel from '../PlayStageImage/Icon/Cancel.svg';
 import Create from '../PlayStageImage/Icon/Create.svg';
 import Logo from '../PlayStageImage/img/Logo.png';
+import Upload from '../PlayStageImage/Icon/upload.svg';
+import axios from 'axios';
+
 function CreateStageModal({setModalOpen}) {
     // const [address,setAdress] =('');
     const [title,setTitle] = useState('');
-    const [desc,setDesc] = ('');
+    const [desc,setDesc] = useState('');
     const [genre,setGenre] = useState('');
     const [tag,setTag] = useState('');
     const [pw,setPw] = useState('');
@@ -15,6 +18,8 @@ function CreateStageModal({setModalOpen}) {
     const [img, setImg] = useState('');
     const [disable,setDisable] = useState(true);
     const [isPublic,setIsPublic]= useState(true);
+    const [isPhoto,setIsPhoto] = useState(true);
+    const fileInputRef = useRef(null);
     //파일 업로드/미리보기 이벤트
     const onUpload = (e)=>{
         const file = e.target.files[0];
@@ -24,10 +29,17 @@ function CreateStageModal({setModalOpen}) {
         return new Promise((resolve)=>{
             reader.onload=()=>{
                 setImg(reader.result || null);//파일의 컨텐츠
+                setIsPhoto(false);
                 resolve();
             };
         });
-    }
+    };
+    const handleImageClick = () => {
+      if (fileInputRef.current) {
+        fileInputRef.current.click(); // ref가 null이 아닐 때만 click() 메소드 호출
+      } // ref를 사용하여 파일 업로드 input 요소 클릭 이벤트 호출
+      
+    };
     //Private일 경우 비밀번호 나오게 div 나오게 만들기
 
     const OpenPw = (e)=> {
@@ -38,7 +50,6 @@ function CreateStageModal({setModalOpen}) {
         }else{
             setDisable(false);
             setIsPublic(false);
-            console.log({setIsPublic})
         } 
     };
     //모달 끄기
@@ -82,6 +93,18 @@ function CreateStageModal({setModalOpen}) {
             console.log('Create success!')
         }
     }
+    // //스테이지 생성
+    // const MakeStage = async () =>{
+    //   const url = "/api/lv2/s/stage";
+
+    // //   try {
+    // //     const res = await axios.post(url,{title,pw: pw, tag, genre});
+    // //     if(res.data){
+    // //         window.onload.reload();
+    // //         Navigate("/stage/url");
+    // //     }
+    // //   }
+    // // };
     return (
         <div ref={modalRef} className="createstagemodal-parent">
         <div className="createstagemodal">
@@ -106,17 +129,33 @@ function CreateStageModal({setModalOpen}) {
           <div className="mypageemailmodal">
             <div className="rectangle-parent">
               <div className="group-child" />
-              <div className="div2">
-                <div class>
-                    <img width={'60%'} src={img} alt='' className='groupChildImage'/>
-                </div>
+              {isPhoto? (
+              <div className='div2'>
                 <label className="input-file-button" for="ImageUpload">
-                    업로드
-                </label>
-              <input accept='image/*' multiple type='file' id='ImageUpload' style={{display:'none'}}
-              onChange={e=>onUpload(e)}>
-              </input>
+                  <img src={Upload} alt=''/>
+                    </label>
+                      <input 
+                      ref={fileInputRef} // 파일 업로드 input 요소에 ref 연결
+                      accept='image/*' multiple type='file' id='ImageUpload' style={{display:'none'}}
+                          onChange={e=>onUpload(e)}>
+                      </input>
               </div>
+              ): (
+                <div>
+                    <input 
+                    ref={fileInputRef} // 파일 업로드 input 요소에 ref 연결
+                    accept='image/*' multiple type='file' id='ImageUpload' style={{display:'none'}}
+                    onChange={e=>onUpload(e)}>
+                    </input>  
+                <img 
+                  
+                width={'60%'} src={img} alt='' className='groupChildImage' for='ImageUpload' onClick={handleImageClick}/>
+                </div>             
+            )}
+              
+
+
+              
             </div>
             
             <img
