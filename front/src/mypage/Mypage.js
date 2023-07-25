@@ -11,13 +11,20 @@ import FollowListModal from "../MypageModal/FollowListModal";
 import axios from "axios";
 import {useRecoilState} from "recoil";
 import {LoginStatusAtom, ProfileImageUrl, UserStorageDesc} from "../recoil/LoginStatusAtom";
-import {FollowMemberAtom} from "../recoil/FollowAtom";
+import {FollowMemberAtom, TargetMemberAtom} from "../recoil/FollowAtom";
+import {
+    BlackListOptionModalOpen,
+    EmailConfirmModalOpen,
+    FollowModalOpen,
+    InfoChangeModalOpen,
+    OutMemberModalOpen, PhoneConfirmModalOpen, TargetListModalOpen
+} from "../recoil/MypageModalAtom";
 
 function Mypage(props) {
 
 
     const data = sessionStorage.getItem('data') || localStorage.getItem('data');
-    console.log("d", data);
+    console.log("데이터입", data);
     let userNick = '';
     let profile = '';
     // let desc = '';
@@ -40,16 +47,19 @@ function Mypage(props) {
 
     const bucket = process.env.REACT_APP_BUCKET_URL;
 
-    const [isOutMemberModalOpen, setIsOutMemberModalOpen] = useState(false);
-    const [isInfoChangeModalOpen, setIsInfoChangeModalOpen] = useState(false);
-    const [isEmailConfirmModalOpen, setisEmailConfirmModalOpen] = useState(false);
-    const [isPhoneConfirmModalOpen, setisPhoneConfirmModalOpen] = useState(false);
-    const [isBlackListOptionModalOpen, setisBlackListOptionModalOpen] = useState(false);
-    const [isFollowListModalOpen, setisFollowListModalOpen] = useState(false);
+
+    const [isOutMemberModalOpen, setIsOutMemberModalOpen] = useRecoilState(OutMemberModalOpen);
+    const [isInfoChangeModalOpen, setIsInfoChangeModalOpen] = useRecoilState(InfoChangeModalOpen);
+    const [isEmailConfirmModalOpen, setisEmailConfirmModalOpen] = useRecoilState(EmailConfirmModalOpen);
+    const [isPhoneConfirmModalOpen, setisPhoneConfirmModalOpen] = useRecoilState(PhoneConfirmModalOpen);
+    const [isBlackListOptionModalOpen, setisBlackListOptionModalOpen] = useRecoilState(BlackListOptionModalOpen);
+    const [isFollowListModalOpen, setisFollowListModalOpen] = useRecoilState(FollowModalOpen);
+    const [isTargetListModalOpen, setisTargetListModalOpen] = useRecoilState(TargetListModalOpen);
     const [memberProfile, setmemberProfile] = useState('');
     const [loginStatus, setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [profileImageUrl, setProfileImageUrl] = useRecoilState(ProfileImageUrl);
     const [followMember, setFollowMember] = useRecoilState(FollowMemberAtom);
+    const [targetMember, setTargetMember] = useRecoilState(TargetMemberAtom);
     const [desc, setUserDescInput] = useState('');
 
     const showOutMemberModal = () => {
@@ -81,6 +91,18 @@ function Mypage(props) {
             setFollowMember(res.data);
             console.log("follow 멤버", res.data);
         });
+    }
+
+    const showTargetListModal = () => {
+        setisTargetListModalOpen(true);
+
+        const url = "/api/lv2/f/follower";
+
+        axios
+            .get(url)
+            .then(res=>{
+                setTargetMember(res.data);
+            });
     }
 
 
@@ -152,6 +174,17 @@ function Mypage(props) {
                 })
         })
     }
+
+    // const UserInfoGet = async () => {
+    //     const url = '/api"/lv0/m/mypage';
+    //     const data = {userNick:userNick}
+    //     axios
+    //         .get(url,data)
+    //         .then(res=>{
+    //             console.log(res);
+    //            alert("dd");
+    //         });
+    // }
 
 
     useEffect(() => {
@@ -235,7 +268,7 @@ function Mypage(props) {
                             <div className="mypagefollowingnumber">45명</div>
                             <div className="mypagefollowingtext">팔로잉</div>
                         </label>
-                        <div className="mypagefollowbox">
+                        <div className="mypagefollowbox" onClick={showTargetListModal}>
                             <div className="mypagefollowtext">팔로워</div>
                             <div className="mypagefollownumber">1200명</div>
                         </div>

@@ -32,16 +32,12 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
         setPw(e.target.value);
     }
     const emailconfirm = useRecoilValue(emailConfirmState);
-    console.log("info change", emailconfirm);
 
     const data = sessionStorage.getItem("data") || localStorage.getItem("data");
-    console.log("회원정보변경", data);
 
     const storagedata = JSON.parse(data);
     const usernick = storagedata.nick;
     const useremail = storagedata.email;
-    console.log("파스",usernick);
-    console.log("파스",useremail);
 
     const [prevEmail, setPrevEmail] = useState('');
 
@@ -51,9 +47,15 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
             const parsedData = JSON.parse(data);
             setPrevEmail(parsedData.email);
         }
-    }, []);
+    }, [prevEmail]);
 
     const handleinfoChnage = async () => {
+
+        if(!pw){
+            alert("비밀번호 입력해주세요");
+            return;
+        }
+
         const url = "/api/lv1/m/info";
         axios({
             method: 'patch',
@@ -127,9 +129,9 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
                 {/*이메일 입력*/}
                 <div className="mypageinfochangemodalpassnickn">
                     <input placeholder={
-                        emailconfirm === 1
-                            ? '이미 이메일이 인증이되어 변경할 수 없습니다.'
-                            : '이메일을 입력해주세요'
+                        emailconfirm != 1
+                            ? '이메일을 입력해주세요'
+                            : '이미 이메일이 인증이되어 변경할 수 없습니다.'
                     } className="mypageinfochangemodalnicknamei"
                     value={email} onChange={handleInputEmail} readOnly={emailconfirm === 1}></input>
                 </div>

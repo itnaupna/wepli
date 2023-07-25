@@ -14,14 +14,7 @@ import axios from "axios";
 import PwChkModal from "../SideModal/PwChkModal";
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {LoginStatusAtom, ProfileImageUrl} from '../recoil/LoginStatusAtom';
-import {
-    findIdModalOpenState,
-    findIdSuccessModalOpenState,
-    LoginModalOpen,
-    pwChkModalOpen,
-    FindPassModalOpen,
-    SignUpModalOpen, FindPwChangeModalOpen
-} from "../recoil/FindIdModalAtom";
+import {findIdModalOpenState, findIdSuccessModalOpenState, LoginModalOpen, pwChkModalOpen, FindPassModalOpen, SignUpModalOpen, FindPwChangeModalOpen} from "../recoil/FindIdModalAtom";
 import FindIdSuccessModal from "../SideModal/FindIdSuccessModal";
 import FindPwChangeModal from "../SideModal/FindPwChangeModal";
 

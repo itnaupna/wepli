@@ -16,7 +16,7 @@ function FollowListModal({ setisFollowListModalOpen  }) {
 
     const followMember = useRecoilValue(FollowMemberAtom);
     /*const [followMember, setFollowMember] = useRecoilState(FollowMemberAtom);*/
-    const [followList, setFollowList] = useRecoilState(FollowListAtom);
+    const [followMember1, setFollowMember] = useRecoilState(FollowMemberAtom);
 
     const tValues = followMember.map((item) => item.t);
     console.log("t 값들", tValues);
@@ -48,12 +48,11 @@ function FollowListModal({ setisFollowListModalOpen  }) {
 
     const handleUnFollow = (tValue) => {
         const url = `/api/lv2/f/unfollow?target=${tValue}`;
-
+        console.log("핸들언팔로우 벨류",tValue);
         axios({
             method: 'delete',
             url: url
         }).then(res=>{
-            console.log("then res" + res);
             const mypageurl = "/api/lv0/m/mypage";
             axios({
                 method: "get",
@@ -63,21 +62,32 @@ function FollowListModal({ setisFollowListModalOpen  }) {
                 alert("언팔로우");
                 if (res.data) {
                     console.log("if data", res.data);
-                    // const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
-                    // storedData.lstfollow = res.data.lstfollow;
-                    //
-                    // const newData = JSON.stringify(storedData);
-                    // console.log("이미지" + newData);
-                    // sessionStorage.setItem("data", newData);
-                    //
-                    // setFollowList(res.data.lstfollow);
+                    const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
+                    storedData.lstfollow = res.data.lstfollow;
+
+                    const newData = JSON.stringify(storedData);
+                    console.log("이미지" + newData);
+                    sessionStorage.setItem("data", newData);
+
+                    setFollowMember(res.data.lstfollow);
                     alert("언팔로우 후 데이터 값 넣기");
                 } else {
                     alert("꽝");
                 }
-            });
+            })
         })
     }
+
+    useEffect(()=>{
+        const url = "/api/lv2/f/follow";
+
+        axios
+            .get(url).then(res => {
+            setFollowMember(res.data);
+            console.log("follow 멤버", res.data);
+        });
+    },[followMember1]);
+
 
     return (
         <div>
