@@ -101,7 +101,7 @@ function FindIdModal() {
                     <input className="findidinputverfiy" type={'text'} value={verifyCode} onChange={(e)=>setVerifyCode(e.target.value)}
                            placeholder={'인증번호를 입력해주세요'}></input>
                 </div>
-
+                    {/*ㅇㅇ*/}
                 <div className="findidmodalbottombtngroup">
                     <div className="findidmodalbottombtn">
                         <div className="findidmodalbottombtnrectangle"/>
