@@ -380,19 +380,19 @@ public class PlaylistService {
         Map<String,Integer> tempUpdate = new HashMap<>();
         tempUpdate.put("oldIdx", oldIdx);
         tempUpdate.put("newIdx", tempIdx);
-        pMapper.updateSongIdx(tempUpdate);
+        pMapper.updateSongOrder(tempUpdate);
     
         // newIdx -> oldIdx
         Map<String,Integer> newUpdate = new HashMap<>();
         newUpdate.put("oldIdx", newIdx);
         newUpdate.put("newIdx", oldIdx);
-        pMapper.updateSongIdx(newUpdate);
+        pMapper.updateSongOrder(newUpdate);
     
         // tempIdx -> newIdx로 변경합니다.
         Map<String,Integer> finalUpdate = new HashMap<>();
         finalUpdate.put("oldIdx", tempIdx);
         finalUpdate.put("newIdx", newIdx);
-        pMapper.updateSongIdx(finalUpdate);
+        pMapper.updateSongOrder(finalUpdate);
     
         return true;
     }
