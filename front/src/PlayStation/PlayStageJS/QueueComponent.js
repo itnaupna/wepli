@@ -1,45 +1,105 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../PlayStageCss/QueueComponent.css';
-import { Qdelete, Qdown, Qgrab, Qorder, Qplay, Qplaylist, Qremuser, Qup } from '../PlayStageImage/Icon';
+import { Qdelete, Qplaylist } from '../PlayStageImage/Icon';
 import QueuePlaylist from './QueuePlaylist';
-import QueueHistory from './QueueHistory';
-import QueueStagePlaylist from './QueueStagePlaylist';
 import QueueMypliItem from './QueueMypliItem';
 import axios from 'axios';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { ButtonTypeAtom, MyQListAtom, ResultItemsInStageAtom } from '../../recoil/StageDataAtom';
+import { LoginStatusAtom } from '../../recoil/LoginStatusAtom';
+import QueuePlaylist2 from './QueuePlaylist2';
 
 const QueueComponent = () => {
     const searchKeyword = useRef();
-    const [searchResult, setSearchResult] = useState([]);
+    const [searchResult, setSearchResult] = useRecoilState(ResultItemsInStageAtom);
     const [searchInfo, setSearchInfo] = useState({ keyword: '', token: '' });
+    const MyQList = useRecoilValue(MyQListAtom);
+    const [ButtonType, setButtonType] = useRecoilState(ButtonTypeAtom);
+    const listRef = useRef();
+    let cancelTokenSource;
+    const IsLogin = useRecoilValue(LoginStatusAtom);
+    const [myPlaylists, setMyPlaylists] = useState([]);
     const SearchYoutube = async (keyword, token) => {
-        let input = document.getElementsByClassName("queuesearchbarwrapper")[0];
+        const input = document.getElementsByClassName("queuesearchbarwrapper")[0];
         input.style.pointerEvents = "none";
+
         const str1 = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=';
         const str2 = `&key=${process.env.REACT_APP_YOUTUBE_KEY}&maxResults=50&type=video`;
         const str3 = token ? `&pageToken=${token}` : '';
-        if (!str3)
+
+
+        cancelTokenSource = axios.CancelToken.source(); // 1. 취소 토큰 생성
+
+        if (!str3) {
             setSearchResult([]);
-        let result = (await axios.get(`${str1}${keyword}${str2}${str3}`)).data;
-        setSearchInfo({ keyword, token: result.nextPageToken });
-        setSearchResult(old=>[...old,...result.items]);
+        }
+
+        try {
+            const result = await axios.get(`${str1}${keyword}${str2}${str3}`, {
+                cancelToken: cancelTokenSource.token, // 2. 요청에 취소 토큰 설정
+            });
+
+            setSearchInfo({ keyword, token: result.data.nextPageToken });
+            setSearchResult(old => [...old, ...result.data.items]);
+        } catch (error) {
+            if (axios.isCancel(error)) {
+                // 요청이 취소된 경우
+                console.log('요청이 취소되었습니다.', error.message);
+            } else {
+                // 그 외의 오류 처리
+                console.error('오류 발생:', error);
+            }
+        }
+
         input.style.pointerEvents = "inherit";
-        // console.log(result);
+
+    };
+
+    // 취소 기능을 사용하여 요청을 취소하는 함수
+    const cancelSearch = () => {
+        if (cancelTokenSource) {
+            cancelTokenSource.cancel('요청이 취소되었습니다.');
+        }
+    };
+
+    const loadMyPlaylists = async () => {
+        if (!IsLogin) return;
+        let request = await axios.get("/api/lv1/p/playlist");
+        setMyPlaylists(request.data);
+        console.log(myPlaylists);
     }
+
+    useEffect(() => {
+        loadMyPlaylists()
+    }, []);
+
+
     return (
         <div className="stagequeuebody">
-            <div className="queuesearchbarwrapper">
-                <input className="queuesearchbar" placeholder='유튜브 검색키워드 입력' ref={searchKeyword} />
-                <div style={{ paddingRight: '10px' }} onClick={(e) => {
-                    SearchYoutube(searchKeyword.current.value, null);
-                }}>🔍</div>
-            </div>
+            {IsLogin &&
+                <div className="queuesearchbarwrapper">
+                    <input className="queuesearchbar" placeholder='유튜브 검색키워드 입력' ref={searchKeyword}
+                        onKeyUp={(e) => {
+                            if (e.key === 'Enter') {
+                                setButtonType('search');
+                                SearchYoutube(searchKeyword.current.value, null);
+                            }
+                        }} />
+                    <div style={{ paddingRight: '10px' }} onClick={(e) => {
+                        setButtonType('search');
+                        SearchYoutube(searchKeyword.current.value, null);
+                    }}>🔍</div>
+                </div>
+            }
             <div className="queuelistwrapper">
                 <div className="queuelistleftside">
-                    <div className="btnmyqueue" style={{ fontSize: '1.2rem', justifyContent: 'center' }}>대기열 관리</div>
-                    <div className="btnmyqueue">
-                        <div className="queueplaylistitemtitle">내 플리</div>
-                        <div className="queueplaylistitemcount">000</div>
-                    </div>
+                    <div className="btnmyqueue" style={{ fontSize: '1.2rem', justifyContent: 'center', cursor: 'default' }}>대기열 관리</div>
+                    {IsLogin &&
+                        <div className="btnmyqueue">
+                            <div className="queueplaylistitemtitle">내 플리</div>
+                            <div className="queueplaylistitemcount">{MyQList.length}</div>
+                        </div>
+                    }
                     <div className="btnmyqueue">
                         <div className="queueplaylistitemtitle">스테이지 플리</div>
                         <div className="queueplaylistitemcount">000</div>
@@ -48,16 +108,16 @@ const QueueComponent = () => {
                         <div className="queueplaylistitemtitle">재생 기록</div>
                         <div className="queueplaylistitemcount">000</div>
                     </div>
-                    <div className="plisidewrapper">
-                        <div className="queueplaylistwrapper">
-                            <QueueMypliItem />
-                            <QueueMypliItem />
-                            <QueueMypliItem />
+                    {IsLogin &&
+                        <div className="plisidewrapper">
+                            <div className="queueplaylistwrapper">
+                                {myPlaylists && myPlaylists.map((v, i) => <QueueMypliItem data={v} key={i} />)}
+                            </div>
+                            <div className="btnmakepli" style={{ justifyContent: 'center' }}>
+                                플리 생성
+                            </div>
                         </div>
-                        <div className="btnmakepli" style={{ justifyContent: 'center' }}>
-                            플리 생성
-                        </div>
-                    </div>
+                    }
                 </div>
                 <div className="queuelistrightside">
                     <div className="queuelistbtns">
@@ -68,18 +128,20 @@ const QueueComponent = () => {
                             <img className="delete-icon" alt="" src={Qdelete} />
                         </div>
                     </div>
-                    <div className="qplaylistitems">
-                        <React.Suspense fallback={<div>정보를 불러오는 중입니다.</div>}>
-                            {searchResult.map((v, i) => <QueuePlaylist key={i} data={v} rank={i+1} />)}
-                        </React.Suspense>
-                        {/* <QueuePlaylist/> */}
-
-                        {/* <QueueHistory/> */}
-                        {/* <QueueStagePlaylist/> */}
+                    <div className="qplaylistitems" ref={listRef}>
+                        {
+                            searchResult?.length > 0 ?
+                                ButtonType === 'search' ?
+                                    searchResult.map((v, i) => <QueuePlaylist key={i} data={v} rank={i + 1} index={i}/>) :
+                                    searchResult.map((v, i) => <QueuePlaylist2 key={i} data={v} rank={i + 1} />) :
+                                <div style={{ alignSelf: 'stretch', margin: '10px', textAlign: 'center' }}>
+                                    표시할 정보가 없습니다.
+                                </div>
+                        }
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -271,8 +271,12 @@ public class PlaylistService {
 
     public boolean insertSong(String token, SongDto data, HttpServletResponse response){
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        String genres[] = data.getGenre().split(",");
-        String tags[] = data.getTag().split(",");
+        
+        String gStr = (data.getGenre()!=null)? data.getGenre() : "";
+        String tStr = (data.getTag()!=null)? data.getTag() : "";
+
+        String genres[] = gStr.split(",");
+        String tags[] = tStr.split(",");
 
         if(pMapper.selectMyPliToIdx(data.getPlaylistID()).getNick().equals(nick)) {
             if(data.getImg() != null && !data.getImg().equals("")) {
