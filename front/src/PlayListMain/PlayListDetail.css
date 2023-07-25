@@ -296,6 +296,9 @@
 .txttitle {
     position: absolute;
     text-transform: capitalize;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 .txtsinger {
     top: calc(50% - 14px);
