@@ -14,4 +14,5 @@ public class SongDto {
     private String singer;
     private String songaddress;
     private String songorigin;
+    private int songorder;
 }

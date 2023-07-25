@@ -147,11 +147,16 @@ public class PlaylistService {
 
         List<PliCommentDto> comment = pMapper.selectPliComments(cdata);
         List<PlaylistDto> play = pMapper.detailPlayList(idx);
+
+        // 플리 작성자 닉네임
+        String nick = play.get(0).getNick();
+        MypageDto mypageDto = memberMapper.selectMypageDto(nick);
     
         Map<String,Object> data = new HashMap<>();
         data.put("song", song);
         data.put("comment", comment);
         data.put("play", play);
+        data.put("playUserImg", mypageDto.getImg());
     
         return data;
     }
