@@ -104,7 +104,7 @@
 }
 .playlistmainsearchbody {
     position: absolute;
-    right: 0;
+    right: 0px;
     bottom: 0;
     border-radius: var(--br-xl);
     background-color: var(--color-white);
@@ -152,9 +152,13 @@
     border-radius: var(--br-xl);
     background-color: var(--color-white);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    height: 3.13rem;
+    height: 3rem;
     width: 16.097rem;
     padding-left: 50px;
+    border: none;
+    font-family: var(--font-bm-hanna-air);
+    font-size: 20px;
+    outline: none;
 
 }
 .playlsitsearchicons {

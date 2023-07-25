@@ -74,6 +74,8 @@
     text-transform: capitalize;
     font-family: var(--font-bm-hanna_ttf);
     background-color: rgba(0,0,0,0);
+    border: none;
+    outline: none;
 }
 .playlistaddprofileimage-icon {
     position: absolute;

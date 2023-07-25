@@ -55,7 +55,7 @@
 .slick-next:before{
     content: url("../MainIMG/Arrow_next.png") !important;
     position: relative !important;
-    left: 320px !important;
+    left: 315px !important;
 }
 .NoLogin{
     text-align: center;

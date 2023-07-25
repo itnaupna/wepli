@@ -18,6 +18,9 @@ import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
 import {useNavigate} from "react-router-dom";
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
+import {useRecoilState} from "recoil";
+import {SearchSongModalOpen} from "../recoil/SearchSongAtom";
+import SearchSongModal from "./SearchSongModal";
 
 const PlayListDetail = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
@@ -41,6 +44,7 @@ const PlayListDetail = () => {
     const [plaListDetailInfo, setPlaListDetailInfo] = useState([]);
     const [plaListDetailSong , setPlaListDetailSong] = useState([]);
 
+
     useEffect(() =>{
         const plaListDetailUrl = "/api/lv0/p/playdetail";
         Axios.get(plaListDetailUrl, { params: {idx: idx, curr: 1, cpp: 6 } })
@@ -52,8 +56,14 @@ const PlayListDetail = () => {
     },[]);
 
     useEffect(() =>{
-        console.log(plaListDetailComment);
+        console.log(plaListDetailInfo.img);
     },[plaListDetailResult]);
+
+    const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
+
+    const ShowSearchModalOpen = async () => {
+        setSearchSongModalOpen(true);
+    }
     return (
         <div className="playlistdetailframe">
             <div className="playlistdetail">
@@ -106,7 +116,7 @@ const PlayListDetail = () => {
                                         src={PlayListDetailHeart}
                                     />
                                 </div>
-                                <div className="playlistdetailbuttons">
+                                <div className="playlistdetailbuttons" onClick={ShowSearchModalOpen}>
                                     <img
                                         className="playlistdetailinsertmusicbutto-icon"
                                         alt=""
@@ -191,6 +201,7 @@ const PlayListDetail = () => {
                     )}
                 </div>
                 <div className="playlistdetailcommentframe">
+                    {  sessionStorage.getItem("data") == null ? null :
                     <div className="playlistdetailcommentgroup1">
                         <div className="playlistdetailcommentheader">
                             <div className="commettilte">댓글</div>
@@ -215,6 +226,7 @@ const PlayListDetail = () => {
                             </div>
                         </div>
                     </div>
+                        }
                     {
                         plaListDetailComment.map ((commentList, idx) =>
                         <div className="playlistdetailcommentswrapper" key={idx}>
@@ -259,6 +271,9 @@ const PlayListDetail = () => {
                     onClick={closBack}
                 />
             </div>
+            {searchSongModalOpen && <SearchSongModal setSearchSongModalOpen={setSearchSongModalOpen}/>}
+
+
         </div>
     );
 };

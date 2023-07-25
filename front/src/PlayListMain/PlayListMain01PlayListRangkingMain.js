@@ -10,9 +10,6 @@ import MyFollowList from "./MyFollowList";
 import FollowToggleButton from "../MainIMG/FollowToggleButton.png";
 
 function PlayListMain01PlayListRangkingMain(props) {
-    const reload = () => {
-        window.location.replace("");
-    }
     const [rankingData, setRankingData] = useState([]);
     const [likeTop50, setLikeTop50] = useState([]);
     const [followTop50, setFollowTop50] = useState([]);
@@ -59,7 +56,6 @@ function PlayListMain01PlayListRangkingMain(props) {
                     className="playlistrankinglogotitle-icon"
                     alt=""
                     src={PlayListRankingTitle}
-                    onClick={reload}
                 />
                 {<PlayListMenu/>}
             </div>

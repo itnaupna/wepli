@@ -14,7 +14,7 @@ import PlayListDetailOption from "../MainIMG/PlayListDetailOption.png";
 import PlayListDetailDelete from "../MainIMG/PlayListDetailDelete.png";
 import PlayListDetailCommentDelete from "../MainIMG/PlayListDetailCommentDelete.png";
 import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
-import PlayListSave from "../MainIMG/PlayListSave.png";
+import PlayListSave from "../MainIMG/playListSave.png";
 import PlusIcon from "../MainIMG/plusIcon.png";
 import "./AddPlayList.css";
 import {useNavigate} from "react-router-dom";
@@ -93,16 +93,18 @@ const AddPlayLsit = () => {
 
     const savePliImg = (e) => {
         const uploadPliImg = new FormData();
+        uploadPliImg.append('directoryPath', "playlist");
         uploadPliImg.append('upload', e.target.files[0]);
-        uploadPliImg.append("idx", 31);
         Axios({
             method:"post",
-            url: "/api/lv1/p/profile",
+            url: "/api/lv1/os/imgupload",
             data: uploadPliImg,
             headers: {"Content-Type" : "multipart/form-data"}
         }).then(res => {
             setUploadPliImgName(res.data);
-        });
+        }).catch(error => {
+            console.log(error);
+        })
         setUploadPliImgName(uploadPliImg);
         const PliImgfile = PliImgRef.current.files[0];
         const reader = new FileReader();
