@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import "./PlayListDetail.css";
 import Molu from "../MainIMG/Molu.gif";
 import Aru from "../MainIMG/ARu.gif";
@@ -19,8 +19,9 @@ import {Link, useNavigate} from "react-router-dom";
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
 import {useRecoilState} from "recoil";
-import {SearchSongModalOpen} from "../recoil/SearchSongAtom";
+import {AddSongModalOpen, SearchSongModalOpen} from "../recoil/SearchSongAtom";
 import SearchSongModal from "./SearchSongModal";
+import AddSongModal from "./AddSongModal";
 
 const PlayListDetail = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
@@ -63,9 +64,10 @@ const PlayListDetail = () => {
     }, [plaListDetailResult]);
 
     const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
-
+    const [addSongModalOpen, setAddSongModalOpen] = useRecoilState(AddSongModalOpen);
     const ShowSearchModalOpen = async () => {
         setSearchSongModalOpen(true);
+        setAddSongModalOpen(false);
     }
     const [commentContent, setCommentContent] = useState("");
     const commentContentOnChange = (e) => {
@@ -112,6 +114,7 @@ const PlayListDetail = () => {
             Axios.delete(`/api/lv1/p/list?idx=${idx}`)
                 .then(res => {
                     alert("삭제완료");
+                    closBack();
                 })
                 .catch(error => {
                     console.log(error);
@@ -131,6 +134,35 @@ const PlayListDetail = () => {
         }).catch(error => {
             console.log(error);
         })
+    }
+
+    const songDelete = (idx) => {
+        if (window.confirm("정말 삭제하시겠습니까?")) {
+            Axios.delete(`/api/lv1/p/song?idx=${idx}`)
+                .then(res => {
+                    alert("삭제완료");
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else {
+            alert("삭제를 취소했습니다.");
+        }
+    }
+
+    function formatTime(input) {
+        const str = String(input).padStart(6, '0'); // 앞에 '0'을 채워서 6자리 문자열로 만듦
+
+        const hours = str.substring(0, 2);
+        const minutes = str.substring(2, 4);
+        const seconds = str.substring(4);
+
+        // 유효한 시간 형식인지 확인 후 반환
+        if (parseInt(hours) >= 0 && parseInt(hours) <= 23 && parseInt(minutes) >= 0 && parseInt(minutes) <= 59 && parseInt(seconds) >= 0 && parseInt(seconds) <= 59) {
+            return `${parseInt(hours) !== 0 ? hours + ':' : ''}${minutes}:${seconds}`;
+        } else {
+            return "Invalid input";
+        }
     }
 
     return (
@@ -256,15 +288,16 @@ const PlayListDetail = () => {
                                         className="playlistdetaillistdelete-icon"
                                         alt=""
                                         src={PlayListDetailClose}
+                                        onClick={() =>songDelete(songList.idx)}
                                     />
                                 </div>
-                                <div className="txtlength">{songList.songlength}</div>
+                                <div className="txtlength">{formatTime(songList.songlength)}</div>
                                 <div className="txtsinger">{songList.singer}</div>
                                 <div className="txttitle">{songList.title}</div>
                                 <img
                                     className="imgthumbnail-icon"
                                     alt=""
-                                    src={`${bucketURl}/songimg/${songList.img}`}
+                                    src={`${songList.img}`}
                                 />
                                 <div className="txtrank">{idx + 1}</div>
                             </div>
@@ -345,6 +378,7 @@ const PlayListDetail = () => {
                 />
             </div>
             {searchSongModalOpen && <SearchSongModal setSearchSongModalOpen={setSearchSongModalOpen}/>}
+            {addSongModalOpen && <AddSongModal setAddSongModalOpen={setAddSongModalOpen}/>}
 
 
         </div>

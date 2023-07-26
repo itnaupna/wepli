@@ -14,7 +14,7 @@ function PlayListRankingFollowTop({item, ranking}) {
             <img
                 className="playlistmain01followprofillimg-icon"
                 alt=""
-                src={Molu}
+                src={`${bucketURl}/profile/${item.img}`}
             />
             <div className="playlistrankinglistiteminfo12">
                 <div className="playlistrankinglistitemtitle">

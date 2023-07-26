@@ -10,3 +10,28 @@ export const NextPageToken = atom({
     key: 'NextPageToken',
     default: null
 });
+
+export const AddSongModalOpen = atom({
+    key: 'AddSongModalOpen',
+    default: false
+});
+
+export const YoutubeSearchParam = atom({
+    key: 'YoutubeSearchParam',
+    default: ""
+});
+
+export const SearchResults = atom({
+    key: 'SearchResults',
+    default: []
+});
+
+export const YoutubeAddResult = atom({
+    key: 'YoutubeAddResult',
+    default: []
+});
+
+export const VideoId = atom({
+    key: 'VideoId',
+    default: ""
+});

@@ -334,20 +334,11 @@
     height: 1.75rem;
 }
 .txtlength,
-.txtsinger,
 .txttitle {
     position: absolute;
     text-transform: capitalize;
 }
-.txtsinger {
-    top: calc(50% - 14px);
-    left: 38.06rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 7.06rem;
-    height: 1.75rem;
-}
+
 .txttitle {
     top: calc(50% - 12px);
     left: 11.56rem;

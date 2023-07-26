@@ -72,10 +72,10 @@ function PlayListUpdate(props) {
     };
 
     useEffect(() => {
-        setGenres(genre01 + genre02 + genre03 + genre04)
+        setGenres((genre01 === "" ? genre01 : genre02 === "" && genre03 === "" && genre04 === "" ?  genre01 : (genre01 + ",")) + (genre02 === "" ? genre02 : genre03 === "" && genre04 === "" ? genre02 : (genre02 + ",")) + (genre03 === ""  ? genre03 : genre04 === "" ? genre03 : (genre03 + ",")) +  (genre04));
     },[genre01, genre02, genre03, genre04]);
     useEffect(() => {
-        setTags(tag01 + tag02 + tag03 + tag04)
+        setTags((tag01 === "" ? tag01 : tag02 === "" && tag03 === "" && tag04 === "" ?  tag01 : (tag01 + ",")) + (tag02 === "" ? tag02 : tag03 === "" && tag04 === "" ? tag02 : (tag02 + ",")) + (tag03 === ""  ? tag03 : tag04 === "" ? tag03 : (tag03 + ",")) +  (tag04));
     },[tag01, tag02, tag03, tag04]);
 
     const savePliImg = (e) => {
@@ -102,25 +102,25 @@ function PlayListUpdate(props) {
     };
 
     const updatePliData = {
+        idx: idx,
         title: pliTitle,
         desc: pliDesc,
         genre: genres,
         tag: tags,
         img: uploadPliImgName,
-        isPublic: 0,
-        nick: JSON.parse(sessionStorage.getItem("data")).nick
+        isPublic: 0
     }
 
 
-    const addPli = () => {
+    const updatePli = () => {
         if(pliTitle === "" ) {
             alert("제목을 입력해주세요.");
             return;
         }
         const updatePliUrl = "/api/lv1/p/list";
-        Axios.post(updatePliUrl, updatePliData)
+        Axios.patch(updatePliUrl, updatePliData)
             .then(res =>
-                navigate("/mypli")
+                navigate("/pli/" + idx)
             )
             .catch((error) => {
                     alert("실패애러" + error)
@@ -141,14 +141,16 @@ function PlayListUpdate(props) {
                 setPlaListDetailInfo(res.data.play[0]);
                 setPliTitle(res.data.play[0].title);
                 setPliDesc(res.data.play[0].desc);
-                setGenre01(res.data.play[0].genre.split(",")[0]);
-                setGenre02(res.data.play[0].genre.split(",")[1]);
-                setGenre03(res.data.play[0].genre.split(",")[2]);
-                setGenre04(res.data.play[0].genre.split(",")[3]);
-                setTag01(res.data.play[0].tag.split(",")[0]);
-                setTag02(res.data.play[0].tag.split(",")[1]);
-                setTag03(res.data.play[0].tag.split(",")[2]);
-                setTag04(res.data.play[0].tag.split(",")[3]);
+                setGenre01(res.data.play[0].genre.split(",")[0] === undefined ? "" : res.data.play[0].genre.split(",")[0]);
+                setGenre02(res.data.play[0].genre.split(",")[1] === undefined ? "" : res.data.play[0].genre.split(",")[1]);
+                setGenre03(res.data.play[0].genre.split(",")[2] === undefined ? "" : res.data.play[0].genre.split(",")[2]);
+                setGenre04(res.data.play[0].genre.split(",")[3] === undefined ? "" : res.data.play[0].genre.split(",")[3]);
+                setTag01(res.data.play[0].tag.split(",")[0] === undefined ? "" : res.data.play[0].tag.split(",")[0]);
+                setTag02(res.data.play[0].tag.split(",")[1] === undefined ? "" : res.data.play[0].tag.split(",")[1]);
+                setTag03(res.data.play[0].tag.split(",")[2] === undefined ? "" : res.data.play[0].tag.split(",")[2]);
+                setTag04(res.data.play[0].tag.split(",")[3] === undefined ? "" : res.data.play[0].tag.split(",")[3]);
+                setPliImg(bucketURl + res.data.play[0].img);
+                setUploadPliImgName(res.data.play[0].img);
             })
             .catch(res => console.log(res));
     }, []);
@@ -163,7 +165,7 @@ function PlayListUpdate(props) {
                         <img
                             className="playlistaddcover-icon"
                             alt=""
-                            src={bucketURl + plaListDetailInfo.img}
+                            src={bucketURl + uploadPliImgName}
                         />
                     </label>
                     <div className="playlistaddinplaylistinfos">
@@ -186,7 +188,7 @@ function PlayListUpdate(props) {
                                   onChange={pliDescOnChange} maxLength="50" value={pliDesc}>
                         </textarea>
                         <div className="playlistaddinplaylistinfobu">
-                            <div className="playlistaddbuttonbody" onClick={addPli}>
+                            <div className="playlistaddbuttonbody" onClick={updatePli}>
                                 <img
                                     className="playlistaddplaybutton-icon"
                                     alt=""

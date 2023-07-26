@@ -46,6 +46,9 @@
     font-size: 4.38rem;
     text-transform: capitalize;
     font-family: var(--font-bm-hanna_ttf);
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 .playlistdetailprofileimage-icon {
     position: absolute;
@@ -291,7 +294,6 @@
     width: 7.06rem;
     height: 1.75rem;
 }
-.txtlength,
 .txtsinger,
 .txttitle {
     position: absolute;
@@ -303,14 +305,18 @@
 .txtsinger {
     top: calc(50% - 14px);
     left: 38.06rem;
-    display: flex;
+    /*display: flex;*/
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     width: 7.06rem;
     height: 1.75rem;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    line-height: 28px;
 }
 .txttitle {
-    top: calc(50% - 12px);
+    top: calc(50% - 14px);
     left: 11.56rem;
     font-size: 1.5rem;
     font-family: var(--font-abeezee);
@@ -559,7 +565,7 @@
     height: 0.59rem;
 }
 .playlistdetailcommentdeletefra-icon:hover{
-
+    cursor: pointer;
 }
 .playlistdetailcommentprofileim-icon {
     position: relative;

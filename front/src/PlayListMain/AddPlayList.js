@@ -85,10 +85,10 @@ const AddPlayLsit = () => {
     };
 
     useEffect(() => {
-        setGenres(genre01 + genre02 + genre03 + genre04)
+        setGenres((genre01 === null? genre01 : genre01 + ",") + (genre02 === null? genre02 : genre02 + ",") + (genre03 === null? genre03 : genre03 + ",") + genre04)
     },[genre01, genre02, genre03, genre04]);
     useEffect(() => {
-        setTags(tag01 + tag02 + tag03 + tag04)
+        setTags((tag01 === null? tag01 : tag01 + ",") + (tag02 === null? tag02 : tag02 + ",") + (tag03 === null? tag03 : tag03 + ",") + tag04)
     },[tag01, tag02, tag03, tag04]);
 
     const savePliImg = (e) => {
