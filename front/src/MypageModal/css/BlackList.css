@@ -56,6 +56,7 @@
     font-size: 0.81rem;
     font-family: "BM HANNA Air";
     height: 0.94rem;
+    color: #ccc;
 }
 .blacklistmodalinfogroup {
     width: 9.38rem;
@@ -65,8 +66,10 @@
     align-items: flex-start;
     justify-content: center;
     gap: 0.5rem;
+    color: black;
 }
-.blacklistmodalblackbtnrectangl {
+
+.blacklistmodalblackbtntext {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -75,18 +78,10 @@
     bottom: 0;
     left: 0;
     border-radius: 20px;
-    background-color: #a649da;
-    box-shadow: 10px 10px 10px red;
-    opacity: 0.15;
-    mix-blend-mode: normal;
-}
-.blacklistmodalblackbtntext {
-    position: absolute;
-    width: 30%;
-    top: calc(50% - 4px);
-    left: 36%;
-    font-weight: 500;
-    display: inline-block;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    color: black;
+    border: none;
 }
 .blacklistmodalblackbtnframe {
     position: absolute;
@@ -106,16 +101,7 @@
     font-weight: 500;
     display: inline-block;
 }
-.blacklistmodalfollowbtnframe {
-    position: absolute;
-    top: calc(50% - 25px);
-    left: calc(50% - 25px);
-    border-radius: 20px;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 3.13rem;
-    height: 1.25rem;
-    overflow: hidden;
-}
+
 .blacklistmodalbtnsection {
     position: relative;
     width: 3.13rem;

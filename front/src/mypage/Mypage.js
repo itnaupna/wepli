@@ -63,6 +63,7 @@ function Mypage(props) {
     const [targetMember, setTargetMember] = useRecoilState(TargetMemberAtom);
     const [blackMember, setBlackMember] = useRecoilState(BlackMemberAtom);
     const [desc, setUserDescInput] = useState('');
+    const [value, setvalue] = useState("");
     const showOutMemberModal = () => {
         setIsOutMemberModalOpen(true);
     };
@@ -108,9 +109,9 @@ function Mypage(props) {
             });
     }
 
-    const showBlackListModal = () =>{
+    const showBlackListModal = (target) =>{
         setisBlackListModalOpen(true);
-
+        setvalue(target);
         const url = "/api/lv2/b/blacklist";
 
         axios
@@ -315,7 +316,7 @@ function Mypage(props) {
                     <img
                         className="mypagememberprofileimg-icon"
                         alt=""
-                        src={`${bucket}/profile/${profileImageUrl}`}
+                        src={loginStatus && profileImageUrl ? `${bucket}/profile/${profileImageUrl}` : logo }
                     />
 
                     <input

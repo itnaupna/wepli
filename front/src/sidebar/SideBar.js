@@ -13,7 +13,7 @@ import SignUpModal from "../SideModal/SignUpModal";
 import axios from "axios";
 import PwChkModal from "../SideModal/PwChkModal";
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {LoginStatusAtom, ProfileImageUrl} from '../recoil/LoginStatusAtom';
+import {DataState, LoginStatusAtom, ProfileImageUrl} from '../recoil/LoginStatusAtom';
 import {findIdModalOpenState, findIdSuccessModalOpenState, LoginModalOpen, pwChkModalOpen, FindPassModalOpen, SignUpModalOpen, FindPwChangeModalOpen} from "../recoil/FindIdModalAtom";
 import FindIdSuccessModal from "../SideModal/FindIdSuccessModal";
 import FindPwChangeModal from "../SideModal/FindPwChangeModal";
@@ -31,13 +31,14 @@ function SideBar(props) {
     const [findPassModalOpen, setFindPassModalOpen] = useRecoilState(FindPassModalOpen);
     const [findPwChangeModalOpen,setFindPwChangeModalOpen] = useRecoilState(FindPwChangeModalOpen);
     const profileImage1= useRecoilValue(ProfileImageUrl);
+
     useEffect(()=>{
         console.log(loginStatus);
         try {
             setProfileImage(JSON.parse(localStorage.data || sessionStorage.data).img);
             console.log("개발개발",setProfileImage);
         } catch (error) {
-            console.log(error);
+
         }
     },[loginStatus,profileImage1]);
 
@@ -83,7 +84,6 @@ function SideBar(props) {
             });
     };
 
-
     {/*
     로그인 했을때 -> 마이페이지
     로그인 안했을때 -> 로그인모달
@@ -126,7 +126,7 @@ function SideBar(props) {
                         <img
                             className="sidemenuuserimg-icon"
                             alt=""
-                            src={loginStatus ? `${bucket}/profile/${profileImage}` : defaultprofile}
+                            src={loginStatus && profileImage ? `${bucket}/profile/${profileImage}` : defaultprofile }
                         />
                     </div>
 

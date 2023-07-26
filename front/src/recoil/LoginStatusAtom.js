@@ -31,4 +31,4 @@ export const UserStorageNick = atom({
 export const UserStorageDesc = atom({
     key: 'UserStorageDesc',
     default: null
-})
+});
