@@ -15,15 +15,15 @@ import { useEffect, useState } from "react";
 import KakaoCallback from "./KakaoCallback";
 import Mypage from "./mypage/Mypage";
 import { conSocket } from './recoil/SocketAtom';
-import { useRecoilState } from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import { YoutubeAtom } from './recoil/YoutubeAtom';
 import Hyukmain from "./hyukmain";
-import { LoginStatusAtom } from './recoil/LoginStatusAtom';
+import {isPasswordEnteredState, LoginStatusAtom} from './recoil/LoginStatusAtom';
 import AddPlayLsit from "./PlayListMain/AddPlayList";
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
-
+    const isPasswordEntered = useRecoilValue(isPasswordEnteredState);
 
     useEffect(() => {
         conSocket();
@@ -39,7 +39,11 @@ function App() {
             <div className="backgroundImgDiv" />
             <Routes>
                 <Route path="/" element={<MainPage />} />
-                {loginStatus ? <Route path="/mypage" element={<Mypage />} /> : null}
+                {loginStatus && isPasswordEntered ? (
+                    <Route path="/mypage" element={<Mypage />} />
+                ) : (
+                    <Route to="/" replace />
+                )}
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
                 <Route path="/pli/:pliId" element={<PlayListDetail />} />

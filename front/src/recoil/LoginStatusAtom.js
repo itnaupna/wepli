@@ -1,4 +1,4 @@
-import {atom, selector} from 'recoil';
+import {atom, selector, useRecoilState} from 'recoil';
 
 export const LoginStatusAtom = atom({
     key: 'LoginStatusAtom',
@@ -32,3 +32,14 @@ export const UserStorageDesc = atom({
     key: 'UserStorageDesc',
     default: null
 });
+
+export const isPasswordEnteredState = atom({
+    key: 'isPasswordEntered',
+    default: false,
+});
+
+export function useIsPasswordEntered() {
+    const [isPasswordEntered, setIsPasswordEntered] = useRecoilState(isPasswordEnteredState);
+
+    return { isPasswordEntered, setIsPasswordEntered };
+}
