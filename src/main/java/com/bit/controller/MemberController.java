@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
@@ -106,13 +107,13 @@ public class MemberController {
 
     // 닉넴 변경
     @PatchMapping("/lv1/m/nick")
-    public boolean patchNick(@CookieValue String token, String nick, HttpServletRequest request ,HttpServletResponse response) throws Exception {
+    public boolean patchNick(@CookieValue String token, @RequestBody String nick, HttpServletRequest request ,HttpServletResponse response) throws Exception {
         return mService.changeNick(token, nick, request, response);
     }
 
     // 비번 변경
     @PatchMapping("/lv1/m/pw")
-    public boolean patchPw(@CookieValue String token, String oldPw, String newPw, HttpServletResponse response) {
+    public boolean patchPw(@CookieValue String token, @RequestBody String oldPw, @RequestBody String newPw, HttpServletResponse response) {
         return mService.changePassword(token, oldPw, newPw, response);
     }
 
@@ -131,22 +132,18 @@ public class MemberController {
 
     // 자기소개 변경
     @PatchMapping("/lv1/m/desc")
-    public boolean patchDesc(@RequestBody MemberDto mDto) {
-        return mService.updateDesc(mDto);
+    public boolean patchDesc(@CookieValue String token, @RequestBody JsonNode desc) {
+        System.out.println(desc);
+        return mService.updateDesc(token, desc.get("desc").asText());
     }
-
-    // 프사 변경
-    // TODO : (확인) 밑에 새로 만들었는데 따로 사용할 일 있을지 체크
-    // @PatchMapping("/lv1/m/img")
-    // public boolean patchImg(@RequestBody MemberDto mDto) {
-    //     return mService.updateImg(mDto);
-    // }
 
     // 마이페이지 데이터 일괄
-    @GetMapping("/lv1/m/mypage")
-    public MypageDto getMypageDto(@CookieValue String token, @RequestParam(required = false) String userNick) {
-        return mService.selectMypageDto(token, userNick); 
+
+    @GetMapping("/lv0/m/mypage")
+    public MypageDto getMypageDto(@CookieValue(required = false) String token, @RequestParam(required = false) String userNick, HttpServletResponse response) {
+        return mService.selectMypageDto(token, userNick, response); 
     }
+
 
     //로그인
     @PostMapping("/lv0/m/login")
@@ -162,8 +159,6 @@ public class MemberController {
     }
 
     //로그아웃
-    //TODO : (확인) 로그아웃시 엑세스토큰이 만료되어있으면 해당 유저의 리프레시 토큰이 삭제가 안되는점 수정
-    
     @PostMapping("/lv0/m/logout")
     public void logout(@CookieValue String token, HttpServletRequest request, HttpServletResponse response) throws Exception {
         mService.logout(token, request, response);
@@ -172,7 +167,20 @@ public class MemberController {
     // 프로필 사진 변경
     @PostMapping("lv1/m/profile")
     public String postProfileImg(@CookieValue String token, MultipartFile upload) {
-        return imgUploadService.uploadImg(token, "profile", upload);
+        return imgUploadService.uploadMemberImg(token, "profile", upload);
+    }
+
+
+    // 플레이리스트, 음악, 스테이지 img 업로드(클라우드에 이미지 업로드)
+    @PostMapping("/lv1/os/imgupload")
+    public String storageUpload(@CookieValue String token, String directoryPath, MultipartFile upload) {
+        return imgUploadService.storageImgUpload(token, directoryPath, upload);
+    }
+    
+    // 플레이리스트, 음악, 스테이지 insert, update 도중 취소 시(클라우드에 저장된 이미지 지움)
+    @DeleteMapping("/lv1/os/imgdelete")
+    public void storageDelete(@CookieValue String token, String directoryPath) {
+        imgUploadService.storageImgDelete(token, directoryPath);
     }
 
 }

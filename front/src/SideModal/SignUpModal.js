@@ -99,6 +99,7 @@ function SignUpModal({setSignUpModalOpen}) {
             const res = await axios.post(url, {email, pw: pw, nick});
             if (res.data) {
                 alert("회원가입됨");
+                await setSignUpModalOpen(false);
                 window.location.reload();
                 navigate("/");
             } else {

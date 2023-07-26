@@ -294,6 +294,24 @@
     flex: 1;
     position: relative;
     overflow: hidden;
+    padding:5px;
+}
+/* .youtubebox, */
+.queuebox{
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1 1;
+    width: 100%;
+    height:100%;
+    position: relative;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
 }
 .stage-left-body iframe{
     margin: auto;
@@ -629,6 +647,21 @@
     top: 12.86px;
     overflow: visible;
 }
+
+#queueHeader{
+    border-bottom: 1px solid black;
+}
+#queueBody{
+    display:flex;
+    flex-direction:row;
+    flex:1,1;
+}
+
+#queueLeftSide{
+    border-right: 1px solid black;
+    width:10rem;
+}
+
 .setting-button{
     border:none;
     outline: none;

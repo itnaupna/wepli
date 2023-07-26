@@ -34,6 +34,9 @@ public interface PlaylistMapper {
     // 내 플레이리스트 가져오기
     public List<PlaylistDto> selectMyPli(String nick);
 
+    // 내 플리 이미지 일괄(회원 탈퇴시 버킷 비우는 용도)
+    public List<String> selectMyPliImg(String nick);
+
     // 타인 플레이리스트중 공개된 플레이리스트 가져오기
     public List<PlaylistDto> selectUserFromPublicPli(String nick);
 
@@ -50,11 +53,11 @@ public interface PlaylistMapper {
     // 플리 수정
     public int updatePlaylist(PlaylistDto data);
 
-    // 플리 썸네일 수정
-    public void updatePlayListImg(PlaylistDto idxAndImg);
-
     // 플리 삭제
     public int deletePlaylist(int idx);
+
+    // 내 음악 이미지 일괄(회원 탈퇴시 버킷 비우는 용도)
+    public List<String> selectMySongAllImg(String nick);
 
     // 개별곡 CRUD
     public int insertSong(SongDto data);
@@ -64,9 +67,6 @@ public interface PlaylistMapper {
     public List<SongDto> selectSongsAll(int playlistID);
 
     public int updateSong(SongDto data);
-
-    // 음악별 썸네일 수정
-    public void updateSongImg(SongDto idxAndImg);
 
     public int deleteSong(int idx);
 
@@ -82,5 +82,8 @@ public interface PlaylistMapper {
     public int deletePliComment(int idx);
 
     public List<PlaylistDto> detailPlayList(int idx);
+
+    // 플리 순서 변경
+    public void updateSongIdx(Map<String,Integer> data);
 
 }

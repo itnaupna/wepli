@@ -7,15 +7,16 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.bit.dto.StageDto;
+import com.bit.dto.StageHistoryDto;
+import com.bit.dto.StageUserListDto;
 
 @Mapper
 public interface StageMapper {
+    //스테이지 접속자 목록 가져오기
+    public List<StageUserListDto> selectStageUserList(List<String> nicks);
 
     // 스테이지 생성
     public int insertStage(StageDto sDto);
-
-    // 스테이지 대표 사진 변경
-    public void updateImg(Map<String, String> nickAndImg);
 
     public List<StageDto> selectStageAll(Map<String, Object> data);
     // public Map<String,StageDto> selectStageAll(Map<String, Object> data);
@@ -37,6 +38,15 @@ public interface StageMapper {
 
     // 스테이지 방제목 확인
     public int selectCheckStageTitle(Map<String, String> data);
+
+    // 스테이지 히스토리 추가
+    public int insertStageHistory(StageHistoryDto shDto);
+
+    // 스테이지 히스토리 불러오기
+    public List<Map<String, Object>> selectStageHistory(String stageaddress);
+
+    //스테이지 주소 중복검사
+    public int selectCheckAddress(String stageaddress);
 
 
     // TODO 스테이지 검색 (아래 검색기능 통합! 확인 후 삭제 예정)

@@ -1,13 +1,34 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import "./css/FollowListModal.css";
 import backarrow from "./svg/backarrow.svg";
-import btnarrow from "./svg/btnarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
+import axios from "axios";
 function FollowListModal({setisFollowListModalOpen}) {
 
     const closeFollowListModal = async () => {
         await setisFollowListModalOpen(false);
     }
+
+    const [followMember, setFollowMemeber] = useState([]);
+
+    useEffect(()=>{
+        handleFollowList();
+        followMember.forEach(member => {
+            console.log("닉네임:", member.nickname);
+        });
+    },[]);
+
+    const handleFollowList = () => {
+        const url = "/api/lv2/f/follow";
+
+        axios
+        .get(url).then(res => {
+            setFollowMemeber(res.data);
+            console.log("follow 멤버", res.data);
+        });
+    }
+
+
     return (
         <div>
             <div className="followmodalframe" onClick={closeFollowListModal}></div>
@@ -34,15 +55,15 @@ function FollowListModal({setisFollowListModalOpen}) {
                                     <img
                                         className="followmodalthumbnail-icon"
                                         alt=""
-                                        src="/followmodalthumbnail@2x.png"
+                                        src={logo}
                                     />
                                     <div className="followmodalinfogroup">
                                         <div className="followmodalmembernicknametext">
-                                            열글자까지가능합니다
+                                            닉네임들어가는자리
                                         </div>
-                                        <div className="followmodalmembercounttext">
-                                            닉네임몇글자제한이
-                                        </div>
+                                        {/*<div className="followmodalmembercounttext">*/}
+                                        {/*    */}
+                                        {/*</div>*/}
                                     </div>
                                     <div className="followmodalbtngroup">
                                         <div className="followmodalbtnsection">

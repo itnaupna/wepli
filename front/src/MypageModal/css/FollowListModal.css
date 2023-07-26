@@ -81,12 +81,20 @@
 }
 .followmodalblackbtntext {
     position: absolute;
-    width: 40%;
-    top: calc(50% - 4px);
-    left: 36%;
-    font-weight: 500;
-    display: inline-block;
-    font-size: 10px;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 20px;
+    background-color: rgba(166, 73, 218, 0.012);
+    box-shadow: 10px 10px 10px red;
+    mix-blend-mode: normal;
+    color: black;
+    border: none;
+    cursor: pointer;
+;
 }
 .followmodalblackbtnframe {
     position: absolute;
@@ -100,11 +108,18 @@
 }
 .followmodalfollowbtntext {
     position: absolute;
-    width: 60%;
-    top: calc(50% - 4px);
-    left: 28%;
-    font-weight: 500;
-    display: inline-block;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 20px;
+    background-color: #a649da;
+    background-color: rgba(166, 73, 218, 0.012);
+    opacity: 0.15;
+    cursor: pointer;
+    mix-blend-mode: normal;
 }
 .followmodalfollowbtnframe {
     position: absolute;

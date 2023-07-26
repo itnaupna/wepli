@@ -94,26 +94,27 @@
     -webkit-line-clamp: 64;
     -webkit-box-orient: vertical;
     width: 42.81rem;
+    height: 60px;
 }
-.playlisydetaillikebutton-icon,
-.playlisydetailplaybutton-icon {
+.playlistdetaillikebutton-icon,
+.playlistdetailplaybutton-icon {
     position: relative;
     width: 2.5rem;
     height: 2.5rem;
     object-fit: cover;
 }
-.playlisydetailplaybutton-icon:hover{
+.playlistdetailplaybutton-icon:hover{
     cursor: pointer;
 }
-.playlisydetaillikebutton-icon {
+.playlistdetaillikebutton-icon {
     width: 1.69rem;
     height: 1.69rem;
 }
 
-.playlisydetaillikebutton-icon:hover{
+.playlistdetaillikebutton-icon:hover{
     cursor: pointer;
 }
-.playlisydetailinsertmusicbutto-icon {
+.playlistdetailinsertmusicbutto-icon {
     position: relative;
     width: 2.19rem;
     height: 2.19rem;
@@ -121,7 +122,7 @@
     padding-bottom: 10px;
 }
 
-.playlisydetailinsertmusicbutto-icon:hover{
+.playlistdetailinsertmusicbutto-icon:hover{
     cursor: pointer;
 }
 .playlistdetaillistupdatebutton-icon {
@@ -685,7 +686,7 @@
     gap: 2.5rem;
     max-width: 68.75rem;
     max-height: 60.56rem;
-    /*overflow: hidden;*/
+    overflow: hidden;
 }
 .playlistdetailframe {
     width: 100%;

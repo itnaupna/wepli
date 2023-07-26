@@ -1,7 +1,9 @@
 package com.bit.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +18,11 @@ import com.bit.dto.TokenDto;
 import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.BlacklistMapper;
 import com.bit.mapper.MemberMapper;
+import com.bit.mapper.PlaylistMapper;
+import com.bit.mapper.StageMapper;
 
 import lombok.extern.slf4j.Slf4j;
+import naver.cloud.NcpObjectStorageService;
 
 // import naver.cloud.NcpObjectStorageService;
 
@@ -27,11 +32,17 @@ public class MemberService {
     @Autowired
     MemberMapper memberMapper;
     @Autowired
+    StageMapper stageMapper;
+    @Autowired
+    PlaylistMapper playlistMapper;
+    @Autowired
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     TokenService tokenService;
     @Autowired
     BlacklistMapper blacklistMapper;
+    @Autowired
+    NcpObjectStorageService ncpObjectStorageService;
 
     public final long JWT_TOKEN_VALIDITY_ONEDAY = 1000 * 60 * 60 * 24;
 
@@ -41,7 +52,11 @@ public class MemberService {
         try {
             mDto.setEmailconfirm(mDto.getSocialtype() == null ? 0 : 1);
             log.info("{}",mDto.getEmailconfirm());
-            if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1) {
+            if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1 || mDto.getNick().length() > 10 ) {
+                // 이메일 정규식
+                boolean checkEmail = Pattern.matches("^[a-zA-Z0-9]+@[0-9a-zA-Z]+\\.[a-z]+$",mDto.getEmail());
+                if(!checkEmail)
+                   return false;
                 return false;
             } else {
                 memberMapper.insertJoinMember(mDto);
@@ -180,11 +195,42 @@ public class MemberService {
         cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
+        String bucketname = "wepli";
+        String profile = memberMapper.selectMypageDto(nick).getImg();
+        if(profile != null && !profile.equals("")) {
+            ncpObjectStorageService.deleteFile(bucketname, "profile", profile);
+        }
+        String stageImg = stageMapper.selectStageOneByMasterNick(nick).getImg();
+        if(stageImg != null && !stageImg.equals("")) {
+            ncpObjectStorageService.deleteFile(bucketname, "stage", stageImg);
+            
+        }
+        List<String> playlistImg = playlistMapper.selectMyPliImg(nick);
+        if(playlistImg != null && playlistImg.size() > 0) {
+            for(int i = 0 ; i < playlistImg.size(); i++) {
+                ncpObjectStorageService.deleteFile(bucketname, "playlist", playlistImg.get(i));            
+            }
+        }
+        List<String> songsImg = playlistMapper.selectMySongAllImg(nick);
+        if(songsImg != null && songsImg.size() > 0) {
+            for(int i = 0; i < songsImg.size(); i++) {
+                ncpObjectStorageService.deleteFile(bucketname, "songimg", songsImg.get(i));
+            }
+        }
+        log.info("profile -> {}",profile);
+        log.info("stageImg -> {}",stageImg);
+        log.info("playlistImg -> {}",playlistImg);
+        log.info("songsImg -> {}",songsImg);
         return memberMapper.deleteMember(mDto) > 0;
     }
 
     // 자기소개 변경
-    public boolean updateDesc(MemberDto mDto) {
+    public boolean updateDesc(String token, String desc) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        MemberDto mDto = new MemberDto();
+        mDto.setNick(nick);
+        mDto.setDesc(desc);
+
         return memberMapper.updateDesc(mDto) > 0;
     }
 
@@ -197,10 +243,13 @@ public class MemberService {
     }
 
     // 닉넴으로 마이페이지 정보 불러오기
-    public MypageDto selectMypageDto(String token, String userNick) {
-        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        // log.info("token parsing ->  {}", nick);
-        // log.info("nick ->  {}", userNick);
+    public MypageDto selectMypageDto(String token, String userNick, HttpServletResponse response) {
+        String nick = null;
+        if(token == null && userNick == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);            
+        } else if(token != null && !token.equals("")) {
+            nick = jwtTokenProvider.getUsernameFromToken(token.substring(6)); 
+        }
         if(userNick == null || userNick.equals("")) {
             userNick = nick;
         }
