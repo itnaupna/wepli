@@ -1,17 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./css/SignUpModal.css";
 import arrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import btnarrow from "./svg/btnarrow.svg";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import { useRecoilState } from 'recoil';
+import { emailState, socialtypeState } from '../recoil/FindIdModalAtom';
 
 function SignUpModal({setSignUpModalOpen}) {
     const navigate = useNavigate();
 
-    const closeFindIdModal = () => {
-        setSignUpModalOpen(false);
-    };
+
+    const [socialEmail, setSocialEmail] = useRecoilState(emailState);
+    const [socialtype, setSocialtype] = useRecoilState(socialtypeState);
+    const [isSocial, setIsSocial] = useState(false);
 
     const [nick, setNick] = useState("");
     const [pw, setPw] = useState("");
@@ -23,6 +26,12 @@ function SignUpModal({setSignUpModalOpen}) {
     const [isEmailChecked, setIsEmailChecked] = useState(false);
     const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
     const passwordRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
+
+    const closeFindIdModal = () => {
+        setSocialEmail(null);
+        setSocialtype(null);
+        setSignUpModalOpen(false);
+    };
 
     const handleInputemail = (e) => {
         const inputEmail = e.target.value;
@@ -39,6 +48,7 @@ function SignUpModal({setSignUpModalOpen}) {
     const handleInputPw = (e) => {
         const inputPw = e.target.value;
         setPw(inputPw);
+        console.log(passwordRegEx.test(pw));
     };
 
     const handleInputPwConfirm = (e) => {
@@ -66,37 +76,38 @@ function SignUpModal({setSignUpModalOpen}) {
             alert("닉네임을 확인해주세요.");
             return;
         }
+        if(!isSocial) {
+            // 이메일 유효성 검사
+            if (!isEmailValid) {
+                alert("이메일을 확인해주세요.");
+                return;
+            }
 
-        // 이메일 유효성 검사
-        if (!isEmailValid) {
-            alert("이메일을 확인해주세요.");
-            return;
-        }
+            // 이메일 및 비밀번호 입력 여부 검사
+            if (!email || !pw) {
+                alert("이메일과 비밀번호를 입력해주세요.");
+                return;
+            }
 
-        // 이메일 및 비밀번호 입력 여부 검사
-        if (!email || !pw) {
-            alert("이메일과 비밀번호를 입력해주세요.");
-            return;
-        }
+            // 비밀번호 정규식
+            if (!passwordRegEx.test(pw)) {
+                alert("비밀번호는 영문 대소문자와 숫자로 구성된 8~20자여야 합니다.");
+                setPw("");
+                setPwConfirm("");
+                return;
+            }
 
-        // 비밀번호 정규식
-        if (!passwordRegEx.test(pw)) {
-            alert("비밀번호는 영문 대소문자와 숫자로 구성된 8~20자여야 합니다.");
-            setPw("");
-            setPwConfirm("");
-            return;
-        }
-
-        // 비밀번호 일치하지 않을 때
-        if (pw !== pwConfirm) {
-            alert("비밀번호가 틀렸습니다. 다시 입력해주세요");
-            setPw("");
-            setPwConfirm("");
-            return;
+            // 비밀번호 일치하지 않을 때
+            if (pw !== pwConfirm) {
+                alert("비밀번호가 틀렸습니다. 다시 입력해주세요");
+                setPw("");
+                setPwConfirm("");
+                return;
+            }
         }
 
         try {
-            const res = await axios.post(url, {email, pw: pw, nick});
+            const res = await axios.post(url, {email, pw: pw, nick, socialtype: socialtype});
             if (res.data) {
                 alert("회원가입됨");
                 await setSignUpModalOpen(false);
@@ -171,7 +182,17 @@ function SignUpModal({setSignUpModalOpen}) {
             alert("이메일 중복체크 에러", error);
         }
     };
-
+    
+    useEffect(() => {
+        if(socialEmail != null && socialtype != null) {
+            setEmail(socialEmail);
+            setIsSocial(true);
+            setIsEmailValid(true);
+            setIsEmailChecked(true);
+            console.log("signup",socialEmail);
+            console.log("signup",socialtype);
+        }
+    }, [socialEmail, socialtype])
 
     return (
         <div>
@@ -185,6 +206,7 @@ function SignUpModal({setSignUpModalOpen}) {
                         className="signupmodalarrowgroup-icon"
                         alt=""
                         src={arrow}
+                        onClick={closeFindIdModal}
                     />
                     <img
                         className="signupmodalweplilogo-icon"
@@ -205,12 +227,16 @@ function SignUpModal({setSignUpModalOpen}) {
                         value={email}
                         name="email"
                         type="email"
+                        readOnly = {isSocial ? true : false}
+                        
                     />
+                    { isSocial ? "" : 
                     <div className="signupemailbtngroup">
                         <button onClick={checkEmail} className="signupduplicationemailnbtn">
                             중복확인
                         </button>
                     </div>
+                    }
                 </div>
 
                 {/* 닉네임 입력 */}
@@ -229,31 +255,36 @@ function SignUpModal({setSignUpModalOpen}) {
                         </button>
                     </div>
                 </div>
-
+                
                 {/* 비밀번호 입력 */}
-                <div className="signupinputemailgroup">
-                    <input
-                        className="signupduplicationinputemail"
-                        placeholder={'비밀번호를 입력해주세요'}
-                        onChange={handleInputPw}
-                        value={pw}
-                        name="pw"
-                        type="password"
-                    />
-                </div>
-
-                {/* 비밀번호 체크 */}
-                <div className="signupinputemailgroup">
-                    <input
-                        className="signupduplicationinputemail"
-                        placeholder={'비밀번호를 한번 더 입력해주세요'}
-                        type="password"
-                        value={pwConfirm}
-                        name="pwConfirm"
-                        onChange={handleInputPwConfirm}
-                    />
-                </div>
-
+                {
+                    isSocial ? "" :
+                        <div className="signupinputemailgroup">
+                            <input
+                                className="signupduplicationinputemail"
+                                placeholder={'비밀번호를 입력해주세요'}
+                                onChange={handleInputPw}
+                                value={pw}
+                                name="pw"
+                                type="password"
+                            />
+                        </div>
+                }
+                {
+                    isSocial ? "" :
+                     <div className="signupinputemailgroup">
+                        <input
+                            className="signupduplicationinputemail"
+                            placeholder={'비밀번호를 한번 더 입력해주세요'}
+                            type="password"
+                            value={pwConfirm}
+                            name="pwConfirm"
+                            onChange={handleInputPwConfirm}
+                        />
+                    </div>
+                }
+                       
+               
                 {/* 회원가입 버튼 */}
                 <div className="signupmodalbottombtngroup">
                     <div className="signupmodalbottombtn">
