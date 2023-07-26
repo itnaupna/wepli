@@ -93,6 +93,9 @@ public class StageService {
         boolean checkAddress = Pattern.matches("^[0-9a-zA-Z]*$", sDto.getAddress());
         if(!checkAddress)
            return false;
+        
+        if(sDto.getDesc().length()>50)
+            return false;
 
         if(sDto.getImg() != null && !sDto.getImg().equals("")) {
             imgUploadService.storageImgDelete(token, sDto.getImg(), "stage");

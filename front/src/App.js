@@ -20,6 +20,7 @@ import { YoutubeAtom } from './recoil/YoutubeAtom';
 import Hyukmain from "./hyukmain";
 import { LoginStatusAtom } from './recoil/LoginStatusAtom';
 import AddPlayLsit from "./PlayListMain/AddPlayList";
+import NaverCallback from './NaverCallback';
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
@@ -48,6 +49,7 @@ function App() {
                 <Route path="/stage/:stageUrl" element={<PlayStage />} />
                 <Route path="/stage" element={<PlayStageList />} />
                 <Route path="/auth" element={<KakaoCallback />} />
+                <Route path="/nlogin" element={<NaverCallback />} />
                 <Route path="/test" element={<TestPage />} />
                 <Route path="/*" element={
                     <h1 style={{ width: "100%", textAlign: "center", marginTop: "25%", position: "absolute" }}>페이지가 없습니다</h1>

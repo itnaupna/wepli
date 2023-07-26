@@ -149,7 +149,7 @@ public class PlaylistController {
     }
 
     // 플리 순서 변경
-    // 데이터 -> oldIdx : 기존 idx, newIdx : 변경될 idx
+    // 데이터 -> playlistID, neworder, oldorder
     @GetMapping("/lv2/p/updateOrder")
     public boolean updateOrder(@RequestBody Map<String,Integer> data){
         return pService.updateSongOrder(data);

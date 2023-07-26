@@ -166,7 +166,7 @@
     </select>
 
     <select id="selectSongsAll" parameterType="int" resultType="SongDto">
-        select * from tblSongs where playlistID=#{playlistID}          
+        select * from tblSongs where playlistID=#{playlistID} order by songorder 
     </select>
 
     <update id="updateSong" parameterType="SongDto">
@@ -180,7 +180,7 @@
     </delete>
 
     <update id="updateSongOrder" parameterType="hashMap">
-        update tblSongs set songorder = #{newIdx} where idx = #{oldIdx}
+        update tblSongs set songorder = #{newOrder} where songorder = #{oldOrder} and playlistID = #{playlistID}
     </update>
 
 </mapper>

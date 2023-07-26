@@ -186,6 +186,23 @@ public class PlaylistService {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return false;
             }
+
+            for (String tag : tags) {
+                if (tag.length() > 10) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    return false;
+                }
+            }
+            for (String genre : genres) {
+                if (genre.length() > 10) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    return false;
+                }
+            }
+
+            if(data.getDesc().length()>50){
+                return false;
+            }
             return pMapper.insertPlaylist(data)>0;
         } else {
             if(data.getIsPublic() == 0) {
@@ -284,8 +301,23 @@ public class PlaylistService {
                 imgUploadService.storageImgDelete(token, data.getImg(), "songimg");
             }
 
-            if (genres.length > 4 || tags.length > 4) {
+            if (genres.length > 4 || tags.length > 4 ) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+                for (String tag : tags) {
+                    if (tag.length() > 10) {
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        return false;
+                    }
+                }
+
+                for (String genre : genres) {
+                    if (genre.length() > 10) {
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        return false;
+                    }
+                }
+
                 return false;
             }
             return pMapper.insertSong(data)>0;
@@ -373,25 +405,29 @@ public class PlaylistService {
     public boolean updateSongOrder(Map<String, Integer> data){
         int tempIdx = -1;
     
-        int oldIdx = data.get("oldIdx");
-        int newIdx = data.get("newIdx");
+        int oldOrder = data.get("oldOrder");
+        int newOrder = data.get("newOrder");
+        int playlistID = data.get("playlistID");
     
         // oldIdx-> tempIdx
         Map<String,Integer> tempUpdate = new HashMap<>();
-        tempUpdate.put("oldIdx", oldIdx);
-        tempUpdate.put("newIdx", tempIdx);
+        tempUpdate.put("oldOrder", oldOrder);
+        tempUpdate.put("newOrder", tempIdx);
+        tempUpdate.put("playlistID", playlistID); 
         pMapper.updateSongOrder(tempUpdate);
     
         // newIdx -> oldIdx
         Map<String,Integer> newUpdate = new HashMap<>();
-        newUpdate.put("oldIdx", newIdx);
-        newUpdate.put("newIdx", oldIdx);
+        newUpdate.put("oldOrder", newOrder);
+        newUpdate.put("newOrder", oldOrder);
+        newUpdate.put("playlistID", playlistID); 
         pMapper.updateSongOrder(newUpdate);
     
         // tempIdx -> newIdx로 변경합니다.
         Map<String,Integer> finalUpdate = new HashMap<>();
-        finalUpdate.put("oldIdx", tempIdx);
-        finalUpdate.put("newIdx", newIdx);
+        finalUpdate.put("oldOrder", tempIdx);
+        finalUpdate.put("newOrder", newOrder);
+        finalUpdate.put("playlistID", playlistID);
         pMapper.updateSongOrder(finalUpdate);
     
         return true;
