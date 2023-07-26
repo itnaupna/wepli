@@ -67,6 +67,7 @@
     text-overflow:ellipsis;
     white-space:nowrap;
     text-align: center;
+    width: 550px;
 }
 .searchsongmodalresultsinger {
     position: relative;
@@ -75,10 +76,10 @@
     font-family: var(--font-bm-hanna-air);
     display: flex;
     align-items: center;
-    justify-content: center;
+    /*justify-content: center;*/
     width: 5.88rem;
     height: 1.75rem;
-    flex:1;
+    flex:2;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
@@ -107,6 +108,7 @@
     padding: 0.31rem var(--padding-21xl);
     justify-content: space-between;
     z-index: 0;
+    gap: 25px;
 }
 .searchsongmodalresultitems {
     width: 100%;

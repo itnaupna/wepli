@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import "./SearchSongModal.css";
-import {useRecoilState} from "recoil";
-import {SearchSongModalOpen} from "../recoil/SearchSongAtom";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {NextPageToken, SearchSongModalOpen} from "../recoil/SearchSongAtom";
 import SearchBarIcon from "../MainIMG/SearchBarIcon.png";
 import backIcon from "../MainIMG/backarrow.svg";
 import songAddButton from "../MainIMG/SearchSongModalResultAddButton.png";
@@ -14,7 +14,17 @@ function SearchSongModal(props) {
     const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
     const [youtubeSearchParam, setYoutubeSearchParam] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-    const youtubeApiKey = `${process.env.REACT_APP_YOUTUBE_KEY}`;
+    /*const [nextPageTokenValue, setNextPageTokenValue] = useRecoilState(NextPageToken);*/
+    const [nextPageTokenValue, setNextPageTokenValue] = useRecoilState(NextPageToken);
+    const [loading, setLoading] = useState(false);
+    /*const youtubeApiKey = `${process.env.REACT_APP_YOUTUBE_KEY}`;*/
+    /*const youtubeApiKey = "AIzaSyCe587-zYmedX4obUgR-iFRGm97-bln-Ww";*/
+    const youtubeApiKey = "AIzaSyB4lBwQ7YtWtiSW2yhn6lbHtmHqKwRSUSs";
+/*    /!*검색입력시 바로바로 변경(주의 !!)*!/
+    useEffect(() => {
+        handleSearch();
+    }, [youtubeSearchParam]);*/
+
 
     const handleSearch = async () => {
         try {
@@ -25,29 +35,81 @@ function SearchSongModal(props) {
                     q: youtubeSearchParam,
                     maxResults: 5,
                     type: 'video',
-                    videoDuration: 'any',
+                    videoDuration: 'any'
                 },
             });
 
             setSearchResults(response.data.items);
+            setNextPageTokenValue(response.data.nextPageToken);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
-    /*     axios.get('https://www.googleapis.com/youtube/v3/search', { params })
-             .then(res =>{
-                 console.log(res.data);
-             })
-             .catch(error =>{
-                 console.log(error);
-             })*/
+    useEffect(() => {
+        console.log("업데이트된 nextPageTokenValue:", nextPageTokenValue);
+        alert(nextPageTokenValue);
+    }, [nextPageTokenValue]);
     const closeSearchModal = () => {
         setSearchSongModalOpen(false);
     }
     const youtubeSearchOnChange = (e) => {
         setYoutubeSearchParam(e.target.value);
     }
+
+    const modalContentRef = useRef();
+
+    const handleScroll = () => {
+        const modalContent = modalContentRef.current;
+        if (!modalContent) return;
+
+        const { scrollTop, scrollHeight, clientHeight } = modalContent;
+        if (scrollTop + clientHeight >= scrollHeight - 0) {
+            fetchMoreResults();
+        }
+    };
+
+    const fetchMoreResults = async () => {
+        console.log(nextPageTokenValue , "넥스트");
+        if (loading || !nextPageTokenValue) return;
+
+        try {
+            setLoading(true);
+
+            const response = await axios.get(youtubeSearchUrl, {
+                params: {
+                    key: youtubeApiKey,
+                    part: 'snippet',
+                    q: youtubeSearchParam,
+                    maxResults: 5,
+                    type: 'video',
+                    videoDuration: 'any',
+                    pageToken: nextPageTokenValue,
+                },
+            });
+
+            setSearchResults((prevResults) => [...prevResults, ...response.data.items]);
+            setNextPageTokenValue(response.data.nextPageToken);
+        } catch (error) {
+            console.error('Error fetching more data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    useEffect(() => {
+        const modalContent = modalContentRef.current;
+        if (modalContent) {
+            modalContent.addEventListener('scroll', handleScroll);
+        }
+
+        return () => {
+            if (modalContent) {
+                modalContent.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, []);
 
     return (
         <div className="SearchSongModals">
@@ -72,9 +134,9 @@ function SearchSongModal(props) {
                     />
                 </div>
                 <div className="searchsongmodalresultgroup">
-                    <div className="searchsongmodalresultitems">
-                        {searchResults.map((item, idx) => (
-                            <div className="searchsongmodalresultitem" key={item.id.videoId}>
+                    <div className="searchsongmodalresultitems" ref={modalContentRef}>
+                        {searchResults.map((item) => (
+                            <div className="searchsongmodalresultitem" key={item.id.videoId} >
                                 <img
                                     className="searchsongmodalresultcover-icon"
                                     alt=""
