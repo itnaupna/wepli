@@ -3,7 +3,7 @@ import backarrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import "./css/BlackList.css";
 import {useRecoilState, useRecoilValue} from "recoil";
-import {BlackMemberAtom} from "../recoil/FollowAtom";
+import {BlackDefaultValue, BlackMemberAtom} from "../recoil/FollowAtom";
 import {BlackListModalOpen} from "../recoil/MypageModalAtom";
 import axios from "axios";
 import {DataState} from "../recoil/LoginStatusAtom";
@@ -13,6 +13,9 @@ function BlackListModal({target}) {
     const bucket = process.env.REACT_APP_BUCKET_URL;
 
     const blackMember = useRecoilValue(BlackMemberAtom);
+    const [blackMember1, setBlackMember1] = useRecoilState(BlackMemberAtom);
+    console.log(blackMember);
+    console.log(blackMember[0].isblack);
     const [isblackListModalOpen, setIsBlackListModalOpen] = useRecoilState(BlackListModalOpen);
     const dataState = useRecoilValue(DataState);
     const userNick = dataState.nick;
@@ -25,36 +28,29 @@ function BlackListModal({target}) {
 
     const fValues = blackMember.map((item) => item.t);
 
-    const [data, setData] = useState({nick: "", img: "", desc: "", followCnt: 0, followerCnt: 0, followChk: 0, blackChk: 0});
-    const handleBlackToggle = async (fValues) => {
+
+    const handleBlackToggle = async (fValues, idx) => {
         const url = "/api/lv2/b/blacktoggle";
+        console.log("ㅗㅗ",fValues);
+        console.log("idx ->", idx);
         axios({
             method : 'post',
             url: url,
             params: {target: fValues}
         }).then(res=>{
-            setData({...data, blackChk: res.data, followChk: 0});
+            console.log(res.data);
+            const updatedBlackMember = [...blackMember];
+            console.log(updatedBlackMember);
+            updatedBlackMember[idx] = { ...updatedBlackMember[idx], isblack: res.data };
+            setBlackMember1(updatedBlackMember);
             console.log(res.data);
         }).catch(error => {
             alert(error);
         })
     }
 
-    const hadlememberPage = () => {
-        axios({
-            method: "get",
-            url: "/api/lv0/m/mypage",
-            params: {userNick : userNick}
-        }).then(res => {
-            setData(res.data);
-        }).catch(error => {
-            alert(error);
-        })
-
-    }
     useEffect(() => {
-        hadlememberPage();
-    }, [data.blackChk,userNick]);
+    }, [userNick]);
 
     return (
         <div>
@@ -101,8 +97,8 @@ function BlackListModal({target}) {
                                             <div className="blacklistmodalblackbtnframe">
                                                 <div className="blacklistmodalblackbtnrectangl"/>
                                                 <button type={'button'} className="blacklistmodalblackbtntext"
-                                                        onClick={()=> handleBlackToggle(item.t)}>
-                                                    {data.blackChk === 0 ? "추가" : "삭제"}</button>
+                                                    value={idx}    onClick={(e)=> handleBlackToggle(item.t, e.target.value)}>
+                                                    {item.isblack === 0 ? "추가" : "삭제"}</button>
                                             </div>
                                         </div>
                                     </div>

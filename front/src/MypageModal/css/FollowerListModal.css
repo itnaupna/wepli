@@ -112,7 +112,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    top: 23%;
+    top: 9%;
     right: 0;
     bottom: 0;
     left: 0;
@@ -132,7 +132,7 @@
     left: calc(50% - 25px);
     border-radius: 20px;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 3.13rem;
+    width: 4rem;
     height: 1.25rem;
     overflow: hidden;
     margin-top: 15px;
@@ -141,6 +141,7 @@
     position: relative;
     width: 3.13rem;
     height: 3.13rem;
+    right: 40%;
 }
 .followermodalbtngroup {
     width: 3.25rem;

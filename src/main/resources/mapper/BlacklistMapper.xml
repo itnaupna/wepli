@@ -10,7 +10,8 @@
     <select id="selectBlacklist" parameterType="String" resultType="Map">
         select target t,
         (select img from tblMember where nick = t) img,
-        (select count(*) from tblFollow where target = t) cnt
+        (select count(*) from tblFollow where target = t) cnt,
+        (select exists(select * from tblBlack where target = t and black = #{nick})) isblack
         from tblBlack
         where black = #{nick};
     </select>
