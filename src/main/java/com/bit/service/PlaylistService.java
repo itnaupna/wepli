@@ -224,29 +224,33 @@ public class PlaylistService {
 
     public List<Object> togglePlaylist(String token, int playlistID){
         List<Object> result = new ArrayList<>();
+        log.info("togglePlaylist -> {}",playlistID);
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         try {
             Map<String,Object> data = new HashMap<>();
-            data.put("nick",nick);
-            data.put("playlistID",playlistID);
-            boolean isLike=pMapper.selectLike(data)>0;
+            data.put("nick", nick);
+            data.put("playlistID", playlistID);
+            boolean isLike = pMapper.selectLike(data) > 0;
+
             boolean processResult;
+
+            log.info("togglePlaylist -> {}", isLike);
             if(isLike){
+                log.info("togglePlaylist -> {}", isLike);
                 pMapper.deleteLike(data);
                 processResult = false;
             }else{
+                log.info("togglePlaylist -> {}", isLike);
                 pMapper.insertLike(data);
                 processResult = true;
             }
-            result.add(true);
             result.add(processResult);
             result.add(pMapper.selectPlaylist(playlistID).getLikescount());
 
             return result;
-            //{true,true,278}
         } catch (Exception e) {
+            log.info(e.getMessage());
             result.add(false);
-            //{false}
             return result;
         }
     }

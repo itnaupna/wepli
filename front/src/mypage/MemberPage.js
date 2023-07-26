@@ -58,7 +58,7 @@ function MemberPage(props) {
             params: {target : target}
         }).then(res => {
             setData({...data, blackChk: res.data, followChk: 0});
-            console.log(res.data);
+            console.log(data);
         }).catch(error => {
             if(error.response.status === 401) {
                 alert("로그인 후 사용가능한 기능입니다");
