@@ -177,6 +177,7 @@ public class MemberService {
                 return result;
             }
         }
+
         data.put("nick", nick);
         System.out.println(data);                
         memberMapper.updateInfo(data);
@@ -229,8 +230,11 @@ public class MemberService {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         MemberDto mDto = new MemberDto();
         mDto.setNick(nick);
-        mDto.setDesc(desc);
-
+        if(desc.length()>50)
+            return false;
+        else
+            mDto.setDesc(desc);
+        
         return memberMapper.updateDesc(mDto) > 0;
     }
 

@@ -89,12 +89,13 @@ public class StageService {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         sDto.setNick(nick);
 
-        // Stage 주소 문자열만 허용 (공백 미허용)
-        boolean checkAddress = Pattern.matches("^[\\w]*$", sDto.getAddress());
+        // Stage 영문+숫자
+        boolean checkAddress = Pattern.matches("^[0-9a-zA-Z]*$", sDto.getAddress());
         if(!checkAddress)
            return false;
-
         
+        if(sDto.getDesc().length()>50)
+            return false;
 
         if(sDto.getImg() != null && !sDto.getImg().equals("")) {
             imgUploadService.storageImgDelete(token, sDto.getImg(), "stage");

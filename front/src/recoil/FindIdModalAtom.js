@@ -38,6 +38,16 @@ export const SignUpModalOpen = atom({
     default: false,
 })
 
+export const emailState = atom({
+    key: "emailState",
+    default: null,
+});
+
+export const socialtypeState = atom({
+    key: "socialtypeState",
+    default: null,
+})
+
 export const recoveredEmailState = atom({
     key: 'recoveredEmailState',
     default: null,

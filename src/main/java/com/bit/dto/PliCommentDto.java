@@ -14,4 +14,5 @@ public class PliCommentDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Timestamp writeday;
     private Integer playlistID;
+    private String img;
 }
