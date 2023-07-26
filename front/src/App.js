@@ -46,7 +46,7 @@ function App() {
                 ) : (
                     <Route to="/" replace />
                 )}
-
+                <Route path="/mypage/:userNick" element={<MemberPage/>}/>
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
                 <Route path="/pli/:pliId" element={<PlayListDetail />} />
