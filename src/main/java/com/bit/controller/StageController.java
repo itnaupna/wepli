@@ -108,7 +108,7 @@ public class StageController {
     }
 
     // 스테이지 히스토리 불러오기
-    @GetMapping("/lv2/s/stagehistory")
+    @GetMapping("/lv0/s/stagehistory")
     public List<Map<String, Object>> selectStageHistory(@RequestParam String stageaddress){
         return sService.selectStageHistory(stageaddress);
     }

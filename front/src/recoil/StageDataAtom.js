@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { atom } from 'recoil';
 
+export const RoomQListAtom = atom({
+    key:'RoomQListAtom',
+    default:[],
+})
+
 export const MyQListAtom = atom({
     key: 'MyQListAtom',
     default: [],
@@ -53,6 +58,7 @@ export const getIsGrabbingAtom = (index) => {
     return IsGrabbingAtom[index];
 };
 
+
 const parseDurationToSeconds = (duration) => {
     const timeRegex = /PT(\d+H)?(\d+M)?(\d+S)?/;
     const matches = duration.match(timeRegex);
@@ -68,17 +74,15 @@ const parseDurationToSeconds = (duration) => {
     return hours * 3600 + minutes * 60 + seconds;
   };
 
-export const doGrab = async (playlistID, address) => {
-    // console.log(playlistID);
+export const GetSongInfoByYoutubeApi = async (playlistID,address) => {
+    
     let axiosdata;
-    //https://www.googleapis.com/youtube/v3/videos?part=contentDetails%2Cstatus%2Csnippet&key=AIzaSyCgqQS-yBcPTKi4Ki3IfW7oGyVhN44H-iM&id=aEib5H5XUzA
-    //https://www.googleapis.com/youtube/v3/videos?part=contentDetails%2Cstatus%2Csnippet&key=AIzaSyCgqQS-yBcPTKi4Ki3IfW7oGyVhN44H-iM&id=aEib5H5XUzA
     let url1 = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails%2Cstatus%2Csnippet';
     let url2 = '&key=' + process.env.REACT_APP_YOUTUBE_KEY;
     let url3 = '&id=' + address;
     axiosdata = await axios.get(`${url1}${url2}${url3}`);
     axiosdata = axiosdata.data.items[0];
-    // console.log(axiosdata);
+    
     let title = axiosdata.snippet.title;
     let songlength = parseDurationToSeconds(axiosdata.contentDetails.duration); //"PT7H43M34S"
     let singer = axiosdata.snippet.channelTitle;
@@ -86,6 +90,7 @@ export const doGrab = async (playlistID, address) => {
     let songorigin = 'yt';
 
     let data = {
+        idx:0,
         playlistID,
         title,
         songlength,
@@ -93,11 +98,14 @@ export const doGrab = async (playlistID, address) => {
         songaddress,
         songorigin
     }
-    
+    return data;
+}
 
+export const doGrab = async (playlistID, address) => {
+    let data = await GetSongInfoByYoutubeApi(playlistID,address);
     let result = await axios.post("/api/lv1/p/song",data);
 
-    console.log(result);
+    return result.data;
     
 
 

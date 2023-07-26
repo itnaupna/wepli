@@ -1,6 +1,7 @@
 package com.bit.dto;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
 public class SongDto {
@@ -14,4 +15,5 @@ public class SongDto {
     private String singer;
     private String songaddress;
     private String songorigin;
+    // private String playerNick;
 }

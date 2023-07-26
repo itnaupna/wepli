@@ -5,7 +5,7 @@ import QueuePlaylist from './QueuePlaylist';
 import QueueMypliItem from './QueueMypliItem';
 import axios from 'axios';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ButtonTypeAtom, MyQListAtom, ResultItemsInStageAtom } from '../../recoil/StageDataAtom';
+import { ButtonTypeAtom, MyQListAtom, ResultItemsInStageAtom, RoomQListAtom } from '../../recoil/StageDataAtom';
 import { LoginStatusAtom } from '../../recoil/LoginStatusAtom';
 import QueuePlaylist2 from './QueuePlaylist2';
 
@@ -14,10 +14,12 @@ const QueueComponent = () => {
     const [searchResult, setSearchResult] = useRecoilState(ResultItemsInStageAtom);
     const [searchInfo, setSearchInfo] = useState({ keyword: '', token: '' });
     const MyQList = useRecoilValue(MyQListAtom);
+    const RoomQList = useRecoilValue(RoomQListAtom);
     const [ButtonType, setButtonType] = useRecoilState(ButtonTypeAtom);
     const listRef = useRef();
     let cancelTokenSource;
     const IsLogin = useRecoilValue(LoginStatusAtom);
+
     const [myPlaylists, setMyPlaylists] = useState([]);
     const SearchYoutube = async (keyword, token) => {
         const input = document.getElementsByClassName("queuesearchbarwrapper")[0];
@@ -63,15 +65,33 @@ const QueueComponent = () => {
     };
 
     const loadMyPlaylists = async () => {
-        if (!IsLogin) return;
+        if (!IsLogin) { setMyPlaylists([]); return; }
         let request = await axios.get("/api/lv1/p/playlist");
         setMyPlaylists(request.data);
-        console.log(myPlaylists);
+        // console.log(myPlaylists);
+    }
+
+    const loadMyQueue = () => {
+        setButtonType('myqueue');
+        setSearchResult(MyQList);
+    }
+    
+    useEffect(()=>{
+        if(ButtonType==='myqueue')
+            setSearchResult(MyQList);
+        else if(ButtonType === 'stagequeue')
+            setSearchResult(RoomQList);
+    },[MyQList,RoomQList,ButtonType]);
+
+    const loadStageQueue = () => {
+        setButtonType('stagequeue');
+        setSearchResult(RoomQList);
+        console.log(RoomQList);
     }
 
     useEffect(() => {
         loadMyPlaylists()
-    }, []);
+    }, [IsLogin]);
 
 
     return (
@@ -96,13 +116,13 @@ const QueueComponent = () => {
                     <div className="btnmyqueue" style={{ fontSize: '1.2rem', justifyContent: 'center', cursor: 'default' }}>대기열 관리</div>
                     {IsLogin &&
                         <div className="btnmyqueue">
-                            <div className="queueplaylistitemtitle">내 플리</div>
+                            <div className="queueplaylistitemtitle" onClick={loadMyQueue}>내 플리</div>
                             <div className="queueplaylistitemcount">{MyQList.length}</div>
                         </div>
                     }
                     <div className="btnmyqueue">
-                        <div className="queueplaylistitemtitle">스테이지 플리</div>
-                        <div className="queueplaylistitemcount">000</div>
+                        <div className="queueplaylistitemtitle" onClick={loadStageQueue}>스테이지 플리</div>
+                        <div className="queueplaylistitemcount">{RoomQList.length}</div>
                     </div>
                     <div className="btnmyqueue">
                         <div className="queueplaylistitemtitle">재생 기록</div>
@@ -130,11 +150,15 @@ const QueueComponent = () => {
                     </div>
                     <div className="qplaylistitems" ref={listRef}>
                         {
-                            searchResult?.length > 0 ?
-                                ButtonType === 'search' ?
-                                    searchResult.map((v, i) => <QueuePlaylist key={i} data={v} rank={i + 1} index={i}/>) :
-                                    searchResult.map((v, i) => <QueuePlaylist2 key={i} data={v} rank={i + 1} />) :
-                                <div style={{ alignSelf: 'stretch', margin: '10px', textAlign: 'center' }}>
+                            searchResult?.length > 0
+                                ? ButtonType === 'search'
+                                    ? searchResult.map((v, i) => <QueuePlaylist key={i} data={v} rank={i + 1} index={i} />)
+                                    : ButtonType === 'stagequeue'
+                                        ? searchResult.map((v, i) =>
+                                            Object.entries(v).map(([k, vl]) => <QueuePlaylist2 key={i} data={vl} nick={k} rank={i + 1} index={i} />)
+                                        )
+                                        : searchResult.map((v, i) => <QueuePlaylist2 key={i} data={v} rank={i + 1} index={i} />)
+                                : <div style={{ alignSelf: 'stretch', margin: '10px', textAlign: 'center' }}>
                                     표시할 정보가 없습니다.
                                 </div>
                         }
