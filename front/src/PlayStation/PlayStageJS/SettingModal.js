@@ -101,32 +101,32 @@ function SettingModal({setModalOpen}) {
  }
 
  return (
-     <div ref={modalRef} className="createstagemodal-parent">
-     <div className="createstagemodal">
-       <div className="createstagemodal-inner">
-         <div className="frame-child" />
+     <div ref={modalRef} className="SettingCreatestagemodal-parent">
+     <div className="SettingCreatestagemodal">
+       <div className="SettingCreatestagemodal-inner">
+         <div className="SettingFrame-child" />
        </div>
-       <div className="wrapper">
-         <div className="ModifyContainer">
-           <div className="child" />
+       <div className="SettingWrapper">
+         <div className="SettingModifyContainer">
+           <div className="SettingChild" />
            <form onSubmit={handleSubmit}>
-             <button type='submit' className='ModifySubmitButton'>수정 완료</button>                
+             <button type='submit' className='SettingModifySubmitButton'>수정 완료</button>                
            </form>
          </div>
        </div>
        {/* <a href='./PlayStage.js'>
          <img className="createstagemodal-child" alt=""/>
        </a> */}
-       <div className="findmodaltitle">
-         <div className="wepli">WEPLi</div>
+       <div className="SettingFindmodaltitle">
+         <div className="SettingWepli">WEPLi</div>
        </div>
-       <div className="Makestage">Stage 설정</div>
-       <div className="mypageemailmodal">
-         <div className="rectangle-parent">
-           <div className="group-child" />
+       <div className="SettingMakestage">Stage 설정</div>
+       <div className="SettingMypageemailmodal">
+         <div className="SettingRectangle-parent">
+           <div className="Setting-group-child" />
             {isPhoto?(
-              <div className="Modify-Photo">
-              <label className="Modify-Photo-button" for="ImageUpload">
+              <div className="SettingModify-Photo">
+              <label className="SettingModify-Photo-button" for="ImageUpload">
                 <img src={Upload} alt=''/>
               </label>
               <input 
@@ -143,56 +143,56 @@ function SettingModal({setModalOpen}) {
               onChange={e=>onUpload(e)}>
               </input>  
           <img   
-          width={'60%'} src={img} alt='' className='groupChildImage' for='ImageUpload' onClick={handleImageClick}/>
+          width={'60%'} src={img} alt='' className='SettingGroupChildImage' for='ImageUpload' onClick={handleImageClick}/>
           </div>   
             )}
          </div>
          
          <img
-           className="mypageemailmodal-child"
+           className="SettingMypageemailmodal-child"
            alt=""
            src={Cancel}
            onClick={closeModal}
          />
          
-         <div className="rectangle-group">
-           <div className="group-item" />
-           <div className="container">
-             <div className="ModifyTitle">
-                 <input type='text' className='ModifyTitleSpace'placeholder='스테이지 제목' value={title} onChange={(e)=>setTitle(e.target.value)}/>
+         <div className="SettingRectangle-group">
+           <div className="SettingGroup-item" />
+           <div className="SettingContainer">
+             <div className="SettingModifyTitle">
+                 <input type='text' className='SettingModifyTitleSpace'placeholder='스테이지 제목' value={title} onChange={(e)=>setTitle(e.target.value)}/>
              </div>
            </div>
          </div>
-         <div className="rectangle-container">
-           <div className="group-inner" />
-           <div className="checkbox-wrapper">
-             <input type='text' className='checkboxPW' disabled={disable} placeholder='패스워드 입력'
+         <div className="SettingRectangle-container">
+           <div className="SettingGroup-inner" />
+           <div className="SettingCheckbox-wrapper">
+             <input type='text' className='SettingCheckboxPW' disabled={disable} placeholder='패스워드 입력'
              value={pw} onChange={(e)=>setPw(e.target.value)}/>
              <input type='checkbox' onClick={OpenPw}/>Private
              {/* <div className="checkbox-">{`공개 비공개(checkBox)->비공개 암호설정`}</div> */}
            </div>
          </div>
-         <div className="group-div">
-           <div className="group-inner" />
-           <div className="Modifyframe">
-             <input type='text' className='ModifyTag' placeholder='태그입력' value={tag} onChange={(e)=>setTag(e.target.value)}/>
+         <div className="SettingGroup-div">
+           <div className="SettingGroup-inner" />
+           <div className="SettingModifyframe">
+             <input type='text' className='SettingModifyTag' placeholder='태그입력' value={tag} onChange={(e)=>setTag(e.target.value)}/>
            </div>
          </div>
-         <div className="rectangle-parent1">
-           <div className="group-inner" />
-           <div className="Modifyframe">
-             <input type='text' className='frameGenre' placeholder='장르입력' value={genre} onChange={(e)=>setGenre(e.target.value)}/>
+         <div className="SettingRectangle-parent1">
+           <div className="SettingGroup-inner" />
+           <div className="SettingModifyframe">
+             <input type='text' className='SettingFrameGenre' placeholder='장르입력' value={genre} onChange={(e)=>setGenre(e.target.value)}/>
            </div>
          </div>
-         <div className='rectangle-parent2'>
-            <div className='group-inner'/>
-            <div className='Modifyframe2'>
-                <input type='text' className='frameDesc' placeholder='스테이지 소개글을 작성해주세요' value={desc} onChange={(e)=>setDesc(e.target.value)}/>
+         <div className='SettingRectangle-parent2'>
+            <div className='SettingGroup-inner'/>
+            <div className='SettingModifyframe2'>
+                <input type='text' className='SettingFrameDesc' placeholder='스테이지 소개글을 작성해주세요' value={desc} onChange={(e)=>setDesc(e.target.value)}/>
             </div>
          </div>
        </div>
        <img
-         className="wplieonlylogo-4-icon"
+         className="SettingWplieonlylogo-4-icon"
          alt=""
          src={Logo}
        />

@@ -1,58 +1,76 @@
-.slick-slide{
-    width: 740px !important;
-    height: 700px !important;
-    border-radius: 0 !important;
-    background: rgba(255, 255, 255, 0) !important;
-    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0) !important;
-    opacity: 0.5;
-    pointer-events: none;
-}
-.slick-list{
-    height: 700px!important;
-    top: 0 !important;
-    margin: 0 !important;
-}
-.slick-track{
-    height: 700px !important;
-}
-.FollowStageSliderBody{
-    width: 1600px !important;
-    height: 600px !important;
-}
-.slick-arrow{
-    top: 300px !important;
-}
-.slick-center{
-    opacity: 1 !important;
-    pointer-events: auto !important;
-}
-.slick-prev{
-    z-index: 999;
-    opacity: 1!important;
-    right: 1600px !important;
+.StageSliderContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.slick-prev:before{
-    content: url("../PlayStageImage/Icon/slpfollowPreButton.png") !important;
-    position: relative !important;
-    right: 70px !important;
+.slideWrap {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+  overflow: hidden;
 }
 
-.slick-next{
-    font-size: 50px !important;
-    z-index: 999;
-    opacity: 1!important;
+.slideWrap a {
+  flex: 0 0 100%;
+  max-width: 100%;
 }
 
-.slick-next:before{
-    content: url("../PlayStageImage/Icon/slpfollowNextButton.png") !important;
-    position: relative !important;
-    left: 25px !important;
+.navigation {
+  display: flex;
+  justify-content: center;
 }
-.NoLogin{
-    text-align: center;
-    width: 100%;
-    position: absolute;
-    height: 100%;
-    top: 35%;
+
+.navigation button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.navigation button:hover {
+  background-color: #0056b3;
+}
+
+.active {
+  background-color: #0056b3;
+}
+.alice-carousel__stage-item{
+}
+.alice-carousel__wrapper{
+  width:780px;
+  height: 395px;
+}
+.alice-carousel__stage{
+  top:40px;
+}
+.alice-carousel__prev-btn{
+  position: absolute;
+  top:160px;
+  bottom: 0;
+  margin:auto;
+  left: -300px;
+}
+.alice-carousel__prev-btn span{
+
+}
+
+.alice-carousel__next-btn{
+z-index: 999;
+position: absolute;
+top:160px;
+bottom:0;
+margin: auto;
+left:570px;
+
+}
+
+.alice-carousel__stage-item{
+  margin:0 auto;
+  left:90px;
 }
