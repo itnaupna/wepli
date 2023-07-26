@@ -7,6 +7,7 @@ import logo from "./photo/weplieonlylogoonlylogo.png"
 import arrow from "./svg/btnarrow.svg";
 import {useIsPasswordEntered} from "../recoil/LoginStatusAtom";
 function PwChkModal({setpwChkmodalOpen}) {
+    
     const [pwChk, setPwChk] = useState("");
     const navigate = useNavigate();
 
@@ -48,6 +49,7 @@ function PwChkModal({setpwChkmodalOpen}) {
                         className="mypagepwchkmodalarrowgroup-icon"
                         alt=""
                         src={backarrow}
+                        onClick={closePwChkModal}
                     />
                     <img
                         className="mypagepwchkmodalweplilogo-icon"

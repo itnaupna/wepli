@@ -39,3 +39,8 @@ export const BlackListModalOpen = atom({
     key: 'BlackListModalOpen',
     default: false
 })
+
+export const UrlChk = atom({
+    key: 'UrlChk',
+    default: window.location.pathname
+})

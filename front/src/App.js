@@ -21,12 +21,21 @@ import Hyukmain from "./hyukmain";
 import {isPasswordEnteredState, LoginStatusAtom} from './recoil/LoginStatusAtom';
 import AddPlayLsit from "./PlayListMain/AddPlayList";
 import MemberPage from './mypage/MemberPage';
+import { LoginModalOpen, pwChkModalOpen } from './recoil/FindIdModalAtom';
+import LoginModal from './SideModal/LoginModal';
+import PwChkModal from './SideModal/PwChkModal';
+import { UrlChk } from './recoil/MypageModalAtom';
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
+    const [pwChkmodalOpen, setpwChkmodalOpen] = useRecoilState(pwChkModalOpen);
+    const [loginmodalopen, setloginmodalopen] = useRecoilState(LoginModalOpen);
     const isPasswordEntered = useRecoilValue(isPasswordEnteredState);
+    const URLchk = useRecoilValue(UrlChk);
+
 
     useEffect(() => {
+        console.log("Appjs ->", URLchk);
         conSocket();
     }, []);
 
@@ -41,11 +50,14 @@ function App() {
             <Routes>
                 <Route path="/" element={<MainPage />} />
 
-                {loginStatus && isPasswordEntered ? (
-                    <Route path="/mypage" element={<Mypage />} />
-                ) : (
-                    <Route to="/" replace />
-                )}
+                {URLchk == "/mypage" && loginStatus && !isPasswordEntered? 
+                    setpwChkmodalOpen(true)
+                     : setpwChkmodalOpen(false)
+                }
+                {loginStatus && isPasswordEntered ?
+                    <Route path="/mypage" element={<Mypage />} /> :
+                    ""
+                }
                 <Route path="/mypage/:userNick" element={<MemberPage/>}/>
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
@@ -61,6 +73,9 @@ function App() {
                 } />
                 <Route path={"/hyuk"} element={<Hyukmain/>}/>
             </Routes>
+
+            {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen} />}
+            {loginmodalopen && <LoginModal setloginmodalopen={setloginmodalopen} />}
         </BrowserRouter>
     );
 }
