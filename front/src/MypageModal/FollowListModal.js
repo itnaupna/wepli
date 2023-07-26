@@ -4,7 +4,7 @@ import backarrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import axios from "axios";
 import {useRecoilState, useRecoilValue} from "recoil";
-import {FollowListAtom, FollowMemberAtom} from "../recoil/FollowAtom";
+import {BlackMemberAtom, FollowListAtom, FollowMemberAtom, TargetMemberAtom} from "../recoil/FollowAtom";
 import weplilogo from "./photo/weplieonlylogoonlylogo.png";
 
 function FollowListModal({ setisFollowListModalOpen  }) {
@@ -30,68 +30,54 @@ function FollowListModal({ setisFollowListModalOpen  }) {
 
 
     const bucket = process.env.REACT_APP_BUCKET_URL;
-    const handleBlack = async (tValues) => {
-        // const url = "/api/lv2/b/blacklist";
-        const url = `/api/lv2/b/addblacklist?target=${tValues}`;
 
-        console.log("tValues:", tValues);
-        axios
-            .post(url)
-            .then(res=>{
-                if(res.data === true){
-                    alert("dd");
-                }else{
-                    alert("ss");
-                }
-            });
-    }
+    const blackMember = useRecoilValue(BlackMemberAtom);
+    const [blackMember1, setBlackMember] = useRecoilState(BlackMemberAtom);
 
-    const handleUnFollow = (tValue) => {
-        const url = `/api/lv2/f/unfollow?target=${tValue}`;
-        console.log("핸들언팔로우 벨류",tValue);
+    const handleBlackToggle = async (fValues, idx) => {
+        const url = "/api/lv2/b/blacktoggle";
+
         axios({
-            method: 'delete',
-            url: url
+            method : 'post',
+            url: url,
+            params: {target: fValues}
         }).then(res=>{
-            const mypageurl = "/api/lv0/m/mypage";
-            axios({
-                method: "get",
-                url: mypageurl,
-                data: { userNick: usernick },
-            }).then(res => {
-                alert("언팔로우");
-                if (res.data) {
-                    console.log("if data", res.data);
-                    const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
-                    storedData.lstfollow = res.data.lstfollow;
+            const updatedBlackMember = [...blackMember];
+            updatedBlackMember[idx] = { ...updatedBlackMember[idx], isblack: res.data };
+            setBlackMember(updatedBlackMember);
 
-                    const newData = JSON.stringify(storedData);
-                    console.log("이미지" + newData);
-                    sessionStorage.setItem("data", newData);
-                    console.log("방금 썻어요" + res.data.lstfollow);
-                    setFollowMember(res.data.lstfollow);
-
-                    alert("언팔로우 후 데이터 값 넣기");
-                } else {
-                    alert("꽝");
-                }
-            })
+            const updatedFollowMember = [...followMember];
+            updatedFollowMember[idx] = { ...updatedFollowMember[idx], isblack: res.data };
+            setFollowMember(updatedFollowMember);
+            console.log(res.data);
+        }).catch(error => {
+            alert(error);
         })
     }
 
 
+    const targetMember= useRecoilValue(TargetMemberAtom);
+    const [targetMember1, setTargetMember] = useRecoilState(TargetMemberAtom);
 
-    // useEffect(()=>{
-    //     const url = "/api/lv2/f/follow";
-    //
-    //     axios
-    //         .get(url).then(res => {
-    //         setFollowMember(res.data);
-    //         console.log("follow 멤버", res.data);
-    //     });
-    // },[]);
+    const handleDeFollow = async (fValues, idx) => {
+        const url = "/api/lv2/f/followtoggle";
 
+        axios({
+            method: 'post',
+            url: url,
+            params: { target: fValues }
+        }).then(res => {
+            const updatedUnFollow = [...targetMember];
+            updatedUnFollow[idx] = { ...updatedUnFollow[idx], isfollow: res.data };
+            setTargetMember(updatedUnFollow);
 
+            const updatedFollowMember = [...followMember];
+            updatedFollowMember[idx] = { ...updatedFollowMember[idx], isfollow: res.data };
+            setFollowMember(updatedFollowMember);
+        }).catch(error => {
+            alert("에러");
+        });
+    }
 
     return (
         <div>
@@ -140,13 +126,17 @@ function FollowListModal({ setisFollowListModalOpen  }) {
                                         <div className="followmodalbtnsection">
                                             <div className="followmodalblackbtnframe">
                                                 <div className="followmodalblackbtnrectangle" />
-                                                <button type={'button'} className="followmodalblackbtntext"
-                                                        onClick={() => handleBlack(item.t)}>블랙</button>
+                                                <button type={'button'} className="followmodalblackbtntext" value={idx}
+                                                        onClick={(e) => handleBlackToggle(item.t,e.target.value)}>
+                                                    {item.isblack === 0 ? "취소" : "삭제"}
+                                                </button>
                                             </div>
                                             <div className="followmodalfollowbtnframe">
                                                 <div className="followmodalfollowbtnrectangle" />
-                                                <button type={'button'} className="followmodalfollowbtntext"
-                                                onClick={()=> handleUnFollow(item.t)}>팔로우</button>
+                                                <button type={'button'} className="followmodalfollowbtntext" value={idx}
+                                                onClick={(e)=> handleDeFollow(item.t,e.target.value)}>
+                                                    {item.isfollow === 0 ? "팔로우" : "삭제"}
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

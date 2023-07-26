@@ -16,36 +16,27 @@ function FollowerListModal(props) {
     const bucket = process.env.REACT_APP_BUCKET_URL;
 
     const targetMember= useRecoilValue(TargetMemberAtom);
+    const [targetMember1, setTargetMember] = useRecoilState(TargetMemberAtom);
 
     // const fValues = targetMember.map((item) => item.t);
     const fValues = targetMember.map((item) => item.t);
-    console.log("ddd",fValues);
-    const handleDeFollow = async (fValues) => {
-        // const url = "/api/lv2/b/blacklist";
-        // const url = `/api/lv2/f/delfollow?target=${fValues}`;
-        const url = "/api/lv2/f/delfollow";
 
-        console.log("tValues:", fValues);
+    const handleDeFollow = async (fValues, idx) => {
+        const url = "/api/lv2/f/followtoggle";
+
         axios({
-             method: "delete",
-             url: url,
-             params: {target : fValues}
-            })
-            .then(res=>{
-                if(res.data === true){
-                    alert("dd");
-                }else{
-                    console.log("dddd",res);
-                    console.log("dddd",res.data);
-                    alert("ss");
-                }
-            });
+            method:'post',
+            url: url,
+            params: {target: fValues}
+        }).then(res=>{
+            const updatedUnFollow = [...targetMember];
+            updatedUnFollow[idx] = {...updatedUnFollow[idx], isfollow: res.data};
+            setTargetMember(updatedUnFollow);
+        }).catch(error => {
+            alert("에러");
+        })
     }
 
-
-    useEffect(()=>{
-
-    },[]);
 
     return (
         <div>
@@ -88,14 +79,13 @@ function FollowerListModal(props) {
                                     </div>
                                     <div className="followermodalbtngroup">
                                         <div className="followermodalbtnsection">
-                                            {/*<div className="followermodalblackbtnframe">*/}
-                                            {/*    <div className="followermodalblackbtnrectangle" />*/}
-                                            {/*    <div className="followermodalblackbtntext">블랙</div>*/}
-                                            {/*</div>*/}
+
                                             <div className="followermodalfollowbtnframe">
                                                 <div className="followermodalblackbtnrectangle" />
                                                 <button type={'button'} className="followermodalfollowbtntext"
-                                                onClick={()=> handleDeFollow(item.t)}>언팔로우</button>
+                                                        value={idx}
+                                                onClick={(e)=> handleDeFollow(item.t, e.target.value)}>
+                                                    {item.isfollow === 0 ? "추가" : "삭제"}</button>
                                             </div>
                                         </div>
                                     </div>
