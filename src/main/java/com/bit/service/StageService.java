@@ -1,10 +1,17 @@
 package com.bit.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -41,7 +48,7 @@ public class StageService {
 
     public final String BUCKET_NAME = "wepli";
 
-    private final Map<String, BuiltStageDto> builtStages = new HashMap<>();
+    private final ConcurrentHashMap<String, BuiltStageDto> builtStages = new ConcurrentHashMap<>();
 
     public void addUserToQueue(String stageId, String nick, SongDto songDto) {
         builtStages.get(stageId).getQueueOrder().add(nick);
@@ -56,7 +63,7 @@ public class StageService {
     public List<Map<String, SongDto>> getRoomQueueList(String stageId) {
         List<Map<String, SongDto>> result = new ArrayList<>();
 
-        for (String nick : builtStages.get(stageId).getQueueOrder()) { 
+        for (String nick : builtStages.get(stageId).getQueueOrder()) {
             Map<String, SongDto> data = new HashMap<>();
             data.put(nick, builtStages.get(stageId).getUserQueue().get(nick));
             result.add(data);
@@ -65,16 +72,46 @@ public class StageService {
         return result;
     }
 
-    public void changeUserSongInQueue(String stageId, String nick, SongDto songDto){
-        builtStages.get(stageId).getUserQueue().put(nick,songDto);
+    public boolean isPlaying(String stageId) {
+        return builtStages.get(stageId).getStartTime() != null;
     }
 
-    public void changeUserOrderInStage(String stageId, String nick){
+    private final ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
+
+    public void setVideoInStage(String stageId) {
+        CompletableFuture.runAsync(() -> {
+            builtStages.get(stageId).setNextSong();
+            int delay = builtStages.get(stageId).getSongLength();
+            
+            
+            builtStages.get(stageId).setSes(ses.schedule(() -> {
+                setVideoInStage(stageId);
+            }, delay, TimeUnit.SECONDS));
+        });
+    }
+    
+    public SongDto requestNextSong(String stageId){
+        return builtStages.get(stageId).setNextSong();
+    } 
+
+    public void setSes(String stageId,ScheduledFuture<?> ses){
+        builtStages.get(stageId).setSes(ses);
+    }
+
+    public void cancelSes(String stageId){
+        builtStages.get(stageId).cancelSES();
+    }
+
+    public void changeUserSongInQueue(String stageId, String nick, SongDto songDto) {
+        builtStages.get(stageId).getUserQueue().put(nick, songDto);
+    }
+
+    public void changeUserOrderInStage(String stageId, String nick) {
         builtStages.get(stageId).getQueueOrder().remove(nick);
-        builtStages.get(stageId).getQueueOrder().add(0,nick);
+        builtStages.get(stageId).getQueueOrder().add(0, nick);
     }
 
-    public boolean isInQueueAlready(String stageId, String nick){
+    public boolean isInQueueAlready(String stageId, String nick) {
         return builtStages.get(stageId).getQueueOrder().contains(nick);
     }
 
@@ -93,7 +130,7 @@ public class StageService {
     }
 
     public void subUserToStage(String stageUrl, String sessionId) {
-        
+
         builtStages.compute(stageUrl, (k, v) -> {
             String nick = v.getUsers().get(sessionId);
             v.getUserQueue().remove(nick);

@@ -3,6 +3,10 @@ package com.bit.service;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -31,6 +35,7 @@ public class SocketService {
 
     private final String prefix = "/sub/stage/";
     private final SimpMessageSendingOperations sendingOperations;
+    private final ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
     private final Map<String, String> userPosition;
 
     private void logging(StompHeaderAccessor headers) {
@@ -95,11 +100,7 @@ public class SocketService {
         // logging(headers);
     }
 
-    private void sendQueueData(String stageId, SocketDto msg) {
-        msg.setType(Types.QUEUE_DATA);
-        msg.setMsg(stageService.getRoomQueueList(stageId));
-        sendingOperations.convertAndSend("/sub/stage/" + stageId, msg);
-    }
+
 
     private SongDto msgToSongDto(Object msg) {
         LinkedHashMap msgObj = (LinkedHashMap) msg;
@@ -115,6 +116,25 @@ public class SocketService {
         songDto.setSongaddress((String) msgObj.get("songaddress"));
         songDto.setSongorigin((String) msgObj.get("songorigin"));
         return songDto;
+    }
+
+    private void RequestPlay(String stageId){
+        
+        CompletableFuture.runAsync(() -> {
+            SongDto song = stageService.requestNextSong(stageId);
+            SocketDto msg = new SocketDto();
+            msg.setType(Types.PLAY);
+            msg.setStageId(stageId);
+            msg.setUserNick(song.getPlayerNick());
+            msg.setMsg(song);
+            SendMsg(msg);
+            //TODO : 여기서부터 시작. 소켓 송신처리 어떻게 할지, 이후 중도 난입유저에게 어떻게 보내줄지.
+            
+            stageService.setSes(stageId,ses.schedule(() -> {
+                RequestPlay(stageId);
+            }, song.getSonglength(), TimeUnit.SECONDS));
+        });
+    
     }
 
     public void SendMsg(SocketDto msg) {
@@ -148,9 +168,6 @@ public class SocketService {
             case DELETE:
                 break;
             case QUEUE_IN:
-                // SongDto songDto = msgToSongDto(msg.getMsg());
-                // stageService.addUserToQueue(msg.getStageId(), msg.getUserNick(), songDto);
-                // msg.setMsg(stageService.getRoomQueueList(msg.getStageId()));
                 break;
             case QUEUE_OUT:
                 String nick = msg.getMsg() == null ? msg.getUserNick() : msg.getMsg().toString();
@@ -182,7 +199,8 @@ public class SocketService {
                 msg.setImg(memberService.getUserImg(msg.getUserNick()));
                 break;
             case PLAY:
-            
+                // stageService.setVideoInStage(msg.getStageId());
+
                 break;
             case QUEUE_DATA:
                 break;
