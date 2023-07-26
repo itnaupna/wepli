@@ -69,16 +69,28 @@
     width: 12.5rem;
     height: 2.5rem;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.mypageblacklistlabel,
-.mypageemailsendlabel,
+
 .mypagesecessionlabel {
     position: absolute;
-    width: 50.5%;
     top: calc(50% - 10px);
     left: 25%;
     font-weight: 500;
     display: inline-block;
+    width: 65%;
+}
+
+.mypageblacklistlabel,
+.mypageemailsendlabel{
+    position: absolute;
+    top: calc(50% - 10px);
+    left: 22%;
+    font-weight: 500;
+    display: inline-block;
+    width: 65%;
 }
 .mypageblacklistlabel,
 .mypagesecessionlabel {
@@ -156,7 +168,6 @@
     left: 5.31rem;
     height: 9.88rem;
     font-size: 2rem;
-    font-family: "SF Pro Text";
 }
 .mypagefollowingnumber {
     position: absolute;
@@ -164,20 +175,23 @@
     left: 0.46rem;
     display: inline-block;
     width: 9.11rem;
+    /*font-family: var(--font-kbo-dia-gothic);*/
 }
 .mypagefollowingbox,
 .mypagefollowingtext {
     position: absolute;
     top: calc(50% - 30px);
-    width: 9.56rem;
+    /*width: 9.56rem;*/
 }
 .mypagefollowingtext {
-    left: 0;
+    left: 1.2rem;
     display: inline-block;
+    text-align: center;
 }
 .mypagefollowingbox {
     left: 7.44rem;
     height: 3.75rem;
+    width: 6rem;
 }
 .mypagefollowtext {
     position: absolute;
@@ -185,6 +199,7 @@
     left: 0.31rem;
     display: inline-block;
     width: 7.13rem;
+    font-family: 'SUIT1', serif;
 }
 .mypagefollowbox,
 .mypagefollownumber {
@@ -266,4 +281,51 @@
     text-align: left;
     font-size: 2rem;
     color: #000;
+}
+
+.userdescchangegroup{
+    display: none;
+}
+
+.userdescchangebtn{
+    background-color: rgba(166, 73, 218, 0.15);;
+    color:  #6340EE;
+    border: none;
+    border-radius: 30px;
+    width: 8vw;
+    height: 3vh;
+}
+
+.userdescchangebtngroup{
+    margin-left: 3vh;
+    padding-left: 3vh;
+    /*display: inline-block;*/
+    width: 10vw;
+    top: 3vh;
+    left: 12vh;
+    position: absolute;
+    padding-top: 2vh;
+}
+
+.userdescchangesection{
+    border: 1px solid blue;
+    width: 50vw;
+    padding-top: 2vh;
+}
+
+.mypageonelinersubtext{
+    width: 40vw;
+    position: absolute;
+    top: 5vh;
+    left: 8%;
+    font-size: 12px;
+    color: #ccc;
+}
+
+.mypageblacklistfrmae{
+    /*border: 1px solid black;*/
+    width: 50rem;
+    left: 23%;
+    position: absolute;
+    /*top: calc(50% - 30px);*/
 }

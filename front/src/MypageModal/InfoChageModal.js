@@ -3,11 +3,9 @@ import "./css/InfoChangeModal.css";
 import backarrow from "./svg/backarrow.svg";
 import btnarrow from "./svg/btnarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
-import {DataState, emailConfirmState, UserStorageNick} from "../recoil/LoginStatusAtom";
+import {UserStorageNick} from "../recoil/LoginStatusAtom";
 import {useRecoilState, useRecoilValue} from "recoil";
 import axios from "axios";
-import {params} from "superagent/lib/utils";
-import {json} from "react-router-dom";
 function InfoChageModal({setIsInfoChangeModalOpen}) {
 
     const [nick, setNickName] = useState('');
@@ -31,14 +29,13 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
     const handleInputPw = (e) => {
         setPw(e.target.value);
     }
-    const emailconfirm = useRecoilValue(emailConfirmState);
 
     const data = sessionStorage.getItem("data") || localStorage.getItem("data");
 
     const storagedata = JSON.parse(data);
     const usernick = storagedata.nick;
     const useremail = storagedata.email;
-
+    const emailconfirm = storagedata.emailconfirm;
     const [prevEmail, setPrevEmail] = useState('');
 
     useEffect(() => {

@@ -27,10 +27,15 @@ export const PhoneConfirmModalOpen = atom({
 
 export const BlackListOptionModalOpen = atom({
     key: 'BlackListOptionModalOpen',
-    default: false
+    default: false,
 });
 
 export const TargetListModalOpen = atom({
     key: 'TargetListModalOpen',
     default: false
 });
+
+export const BlackListModalOpen = atom({
+    key: 'BlackListModalOpen',
+    default: false
+})

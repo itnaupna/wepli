@@ -96,7 +96,7 @@ public class FollowService {
     public boolean deleteFollowlist(String token, String target) {
         Map<String, String> data = new HashMap<>();
         String follow = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        data.put("follow", target);
+        data.put("nick", target);
         data.put("target", follow);
         return followMapper.unFollowlist(data) > 0;
     }

@@ -11,6 +11,11 @@ export const FollowListAtom = atom({
 });
 
 export const TargetMemberAtom = atom({
-    key: TargetMemberAtom,
+    key: 'TargetMemberAtom',
+    default: []
+});
+
+export const BlackMemberAtom = atom({
+    key: 'BlackMemberAtom',
     default: []
 })

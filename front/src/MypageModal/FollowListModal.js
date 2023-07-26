@@ -68,8 +68,9 @@ function FollowListModal({ setisFollowListModalOpen  }) {
                     const newData = JSON.stringify(storedData);
                     console.log("이미지" + newData);
                     sessionStorage.setItem("data", newData);
-
+                    console.log("방금 썻어요" + res.data.lstfollow);
                     setFollowMember(res.data.lstfollow);
+
                     alert("언팔로우 후 데이터 값 넣기");
                 } else {
                     alert("꽝");
@@ -78,15 +79,18 @@ function FollowListModal({ setisFollowListModalOpen  }) {
         })
     }
 
-    useEffect(()=>{
-        const url = "/api/lv2/f/follow";
 
-        axios
-            .get(url).then(res => {
-            setFollowMember(res.data);
-            console.log("follow 멤버", res.data);
-        });
-    },[followMember1]);
+
+    // useEffect(()=>{
+    //     const url = "/api/lv2/f/follow";
+    //
+    //     axios
+    //         .get(url).then(res => {
+    //         setFollowMember(res.data);
+    //         console.log("follow 멤버", res.data);
+    //     });
+    // },[]);
+
 
 
     return (

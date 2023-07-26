@@ -11,23 +11,25 @@ import FollowListModal from "../MypageModal/FollowListModal";
 import axios from "axios";
 import {useRecoilState} from "recoil";
 import {LoginStatusAtom, ProfileImageUrl, UserStorageDesc} from "../recoil/LoginStatusAtom";
-import {FollowMemberAtom, TargetMemberAtom} from "../recoil/FollowAtom";
+import {BlackMemberAtom, FollowMemberAtom, TargetMemberAtom} from "../recoil/FollowAtom";
 import {
+    BlackListModalOpen,
     BlackListOptionModalOpen,
     EmailConfirmModalOpen,
     FollowModalOpen,
     InfoChangeModalOpen,
     OutMemberModalOpen, PhoneConfirmModalOpen, TargetListModalOpen
 } from "../recoil/MypageModalAtom";
+import FollowerListModal from "../MypageModal/FollowerListModal";
+import BlackListModal from "../MypageModal/BlackListModal";
 
 function Mypage(props) {
 
 
     const data = sessionStorage.getItem('data') || localStorage.getItem('data');
-    console.log("데이터입", data);
     let userNick = '';
     let profile = '';
-    // let desc = '';
+
     if (data) {
         const parsedData = JSON.parse(data);
         userNick = parsedData.nick;
@@ -38,15 +40,13 @@ function Mypage(props) {
     const parse = JSON.parse(data);
     const usernick = parse.nick;
     const userdesc = parse.desc;
-    // console.log("자기소개 나오는지"+desc);
+
     const parsedData = JSON.parse(data);
     const emailconfirm = parsedData.emailconfirm;
-    console.log(emailconfirm);
-    console.log("제이슨", usernick);
+    const phoneconfirm = parsedData.phoneconfirm;
 
 
     const bucket = process.env.REACT_APP_BUCKET_URL;
-
 
     const [isOutMemberModalOpen, setIsOutMemberModalOpen] = useRecoilState(OutMemberModalOpen);
     const [isInfoChangeModalOpen, setIsInfoChangeModalOpen] = useRecoilState(InfoChangeModalOpen);
@@ -55,13 +55,14 @@ function Mypage(props) {
     const [isBlackListOptionModalOpen, setisBlackListOptionModalOpen] = useRecoilState(BlackListOptionModalOpen);
     const [isFollowListModalOpen, setisFollowListModalOpen] = useRecoilState(FollowModalOpen);
     const [isTargetListModalOpen, setisTargetListModalOpen] = useRecoilState(TargetListModalOpen);
+    const [isBlackListModalOpen, setisBlackListModalOpen] = useRecoilState(BlackListModalOpen);
     const [memberProfile, setmemberProfile] = useState('');
     const [loginStatus, setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [profileImageUrl, setProfileImageUrl] = useRecoilState(ProfileImageUrl);
     const [followMember, setFollowMember] = useRecoilState(FollowMemberAtom);
     const [targetMember, setTargetMember] = useRecoilState(TargetMemberAtom);
+    const [blackMember, setBlackMember] = useRecoilState(BlackMemberAtom);
     const [desc, setUserDescInput] = useState('');
-
     const showOutMemberModal = () => {
         setIsOutMemberModalOpen(true);
     };
@@ -100,9 +101,25 @@ function Mypage(props) {
 
         axios
             .get(url)
-            .then(res=>{
+            .then(res => {
                 setTargetMember(res.data);
+                console.log("여기가 팔로워 출력"+setTargetMember);
+                console.log("팔로워 출력",res);
             });
+    }
+
+    const showBlackListModal = () =>{
+        setisBlackListModalOpen(true);
+
+        const url = "/api/lv2/b/blacklist";
+
+        axios
+            .get(url)
+            .then(res => {
+                setBlackMember(res.data);
+                console.log("블랙리스트 출력Mypage" ,res);
+                console.log("블랙리스트 출력Mypage" + setBlackMember);
+            })
     }
 
 
@@ -124,13 +141,10 @@ function Mypage(props) {
                 data: {userNick: userNick},
             }).then(res => {
                 if (res.data) {
-                    console.log("if res", res);
-                    console.log("if data", res.data);
                     const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
                     storedData.img = res.data.img;
 
                     const newData = JSON.stringify(storedData);
-                    console.log("이미지" + newData);
                     sessionStorage.setItem("data", newData);
 
                     setProfileImageUrl(res.data.img);
@@ -153,18 +167,16 @@ function Mypage(props) {
             headers: {'Content-Type': 'application/json'},
         }).then(res => {
             const mypageurl = "/api/lv0/m/mypage";
-            const data = {userNick:userNick}
+            const data = {userNick: userNick}
             axios
                 .get(mypageurl, data)
                 .then(res => {
                     if (res.data) {
-                        console.log("if res 변경 성공 후 데이터 가져오기",res.data);
                         const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
                         console.log("storedData desc true" + storedData);
                         storedData.desc = res.data.desc;
 
                         const newData = JSON.stringify(storedData);
-                        console.log("이미지" + newData);
                         sessionStorage.setItem("data", newData);
                         setUserStorageDesc(res.data.desc);
                         alert("변경됨");
@@ -175,22 +187,14 @@ function Mypage(props) {
         })
     }
 
-    // const UserInfoGet = async () => {
-    //     const url = '/api"/lv0/m/mypage';
-    //     const data = {userNick:userNick}
-    //     axios
-    //         .get(url,data)
-    //         .then(res=>{
-    //             console.log(res);
-    //            alert("dd");
-    //         });
-    // }
-
-
     useEffect(() => {
         setProfileImageUrl(profile);
     }, [profile]);
 
+    const [isSectionVisible, setSectionVisible] = useState(false);
+    const handleSectionClick = () => {
+        setSectionVisible(!isSectionVisible);
+    };
     return (
         <div>
             <div className="mypageframe">
@@ -216,20 +220,37 @@ function Mypage(props) {
                             </div>
                         </div>
 
-                        <div className="mypagechangeinfobox" onClick={showEmailConfirmModal}>
-                            <div className="mypagechangeinfobutton">
-                                <div className="mypagechangeinfosurface"/>
-                                <div className="mypageemailsendlabel">이메일 인증</div>
+                        {emailconfirm === 1 ?
+                            <div className="mypagechangeinfobox" onClick={showEmailConfirmModal}>
+                                <div className="mypagechangeinfobutton">
+                                    <div className="mypagechangeinfosurface"/>
+                                    <div className="mypageemailsendlabel">이메일 인증됨</div>
+                                </div>
+                            </div> :
+                            <div className="mypagechangeinfobox" onClick={showEmailConfirmModal}>
+                                <div className="mypagechangeinfobutton">
+                                    <div className="mypagechangeinfosurface"/>
+                                    <div className="mypageemailsendlabel">이메일 인증</div>
+                                </div>
                             </div>
-                        </div>
+                        }
 
-
-                        <div className="mypagechangeinfobox" onClick={showPhoneConfirmModal}>
-                            <div className="mypagechangeinfobutton">
-                                <div className="mypagechangeinfosurface"/>
-                                <div className="mypageemailsendlabel">휴대폰 인증</div>
+                        {phoneconfirm === 1 ?
+                            <div className="mypagechangeinfobox" onClick={showPhoneConfirmModal}>
+                                <div className="mypagechangeinfobutton">
+                                    <div className="mypagechangeinfosurface"/>
+                                    <div className="mypageemailsendlabel">휴대폰 인증됨</div>
+                                </div>
                             </div>
-                        </div>
+                            :
+                            <div className="mypagechangeinfobox" onClick={showPhoneConfirmModal}>
+                                <div className="mypagechangeinfobutton">
+                                    <div className="mypagechangeinfosurface"/>
+                                    <div className="mypageemailsendlabel">휴대폰 인증</div>
+                                </div>
+                            </div>
+                        }
+
                         <div className="mypagechangeinfobox" onClick={showBlackListOptionModal}>
                             <div className="mypagechangeinfobutton">
                                 <div className="mypagechangeinfosurface"/>
@@ -249,13 +270,24 @@ function Mypage(props) {
                                 {userdesc}
                             </div>
                         </div>
-                        <div className={'userdescchangegroup'}>
-                            <input type='text' style={{marginTop: '50px'}} value={desc}
-                                   onChange={(e) => setUserDescInput(e.target.value)}></input>
-                            <button type={'button'} onClick={handleDescChange}>테스트</button>
+                        <div style={{ display: isSectionVisible ? 'block' : 'none' }}>
+                            <div className="userdescchangesection">
+                                <input
+                                    type="text"
+                                    style={{ marginTop: '50px' }}
+                                    value={desc}
+                                    onChange={(e) => setUserDescInput(e.target.value)}
+                                />
+                                <div className="userdescchangebtngroup">
+                                    <button type="button" onClick={handleDescChange} className="userdescchangebtn">
+                                        변경
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div className="mypageonelinerbox">
+                        <div className="mypageonelinerbox" onClick={handleSectionClick}>
                             <div className="mypageonelinertext">한줄소개</div>
+                            <div className={'mypageonelinersubtext'}>메세지를 클릭하여 수정할 수 있습니다</div>
                             <img
                                 className="mypagecommunicationicon"
                                 alt=""
@@ -272,7 +304,11 @@ function Mypage(props) {
                             <div className="mypagefollowtext">팔로워</div>
                             <div className="mypagefollownumber">1200명</div>
                         </div>
+                        <div className={'mypageblacklistfrmae'} onClick={showBlackListModal}>
+                            <div className={'mypageblacklistfrmae'}>블랙</div>
+                        </div>
                     </div>
+
                 </div>
                 <div className="mypagememberprofileframe">
 
@@ -289,6 +325,8 @@ function Mypage(props) {
                         onChange={memberProfileChange}
                     />
                 </div>
+                {isBlackListModalOpen && <BlackListModal setisBlackListModalOpen={setisBlackListModalOpen}/>}
+                {isTargetListModalOpen && <FollowerListModal setisTargetListModalOpen={setisTargetListModalOpen}/>}
                 {isOutMemberModalOpen && <OutMemberModal setIsOutMemberModalOpen={setIsOutMemberModalOpen}/>}
                 {isInfoChangeModalOpen && <InfoChageModal setIsInfoChangeModalOpen={setIsInfoChangeModalOpen}/>}
                 {isEmailConfirmModalOpen &&
@@ -300,9 +338,10 @@ function Mypage(props) {
                 {isFollowListModalOpen && (
                     <FollowListModal
                         setisFollowListModalOpen={setisFollowListModalOpen}
-                        followMember={followMember} // Pass the followMember state to FollowListModal
+                        followMember={followMember}
                     />
                 )}
+
             </div>
         </div>
     );

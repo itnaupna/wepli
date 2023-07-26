@@ -59,6 +59,7 @@
     width: 12.38rem;
     height: 4rem;
     border: none;
+    outline: none;
 }
 .phoneconfirmmodalphoneinputgro {
     position: relative;

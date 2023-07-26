@@ -14,7 +14,7 @@ export const emailConfirmState = selector({
     key: 'emailConfirmState',
     get: ({ get }) => {
         const data = get(DataState);
-        return data.emailconfirm;
+        return JSON.stringify( data.emailconfirm);
     },
 });
 
