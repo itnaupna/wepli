@@ -192,10 +192,7 @@ function Mypage(props) {
         setProfileImageUrl(profile);
     }, [profile]);
 
-    const [isSectionVisible, setSectionVisible] = useState(false);
-    const handleSectionClick = () => {
-        setSectionVisible(!isSectionVisible);
-    };
+
     return (
         <div>
             <div className="mypageframe">
@@ -271,11 +268,12 @@ function Mypage(props) {
                                 {userdesc}
                             </div>
                         </div>
-                        <div style={{ display: isSectionVisible ? 'block' : 'none' }}>
+
+                        <div >
                             <div className="userdescchangesection">
                                 <input
+                                    className={'userdescinput'}
                                     type="text"
-                                    style={{ marginTop: '50px' }}
                                     value={desc}
                                     onChange={(e) => setUserDescInput(e.target.value)}
                                 />
@@ -286,7 +284,7 @@ function Mypage(props) {
                                 </div>
                             </div>
                         </div>
-                        <div className="mypageonelinerbox" onClick={handleSectionClick}>
+                        <div className="mypageonelinerbox">
                             <div className="mypageonelinertext">한줄소개</div>
                             <div className={'mypageonelinersubtext'}>메세지를 클릭하여 수정할 수 있습니다</div>
                             <img

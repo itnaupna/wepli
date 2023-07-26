@@ -308,7 +308,6 @@
 }
 
 .userdescchangesection{
-    border: 1px solid blue;
     width: 50vw;
     padding-top: 2vh;
 }
@@ -323,9 +322,16 @@
 }
 
 .mypageblacklistfrmae{
-    /*border: 1px solid black;*/
     width: 50rem;
     left: 23%;
     position: absolute;
     /*top: calc(50% - 30px);*/
 }
+
+.userdescinput{
+    width: 10rem;
+    margin-top: 50px;
+    cursor: text;
+}
+
+
