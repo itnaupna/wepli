@@ -10,16 +10,26 @@ import BlackListOptionModal from "../MypageModal/BlackListOptionModal";
 import FollowListModal from "../MypageModal/FollowListModal";
 import axios from "axios";
 import {useRecoilState} from "recoil";
-import {DataState, LoginStatusAtom, ProfileImageUrl} from "../recoil/LoginStatusAtom";
-import {params} from "superagent/lib/utils";
+import {LoginStatusAtom, ProfileImageUrl, UserStorageDesc} from "../recoil/LoginStatusAtom";
+import {BlackMemberAtom, FollowMemberAtom, TargetMemberAtom} from "../recoil/FollowAtom";
+import {
+    BlackListModalOpen,
+    BlackListOptionModalOpen,
+    EmailConfirmModalOpen,
+    FollowModalOpen,
+    InfoChangeModalOpen,
+    OutMemberModalOpen, PhoneConfirmModalOpen, TargetListModalOpen
+} from "../recoil/MypageModalAtom";
+import FollowerListModal from "../MypageModal/FollowerListModal";
+import BlackListModal from "../MypageModal/BlackListModal";
 
 function Mypage(props) {
 
 
     const data = sessionStorage.getItem('data') || localStorage.getItem('data');
-    console.log("d",data);
     let userNick = '';
     let profile = '';
+
     if (data) {
         const parsedData = JSON.parse(data);
         userNick = parsedData.nick;
@@ -27,28 +37,33 @@ function Mypage(props) {
         console.log(userNick);
     }
 
-    const parse= JSON.parse(data);
+    const parse = JSON.parse(data);
     const usernick = parse.nick;
     const userdesc = parse.desc;
-    // console.log("자기소개 나오는지"+desc);
+
     const parsedData = JSON.parse(data);
     const emailconfirm = parsedData.emailconfirm;
-    console.log(emailconfirm);
-    console.log("제이슨",usernick);
+    const phoneconfirm = parsedData.phoneconfirm;
 
 
     const bucket = process.env.REACT_APP_BUCKET_URL;
 
-    const [isOutMemberModalOpen, setIsOutMemberModalOpen] = useState(false);
-    const [isInfoChangeModalOpen, setIsInfoChangeModalOpen] = useState(false);
-    const [isEmailConfirmModalOpen, setisEmailConfirmModalOpen] = useState(false);
-    const [isPhoneConfirmModalOpen, setisPhoneConfirmModalOpen] = useState(false);
-    const [isBlackListOptionModalOpen, setisBlackListOptionModalOpen] = useState(false);
-    const [isFollowListModalOpen, setisFollowListModalOpen] = useState(false);
+    const [isOutMemberModalOpen, setIsOutMemberModalOpen] = useRecoilState(OutMemberModalOpen);
+    const [isInfoChangeModalOpen, setIsInfoChangeModalOpen] = useRecoilState(InfoChangeModalOpen);
+    const [isEmailConfirmModalOpen, setisEmailConfirmModalOpen] = useRecoilState(EmailConfirmModalOpen);
+    const [isPhoneConfirmModalOpen, setisPhoneConfirmModalOpen] = useRecoilState(PhoneConfirmModalOpen);
+    const [isBlackListOptionModalOpen, setisBlackListOptionModalOpen] = useRecoilState(BlackListOptionModalOpen);
+    const [isFollowListModalOpen, setisFollowListModalOpen] = useRecoilState(FollowModalOpen);
+    const [isTargetListModalOpen, setisTargetListModalOpen] = useRecoilState(TargetListModalOpen);
+    const [isBlackListModalOpen, setisBlackListModalOpen] = useRecoilState(BlackListModalOpen);
     const [memberProfile, setmemberProfile] = useState('');
-    const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
+    const [loginStatus, setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [profileImageUrl, setProfileImageUrl] = useRecoilState(ProfileImageUrl);
+    const [followMember, setFollowMember] = useRecoilState(FollowMemberAtom);
+    const [targetMember, setTargetMember] = useRecoilState(TargetMemberAtom);
+    const [blackMember, setBlackMember] = useRecoilState(BlackMemberAtom);
     const [desc, setUserDescInput] = useState('');
+    const [value, setvalue] = useState("");
     const showOutMemberModal = () => {
         setIsOutMemberModalOpen(true);
     };
@@ -71,6 +86,41 @@ function Mypage(props) {
 
     const showFollowListModal = () => {
         setisFollowListModalOpen(true);
+        const url = "/api/lv2/f/follow";
+
+        axios
+            .get(url).then(res => {
+            setFollowMember(res.data);
+            console.log("follow 멤버", res.data);
+        });
+    }
+
+    const showTargetListModal = () => {
+        setisTargetListModalOpen(true);
+
+        const url = "/api/lv2/f/follower";
+
+        axios
+            .get(url)
+            .then(res => {
+                setTargetMember(res.data);
+                console.log("여기가 팔로워 출력"+setTargetMember);
+                console.log("팔로워 출력",res);
+            });
+    }
+
+    const showBlackListModal = (target) =>{
+        setisBlackListModalOpen(true);
+        setvalue(target);
+        const url = "/api/lv2/b/blacklist";
+
+        axios
+            .get(url)
+            .then(res => {
+                setBlackMember(res.data);
+                console.log("블랙리스트 출력Mypage" ,res);
+                console.log("블랙리스트 출력Mypage" + setBlackMember);
+            })
     }
 
 
@@ -83,22 +133,19 @@ function Mypage(props) {
             method: "post",
             url: url,
             data: uploadFile,
-            headers: { "Content-Type": "multipart/form-data" }
+            headers: {"Content-Type": "multipart/form-data"}
         }).then(res => {
             const mypageurl = "/api/lv0/m/mypage";
             axios({
                 method: "get",
                 url: mypageurl,
-                data: { userNick: userNick },
+                data: {userNick: userNick},
             }).then(res => {
                 if (res.data) {
-                    console.log("if res", res);
-                    console.log("if data", res.data);
                     const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
                     storedData.img = res.data.img;
 
                     const newData = JSON.stringify(storedData);
-                    console.log("이미지" + newData);
                     sessionStorage.setItem("data", newData);
 
                     setProfileImageUrl(res.data.img);
@@ -109,41 +156,37 @@ function Mypage(props) {
         });
     };
 
-    // const handleDescChange = async () => {
-    //     const url = "/api/lv1/m/desc";
-    //     try {
-    //         const res = await axios.patch(url, desc,{ headers: { 'Content-Type': 'application/json' } } );
-    //         if (res.data === true) {
-    //             console.log(desc);
-    //             console.log(res.data);
-    //             alert("되는거");
-    //         } else {
-    //             alert("안되는거");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error:", error);
-    //     }
-    // };
+
+    const [userStorageDesc, setUserStorageDesc] = useRecoilState(UserStorageDesc);
 
     const handleDescChange = async () => {
         const url = "/api/lv1/m/desc";
         axios({
-            method: 'patch',
+            method: "patch",
             url: url,
-            data: JSON.stringify({"desc":desc}),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(res=>{
-            console.log("왜 따옴표 ?",desc);
-            if(res.data === true){
-                console.log("왜 따옴표 ?",desc);
-                alert("성공");
-            }else {
-                alert("실패");
-            }
+            data: JSON.stringify({"desc": desc}),
+            headers: {'Content-Type': 'application/json'},
+        }).then(res => {
+            const mypageurl = "/api/lv0/m/mypage";
+            const data = {userNick: userNick}
+            axios
+                .get(mypageurl, data)
+                .then(res => {
+                    if (res.data) {
+                        const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
+                        console.log("storedData desc true" + storedData);
+                        storedData.desc = res.data.desc;
+
+                        const newData = JSON.stringify(storedData);
+                        sessionStorage.setItem("data", newData);
+                        setUserStorageDesc(res.data.desc);
+                        alert("변경됨");
+                    } else {
+                        alert("변경안됨");
+                    }
+                })
         })
     }
-
-
 
     useEffect(() => {
         setProfileImageUrl(profile);
@@ -175,20 +218,37 @@ function Mypage(props) {
                             </div>
                         </div>
 
-                                <div className="mypagechangeinfobox" onClick={showEmailConfirmModal}>
-                                    <div className="mypagechangeinfobutton">
-                                        <div className="mypagechangeinfosurface" />
-                                        <div className="mypageemailsendlabel">이메일 인증</div>
-                                    </div>
+                        {emailconfirm === 1 ?
+                            <div className="mypagechangeinfobox" onClick={showEmailConfirmModal}>
+                                <div className="mypagechangeinfobutton">
+                                    <div className="mypagechangeinfosurface"/>
+                                    <div className="mypageemailsendlabel">이메일 인증됨</div>
                                 </div>
-
-
-                        <div className="mypagechangeinfobox" onClick={showPhoneConfirmModal}>
-                            <div className="mypagechangeinfobutton">
-                                <div className="mypagechangeinfosurface"/>
-                                <div className="mypageemailsendlabel">휴대폰 인증</div>
+                            </div> :
+                            <div className="mypagechangeinfobox" onClick={showEmailConfirmModal}>
+                                <div className="mypagechangeinfobutton">
+                                    <div className="mypagechangeinfosurface"/>
+                                    <div className="mypageemailsendlabel">이메일 인증</div>
+                                </div>
                             </div>
-                        </div>
+                        }
+
+                        {phoneconfirm === 1 ?
+                            <div className="mypagechangeinfobox" onClick={showPhoneConfirmModal}>
+                                <div className="mypagechangeinfobutton">
+                                    <div className="mypagechangeinfosurface"/>
+                                    <div className="mypageemailsendlabel">휴대폰 인증됨</div>
+                                </div>
+                            </div>
+                            :
+                            <div className="mypagechangeinfobox" onClick={showPhoneConfirmModal}>
+                                <div className="mypagechangeinfobutton">
+                                    <div className="mypagechangeinfosurface"/>
+                                    <div className="mypageemailsendlabel">휴대폰 인증</div>
+                                </div>
+                            </div>
+                        }
+
                         <div className="mypagechangeinfobox" onClick={showBlackListOptionModal}>
                             <div className="mypagechangeinfobutton">
                                 <div className="mypagechangeinfosurface"/>
@@ -197,7 +257,7 @@ function Mypage(props) {
                         </div>
                         <div className="mypagechangeinfobox" onClick={showOutMemberModal}>
                             <div className="mypagechangeinfobutton">
-                                <div className="mypagechangeinfosurface" />
+                                <div className="mypagechangeinfosurface"/>
                                 <div className="mypagesecessionlabel">회원탈퇴</div>
                             </div>
                         </div>
@@ -208,11 +268,25 @@ function Mypage(props) {
                                 {userdesc}
                             </div>
                         </div>
-                        <input type='text' style={{marginTop:'50px'}} value={desc}
-                               onChange={(e)=>setUserDescInput(e.target.value)}></input>
-                        <button type={'button'} onClick={handleDescChange}>테스트</button>
-                        <div  className="mypageonelinerbox">
+
+                        <div >
+                            <div className="userdescchangesection">
+                                <input
+                                    className={'userdescinput'}
+                                    type="text"
+                                    value={desc}
+                                    onChange={(e) => setUserDescInput(e.target.value)}
+                                />
+                                <div className="userdescchangebtngroup">
+                                    <button type="button" onClick={handleDescChange} className="userdescchangebtn">
+                                        변경
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mypageonelinerbox">
                             <div className="mypageonelinertext">한줄소개</div>
+                            <div className={'mypageonelinersubtext'}>메세지를 클릭하여 수정할 수 있습니다</div>
                             <img
                                 className="mypagecommunicationicon"
                                 alt=""
@@ -225,19 +299,23 @@ function Mypage(props) {
                             <div className="mypagefollowingnumber">45명</div>
                             <div className="mypagefollowingtext">팔로잉</div>
                         </label>
-                        <div className="mypagefollowbox">
+                        <div className="mypagefollowbox" onClick={showTargetListModal}>
                             <div className="mypagefollowtext">팔로워</div>
                             <div className="mypagefollownumber">1200명</div>
                         </div>
+                        <div className={'mypageblacklistfrmae'} onClick={showBlackListModal}>
+                            <div className={'mypageblacklistfrmae'}>블랙</div>
+                        </div>
                     </div>
+
                 </div>
                 <div className="mypagememberprofileframe">
 
-                        <img
-                            className="mypagememberprofileimg-icon"
-                            alt=""
-                            src={`${bucket}/profile/${profileImageUrl}`}
-                        />
+                    <img
+                        className="mypagememberprofileimg-icon"
+                        alt=""
+                        src={loginStatus && profileImageUrl ? `${bucket}/profile/${profileImageUrl}` : logo }
+                    />
 
                     <input
                         type="file"
@@ -246,12 +324,23 @@ function Mypage(props) {
                         onChange={memberProfileChange}
                     />
                 </div>
+                {isBlackListModalOpen && <BlackListModal setisBlackListModalOpen={setisBlackListModalOpen}/>}
+                {isTargetListModalOpen && <FollowerListModal setisTargetListModalOpen={setisTargetListModalOpen}/>}
                 {isOutMemberModalOpen && <OutMemberModal setIsOutMemberModalOpen={setIsOutMemberModalOpen}/>}
                 {isInfoChangeModalOpen && <InfoChageModal setIsInfoChangeModalOpen={setIsInfoChangeModalOpen}/>}
-                {isEmailConfirmModalOpen && <EmailConfirmModal setisEmailConfirmModalOpen={setisEmailConfirmModalOpen}/>}
-                {isPhoneConfirmModalOpen && <PhoneConfirmModal setisPhoneConfirmModalOpen={setisPhoneConfirmModalOpen}/>}
-                {isBlackListOptionModalOpen && <BlackListOptionModal setisBlackListOptionModalOpen={setisBlackListOptionModalOpen}/>}
-                {isFollowListModalOpen && <FollowListModal setisFollowListModalOpen={setisFollowListModalOpen}/>}
+                {isEmailConfirmModalOpen &&
+                    <EmailConfirmModal setisEmailConfirmModalOpen={setisEmailConfirmModalOpen}/>}
+                {isPhoneConfirmModalOpen &&
+                    <PhoneConfirmModal setisPhoneConfirmModalOpen={setisPhoneConfirmModalOpen}/>}
+                {isBlackListOptionModalOpen &&
+                    <BlackListOptionModal setisBlackListOptionModalOpen={setisBlackListOptionModalOpen}/>}
+                {isFollowListModalOpen && (
+                    <FollowListModal
+                        setisFollowListModalOpen={setisFollowListModalOpen}
+                        followMember={followMember}
+                    />
+                )}
+
             </div>
         </div>
     );

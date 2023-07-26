@@ -3,9 +3,8 @@
 .findmodaltitle {
     position: absolute;
     top: 0;
-    text-align: center;
+    left: 1000px;
     font-weight: 500;
-    border: 1px solid green;
 }
 .findmodaltitlegroup {
     position: absolute;
@@ -46,6 +45,7 @@
     width: 12.75rem;
     height: 4rem;
     border: none;
+    outline: none;
 }
 .findidinputverfiy{
     position: absolute;
@@ -56,6 +56,7 @@
     width: 17.8rem;
     height: 4rem;
     border: none;
+    outline: none;
 }
 .findidinputemailgroup {
     position: relative;

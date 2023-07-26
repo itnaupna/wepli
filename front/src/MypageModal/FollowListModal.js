@@ -1,37 +1,102 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import "./css/FollowListModal.css";
 import backarrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import axios from "axios";
-function FollowListModal({setisFollowListModalOpen}) {
+import {useRecoilState, useRecoilValue} from "recoil";
+import {FollowListAtom, FollowMemberAtom} from "../recoil/FollowAtom";
+import weplilogo from "./photo/weplieonlylogoonlylogo.png";
+
+function FollowListModal({ setisFollowListModalOpen  }) {
 
     const closeFollowListModal = async () => {
         await setisFollowListModalOpen(false);
     }
 
-    const [followMember, setFollowMemeber] = useState([]);
 
-    useEffect(()=>{
-        handleFollowList();
-        followMember.forEach(member => {
-            console.log("닉네임:", member.nickname);
-        });
-    },[]);
+    const followMember = useRecoilValue(FollowMemberAtom);
+    /*const [followMember, setFollowMember] = useRecoilState(FollowMemberAtom);*/
+    const [followMember1, setFollowMember] = useRecoilState(FollowMemberAtom);
 
-    const handleFollowList = () => {
-        const url = "/api/lv2/f/follow";
+    const tValues = followMember.map((item) => item.t);
+    console.log("t 값들", tValues);
+    const data = sessionStorage.getItem("data") || localStorage.getItem("data");
 
+    const storagedata = JSON.parse(data);
+    const usernick = storagedata.nick;
+    console.log("팔로우리스트",storagedata);
+    const lstfollow = storagedata.lstfollow;
+    console.log("팔로우 팔로우",lstfollow);
+
+
+    const bucket = process.env.REACT_APP_BUCKET_URL;
+    const handleBlack = async (tValues) => {
+        // const url = "/api/lv2/b/blacklist";
+        const url = `/api/lv2/b/addblacklist?target=${tValues}`;
+
+        console.log("tValues:", tValues);
         axios
-        .get(url).then(res => {
-            setFollowMemeber(res.data);
-            console.log("follow 멤버", res.data);
-        });
+            .post(url)
+            .then(res=>{
+                if(res.data === true){
+                    alert("dd");
+                }else{
+                    alert("ss");
+                }
+            });
     }
+
+    const handleUnFollow = (tValue) => {
+        const url = `/api/lv2/f/unfollow?target=${tValue}`;
+        console.log("핸들언팔로우 벨류",tValue);
+        axios({
+            method: 'delete',
+            url: url
+        }).then(res=>{
+            const mypageurl = "/api/lv0/m/mypage";
+            axios({
+                method: "get",
+                url: mypageurl,
+                data: { userNick: usernick },
+            }).then(res => {
+                alert("언팔로우");
+                if (res.data) {
+                    console.log("if data", res.data);
+                    const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
+                    storedData.lstfollow = res.data.lstfollow;
+
+                    const newData = JSON.stringify(storedData);
+                    console.log("이미지" + newData);
+                    sessionStorage.setItem("data", newData);
+                    console.log("방금 썻어요" + res.data.lstfollow);
+                    setFollowMember(res.data.lstfollow);
+
+                    alert("언팔로우 후 데이터 값 넣기");
+                } else {
+                    alert("꽝");
+                }
+            })
+        })
+    }
+
+
+
+    // useEffect(()=>{
+    //     const url = "/api/lv2/f/follow";
+    //
+    //     axios
+    //         .get(url).then(res => {
+    //         setFollowMember(res.data);
+    //         console.log("follow 멤버", res.data);
+    //     });
+    // },[]);
+
 
 
     return (
         <div>
             <div className="followmodalframe" onClick={closeFollowListModal}></div>
+
                 <div className="followmodalwapper">
                     <div className="followmodalgroup">
                         <div className="followmodallayout">
@@ -50,35 +115,43 @@ function FollowListModal({setisFollowListModalOpen}) {
                                     alt=""
                                     src={logo}
                                 />
+
                             </div>
                             <div className="followmodalveticalframe">
-                                <div className="followmodallist">
+                                {
+                                    followMember.map((item,idx) => (
+                                <div className="followmodallist" key={idx}>
                                     <img
                                         className="followmodalthumbnail-icon"
                                         alt=""
-                                        src={logo}
+                                        src={item.img ? `${bucket}/profile/${item.img}` : weplilogo}
+                                        onError={(e) => (e.target.src = weplilogo)}
                                     />
+
                                     <div className="followmodalinfogroup">
                                         <div className="followmodalmembernicknametext">
-                                            닉네임들어가는자리
+                                            {item.t}
                                         </div>
-                                        {/*<div className="followmodalmembercounttext">*/}
-                                        {/*    */}
-                                        {/*</div>*/}
+                                        <div className="followmodalmembercounttext">
+                                            팔로워 {item.cnt}
+                                        </div>
                                     </div>
                                     <div className="followmodalbtngroup">
                                         <div className="followmodalbtnsection">
                                             <div className="followmodalblackbtnframe">
                                                 <div className="followmodalblackbtnrectangle" />
-                                                <button type={'button'} className="followmodalblackbtntext">블랙</button>
+                                                <button type={'button'} className="followmodalblackbtntext"
+                                                        onClick={() => handleBlack(item.t)}>블랙</button>
                                             </div>
                                             <div className="followmodalfollowbtnframe">
                                                 <div className="followmodalfollowbtnrectangle" />
-                                                <button type={'button'} className="followmodalfollowbtntext">팔로우</button>
+                                                <button type={'button'} className="followmodalfollowbtntext"
+                                                onClick={()=> handleUnFollow(item.t)}>팔로우</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                    ))}
                             </div>
                         </div>
                     </div>

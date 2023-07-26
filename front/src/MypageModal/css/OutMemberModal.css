@@ -57,6 +57,7 @@
     width: 18.5rem;
     height: 4rem;
     border: none;
+    outline: none;
 }
 .mypageoutmemebermodalpassinput {
     position: relative;

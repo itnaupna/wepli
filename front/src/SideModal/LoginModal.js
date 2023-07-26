@@ -98,10 +98,7 @@ function LoginModal() {
     const code = new URL(window.location.href).searchParams.get("code");
 
     const PARAMS = new URL(document.location).searchParams
-
-    // const KAKAO_CODE = PARAMS.get('code');
-
-
+    
     const handlekakao = () => {
         window.location.href = KAKAO_AUTH_URL;
     }

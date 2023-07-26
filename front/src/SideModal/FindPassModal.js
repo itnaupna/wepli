@@ -132,7 +132,7 @@ function FindPassModal() {
                 </div>
                 <div className="findpassemailbtngroup">
                     <div className="findpassemailbtn"/>
-                    <button type={'button'} className="findpassemailbtnsendtext" onClick={handleRequestCodeFind}>인증번호 전송</button>
+                    <button type={'button'} className="findpassemailbtnsendtext" onClick={handleRequestCodeFind}>전송</button>
                 </div>
                 <div className="findpassinputemailgroup">
                     <input className="findpassinputcode" placeholder={'인증번호를 입력해주세요'} value={verifyCode}
