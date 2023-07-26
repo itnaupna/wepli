@@ -33,7 +33,8 @@ public class FollowService {
         if(userNick != null && !userNick.equals("")) {
             nickAndUserNick.put("userNick", userNick);
         }
-        
+        log.info("selectFollowList -> {}", nick);
+        log.info("selectFollowList -> {}", userNick);
         return followMapper.selectFollowlist(nickAndUserNick); 
     }
     
@@ -46,7 +47,8 @@ public class FollowService {
         if(userNick != null && !userNick.equals("")) {
             nickAndUserNick.put("userNick", userNick);
         }
-
+        log.info("selectFollowerlist -> {}", nick);
+        log.info("selectFollowerlist -> {}", userNick);
         return followMapper.selectFollowerlist(nickAndUserNick);
     }
 
@@ -110,7 +112,8 @@ public class FollowService {
     public boolean deleteFollowlist(String token, String target) {
         Map<String, String> data = new HashMap<>();
         String follow = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        data.put("follow", target);
+        log.info("deleteFollowlist -> {}", target);
+        data.put("nick", target);
         data.put("target", follow);
         return followMapper.unFollowlist(data) > 0;
     }

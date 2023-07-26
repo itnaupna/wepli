@@ -39,7 +39,14 @@ function MemberPage(props) {
 
             console.log(res.data);
         }).catch(error => {
-            alert(error);
+            if(error.response.status === 401) {
+                alert("로그인 후 사용가능한 기능입니다");
+            } else if(error.response.status === 403) {
+                alert("메일 또는 문자인증 후 사용 가능합니다");
+            } else {
+                alert("알수없는 오류");
+            }
+            
         })
     }
 
@@ -53,12 +60,19 @@ function MemberPage(props) {
             setData({...data, blackChk: res.data, followChk: 0});
             console.log(res.data);
         }).catch(error => {
-            alert(error);
+            if(error.response.status === 401) {
+                alert("로그인 후 사용가능한 기능입니다");
+            } else if(error.response.status === 403) {
+                alert("메일 또는 문자인증 후 사용 가능합니다");
+            } else {
+                alert("알수없는 오류");
+            }
         })
     }
 
     useEffect(() => {
         hadlememberPage();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.followChk,userNick]);
     return (
         <div>

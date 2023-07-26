@@ -39,7 +39,7 @@ function SideBar(props) {
     const [findPwChangeModalOpen,setFindPwChangeModalOpen] = useRecoilState(FindPwChangeModalOpen);
     const profileImage1= useRecoilValue(ProfileImageUrl);
     useEffect(()=>{
-        console.log(loginStatus);
+        console.log("SideBar -> ",loginStatus);
         try {
             setProfileImage(JSON.parse(localStorage.data || sessionStorage.data).img);
             console.log("개발개발",setProfileImage);
@@ -107,7 +107,7 @@ function SideBar(props) {
         }
     };
 
-    {/* 버밋 url */}
+    {/* 버킷 url */}
     const bucket = process.env.REACT_APP_BUCKET_URL;
 
     {/* 로고 default 이미지 */}
