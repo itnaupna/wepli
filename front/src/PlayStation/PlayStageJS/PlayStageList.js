@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import '../PlayStageCss/s-l-p.css';
 import SLPFollowBackIcon from '../PlayStageImage/Icon/SLPFollowBackIcon.svg';
 import SLPFollowNextIcon from '../PlayStageImage/Icon/SLPFollowNextIcon.svg';
@@ -9,7 +9,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import SearchBar from "./PlayStageSearchBar.js";
 import StageSlide from './StageSlide.js';
-
+import {useInView} from "react-intersection-observer";
 
 function PlayStageList(props) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -72,8 +72,6 @@ function PlayStageList(props) {
   },[]);
 
 
-
-    
   return (
     <div className="slp">
       {showTop &&(
@@ -137,10 +135,10 @@ function PlayStageList(props) {
           {
             resItems.map((v, i) =>
               <Link to={"/stage/" + v.address}>
-                <ResultItem data={v} key={i} />
+                <ResultItem data={v} key={i}/>
               </Link>
             )
-          }
+          }          
         </div>
       </div>
     </div>
