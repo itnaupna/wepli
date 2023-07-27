@@ -1,6 +1,5 @@
-
 import './App.css';
-import {BrowserRouter, Navigate, Route, Routes, useLocation} from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import PlayListMain01PlayListRangkingMain from "./PlayListMain/PlayListMain01PlayListRangkingMain";
 import PlayListMain02PlayListSearchMain from "./PlayListMain/PlayListMain02PlayListSearchMain";
 import MainPage from "./main/MainPage";
@@ -15,10 +14,10 @@ import { useEffect, useState } from "react";
 import KakaoCallback from "./KakaoCallback";
 import Mypage from "./mypage/Mypage";
 import { conSocket } from './recoil/SocketAtom';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import { YoutubeAtom } from './recoil/YoutubeAtom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { IsPlayingAtom, YoutubeAtom, loadVideoById } from './recoil/YoutubeAtom';
 import Hyukmain from "./hyukmain";
-import {isPasswordEnteredState, LoginStatusAtom} from './recoil/LoginStatusAtom';
+import { isPasswordEnteredState, LoginStatusAtom } from './recoil/LoginStatusAtom';
 import AddPlayLsit from "./PlayListMain/AddPlayList";
 import PlayListUpdate from "./PlayListMain/PlayListUpdate";
 import NaverCallback from './NaverCallback';
@@ -26,46 +25,69 @@ import MemberPage from './mypage/MemberPage';
 import { LoginModalOpen, pwChkModalOpen } from './recoil/FindIdModalAtom';
 import LoginModal from './SideModal/LoginModal';
 import PwChkModal from './SideModal/PwChkModal';
-import { UrlChk } from './recoil/MypageModalAtom';
+import YouTube from 'react-youtube';
+import MusicBarV2 from './MusicbarV2/MusicBarV2';
+
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
-    const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
+    const [loginStatus, setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [pwChkmodalOpen, setpwChkmodalOpen] = useRecoilState(pwChkModalOpen);
     const [loginmodalopen, setloginmodalopen] = useRecoilState(LoginModalOpen);
     const isPasswordEntered = useRecoilValue(isPasswordEnteredState);
-    const URLchk = useRecoilValue(UrlChk);
+    const [showController, setShowController] = useRecoilState(IsPlayingAtom);
+    const opt = {
+        playerVars: {
+            autoplay: 1,
+            controls: 0,
+            disablekb: 1,
+            iv_load_policy: 3,
+            volume:10,  
+            // mute:1,
+        }
+    }
 
 
     useEffect(() => {
-        console.log("Appjs ->", URLchk);
         conSocket();
     }, []);
+
+    useEffect(() => {
+        if (YTP !== null) {
+            YTP.loadPlaylist(['pfUdcAvxh_Q', 'Syb1e8XsI90']);
+            // YTP.loadVideoById('pfUdcAvxh_Q', 0);
+            YTP.setVolume(10);
+        }
+    }, [YTP]);
 
 
     return (
         <BrowserRouter>
-            {YTP}
+            <YouTube style={{display: 'none'
+            }} onReady={(e) => { setYTP(e.target); }} onStateChange={(e) => {
+                setShowController(e.target.getPlayerState());
+            }} opts={opt} />
             <SideBar />
-            {/* {videoInfo.isPlaying ? <MusicPlayerBar/> : null} */}
-            {/*<MusicPlayerBar/>*/}
+            <MusicBarV2 />
+            {/* <MusicPlayerBar/> */}
+            {/* {showController  && <MusicPlayerBar/>} */}
             <div className="backgroundImgDiv" />
             <Routes>
                 <Route path="/" element={<MainPage />} />
 
-                {URLchk == "/mypage" && loginStatus && !isPasswordEntered? 
+                {window.location.pathname === "/mypage" && loginStatus && !isPasswordEntered ?
                     setpwChkmodalOpen(true)
-                     : setpwChkmodalOpen(false)
+                    : setpwChkmodalOpen(false)
                 }
                 {loginStatus && isPasswordEntered ?
                     <Route path="/mypage" element={<Mypage />} /> :
                     ""
                 }
-                <Route path="/mypage/:userNick" element={<MemberPage/>}/>
+                <Route path="/mypage/:userNick" element={<MemberPage />} />
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
-                <Route path="/pli/:pliId" element={<PlayListDetail/>}/>
-                <Route path="/pliupdate/:pliId" element={<PlayListUpdate/>}/>
-                <Route path="/addpli" element={<AddPlayLsit/>} />
+                <Route path="/pli/:pliId" element={<PlayListDetail />} />
+                <Route path="/pliupdate/:pliId" element={<PlayListUpdate />} />
+                <Route path="/addpli" element={<AddPlayLsit />} />
                 <Route path="/mypli" element={<PlayListMain03MyPlayListMain />} />
                 <Route path="/stage/:stageUrl" element={<PlayStage />} />
                 <Route path="/stage" element={<PlayStageList />} />
@@ -75,7 +97,7 @@ function App() {
                 <Route path="/*" element={
                     <h1 style={{ width: "100%", textAlign: "center", marginTop: "25%", position: "absolute" }}>페이지가 없습니다</h1>
                 } />
-                <Route path={"/hyuk"} element={<Hyukmain/>}/>
+                <Route path={"/hyuk"} element={<Hyukmain />} />
             </Routes>
 
             {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen} />}

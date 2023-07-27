@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import QueueComponent from './QueueComponent';
 import YouTube from 'react-youtube';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { YTPOptionAtom, YoutubeAtom, loadVideoById, videoStatus } from '../../recoil/YoutubeAtom';
+import { YTPOptionAtom, YoutubeAtom, loadVideoById } from '../../recoil/YoutubeAtom';
 import SettingModal from './SettingModal.js';
 
 const StageLeftSide = () => {
@@ -145,16 +145,6 @@ const StageLeftSide = () => {
             </div> */}
             <div className="stage-left-body" style={{ display: leftType ? 'block' : 'none' }}>
                 <div className='youtubebox'>
-                    <button onClick={() => {
-                        loadVideoById("bHQqvYy5KYo", 5, "large");
-                    }}>
-                        즐
-                    </button><br />
-                    <button onClick={() => {
-                        videoStatus();
-                    }}>
-                        즐
-                    </button>
                     <br />
                     {/* {YTP} */}
                     <YouTube opts={YTPOptionAtom} />

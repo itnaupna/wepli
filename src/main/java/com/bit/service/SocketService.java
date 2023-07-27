@@ -203,13 +203,17 @@ public class SocketService {
                     msg.setType(Types.QUEUE_IN);
                 }
                 msg.setMsg(stageService.getRoomQueueList(msg.getStageId()));
+                if (!stageService.isPlaying(msg.getStageId())) {
+                    //큐 변경이 있을때 재생중인 곡이 없으면 곡을 재생하도록 한다.
+                    RequestPlay(msg.getStageId());
+                }
                 break;
             case CHAT:
                 msg.setImg(memberService.getUserImg(msg.getUserNick()));
                 break;
             case PLAY:
                 // stageService.setVideoInStage(msg.getStageId());
-
+                System.out.println("재생정보 보냄" + msg.toString());
                 break;
             case QUEUE_DATA:
                 break;
