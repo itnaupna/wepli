@@ -13,8 +13,8 @@ import SignUpModal from "../SideModal/SignUpModal";
 import axios from "axios";
 import PwChkModal from "../SideModal/PwChkModal";
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {DataState, LoginStatusAtom, ProfileImageUrl} from '../recoil/LoginStatusAtom';
-import {findIdModalOpenState, findIdSuccessModalOpenState, LoginModalOpen, pwChkModalOpen, FindPassModalOpen, SignUpModalOpen, FindPwChangeModalOpen} from "../recoil/FindIdModalAtom";
+import {DataState, LoginStatusAtom, ProfileImageUrl, socialTypeState} from '../recoil/LoginStatusAtom';
+import {findIdModalOpenState, findIdSuccessModalOpenState, LoginModalOpen, pwChkModalOpen, FindPassModalOpen, SignUpModalOpen, FindPwChangeModalOpen, socialtypeState} from "../recoil/FindIdModalAtom";
 import FindIdSuccessModal from "../SideModal/FindIdSuccessModal";
 import FindPwChangeModal from "../SideModal/FindPwChangeModal";
 
@@ -31,16 +31,26 @@ function SideBar(props) {
     const [findPassModalOpen, setFindPassModalOpen] = useRecoilState(FindPassModalOpen);
     const [findPwChangeModalOpen,setFindPwChangeModalOpen] = useRecoilState(FindPwChangeModalOpen);
     const profileImage1= useRecoilValue(ProfileImageUrl);
+    const [isSocial, setIsSocial] = useState();
+
 
     useEffect(()=>{
         console.log("SideBar -> ",loginStatus);
+        let social = window.localStorage.getItem("data");
+        if(social == null) {
+            social = window.sessionStorage.getItem("data");
+        } 
+        console.log(social);
+        if(social && social.includes("socialtype")) {
+            setIsSocial(JSON.parse(social).socialtype == null ? false : true);
+        }
+        console.log(isSocial);
         try {
             setProfileImage(JSON.parse(localStorage.data || sessionStorage.data).img);
-            console.log("개발개발",setProfileImage);
         } catch (error) {
 
         }
-    },[loginStatus,profileImage1]);
+    },[loginStatus, profileImage1, isSocial]);
 
     {/* 사이드 메뉴 이동 */}
     //로그인 모달 오픈
@@ -93,7 +103,11 @@ function SideBar(props) {
         e.preventDefault();
         if (loginStatus) {
             console.log("뭐냐?", loginStatus);
-            setpwChkmodalOpen(true);
+            if(!isSocial) {
+                setpwChkmodalOpen(true);
+            } else {
+                navigate("/mypage");
+            }
         } else {
             setloginmodalopen(true);
         }

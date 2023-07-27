@@ -23,24 +23,30 @@ import AddPlayLsit from "./PlayListMain/AddPlayList";
 import PlayListUpdate from "./PlayListMain/PlayListUpdate";
 import NaverCallback from './NaverCallback';
 import MemberPage from './mypage/MemberPage';
-import { LoginModalOpen, pwChkModalOpen } from './recoil/FindIdModalAtom';
+import { LoginModalOpen, pwChkModalOpen, socialtypeState } from './recoil/FindIdModalAtom';
 import LoginModal from './SideModal/LoginModal';
 import PwChkModal from './SideModal/PwChkModal';
-import { UrlChk } from './recoil/MypageModalAtom';
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [pwChkmodalOpen, setpwChkmodalOpen] = useRecoilState(pwChkModalOpen);
     const [loginmodalopen, setloginmodalopen] = useRecoilState(LoginModalOpen);
     const isPasswordEntered = useRecoilValue(isPasswordEnteredState);
-    const URLchk = useRecoilValue(UrlChk);
-
-
+    const [isSocial, setIsSocial] = useState();
+    
     useEffect(() => {
-        console.log("Appjs ->", URLchk);
+        let social = window.localStorage.getItem("data");
+        if(social == null) {
+            social = window.sessionStorage.getItem("data");
+        }
+        if(social && social.includes("socialtype")) {
+            setIsSocial(JSON.parse(social).socialtype == null ? false : true);
+            console.log(JSON.parse(social).socialtype);
+        }
+        console.log(isSocial);
         conSocket();
-    }, []);
-
+    }, [isSocial,loginStatus]);
+    
 
     return (
         <BrowserRouter>
@@ -52,11 +58,11 @@ function App() {
             <Routes>
                 <Route path="/" element={<MainPage />} />
 
-                {URLchk == "/mypage" && loginStatus && !isPasswordEntered? 
+                {window.location.pathname === "/mypage" && loginStatus && !isPasswordEntered && !isSocial ? 
                     setpwChkmodalOpen(true)
-                     : setpwChkmodalOpen(false)
+                     : ""
                 }
-                {loginStatus && isPasswordEntered ?
+                {loginStatus && (isPasswordEntered || isSocial)?
                     <Route path="/mypage" element={<Mypage />} /> :
                     ""
                 }

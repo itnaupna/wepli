@@ -4,6 +4,8 @@ import message from "./svg/message.svg";
 import logo from "./photo/wplieonlylogo.png";
 import Axios from 'axios';
 import FollowingAndFollowerModal from './../MypageModal/FollowingAndFollowerModal';
+import { useRecoilState } from 'recoil';
+import { LoginModalOpen } from '../recoil/FindIdModalAtom';
  
 function MemberPage(props) {
     const bucket = process.env.REACT_APP_BUCKET_URL;
@@ -11,6 +13,8 @@ function MemberPage(props) {
     const [followingAndFollowerModalOpen, setFollowingAndFollowerModalOpen] = useState(false);
     const [data, setData] = useState({nick: "", img: "", desc: "", followCnt: 0, followerCnt: 0, followChk: 0, blackChk: 0});
     const [value, setvalue] = useState("");
+    const [loginmodalopen, setloginmodalopen] = useRecoilState(LoginModalOpen);
+
 
     const showFollowingAndFollowListModal = (target) => {
         setFollowingAndFollowerModalOpen(true);
@@ -41,6 +45,7 @@ function MemberPage(props) {
         }).catch(error => {
             if(error.response.status === 401) {
                 alert("로그인 후 사용가능한 기능입니다");
+                setloginmodalopen(true);
             } else if(error.response.status === 403) {
                 alert("메일 또는 문자인증 후 사용 가능합니다");
             } else {
@@ -62,6 +67,7 @@ function MemberPage(props) {
         }).catch(error => {
             if(error.response.status === 401) {
                 alert("로그인 후 사용가능한 기능입니다");
+                setloginmodalopen(true);
             } else if(error.response.status === 403) {
                 alert("메일 또는 문자인증 후 사용 가능합니다");
             } else {
