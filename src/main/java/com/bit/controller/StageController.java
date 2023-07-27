@@ -3,7 +3,6 @@ package com.bit.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bit.dto.MypageDto;
 import com.bit.dto.StageDto;
 import com.bit.dto.StageHistoryDto;
 import com.bit.service.ImgUploadService;

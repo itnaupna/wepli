@@ -71,6 +71,13 @@
     <select id="selectMypageDto" parameterType="string" resultType="MypageDto">
         select * from vwMypage where nick=#{nick}
     </select>
+
+    <select id="selectMypageDtoAndFollowCnt" parameterType="string" resultType="Map">
+        select *,
+        (select count(*) from tblFollow where follow = #{nick}) followCnt,
+        (select count(*) from tblFollow where target = #{nick}) followerCnt
+        from vwMypage where nick = #{nick}
+    </select>
     
     <select id="selectMypageDtoByEmail" parameterType="string">
         select * from vwMypage where email=#{email}

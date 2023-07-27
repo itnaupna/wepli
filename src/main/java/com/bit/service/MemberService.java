@@ -17,6 +17,7 @@ import com.bit.dto.MypageDto;
 import com.bit.dto.TokenDto;
 import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.BlacklistMapper;
+import com.bit.mapper.FollowMapper;
 import com.bit.mapper.MemberMapper;
 import com.bit.mapper.PlaylistMapper;
 import com.bit.mapper.StageMapper;
@@ -42,6 +43,8 @@ public class MemberService {
     @Autowired
     BlacklistMapper blacklistMapper;
     @Autowired
+    FollowMapper followMapper;
+    @Autowired
     NcpObjectStorageService ncpObjectStorageService;
 
     public final long JWT_TOKEN_VALIDITY_ONEDAY = 1000 * 60 * 60 * 24;
@@ -50,6 +53,12 @@ public class MemberService {
     public boolean joinMember(MemberDto mDto) {
         System.out.println(mDto);
         try {
+            if(mDto.getSocialtype() == null) {
+                mDto.setEmailconfirm(0);
+            } else {
+                mDto.setEmailconfirm(1);
+                mDto.setPw(mDto.getEmail() + mDto.getNick() + mDto.getSocialtype());
+            }
             mDto.setEmailconfirm(mDto.getSocialtype() == null ? 0 : 1);
             log.info("{}",mDto.getEmailconfirm());
             if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1 || mDto.getNick().length() > 10 ) {
@@ -114,14 +123,11 @@ public class MemberService {
 
     // 이메일 인증
     public boolean emailConfirm(String email) {
-        // TODO :(확인) 이메일 인증 알고리즘 추가
         return memberMapper.updateEmailConfirm(email) > 0;
     }
 
     // 전화번호 인증
     public boolean phoneConfirm(String phone) {
-
-        // TODO : 전화 인증 알고리즘 추가
         return memberMapper.updatePhoneConfirm(phone) > 0;
 
     }
@@ -178,6 +184,12 @@ public class MemberService {
             }
         }
 
+        boolean checkEmail = Pattern.matches("^[a-zA-Z0-9]+@[0-9a-zA-Z]+\\.[a-z]+$",mDto.getEmail());
+        if(!checkEmail) {
+            result.put("result", false);
+            response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+            return result;
+        }
         data.put("nick", nick);
         System.out.println(data);                
         memberMapper.updateInfo(data);
@@ -247,19 +259,31 @@ public class MemberService {
     }
 
     // 닉넴으로 마이페이지 정보 불러오기
-    public MypageDto selectMypageDto(String token, String userNick, HttpServletResponse response) {
+    public Map<String, Object> selectMypageDto(String token, String userNick, HttpServletResponse response) {
         String nick = null;
+        int followChk = 0;
+        int blackChk = 0;
         if(token == null && userNick == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);            
         } else if(token != null && !token.equals("")) {
             nick = jwtTokenProvider.getUsernameFromToken(token.substring(6)); 
+            if(userNick != null && !userNick.equals("")) {
+                Map<String, String> followAndTarget = new HashMap<>();
+                followAndTarget.put("nick", nick);
+                followAndTarget.put("target", userNick);
+                
+                followChk = followMapper.isFollowchk(followAndTarget);
+                blackChk = blacklistMapper.isBlackchk(followAndTarget);
+            }
         }
         if(userNick == null || userNick.equals("")) {
             userNick = nick;
         }
-        
+        Map<String, Object> data = memberMapper.selectMypageDtoAndFollowCnt(userNick);
+        data.put("followChk", followChk);
+        data.put("blackChk", blackChk);
         log.info("after nick ->  {}", userNick);
-        return memberMapper.selectMypageDto(userNick);
+        return data;
     }
 
     //로그인 시도.

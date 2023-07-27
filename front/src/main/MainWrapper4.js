@@ -25,80 +25,83 @@ function MainWrapper4(props) {
     const img2 = likeTop3[2]?.img;
 
     return (
-        <div className="mainwrapper4">
-            <div className="mainwrapper4group">
-                <div className="mainwrapper4bottomtextgroup">
-                    <div className="mainwrapperbottomtitletextsect">
-                        <div className="mainwrapperbottomtitletext">WE MAKE PLAYLIST</div>
-                    </div>
-                    <div className="mainwrapperbottomsubtextsectio">
-                        <div className="mainwrapperbottomsubtext">share</div>
-                    </div>
-                </div>
-                <div className="mainwrapper4toptextgroup">
-                    <div className="mainwrappertoptitletextsection">
-                        <div className="mainwrappertoptitletext">PLAYLIST RANKING</div>
-                    </div>
-                    <div className="mainwrappertopsubtextsection">
-                        <div className="mainwrappertopsubtext">TOP 3</div>
-                    </div>
-                </div>
-                    {likeTop3.map((item,idx) =>
-                        <div className="mainwrapper4rankingsection" key={idx}>
-                            <div className="mainwrapper4secondrankgroup">
-                                <div className="mainwrapper4secondrankimggroup">
-                                    <img
-                                        className="mainwrapper4secondrankimg-icon"
-                                        alt=""
-                                        src={`${profileimg}${img1}`}
-                                    />
-                                </div>
-                                <div className="mainwrapper4secondrankingtextg">
-                                    <img
-                                        className="mainwrapper4seondheart-icon"
-                                        alt=""
-                                        src={heart}
-                                    />
-                                    <div className="mainwrapper4secondrankingtext">{likeTop3[1].likescount} {likeTop3[1].title}</div>
-                                </div>
-                            </div>
-                            <div className="mainwrapper4firstrankgroup">
-                                <div className="mainwrapper4firstrankimggroup">
-                                    <img
-                                        className="mainwrapper4firstrankimg-icon"
-                                        alt=""
-                                        src={`${profileimg}${img}`}
-                                    />
-                                </div>
-                                <div className="mainwrapper4firstrankingtextgr">
-                                    <img
-                                        className="mainwrapper4seondheart-icon"
-                                        alt=""
-                                        src={heart}
-                                    />
-                                    <div className="mainwrapper4firstrankingtext">{likeTop3[0].likescount} {likeTop3[0].title}</div>
-                                </div>
-                            </div>
-                            <div className="mainwrapper4thirdrankgroup">
-                                <div className="mainwrapper4thirdrankimggroup">
-                                    <img
-                                        className="mainwrapper4thirdrankimg-icon"
-                                        alt=""
-                                        src={`${profileimg}${img2}`}
-                                    />
-                                </div>
-                                <div className="mainwrapper4thirdrankingtextgr">
-                                    <img
-                                        className="mainwrapper4thirdheart-icon"
-                                        alt=""
-                                        src={heart}
-                                    />
-                                    <div className="mainwrapper4thirdrankingtext">{likeTop3[2].likescount} {likeTop3[2].title}</div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-            </div>
+        // <div className="mainwrapper4">
+        //     <div className="mainwrapper4group">
+        //         <div className="mainwrapper4bottomtextgroup">
+        //             <div className="mainwrapperbottomtitletextsect">
+        //                 <div className="mainwrapperbottomtitletext">WE MAKE PLAYLIST</div>
+        //             </div>
+        //             <div className="mainwrapperbottomsubtextsectio">
+        //                 <div className="mainwrapperbottomsubtext">share</div>
+        //             </div>
+        //         </div>
+        //         <div className="mainwrapper4toptextgroup">
+        //             <div className="mainwrappertoptitletextsection">
+        //                 <div className="mainwrappertoptitletext">PLAYLIST RANKING</div>
+        //             </div>
+        //             <div className="mainwrappertopsubtextsection">
+        //                 <div className="mainwrappertopsubtext">TOP 3</div>
+        //             </div>
+        //         </div>
+        //             {likeTop3.map((item,idx) =>
+        //                 <div className="mainwrapper4rankingsection" key={idx}>
+        //                     <div className="mainwrapper4secondrankgroup">
+        //                         <div className="mainwrapper4secondrankimggroup">
+        //                             <img
+        //                                 className="mainwrapper4secondrankimg-icon"
+        //                                 alt=""
+        //                                 src={`${profileimg}${img1}`}
+        //                             />
+        //                         </div>
+        //                         <div className="mainwrapper4secondrankingtextg">
+        //                             <img
+        //                                 className="mainwrapper4seondheart-icon"
+        //                                 alt=""
+        //                                 src={heart}
+        //                             />
+        //                             <div className="mainwrapper4secondrankingtext">{likeTop3[1].likesCount} {likeTop3[1].title}</div>
+        //                         </div>
+        //                     </div>
+        //                     <div className="mainwrapper4firstrankgroup">
+        //                         <div className="mainwrapper4firstrankimggroup">
+        //                             <img
+        //                                 className="mainwrapper4firstrankimg-icon"
+        //                                 alt=""
+        //                                 src={`${profileimg}${img}`}
+        //                             />
+        //                         </div>
+        //                         <div className="mainwrapper4firstrankingtextgr">
+        //                             <img
+        //                                 className="mainwrapper4seondheart-icon"
+        //                                 alt=""
+        //                                 src={heart}
+        //                             />
+        //                             <div className="mainwrapper4firstrankingtext">{likeTop3[0].likesCount} {likeTop3[0].title}</div>
+        //                         </div>
+        //                     </div>
+        //                     <div className="mainwrapper4thirdrankgroup">
+        //                         <div className="mainwrapper4thirdrankimggroup">
+        //                             <img
+        //                                 className="mainwrapper4thirdrankimg-icon"
+        //                                 alt=""
+        //                                 src={`${profileimg}${img2}`}
+        //                             />
+        //                         </div>
+        //                         <div className="mainwrapper4thirdrankingtextgr">
+        //                             <img
+        //                                 className="mainwrapper4thirdheart-icon"
+        //                                 alt=""
+        //                                 src={heart}
+        //                             />
+        //                             <div className="mainwrapper4thirdrankingtext">{likeTop3[2].likesCount} {likeTop3[2].title}</div>
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //             )}
+        //     </div>
+        // </div>
+        <div>
+
         </div>
     );
 }

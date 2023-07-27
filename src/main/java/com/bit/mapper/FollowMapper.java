@@ -10,9 +10,9 @@ import org.apache.ibatis.annotations.Mapper;
 public interface FollowMapper {
     
     //팔로우 목록 받아오기
-    public List<Map<String, Object>> selectFollowlist(String nick);
+    public List<Map<String, Object>> selectFollowlist(Map<String, String> nickAndUserNick);
     //팔로워 목록 받아오기
-    public List<Map<String, Object>> selectFollowerlist(String nick);
+    public List<Map<String, Object>> selectFollowerlist(Map<String, String> nickAndUserNick);
     //팔로우 추가
     public int insertFollowlist(Map<String,String> followAndTarget);
     //팔로우 취소

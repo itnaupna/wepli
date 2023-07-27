@@ -40,7 +40,6 @@
     display: inline-block;
     width: 18.5rem;
     text-align: center;
-
 }
 .mypageinfochangermodaltextgrou {
     position: relative;
@@ -58,6 +57,7 @@
     width: 18.5rem;
     height: 4rem;
     border: none;
+    outline: none;
 }
 .mypageinfochangemodalpassnickn {
     position: relative;

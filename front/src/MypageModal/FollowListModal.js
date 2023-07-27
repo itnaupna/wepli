@@ -3,46 +3,81 @@ import "./css/FollowListModal.css";
 import backarrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import axios from "axios";
-import {useRecoilValue} from "recoil";
-import {FollowMemberAtom} from "../recoil/FollowAtom";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {BlackMemberAtom, FollowListAtom, FollowMemberAtom, TargetMemberAtom} from "../recoil/FollowAtom";
 import weplilogo from "./photo/weplieonlylogoonlylogo.png";
 
-function FollowListModal({ setisFollowListModalOpen }) {
+function FollowListModal({ setisFollowListModalOpen  }) {
 
     const closeFollowListModal = async () => {
         await setisFollowListModalOpen(false);
     }
 
+
     const followMember = useRecoilValue(FollowMemberAtom);
-    console.log("여기가 맵이야",followMember);
+    /*const [followMember, setFollowMember] = useRecoilState(FollowMemberAtom);*/
+    const [followMember1, setFollowMember] = useRecoilState(FollowMemberAtom);
+
     const tValues = followMember.map((item) => item.t);
     console.log("t 값들", tValues);
     const data = sessionStorage.getItem("data") || localStorage.getItem("data");
 
     const storagedata = JSON.parse(data);
     const usernick = storagedata.nick;
-    const useremail = storagedata.email;
-    // const [imageLoadError, setImageLoadError] = useState(false);
+    console.log("팔로우리스트",storagedata);
+    const lstfollow = storagedata.lstfollow;
+    console.log("팔로우 팔로우",lstfollow);
+
 
     const bucket = process.env.REACT_APP_BUCKET_URL;
-    const [followList, setFollowList] = useState(followMember);
-    const handleFollow = async (tValues) => {
-        // const url = "/api/lv2/b/addblacklist";
-        const url = `/api/lv2/b/addblacklist?nick=${usernick}&target=${tValues}`;
 
-        console.log("tValues:", tValues);
-        axios
-            .post(url,{nick:usernick,target:tValues})
-            .then(res=>{
-                if(res.data === true){
+    const blackMember = useRecoilValue(BlackMemberAtom);
+    const [blackMember1, setBlackMember] = useRecoilState(BlackMemberAtom);
 
-                    alert("dd");
-                }else{
-                    alert("ss");
-                }
-            });
+    const handleBlackToggle = async (fValues, idx) => {
+        const url = "/api/lv2/b/blacktoggle";
+
+        axios({
+            method : 'post',
+            url: url,
+            params: {target: fValues}
+        }).then(res=>{
+            const updatedBlackMember = [...blackMember];
+            updatedBlackMember[idx] = { ...updatedBlackMember[idx], isblack: res.data };
+            setBlackMember(updatedBlackMember);
+
+            const updatedFollowMember = [...followMember];
+            updatedFollowMember[idx] = { ...updatedFollowMember[idx], isblack: res.data };
+            setFollowMember(updatedFollowMember);
+            console.log(res.data);
+        }).catch(error => {
+            alert(error);
+        })
     }
 
+
+    const targetMember= useRecoilValue(TargetMemberAtom);
+    const [targetMember1, setTargetMember] = useRecoilState(TargetMemberAtom);
+
+    const handleDeFollow = async (fValues, idx) => {
+        const url = "/api/lv2/f/followtoggle";
+
+        axios({
+            method: 'post',
+            url: url,
+            params: { target: fValues }
+        }).then(res => {
+            const updatedUnFollow = [...targetMember];
+            updatedUnFollow[idx] = { ...updatedUnFollow[idx], isfollow: res.data };
+            setTargetMember(updatedUnFollow);
+
+            const updatedFollowMember = [...followMember];
+            updatedFollowMember[idx] = { ...updatedFollowMember[idx], isfollow: res.data };
+            setFollowMember(updatedFollowMember);
+        }).catch(error => {
+            alert("에러");
+        });
+    }
 
     return (
         <div>
@@ -56,6 +91,7 @@ function FollowListModal({ setisFollowListModalOpen }) {
                                     className="followmodalmodalarrow-icon"
                                     alt=""
                                     src={backarrow}
+                                    onClick={closeFollowListModal}
                                 />
                                 <div className="followmodaltitle">
                                     <div className="followmodalwepli">WEPLi</div>
@@ -65,6 +101,7 @@ function FollowListModal({ setisFollowListModalOpen }) {
                                     alt=""
                                     src={logo}
                                 />
+
                             </div>
                             <div className="followmodalveticalframe">
                                 {
@@ -89,12 +126,17 @@ function FollowListModal({ setisFollowListModalOpen }) {
                                         <div className="followmodalbtnsection">
                                             <div className="followmodalblackbtnframe">
                                                 <div className="followmodalblackbtnrectangle" />
-                                                <button type={'button'} className="followmodalblackbtntext"
-                                                        onClick={() => handleFollow(item.t)}>블랙</button>
+                                                <button type={'button'} className="followmodalblackbtntext" value={idx}
+                                                        onClick={(e) => handleBlackToggle(item.t,e.target.value)}>
+                                                    {item.isblack === 0 ? "취소" : "삭제"}
+                                                </button>
                                             </div>
                                             <div className="followmodalfollowbtnframe">
                                                 <div className="followmodalfollowbtnrectangle" />
-                                                <button type={'button'} className="followmodalfollowbtntext">팔로우</button>
+                                                <button type={'button'} className="followmodalfollowbtntext" value={idx}
+                                                onClick={(e)=> handleDeFollow(item.t,e.target.value)}>
+                                                    {item.isfollow === 0 ? "팔로우" : "삭제"}
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -104,7 +146,6 @@ function FollowListModal({ setisFollowListModalOpen }) {
                         </div>
                     </div>
                 </div>
-
         </div>
     );
 }

@@ -7,7 +7,7 @@
     width: 7.86rem;
     font-size: 2rem;
     text-align: center;
-    border: 1px solid red;
+    margin-top: 4px;
 }
 .mypagepwchkmodaltitlegroup {
     position: absolute;
@@ -60,6 +60,8 @@
     background-color: #f4f4f5;
     width: 18.5rem;
     height: 4rem;
+    border: none;
+    outline: none;
 }
 .mypagepwchkmodalpassinputgroup {
     position: relative;

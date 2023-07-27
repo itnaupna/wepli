@@ -45,6 +45,7 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
                 console.log(res.data);
                 console.log(res);
                 setResultVerify(res.data);
+                setisPhoneConfirmModalOpen(false);
                 alert("인증완료");
             }else{
                 alert("인증실패");
