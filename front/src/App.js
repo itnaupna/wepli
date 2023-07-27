@@ -76,7 +76,7 @@ function App() {
 
                 {window.location.pathname === "/mypage" && loginStatus && !isPasswordEntered ?
                     setpwChkmodalOpen(true)
-                    : setpwChkmodalOpen(false)
+                     : ""
                 }
                 {loginStatus && isPasswordEntered ?
                     <Route path="/mypage" element={<Mypage />} /> :
