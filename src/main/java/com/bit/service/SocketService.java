@@ -1,5 +1,6 @@
 package com.bit.service;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -100,8 +101,6 @@ public class SocketService {
         // logging(headers);
     }
 
-
-
     private SongDto msgToSongDto(Object msg) {
         LinkedHashMap msgObj = (LinkedHashMap) msg;
         SongDto songDto = new SongDto();
@@ -118,8 +117,8 @@ public class SocketService {
         return songDto;
     }
 
-    private void RequestPlay(String stageId){
-        
+    private void RequestPlay(String stageId) {
+
         CompletableFuture.runAsync(() -> {
             SongDto song = stageService.requestNextSong(stageId);
             SocketDto msg = new SocketDto();
@@ -128,13 +127,11 @@ public class SocketService {
             msg.setUserNick(song.getPlayerNick());
             msg.setMsg(song);
             SendMsg(msg);
-            //TODO : 여기서부터 시작. 소켓 송신처리 어떻게 할지, 이후 중도 난입유저에게 어떻게 보내줄지.
-            
-            stageService.setSes(stageId,ses.schedule(() -> {
+            stageService.setSes(stageId, ses.schedule(() -> {
                 RequestPlay(stageId);
             }, song.getSonglength(), TimeUnit.SECONDS));
         });
-    
+
     }
 
     public void SendMsg(SocketDto msg) {
@@ -148,6 +145,18 @@ public class SocketService {
                 data.put("count", stageService.getUserCount(msg.getStageId()));
                 data.put("memberlist", stageService.getMembersListInStage(msg.getStageId()));
                 msg.setMsg(data);
+                if (stageService.isPlaying(msg.getStageId())) {
+                    //방에 입장했을때 재생중인 곡이 있다면 정보를 보내준다.
+                    SocketDto m = new SocketDto();
+                    SongDto songdata = stageService.getPlayingSong(msg.getStageId());
+                    long pos = stageService.getSongPos(msg.getStageId());
+                    songdata.setStartPosition(pos);
+                    m.setType(Types.PLAY);
+                    m.setUserNick(songdata.getPlayerNick());
+                    m.setMsg(songdata);
+                    m.setStageId(msg.getStageId());
+                    SendMsg(m);
+                }
                 break;
             case EXIT:
                 data.put("count", stageService.getUserCount(msg.getStageId()));

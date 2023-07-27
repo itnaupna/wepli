@@ -1,5 +1,7 @@
 package com.bit.service;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,6 +60,14 @@ public class StageService {
     public void removeUserToQueue(String stageId, String nick) {
         builtStages.get(stageId).getQueueOrder().remove(nick);
         builtStages.get(stageId).getUserQueue().remove(nick);
+    }
+
+    public long getSongPos(String stageId){
+        return Duration.between(builtStages.get(stageId).getStartTime(),LocalDateTime.now()).getSeconds();
+    }
+
+    public SongDto getPlayingSong(String stageId){
+        return builtStages.get(stageId).getSongInfo();
     }
 
     public List<Map<String, SongDto>> getRoomQueueList(String stageId) {
