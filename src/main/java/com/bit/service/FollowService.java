@@ -25,15 +25,31 @@ public class FollowService {
     @Autowired
     JwtTokenProvider jwtTokenProvider;
     // 팔로우 목록 받아오기
-    public List<Map<String, Object>> selectFollowList(String token) {
+    public List<Map<String, Object>> selectFollowList(String token, String userNick) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        return followMapper.selectFollowlist(nick); 
+        Map<String, String> nickAndUserNick = new HashMap<>();
+        nickAndUserNick.put("nick", nick);
+
+        if(userNick != null && !userNick.equals("")) {
+            nickAndUserNick.put("userNick", userNick);
+        }
+        log.info("selectFollowList -> {}", nick);
+        log.info("selectFollowList -> {}", userNick);
+        return followMapper.selectFollowlist(nickAndUserNick); 
     }
     
     // 팔로워 목록 받아오기
-    public List<Map<String, Object>> selectFollowerlist(String token) {
+    public List<Map<String, Object>> selectFollowerlist(String token, String userNick) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        return followMapper.selectFollowerlist(nick);
+        Map<String, String> nickAndUserNick = new HashMap<>();
+        nickAndUserNick.put("nick", nick);
+        
+        if(userNick != null && !userNick.equals("")) {
+            nickAndUserNick.put("userNick", userNick);
+        }
+        log.info("selectFollowerlist -> {}", nick);
+        log.info("selectFollowerlist -> {}", userNick);
+        return followMapper.selectFollowerlist(nickAndUserNick);
     }
 
     // 팔로우 추가, 삭제
@@ -96,7 +112,10 @@ public class FollowService {
     public boolean deleteFollowlist(String token, String target) {
         Map<String, String> data = new HashMap<>();
         String follow = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        data.put("follow", target);
+
+        log.info("deleteFollowlist -> {}", target);
+
+        data.put("nick", target);
         data.put("target", follow);
         return followMapper.unFollowlist(data) > 0;
     }

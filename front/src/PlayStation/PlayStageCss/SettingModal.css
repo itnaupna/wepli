@@ -9,8 +9,8 @@
     right: auto;
   }
   /* 모달버튼 css */
-*:after,
-*:before {
+/* :after,
+:before {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
@@ -21,14 +21,8 @@
 }
 .cf:after {
 	clear: both;
-}
-body {
-	background: #cfd8dc;
-	color: #37474f;
-	font-weight: 400;
-	font-size: 1em;
-	font-family: 'Raleway', Arial, sans-serif;
-}
+} */
+
 .support {
 	font-weight: bold;
 	padding: 2em 0 0 0;
@@ -52,7 +46,7 @@ a:focus {
 	overflow: hidden;
 	pointer-events: none;
 }
-.container {
+.SettingContainer {
 	margin: 0 auto;
 	text-align: center;
 	overflow: hidden;
@@ -382,7 +376,7 @@ a:focus {
 
 
 /* 모달 백그라운드 */
-.frame-child {
+.SettingFrame-child {
     position: absolute;
     border-radius: 29px;
     background-color: #fff;
@@ -391,7 +385,7 @@ a:focus {
     height: 31.69rem;
     opacity: 1;
   }
-  .createstagemodal-inner {
+  .SettingCreatestagemodal-inner {
     position: absolute;
     top: 0;
     left: 0;
@@ -400,11 +394,11 @@ a:focus {
     align-items: flex-start;
     justify-content: flex-start;
   }
-  .child,
-  .div1 {
+  .SettingChild,
+  .SettingModifySubmitButton {
     position: absolute;
   }
-  .child {
+  .SettingChild {
     height: 100%;
     width: 100%;
     top: 0;
@@ -414,7 +408,7 @@ a:focus {
     border-radius: 8px;
     background-color: #d0e0f4;
   }
-  .div1 {
+  .SettingModifySubmitButton {
     border:0;
     outline: 0;
     top: 35.94%;
@@ -429,17 +423,17 @@ a:focus {
   }
 
 
-  .div,
-  .wrapper {
+  .SettingModifyContainer,
+  .SettingWrapper {
     position: absolute;
     width: 37.35rem;
     height: 4.53rem;
   }
-  .div {
+  .SettingModifyContainer {
     top: 0;
     left: 0;
   }
-  .wrapper {
+  .SettingWrapper {
     top: 24rem;
     left: 4.56rem;
     color: #fff;
@@ -451,7 +445,7 @@ a:focus {
     width: 3.03rem;
     height: 1.81rem;
   }
-  .wepli {
+  .SettingWepli {
     position: absolute;
     top: 0;
     left: 0;
@@ -460,12 +454,12 @@ a:focus {
     width: 11.23rem;
     height: 3.31rem;
   }
-  .findmodaltitle,
-  .Makestage {
+  .SettingFindmodaltitle,
+  .SettingMakestage {
     position: absolute;
     opacity: 0.5;
   }
-  .findmodaltitle {
+  .SettingFindmodaltitle {
     top: 1.88rem;
     left: 17.81rem;
     width: 11.23rem;
@@ -473,7 +467,7 @@ a:focus {
     font-size: 2.5rem;
     border: none!important;
   }
-  .Makestage {
+  .SettingMakestage {
     top: 5.81rem;
     left: 13.38rem;
     font-size: 1.5rem;
@@ -481,7 +475,7 @@ a:focus {
     display: inline-block;
     width: 20.31rem;
   }
-  .group-child {
+  .Setting-group-child {
     position: absolute;
     top: 0;
     left: 0;
@@ -490,7 +484,7 @@ a:focus {
     width: 16.06rem;
     height: 11.44rem;
   }
-  .input-file-button{
+  .SettingModify-Photo-button{
     padding: 6px 25px;
     background-color:transparent;
     border-radius: 4px;
@@ -501,23 +495,25 @@ a:focus {
     top:0;
     bottom: 0;
   }
-  .groupChildImage{
+  .SettingGroupChildImage{
     position: absolute;
     top:0;
     bottom:0;
     left:50px;
     margin:auto;
   }
-  .div2 {
+  .SettingModify-Photo {
     position: absolute;
-    top: 5.14rem;
-    left: 0.75rem;
+    top: 80px;
+    left: -25px;
     font-weight: 500;
     display: inline-block;
     width: 14.56rem;
     height: 1.16rem;
+    margin: auto;
+    
   }
-  .rectangle-parent {
+  .SettingRectangle-parent {
     position: absolute;
     top: 7.19rem;
     left: 1.88rem;
@@ -526,7 +522,7 @@ a:focus {
     font-size: 0.63rem;
     color: #fff;
   }
-  .mypageemailmodal-child {
+  .SettingMypageemailmodal-child {
     position: absolute;
     top: 0;
     left: 0;
@@ -534,7 +530,7 @@ a:focus {
     height: 2rem;
     opacity: 0.5;
   }
-  .group-item {
+  .SettingGroup-item {
     position: absolute;
     top: 0;
     left: 0;
@@ -543,14 +539,14 @@ a:focus {
     width: 19.45rem;
     height: 2.25rem;
   }
-  .container,
-  .div3,
-  .rectangle-group {
+  .SettingContainer,
+  .SettingModifyTitle,
+  .SettingRectangle-group {
     position: absolute;
     width: 15.47rem;
     height: 1.44rem;
   }
-  .div3 {
+  .SettingModifyTitle {
     top: 0;
     left: -15px;
     bottom: 10px;
@@ -558,21 +554,21 @@ a:focus {
     font-weight: 500;
     display: inline-block;
   }
-  .div3 input{
+  .SettingModifyTitleSpace{
     background-color: transparent!important;
   }
-  .container,
-  .rectangle-group {
+  .SettingContainer,
+  .SettingRectangle-group {
     top: 0.81rem;
     left: 1.69rem;
   }
-  .rectangle-group {
+  .SettingRectangle-group {
     top: 7.19rem;
     left: 19.94rem;
     width: 19.45rem;
     height: 2.25rem;
   }
-  .group-inner {
+  .SettingGroup-inner {
     position: absolute;
     top: 0;
     left: 0;
@@ -581,82 +577,90 @@ a:focus {
     width: 19.5rem;
     height: 2.5rem;
   }
-  .checkbox-,
-  .checkbox-wrapper {
+  .Settingcheckbox-,
+  .SettingCheckbox-wrapper {
     position: absolute;
     width: 17.38rem;
     height: 1.19rem;
   }
-  .checkbox- {
+  .Settingcheckbox- {
     top: 0;
     left: 0;
     font-weight: 500;
     display: inline-block;
   }
-  .checkbox-wrapper {
+  .SettingCheckbox-wrapper {
     top: 0.69rem;
     left: 1.94rem;
   }
-  .checkboxPW{
+  .SettingCheckboxPW{
     background-color: transparent;
   }
-  .rectangle-container {
+  .SettingRectangle-container {
     position: absolute;
     top: 10rem;
     left: 19.94rem;
     width: 19.5rem;
     height: 2.5rem;
   }
-  .div4,
-  .frame {
+  .SettingModifyTag,
+  .SettingModifyframe {
     position: absolute;
     width: 14.88rem;
     height: 1.19rem;
   }
-  .div4 {
-    top: 0;
-    left: 30px;
+  .SettingModifyTag {
+    top: 22px;
+    left: 50px;
     font-weight: 500;
     display: inline-block;
+    position: absolute;
+    bottom: 0;
+    margin:auto;
     background-color: transparent;
   }
-  .frame {
-    top: 0.69rem;
-    left:17px;
-  }
-  .frame2{
+
+  .SettingModifyframe2{
     top:0.69rem;
     position:absolute;
     width: 14.99rem;
     height: 1.19rem;
     left: 45px;
   }
-  .frameGenre{
+  .SettingFrameGenre{
     background-color: transparent;
+      top: 13px;
+      left: 50px;
+      font-weight: 500;
+      display: inline-block;
+      position: absolute;
+      margin:auto;
+      background-color: transparent;
+    
   }
-  .frameDesc{
+  .SettingFrameDesc{
     background-color: transparent;
     width: 280px;
   }
-  .group-div,
-  .rectangle-parent1 {
+  .SettingGroup-div,
+  .SettingRectangle-parent1 {
     position: absolute;
     top: 13.06rem;
     left: 19.94rem;
     width: 19.5rem;
     height: 2.5rem;
   }
-  .rectangle-parent2{
+  .SettingRectangle-parent2{
     position: absolute;
     top:19.06rem;
     left:19.94rem;
     width: 19.5rem;
     height: 2.5rem;
   }
-  .rectangle-parent1 {
+  .SettingRectangle-parent1 {
     top: 16.13rem;
   }
-  .mypageemailmodal {
+  .SettingMypageemailmodal {
     position: absolute;
     top: 2.25rem;
     left: 2.69rem;
@@ -666,7 +670,7 @@ a:focus {
     font-size: 0.94rem;
     color: #a2a7ad;
   }
-  .wplieonlylogo-4-icon {
+  .SettingWplieonlylogo-4-icon {
     position: absolute;
     top: 1.69rem;
     left: 34.69rem;
@@ -675,7 +679,7 @@ a:focus {
     object-fit: cover;
     opacity: 0.5;
   }
-  .createstagemodal {
+  .SettingCreatestagemodal {
     position: absolute;
     top: 0;
     left: 0;
@@ -683,7 +687,7 @@ a:focus {
     height: 100%;
     margin:auto;
   }
-  .createstagemodal-parent {
+  .SettingCreatestagemodal-parent {
     position: fixed;
     width: 1000px;
     height: 700px;

@@ -89,7 +89,7 @@ public class JwtTokenProvider {
 				.setClaims(claims)
 				.setId(nick)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))// 30분
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY	))// 30분
 				.signWith(SignatureAlgorithm.HS512, secret)
 				.compact();
 		

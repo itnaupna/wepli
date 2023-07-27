@@ -22,6 +22,14 @@
 .slick-arrow{
     top: 300px !important;
 }
+.slick-prev{
+    width: 315px !important;
+    height: 600px !important;
+}
+.slick-next{
+    width: 460px !important;
+    height: 600px !important;
+}
 .slick-center{
     opacity: 1 !important;
     pointer-events: auto !important;
@@ -35,7 +43,7 @@
 .slick-prev:before{
     content: url("../MainIMG/Arrow_prev.png") !important;
     position: relative !important;
-    right: 70px !important;
+    right: 190px !important;
 }
 
 .slick-next{
@@ -47,7 +55,7 @@
 .slick-next:before{
     content: url("../MainIMG/Arrow_next.png") !important;
     position: relative !important;
-    left: 25px !important;
+    left: 315px !important;
 }
 .NoLogin{
     text-align: center;

@@ -5,7 +5,9 @@ import {useNavigate} from "react-router-dom";
 import backarrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png"
 import arrow from "./svg/btnarrow.svg";
+import {useIsPasswordEntered} from "../recoil/LoginStatusAtom";
 function PwChkModal({setpwChkmodalOpen}) {
+    
     const [pwChk, setPwChk] = useState("");
     const navigate = useNavigate();
 
@@ -14,6 +16,7 @@ function PwChkModal({setpwChkmodalOpen}) {
         setpwChkmodalOpen(false);
     }
 
+    const { setIsPasswordEntered } = useIsPasswordEntered();
     // 비밀번호 일치하는지 확인
     // 맞을경우 -> 모달닫고 마이페이지로
     const pwChkHandler = async () => {
@@ -21,6 +24,7 @@ function PwChkModal({setpwChkmodalOpen}) {
         try {
             const res = await axios.post(url, { pw: pwChk });
             if (res.data === true) {
+                setIsPasswordEntered(true);
                 closePwChkModal();
                 navigate('/mypage');
 
@@ -45,6 +49,7 @@ function PwChkModal({setpwChkmodalOpen}) {
                         className="mypagepwchkmodalarrowgroup-icon"
                         alt=""
                         src={backarrow}
+                        onClick={closePwChkModal}
                     />
                     <img
                         className="mypagepwchkmodalweplilogo-icon"

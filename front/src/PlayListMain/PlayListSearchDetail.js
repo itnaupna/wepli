@@ -15,7 +15,8 @@ function PlayListSearchDetail({searchResult}) {
                 {
                     searchResult.length === 0? <h1 className="NoResearch">검색 결과가 없습니다</h1>:
                     searchResult?.map((item, idx)=>
-                        <Link to="../Pli" className="playlistsearchitem" key={idx} style={{backgroundImage:`linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8)),url(${bucketURl}${item.img})`}}>
+                        <Link to={"../pli/" + item.idx} className="playlistsearchitem" key={idx} style={{backgroundImage:`linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8)),url(${bucketURl}${item.img})`}}>
+
                             <img
                                 className="playlistsearchthumbnail-icon"
                                 alt=""

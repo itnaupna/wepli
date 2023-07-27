@@ -14,7 +14,7 @@ import PlayListDetailOption from "../MainIMG/PlayListDetailOption.png";
 import PlayListDetailDelete from "../MainIMG/PlayListDetailDelete.png";
 import PlayListDetailCommentDelete from "../MainIMG/PlayListDetailCommentDelete.png";
 import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
-import PlayListSave from "../MainIMG/PlayListSave.png";
+import PlayListSave from "../MainIMG/playListSave.png";
 import PlusIcon from "../MainIMG/plusIcon.png";
 import "./AddPlayList.css";
 import {useNavigate} from "react-router-dom";
@@ -85,24 +85,26 @@ const AddPlayLsit = () => {
     };
 
     useEffect(() => {
-        setGenres(genre01 + genre02 + genre03 + genre04)
+        setGenres((genre01 === null? genre01 : genre01 + ",") + (genre02 === null? genre02 : genre02 + ",") + (genre03 === null? genre03 : genre03 + ",") + genre04)
     },[genre01, genre02, genre03, genre04]);
     useEffect(() => {
-        setTags(tag01 + tag02 + tag03 + tag04)
+        setTags((tag01 === null? tag01 : tag01 + ",") + (tag02 === null? tag02 : tag02 + ",") + (tag03 === null? tag03 : tag03 + ",") + tag04)
     },[tag01, tag02, tag03, tag04]);
 
     const savePliImg = (e) => {
         const uploadPliImg = new FormData();
+        uploadPliImg.append('directoryPath', "playlist");
         uploadPliImg.append('upload', e.target.files[0]);
-        uploadPliImg.append("idx", 31);
         Axios({
             method:"post",
-            url: "/api/lv1/p/profile",
+            url: "/api/lv1/os/imgupload",
             data: uploadPliImg,
             headers: {"Content-Type" : "multipart/form-data"}
         }).then(res => {
             setUploadPliImgName(res.data);
-        });
+        }).catch(error => {
+            console.log(error);
+        })
         setUploadPliImgName(uploadPliImg);
         const PliImgfile = PliImgRef.current.files[0];
         const reader = new FileReader();
@@ -170,7 +172,7 @@ const AddPlayLsit = () => {
                             </div>
                         </div>
                         <textarea className="playlistaddinplaylistinfo" placeholder="소개글을 적어주세요 (이미지는 클릭시 변경하실 수 있습니다.)"
-                                  onChange={pliDescOnChange}>
+                                  onChange={pliDescOnChange} maxLength="50">
                         </textarea>
                         <div className="playlistaddinplaylistinfobu">
                             <div className="playlistaddbuttonbody" onClick={addPli}>

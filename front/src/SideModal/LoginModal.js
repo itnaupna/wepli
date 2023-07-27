@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "./css/loginmodal.css";
 import kakao from "./photo/kakaobtn.png";
-import naver from "./svg/naverlogin.svg";
+import naver_ from "./svg/naverlogin.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import arrow from "./svg/backarrow.svg";
 import axios from "axios";
@@ -98,12 +98,20 @@ function LoginModal() {
     const code = new URL(window.location.href).searchParams.get("code");
 
     const PARAMS = new URL(document.location).searchParams
-
-    // const KAKAO_CODE = PARAMS.get('code');
-
-
+    
     const handlekakao = () => {
         window.location.href = KAKAO_AUTH_URL;
+    }
+
+
+    const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
+    const NREDIRECT_URI = "http://localhost:3000/nlogin";
+    const STATE = "1234";
+    const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&state=${STATE}&redirect_url=${NREDIRECT_URI}`;
+
+    const NaverLogin = () => {
+        window.location.href = NAVER_AUTH_URL;
+
     }
 
 
@@ -162,7 +170,8 @@ function LoginModal() {
                         <img
                             className="naverloginimg-icon"
                             alt=""
-                            src={naver}
+                            src={naver_}
+                            onClick={NaverLogin}
                         />
 
                     </div>
@@ -203,6 +212,7 @@ function LoginModal() {
                         className="loginbackarrowicongroup"
                         alt=""
                         src={arrow}
+                        onClick={closeModal}
                     />
                 </div>
             </div>

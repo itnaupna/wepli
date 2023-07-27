@@ -9,6 +9,7 @@ import HeartImg from "../MainIMG/Heart.png";
 import MoluCover from "../MainIMG/MoluCover.png";
 import Axios from "axios";
 import dayjs from 'dayjs';
+import {Link} from "react-router-dom";
 
 function MyPliSlider() {
 
@@ -30,6 +31,7 @@ function MyPliSlider() {
                 Axios.get(myPliLUrl)
                     .then(res =>
                         setMyPli(res.data));
+
             }
         },[]);
 
@@ -41,12 +43,12 @@ function MyPliSlider() {
                         myPliL === undefined ?<h1 className="NoLogin">Loading...</h1>:
                         myPliL.length === 0? <h1 className="NoLogin">내 플레이 리스트가 없습니다</h1>:
                         myPliL.map((item,idx) =>
-                        <div className="myplaylistitem" key={idx}>
+                        <Link to={"../pli/" + item.idx} className="myplaylistitem" key={idx}>
                             <img
-                            className="myplaylistitemBgImg"
-                            alt=""
-                            src={`${bucketURl}${item.img}`}
-                        />
+                                className="myplaylistitemBgImg"
+                                alt=""
+                                src={`${bucketURl}${item.img}`}
+                            />
                             <div className="myplaylistitembottom">
                                 <div className="myplaylistiteminfo">
                                     <div className="myplaylistitemnumbers">
@@ -95,7 +97,7 @@ function MyPliSlider() {
                                     src={`${bucketURl}${item.img}`}
                                 />
                             </div>
-                        </div>
+                        </Link>
                     )}
                 </Slider>
             </div>

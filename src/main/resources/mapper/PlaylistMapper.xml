@@ -3,7 +3,12 @@
 <mapper namespace="com.bit.mapper.PlaylistMapper">
 
     <select id="selectPliComments" parameterType="hashMap" resultType="PliCommentDto">
-          select * from tblPlaylistComment where playlistID=#{playlistID} order by writeday desc limit #{curr}, #{cpp}
+        select p.*, m.img
+        from tblPlaylistComment p
+        join tblMember m ON p.writer = m.nick
+        where p.playlistID = #{playlistID}
+        order by p.writeday desc 
+        limit #{curr}, #{cpp};
     </select>
 
     <select id= "selectPliCommentToIdx" parameterType="int" resultType="PliCommentDto">
@@ -34,8 +39,8 @@
           select * from vwPlaylist where idx=#{idx}
     </select>
 
-    <select id="selectLike" parameterType="hashMap" resultType="map">
-        select count(*) from tblPlaylistLike where user=#{user} and playlistID=#{playlistID}
+    <select id="selectLike" parameterType="Map" resultType="int">
+        select exists(select * from tblPlaylistLike where user=#{nick} and playlistID=#{playlistID})
     </select>
 
     <select id="selectMyPli" parameterType="String" resultType="PlaylistDto">
@@ -55,11 +60,11 @@
         order by makeday desc
     </select>
 
-    <delete id="deleteLike" parameterType="hashMap">
+    <delete id="deleteLike" parameterType="Map">
         delete from tblPlaylistLike where user=#{nick} and playlistID=#{playlistID}
     </delete>
 
-    <insert id="insertLike" parameterType="hashMap">
+    <insert id="insertLike" parameterType="Map">
         insert into tblPlaylistLike
         values (#{nick},#{playlistID})
     </insert>
@@ -146,9 +151,10 @@
 
     <insert id="insertSong" parameterType="SongDto">
         insert into tblSongs 
-            (playlistID, title, img, songlength, genre, tag, singer, songaddress, songorigin) 
-        values
-            (#{playlistID}, #{title}, #{img}, #{songlength}, #{genre}, #{tag}, #{singer}, #{songaddress}, #{songorigin})
+            (playlistID, title, img, songlength, genre, tag, singer, songaddress, songorigin, songorder) 
+        select
+            #{playlistID}, #{title}, #{img}, #{songlength}, #{genre}, #{tag}, #{singer}, #{songaddress}, #{songorigin}, IFNULL(MAX(songorder), 0) + 1
+        from tblSongs where playlistID = #{playlistID};
     </insert>
 
     <select id="selectMySongAllImg" parameterType="String" resultType="String">
@@ -160,7 +166,7 @@
     </select>
 
     <select id="selectSongsAll" parameterType="int" resultType="SongDto">
-        select * from tblSongs where playlistID=#{playlistID}          
+        select * from tblSongs where playlistID=#{playlistID} order by songorder 
     </select>
 
     <update id="updateSong" parameterType="SongDto">
@@ -173,8 +179,8 @@
           delete from tblSongs where idx=#{idx}
     </delete>
 
-    <update id="updateSongIdx" parameterType="hashMap">
-        update tblSongs set idx = #{newIdx} where idx = #{oldIdx}
+    <update id="updateSongOrder" parameterType="hashMap">
+        update tblSongs set songorder = #{newOrder} where songorder = #{oldOrder} and playlistID = #{playlistID}
     </update>
 
 </mapper>

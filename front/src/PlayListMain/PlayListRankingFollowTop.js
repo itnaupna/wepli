@@ -14,11 +14,11 @@ function PlayListRankingFollowTop({item, ranking}) {
             <img
                 className="playlistmain01followprofillimg-icon"
                 alt=""
-                src={Molu}
+                src={`${bucketURl}/profile/${item.img}`}
             />
             <div className="playlistrankinglistiteminfo12">
                 <div className="playlistrankinglistitemtitle">
-                    {item.t}
+                    {item.mNick}
                 </div>
             </div>
             <div className="playlistrankinglistiteminfo22">
@@ -35,7 +35,7 @@ function PlayListRankingFollowTop({item, ranking}) {
                     </div>
                     <div className="playlistmain01followcount">
                         <div className="playlistmain01playlistcount">
-                            <div className="follownum">1000</div>
+                            <div className="follownum">{item.pliCnt}</div>
                         </div>
                         <img
                             className="followrankinglsitmusicicon"

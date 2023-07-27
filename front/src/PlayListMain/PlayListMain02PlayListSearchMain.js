@@ -70,9 +70,6 @@ function PlayListMain02PlayListSearchMain(props) {
 
     }
 
-    const reload = () =>{
-        window.location.replace("");
-    }
 
     return (
         <div className="playlistmain02">
@@ -81,7 +78,6 @@ function PlayListMain02PlayListSearchMain(props) {
                     className="playlistsearchlogotitle-icon"
                     alt=""
                     src={PlayListSearchlogoTitle}
-                    onClick={reload}
                 />
                 <div className="playlistbuttonlist-parent">
                     {<PlayListMenu/>}

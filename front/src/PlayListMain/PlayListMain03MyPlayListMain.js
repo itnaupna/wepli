@@ -16,9 +16,6 @@ import PlaylistSlider from "./MyPliSlider";
 
 
 const PlayListMain03MyPlayListMain = () => {
-    const reload = () => {
-        window.location.replace("");
-    }
 
     return (
         <div className="playlistmain03">
@@ -27,7 +24,6 @@ const PlayListMain03MyPlayListMain = () => {
                     className="playlistmyplilogotitle-icon"
                     alt=""
                     src={PlayListMyPlilogoTitle}
-                    onClick={reload}
                 />
                 <PlayListMenu />
             </div>

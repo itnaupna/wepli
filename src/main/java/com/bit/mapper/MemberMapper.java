@@ -48,6 +48,8 @@ public interface MemberMapper {
     //마이페이지 필요데이터 읽기(뷰)
     public MypageDto selectMypageDto(String nick);
     public MypageDto selectMypageDtoByEmail(String email);
+    // 위 데이터에서 팔로우 포함
+    public Map<String,Object> selectMypageDtoAndFollowCnt(String nick); 
     //로그인
     public int selectLogin(Map<String, String> Map);
     // 소셜로그인

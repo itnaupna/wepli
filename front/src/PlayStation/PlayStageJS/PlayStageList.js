@@ -33,6 +33,7 @@ function PlayStageList(props) {
   const [isOpen2,setIsOpen2] = useState(false);
   const [isLogin,setIsLogin] = useState(false);
   const [checkStage,SetCheckStage] = useState(false);
+  const [confirmAccount,SetConfirmAccount] = useState(0);
   const toggle1Dropdown = () =>{
     setIsOpen1(!isOpen1);
   };
@@ -45,14 +46,28 @@ function PlayStageList(props) {
   const SelectOption2 = (e) =>{
     setType2(e.target.getAttribute("value"));
   }
-  const reload = () =>{
-    window.location.replace("");
-  }
   useEffect(()=>{
     if(sessionStorage.getItem("data")!=null){
       setIsLogin(true);
     }else{
       setIsLogin(false);
+    }
+  },[]);
+  //이메일,핸드폰 인증
+  const data =JSON.parse(sessionStorage.getItem("data"));
+
+  const isAuthenticated = (data)=>{
+    return data.emailconfirm === 1 && data.phoneconfirm === 1;
+  };
+  const [showTop,setShowTop]=useState(false);
+
+  useEffect(()=>{
+    //로그인된 사용자 정보 가져오기(sessionStorage)
+    const data = JSON.parse(sessionStorage.getItem("data"));
+    if(data){
+      setShowTop(isAuthenticated(data));
+    }else{
+      setShowTop(false)
     }
   },[]);
 
@@ -61,8 +76,8 @@ function PlayStageList(props) {
     
   return (
     <div className="slp">
-
-      <div className="slptop" style={{display: (isLogin ? 'flex' : 'none')}}>
+      {showTop &&(
+      <div className="slptop" style={{display: 'flex'}}>
         <div className="slpmystagewrapper">
           <StageItemBig/>
           {/* <div className="StageModalContainer" style={{display :(IsCheckStage ? 'flex':'none')}}>                
@@ -73,23 +88,10 @@ function PlayStageList(props) {
         </div> */}
         </div>
         <div className="slpfollowwrapper">
-          <div className="slpfollowback">
-            <img
-              className="slpfollowbackicon"
-              alt=""
-              src={SLPFollowBackIcon}
-            />
-          </div>
           <StageSlide />
-          <div className="slpfollowback">
-            <img
-              className="slpfollowbackicon"
-              alt=""
-              src={SLPFollowNextIcon}
-            />
-          </div>
         </div>
       </div>
+      )}
       <div className="slpbottom">
         <div className="slpsearchwrapper">
           <div className="slpsortwrapper">

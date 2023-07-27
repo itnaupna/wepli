@@ -232,6 +232,7 @@
     font-family: var(--font-bm-hanna-air);
     height: 55px;
     left: 120px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
     
 }
 .slpsortwrapper {
@@ -593,11 +594,18 @@
     height: 3.13rem;
     width: 16.097rem;
     padding-left: 50px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    outline:none;
+
 }
 .slpsort-playlsitsearchicons{
   position: absolute;
-  right: 16.55rem;
-  bottom: 0.63rem;
+  right: 270px;
+  bottom: 0;
+  top:6px;
   border-radius: var(--br-xl);
   width: 1.91rem;
   height: 1.88rem;
@@ -631,4 +639,43 @@
   height: 394px;
   top:11px;
   left: 225px;
+}
+.StageSliderContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.slideWrap {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.slideItem {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.prevButton {
+  left: 0;
+}
+
+.nextButton {
+  right: 0;
 }

@@ -72,13 +72,13 @@ public class ImgUploadService {
 
         if(storageImg.get(directoryPath + nick) != null) {
             imgData = storageImg.get(directoryPath + nick);
-            imgData.add(img);
+            imgData.add("/" + directoryPath + "/" + img);
             storageImg.put(directoryPath + nick, imgData);
             log.info("[storageImgUpload] -> {}", storageImg.get(directoryPath + nick));
 
         } else {
             imgData = new ArrayList<>();
-            imgData.add(img);
+            imgData.add("/" + directoryPath + "/" + img);
             storageImg.put(directoryPath + nick, imgData);
         }
         return "/" + directoryPath + "/" + img;
@@ -93,7 +93,8 @@ public class ImgUploadService {
             log.info("[storageImgDelete] -> {}", storageImg.get(directoryPath + nick));
             imgData = storageImg.get(directoryPath + nick);
             for(int i = 0; i < imgData.size(); i++) {
-                ncpObjectStorageService.deleteFile(BUCKET_NAME, directoryPath, imgData.get(i));
+                String[] imgName = imgData.get(i).split("/");
+                ncpObjectStorageService.deleteFile(BUCKET_NAME, directoryPath, imgName[2]);
             }
             storageImg.remove(directoryPath + nick);
             log.info("[storageImgDelete] delete after -> {}", storageImg.get(directoryPath + nick));
@@ -110,7 +111,8 @@ public class ImgUploadService {
             imgData = storageImg.get(directoryPath + nick);
             for(int i = 0; i < imgData.size(); i++) {
                 if(!imgData.get(i).equals(img)) {
-                    ncpObjectStorageService.deleteFile(BUCKET_NAME, directoryPath, imgData.get(i));
+                    String[] imgName = imgData.get(i).split("/");
+                    ncpObjectStorageService.deleteFile(BUCKET_NAME, directoryPath, imgName[2]);
                 }
             }
             storageImg.remove(directoryPath + nick);

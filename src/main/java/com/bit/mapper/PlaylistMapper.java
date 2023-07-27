@@ -84,6 +84,6 @@ public interface PlaylistMapper {
     public List<PlaylistDto> detailPlayList(int idx);
 
     // 플리 순서 변경
-    public void updateSongIdx(Map<String,Integer> data);
+    public void updateSongOrder(Map<String,Integer> data);
 
 }

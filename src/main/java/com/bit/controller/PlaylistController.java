@@ -130,8 +130,8 @@ public class PlaylistController {
     // 플레이리스트 댓글작성
     // 데이터 -> content, playlistID
     @PostMapping("/lv2/p/comment")
-    public boolean postComment(@CookieValue String token, @RequestBody PliCommentDto data){
-        return pService.insertPliComment(token, data);
+    public boolean postComment(@CookieValue String token, @RequestBody PliCommentDto data, HttpServletResponse response){
+        return pService.insertPliComment(token, data, response);
     }
 
     // 플레이리스트 댓글 수정
@@ -149,7 +149,7 @@ public class PlaylistController {
     }
 
     // 플리 순서 변경
-    // 데이터 -> oldIdx : 기존 idx, newIdx : 변경될 idx
+    // 데이터 -> playlistID, neworder, oldorder
     @GetMapping("/lv2/p/updateOrder")
     public boolean updateOrder(@RequestBody Map<String,Integer> data){
         return pService.updateSongOrder(data);

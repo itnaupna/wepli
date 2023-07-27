@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,9 +23,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.bit.dto.MemberDto;
-import com.bit.dto.MypageDto;
 import com.bit.dto.UserConfirmDto;
 import com.bit.service.ImgUploadService;
 import com.bit.service.MemberService;
@@ -138,12 +142,11 @@ public class MemberController {
     }
 
     // 마이페이지 데이터 일괄
-
     @GetMapping("/lv0/m/mypage")
-    public MypageDto getMypageDto(@CookieValue(required = false) String token, @RequestParam(required = false) String userNick, HttpServletResponse response) {
+    public Map<String, Object> getMypageDto(@CookieValue(required = false) String token, @RequestParam(required = false) String userNick, HttpServletResponse response) {
+        log.info("userNick -> {}", userNick);
         return mService.selectMypageDto(token, userNick, response); 
     }
-
 
     //로그인
     @PostMapping("/lv0/m/login")
@@ -181,6 +184,42 @@ public class MemberController {
     @DeleteMapping("/lv1/os/imgdelete")
     public void storageDelete(@CookieValue String token, String directoryPath) {
         imgUploadService.storageImgDelete(token, directoryPath);
+    }
+
+
+    @GetMapping("/lv0/m/nlogin")
+    public ResponseEntity<String> getAccessToken(@RequestParam String code, @RequestParam String state) {
+        RestTemplate restTemplate = new RestTemplate();
+    
+        String authUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code" +
+                "&client_id=" + "k0TZT6ixfVF9EUAC3ggO" +
+                "&client_secret=" + "ou4_VpnUXt" +
+                "&redirect_uri=" + "http://localhost:3000/nlogin" +
+                "&code=" + code +
+                "&state=" + state;
+    
+        ResponseEntity<String> response = restTemplate.exchange(authUrl, HttpMethod.GET, null, String.class);
+    
+        System.out.println("Response Body: " + response.getBody());
+    
+        return response;
+    }
+
+    @GetMapping("/lv0/m/userinfo")
+    public ResponseEntity<String> getUserInfo(@RequestParam String token) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+        ResponseEntity<String> response = restTemplate.exchange("https://openapi.naver.com/v1/nid/me", HttpMethod.GET, entity, String.class);
+    
+        // 전체 정보 출력
+        System.out.println("응답: " + response.getBody()); 
+
+        return response;
     }
 
 }

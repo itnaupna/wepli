@@ -58,9 +58,7 @@ function PlayStageSearchBar(props) {
 
     }
 
-    const reload = () =>{
-        window.location.replace("");
-    }
+
     return (
             <div className="searchtypebox-parent">
                         <div className="searchtypebox">

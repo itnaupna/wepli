@@ -54,8 +54,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         Arrays.asList(
             "/static/**",
             "/favicon.ico",
-            "/ws/"
-            // "/"
+            "/ws/**"
     ));
 
     @Override
@@ -80,10 +79,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         log.info(path);
 
         // 비회원일경우
-        if((token == null || token.equals("")) && (path.startsWith("/api/lv0"))) {
+        if((token == null || token.equals("")) && (path.startsWith("/api/lv0") && !path.equals("/api/lv0/m/logout"))) {
             log.info("JwtRequestFilter -> no member");
-        } else 
-        if(token.startsWith("Bearer") && jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
+        } else if(token.startsWith("Bearer") && jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
             // access token이 만료되었을경우
             // log.info("[doFilterInternal] expired");
             String refreshToken = ts.accessToRefresh(token);
@@ -105,7 +103,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     // log.info(getToken);
                     accessToken = URLEncoder.encode(getToken, "utf-8");
                     ts.updateAccessToken("Bearer" + refreshToken, "Bearer" + accessToken);
-                    // log.info("[JWT regen] accessToken : {}", accessToken);
+                     log.info("[JWT regen] accessToken : {}", accessToken);
 
                     Cookie[] cookies = request.getCookies();
                     for (int i = 0; i < cookies.length; i++) {
@@ -130,7 +128,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 }
             } else {
                 // 기존 쿠키 삭제
-                // log.info("expired cookie remove");
+                 log.info("expired cookie remove");
                 Cookie cookie = new Cookie("token", null);
                 cookie.setPath("/");
                 cookie.setMaxAge(0);
