@@ -7,6 +7,7 @@ import MusicList from "../MainIMG/MusicList.png";
 import PlayListDetaliAddMusic from "../MainIMG/PlayListDetailAddMusic.png";
 import axios from "axios";
 import {useParams} from "react-router-dom";
+import {parseDurationToSeconds} from "../recoil/StageDataAtom";
 
 
 function AddSongModal(props) {
@@ -49,7 +50,7 @@ function AddSongModal(props) {
             playlistID: idx,
             title: youtubeAddResult[0]?.snippet?.title,
             img: null,
-            songlength: (extractNumbersFromString(youtubeAddResult[0]?.contentDetails?.duration)),
+            songlength: (parseDurationToSeconds(youtubeAddResult[0]?.contentDetails?.duration)),
             genre: "",
             tag: "",
             singer: youtubeAddResult[0]?.snippet?.channelTitle,
@@ -99,6 +100,7 @@ function AddSongModal(props) {
                         className="addsongmodalback-icon"
                         alt=""
                         src={backIcon}
+                        onClick={closeAddSongModal}
                     />
                 </div>
                 {youtubeAddResult && youtubeAddResult.length > 0 ? (

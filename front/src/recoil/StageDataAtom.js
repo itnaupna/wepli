@@ -59,7 +59,7 @@ export const getIsGrabbingAtom = (index) => {
 };
 
 
-const parseDurationToSeconds = (duration) => {
+export const parseDurationToSeconds = (duration) => {
     const timeRegex = /PT(\d+H)?(\d+M)?(\d+S)?/;
     const matches = duration.match(timeRegex);
   

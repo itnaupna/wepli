@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import "./PlayListDetail.css";
 import Molu from "../MainIMG/Molu.gif";
 import Aru from "../MainIMG/ARu.gif";
@@ -15,6 +15,7 @@ import PlayListDetailOption from "../MainIMG/PlayListDetailOption.png";
 import PlayListDetailDelete from "../MainIMG/PlayListDetailDelete.png";
 import PlayListDetailCommentDelete from "../MainIMG/PlayListDetailCommentDelete.png";
 import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
+import songUpdateSave from "../MainIMG/songUpdateSave.png";
 import {Link, useNavigate} from "react-router-dom";
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
@@ -22,7 +23,8 @@ import {useRecoilState} from "recoil";
 import {AddSongModalOpen, SearchSongModalOpen, VideoId} from "../recoil/SearchSongAtom";
 import SearchSongModal from "./SearchSongModal";
 import AddSongModal from "./AddSongModal";
-
+import {SecondToHMS} from "../recoil/StageDataAtom";
+import PlusIcon from "../MainIMG/plusIcon.png";
 const PlayListDetail = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
     const idx = useParams().pliId;
@@ -44,6 +46,7 @@ const PlayListDetail = () => {
     const [plaListDetailComment, setPlaListDetailComment] = useState([]);
     const [plaListDetailInfo, setPlaListDetailInfo] = useState([]);
     const [plaListDetailSong, setPlaListDetailSong] = useState([]);
+    const [plaListDetailplayUserImg ,setPlaListDetailplayUserImg] = useState("");
 
 
     useEffect(() => {
@@ -55,6 +58,7 @@ const PlayListDetail = () => {
                 setPlaListDetailComment(res.data.comment);
                 setPlaListDetailInfo(res.data.play[0]);
                 setPlaListDetailSong(res.data.song);
+                setPlaListDetailplayUserImg(res.data.playUserImg);
             })
             .catch(res => console.log(res));
     }, []);
@@ -150,21 +154,68 @@ const PlayListDetail = () => {
         }
     }
 
-    function formatTime(input) {
-        const str = String(input).padStart(6, '0'); // 앞에 '0'을 채워서 6자리 문자열로 만듦
 
-        const hours = str.substring(0, 2);
-        const minutes = str.substring(2, 4);
-        const seconds = str.substring(4);
-
-        // 유효한 시간 형식인지 확인 후 반환
-        if (parseInt(hours) >= 0 && parseInt(hours) <= 23 && parseInt(minutes) >= 0 && parseInt(minutes) <= 59 && parseInt(seconds) >= 0 && parseInt(seconds) <= 59) {
-            return `${parseInt(hours) !== 0 ? hours + ':' : ''}${minutes}:${seconds}`;
-        } else {
-            return "Invalid input";
-        }
-    }
     const [videoId, setVideoId] = useRecoilState(VideoId);
+
+    const [txtsingerVal, setTxtsingerVal] = useState("");
+
+    const handleChangeSinger = (index, value) => {
+
+        setPlaListDetailSong(prevSongList => {
+            const newSongList = [...prevSongList];
+            newSongList[index] = { ...newSongList[index], singer: value };
+            return newSongList;
+        });
+    };
+
+    const handleChangeTitle = (index, value) => {
+        setPlaListDetailSong(prevSongList => {
+            const newSongList = [...prevSongList];
+            newSongList[index] = { ...newSongList[index], title: value };
+            return newSongList;
+        });
+    };
+
+    const [readonlyInputVal, setReadonlyInputVal] = useState(true);
+    const readonlyInput = () => {
+        setReadonlyInputVal(!readonlyInputVal);
+    }
+
+    const [selectedInputIdx, setSelectedInputIdx] = useState(-1);
+
+    const handleSelectInput = (index) => {
+        setSelectedInputIdx(index);
+    };
+
+    const [uploadSongImgName , setUploadSongImgName] = useState("");
+    const SongImgRef = useRef();
+    const [songImg, setSongImg] = useState("");
+
+    const saveSongImg = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const SongImgfile = e.target.files[0];
+            const uploadSongImg = new FormData();
+            uploadSongImg.append('directoryPath', "songimg");
+            uploadSongImg.append('upload', SongImgfile);
+
+            Axios({
+                method: "post",
+                url: "/api/lv1/os/imgupload",
+                data: uploadSongImg,
+                headers: {"Content-Type": "multipart/form-data"}
+            }).then(res => {
+                setUploadSongImgName(res.data);
+            }).catch(error => {
+                console.log(error);
+            });
+
+            const reader = new FileReader();
+            reader.readAsDataURL(SongImgfile);
+            reader.onloadend = () => {
+                setSongImg(reader.result);
+            };
+        }
+    };
 
     return (
         <div className="playlistdetailframe">
@@ -191,7 +242,7 @@ const PlayListDetail = () => {
                             <img
                                 className="playlistdetailprofileimage-icon"
                                 alt=""
-                                src={Aris}
+                                src={`${bucketURl}/profile/${plaListDetailplayUserImg}`}
                             />
                             <div className="playlistdetailinplaylistnickna">
                                 {plaListDetailInfo.nick}
@@ -281,9 +332,16 @@ const PlayListDetail = () => {
                             <div className="playlistdetailitems" key={idx}>
                                 <div className="grpbtnset">
                                     <img
-                                        className="playlistdetaillistupdatebutton-icon"
+                                        className={selectedInputIdx !== idx ?"playlistdetaillistupdatebutton-icon" : "playlistdetaillistupdatebutton-icon playlistdetaillistupdatebutton-hidden"}
                                         alt=""
                                         src={PlayListDetailOption}
+                                        onClick={() => handleSelectInput(idx)}
+                                    />
+                                    <img
+                                        className={selectedInputIdx === idx ?"playlistdetaillistupdatebutton-icon" : "playlistdetaillistupdatebutton-icon playlistdetaillistupdatebutton-hidden"}
+                                        alt=""
+                                        src={songUpdateSave}
+                                        onClick={() => handleSelectInput(-1)}
                                     />
                                     <img
                                         className="playlistdetaillistdelete-icon"
@@ -292,14 +350,32 @@ const PlayListDetail = () => {
                                         onClick={() =>songDelete(songList.idx)}
                                     />
                                 </div>
-                                <div className="txtlength">{formatTime(songList.songlength)}</div>
-                                <div className="txtsinger">{songList.singer}</div>
-                                <div className="txttitle">{songList.title}</div>
+                                <div className="txtlength">{SecondToHMS(songList.songlength)}</div>
+                                <input className="txtsinger" maxLength={10} value={songList.singer} readOnly={selectedInputIdx !== idx} onChange={(e) => handleChangeSinger(idx, e.target.value)}/>
+                                <input className="txttitle" maxLength={10} value={songList.title}  readOnly={selectedInputIdx !== idx} onChange={(e) => handleChangeTitle(idx, e.target.value)}/>
+                                <label className="changeSongImgBody">
+                                    {
+                                        selectedInputIdx === idx?
+                                        <input type="file" className="songImgInput" readOnly={selectedInputIdx !== idx} onChange={saveSongImg}/> : null
+                                    }
+                                    {
+                                        selectedInputIdx === idx?
+                                        <img
+                                            className="imgthumbnail-plus"
+                                            alt=""
+                                            src={PlusIcon}
+                                        />:null
+                                    }
                                 <img
                                     className="imgthumbnail-icon"
                                     alt=""
-                                    src={songList.img === null ? `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg` : `${bucketURl}/songimg/${songList.img}`}
+                                    src={
+                                        selectedInputIdx === idx
+                                            ? songImg !== null ? songImg :  songList.img !== null ? `${bucketURl}/songimg/${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
+                                                : selectedInputIdx !== idx && songList.img !== null ? `${bucketURl}/songimg/${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
+                                    }
                                 />
+                                </label>
                                 <div className="txtrank">{idx + 1}</div>
                             </div>
                         )}

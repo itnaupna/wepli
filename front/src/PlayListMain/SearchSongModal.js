@@ -158,6 +158,7 @@ function SearchSongModal(props) {
                         className="searchsongmodalback-icon"
                         alt=""
                         src={backIcon}
+                        onClick={closeSearchModal}
                     />
                 </div>
                 <div className="searchsongmodalresultgroup">
