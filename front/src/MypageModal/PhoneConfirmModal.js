@@ -24,6 +24,14 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
             const res = await axios.post(url, {type: 1, key: verifyKey});
             console.log(res);
             if (res.data === true) {
+                const data= JSON.parse(sessionStorage.getItem('data') || localStorage.getItem("data"));
+                data.phoneconfirm = 1;
+
+                if (sessionStorage.getItem('data')) {
+                    sessionStorage.setItem('data', JSON.stringify(data)); // sessionStorage에 저장
+                } else {
+                    localStorage.setItem('data', JSON.stringify(data)); // localStorage에 저장
+                }
                 console.log(res);
                 alert("인증번호 전송 완료");
                 setResultRV(res.data);
@@ -43,12 +51,12 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
             const res = await axios.post(url,{type:1,key:verifyKey,code:verifyCode});
             if(res.data === true){
                 console.log(res.data);
-                console.log(res);
+
                 setResultVerify(res.data);
                 setisPhoneConfirmModalOpen(false);
                 alert("인증완료");
             }else{
-                alert("인증실패");
+                alert("이미 인증완료된 번호입니다.");
                 console.log(res.data);
                 console.log(res);
             }

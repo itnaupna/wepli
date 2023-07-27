@@ -68,6 +68,7 @@ function FollowerListModal(props) {
                                         alt=""
                                         src={item.img ? `${bucket}/profile/${item.img}` : logo}
                                         onError={(e) => (e.target.src = logo)}
+                                        referrerPolicy={'no-referrer'}
                                     />
                                     <div className="followermodalinfogroup">
                                         <div className="followermodalmembernicknametex">

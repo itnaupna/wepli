@@ -4,6 +4,8 @@ import backarrow from "./svg/backarrow.svg";
 import btnarrow from "./svg/btnarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import axios from "axios";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {emailConfirmState, UserStorageEmailConfirm, UserStorageEmailconfrim} from "../recoil/LoginStatusAtom";
 
 function EmailConfirmModal({setisEmailConfirmModalOpen}) {
 
@@ -11,6 +13,13 @@ function EmailConfirmModal({setisEmailConfirmModalOpen}) {
     const [resultRV, setResultRV] = useState(false);
     const [verifyCode, setVerifyCode] = useState('');
     const [resultVerify, setResultVerify] = useState(false);
+
+    // const data = sessionStorage.getItem("data") || localStorage.getItem("data");
+    // console.log("데이터",data);
+    // const parsedata = JSON.parse(data);
+    // console.log(parsedata);
+    // const emailconfirm = parsedata.emailconfirm;
+    // console.log(emailconfirm);
 
     // 인증번호 전송
     const handleRequestCode = async () => {
@@ -23,12 +32,13 @@ function EmailConfirmModal({setisEmailConfirmModalOpen}) {
                 alert("인증번호 전송 완료");
                 setResultRV(res.data);
             }else {
-                alert("인증실패");
+                alert("이미 인증된 이메일입니다.");
             }
         }catch (error){
             console.log(error);
         }
     }
+
 
     // 인증번호 검수
     const handleVerifyCode = async ()=>{
@@ -36,15 +46,21 @@ function EmailConfirmModal({setisEmailConfirmModalOpen}) {
         try{
             const res = await axios.post(url,{key:verifyKey,code:verifyCode});
             if(res.data === true){
-                console.log(res.data);
-                console.log(res);
+                const data= JSON.parse(sessionStorage.getItem('data') || localStorage.getItem("data"));
+                data.emailconfirm = 1;
+
+                if (sessionStorage.getItem('data')) {
+                    sessionStorage.setItem('data', JSON.stringify(data)); // sessionStorage에 저장
+                } else {
+                    localStorage.setItem('data', JSON.stringify(data)); // localStorage에 저장
+                }
+
             setResultVerify(res.data);
             alert("인증완료");
             closeEmailConfirmModal();
             }else{
                 alert("인증실패");
-                console.log(res.data);
-                console.log(res);
+
             }
         }catch(error){
             alert(error);

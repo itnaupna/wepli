@@ -27,6 +27,7 @@ import { LoginModalOpen, pwChkModalOpen } from './recoil/FindIdModalAtom';
 import LoginModal from './SideModal/LoginModal';
 import PwChkModal from './SideModal/PwChkModal';
 import { UrlChk } from './recoil/MypageModalAtom';
+import Mypage1 from "./mypage/mypage1";
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
@@ -42,6 +43,7 @@ function App() {
     }, []);
 
 
+
     return (
         <BrowserRouter>
             {YTP}
@@ -54,7 +56,7 @@ function App() {
 
                 {URLchk == "/mypage" && loginStatus && !isPasswordEntered? 
                     setpwChkmodalOpen(true)
-                     : setpwChkmodalOpen(false)
+                     : ""
                 }
                 {loginStatus && isPasswordEntered ?
                     <Route path="/mypage" element={<Mypage />} /> :
@@ -76,6 +78,7 @@ function App() {
                     <h1 style={{ width: "100%", textAlign: "center", marginTop: "25%", position: "absolute" }}>페이지가 없습니다</h1>
                 } />
                 <Route path={"/hyuk"} element={<Hyukmain/>}/>
+                <Route path={"/hh"} element={<Mypage1/>}/>
             </Routes>
 
             {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen} />}

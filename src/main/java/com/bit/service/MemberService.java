@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bit.dto.StageDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -200,6 +201,7 @@ public class MemberService {
 
     // 회원 탈퇴
     public boolean deleteMember(String token, String pw, HttpServletResponse response) {
+        log.info("pw {}", pw);
         MemberDto mDto = new MemberDto();
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         mDto.setNick(nick);
@@ -213,15 +215,17 @@ public class MemberService {
         if(profile != null && !profile.equals("")) {
             ncpObjectStorageService.deleteFile(bucketname, "profile", profile);
         }
-        String stageImg = stageMapper.selectStageOneByMasterNick(nick).getImg();
-        if(stageImg != null && !stageImg.equals("")) {
+        StageDto stage = stageMapper.selectStageOneByMasterNick(nick);
+        log.info("stageImg -> {}",stage);
+        if(stage != null && !stage.equals("")) {
+            String stageImg = stage.getImg();
             ncpObjectStorageService.deleteFile(bucketname, "stage", stageImg);
-            
+
         }
         List<String> playlistImg = playlistMapper.selectMyPliImg(nick);
         if(playlistImg != null && playlistImg.size() > 0) {
             for(int i = 0 ; i < playlistImg.size(); i++) {
-                ncpObjectStorageService.deleteFile(bucketname, "playlist", playlistImg.get(i));            
+                ncpObjectStorageService.deleteFile(bucketname, "playlist", playlistImg.get(i));
             }
         }
         List<String> songsImg = playlistMapper.selectMySongAllImg(nick);
@@ -231,7 +235,7 @@ public class MemberService {
             }
         }
         log.info("profile -> {}",profile);
-        log.info("stageImg -> {}",stageImg);
+
         log.info("playlistImg -> {}",playlistImg);
         log.info("songsImg -> {}",songsImg);
         return memberMapper.deleteMember(mDto) > 0;

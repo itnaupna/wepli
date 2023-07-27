@@ -14,7 +14,7 @@ export const emailConfirmState = selector({
     key: 'emailConfirmState',
     get: ({ get }) => {
         const data = get(DataState);
-        return JSON.stringify( data.emailconfirm);
+        return JSON.stringify(data.emailconfirm);
     },
 });
 
@@ -38,6 +38,11 @@ export const UserStorageNick = atom({
 
 export const UserStorageDesc = atom({
     key: 'UserStorageDesc',
+    default: null
+});
+
+export const UserStorageEmailConfirm = atom({
+    key: 'UserStorageEmailConfirm',
     default: null
 });
 

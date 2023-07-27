@@ -27,7 +27,7 @@
     </select>
 
     <select id="selectCheckEmailConfirm" parameterType="string">
-        select count(emailconfirm) from tblMember where email=#{email}
+        select emailconfirm from tblMember where email=#{email}
     </select>
 
     <select id="selectLogin" parameterType="Map" resultType="int">
@@ -35,7 +35,7 @@
     </select>
 
     <select id="selectCheckPhoneConfirm" parameterType="string">
-        select count(phoneconfirm) from tblMember where phone=#{phone}
+        select phoneconfirm from tblMember where phone=#{phone}
     </select>
 
     <update id="updateEmailConfirm" parameterType="string">

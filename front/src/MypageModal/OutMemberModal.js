@@ -18,32 +18,43 @@ function OutMemberModal({setIsOutMemberModalOpen}) {
     }
 
     const navi = useNavigate();
-    const onDeleteMemberSubmit = (e) => {
-        e.preventDefault();
+    const onDeleteMemberSubmit = async () => {
 
         const url = "/api/lv1/m/member";
-        const params = { pw };
 
-        axios
-            .delete(url, { params })
-            .then((res) => {
-                if (res.data === true) {
-                    if(window.confirm("정말로 회원을 삭제하시겠습니까?")){
-                    console.log(res.data);
-                    sessionStorage.removeItem('data') || localStorage.removeItem('data');
-                    navi("/");
-                    window.location.reload();
-                } }else {
-                    console.log("실패");
-                }
-            })
-            .catch((error) => {
-                if (error.response && error.response.status === 405) {
-                    console.log("405 오류");
-                } else {
-                    console.log("오류:", error.message);
-                }
-            });
+        axios({
+            method:"delete",
+            url:url,
+            params: {pw}
+        }).then(res=>{
+            if(res.data===true){
+                sessionStorage.removeItem('data') || localStorage.removeItem('data');
+                            navi("/");
+                            window.location.reload();
+            }else{
+                alert("비밀번호가 맞지않습니다");
+            }
+        })
+        // axios
+        //     .delete(url, { params })
+        //     .then((res) => {
+        //         if (res.data === true) {
+        //
+        //             console.log(res.data);
+        //             sessionStorage.removeItem('data') || localStorage.removeItem('data');
+        //             navi("/");
+        //             window.location.reload();
+        //         } else {
+        //             console.log("실패");
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         if (error.response && error.response.status === 405) {
+        //             console.log("405 오류");
+        //         } else {
+        //             console.log("오류:", error.message);
+        //         }
+        //     });
     };
 
 

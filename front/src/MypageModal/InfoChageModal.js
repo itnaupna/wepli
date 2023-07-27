@@ -53,6 +53,13 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
             return;
         }
 
+        if(emailconfirm !== 1){
+            if(!email){
+                alert('이메일을 입력해주세요');
+                return;
+            }
+        }
+
         const url = "/api/lv1/m/info";
         axios({
             method: 'patch',
@@ -91,7 +98,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
         }).catch(error => {
             // 첫 번째 요청 실패 시 처리
             console.error('첫 번째 요청 실패:', error);
-            alert('정보변경에 실패하였습니다.');
+            alert('이미 사용중입니다.');
         });
 
     }

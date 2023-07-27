@@ -177,6 +177,18 @@
     animation: fadeIn 0.4s ease-in-out;
 }
 
+.showchatcheckboxtext,
+.showsoundcheckboxtext{
+    font-size: 15px;
+}
+.optionchatsection{
+    display: inline-block;
+}
+.optionsoundsection{
+    display: inline-block;
+    margin-left: 20px;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;

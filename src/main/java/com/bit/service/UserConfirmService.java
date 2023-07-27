@@ -36,7 +36,7 @@ public class UserConfirmService {
     public boolean RequestCode(int type, String key) {
         switch (type) {
             case 0:
-                return CreateEmailVerifyCode(key);
+                return  CreateEmailVerifyCode(key);
             case 1:
                 return CreatePhoneVerifyCode(key);
             default:

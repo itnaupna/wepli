@@ -172,7 +172,7 @@
 .mypagefollowingnumber {
     position: absolute;
     top: calc(50% + 5px);
-    left: 0.46rem;
+    left: 1.6rem;
     display: inline-block;
     width: 9.11rem;
     /*font-family: var(--font-kbo-dia-gothic);*/
@@ -199,7 +199,6 @@
     left: 0.31rem;
     display: inline-block;
     width: 7.13rem;
-    font-family: 'SUIT1', serif;
 }
 .mypagefollowbox,
 .mypagefollownumber {
@@ -214,15 +213,18 @@
 .mypagefollowbox {
     top: calc(50% - 30px);
     height: 3.75rem;
+    /*border: 1px solid blue;*/
+    width: 6rem;
 }
 .mypagefollowframe {
     position: absolute;
     top: 2.31rem;
     left: 9.5rem;
-    width: 22.94rem;
+    width: 23rem;
     height: 3.75rem;
-    font-size: 1.5rem;
-    font-family: "BM HANNA Air";
+    font-size: 1.2rem;
+    font-family: "Apple SD Gothic Neo";
+    border: 1px solid red;
 }
 .mypagemiddleboxgruop {
     position: absolute;
@@ -333,5 +335,20 @@
     margin-top: 50px;
     cursor: text;
 }
+
+
+.tools {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 9px;
+    top: 29%;
+    position: fixed;
+    left: 36%;
+}
+
 
 
