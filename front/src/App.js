@@ -54,7 +54,7 @@ function App() {
 
                 {URLchk == "/mypage" && loginStatus && !isPasswordEntered? 
                     setpwChkmodalOpen(true)
-                     : setpwChkmodalOpen(false)
+                     : ""
                 }
                 {loginStatus && isPasswordEntered ?
                     <Route path="/mypage" element={<Mypage />} /> :

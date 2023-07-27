@@ -22,6 +22,8 @@ import {useRecoilState} from "recoil";
 import {AddSongModalOpen, SearchSongModalOpen} from "../recoil/SearchSongAtom";
 import SearchSongModal from "./SearchSongModal";
 import AddSongModal from "./AddSongModal";
+import weplilogo from "../sidebar/photo/weplilogo.png";
+
 
 const PlayListDetail = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
@@ -165,6 +167,8 @@ const PlayListDetail = () => {
         }
     }
 
+    const pliProfileImg = JSON.parse(sessionStorage.getItem("data")).img;
+
     return (
         <div className="playlistdetailframe">
             <div className="playlistdetail">
@@ -245,6 +249,7 @@ const PlayListDetail = () => {
                                 <div className="playlistdetailviewicon">
                                     <div className="playlistdetailviewcomment">
                                         <div className="playlistmessegecount">{plaListDetailInfo.commentscount}</div>
+
                                         <img
                                             className="playlistmessegeicon"
                                             alt=""
@@ -322,7 +327,7 @@ const PlayListDetail = () => {
                                     <img
                                         className="playlistdetailcreaatecommentpr-icon"
                                         alt=""
-                                        src={bucketURl + "/profile/" + JSON.parse(sessionStorage.getItem("data")).img}
+                                        src={pliProfileImg ? bucketURl + "/profile/" + pliProfileImg : weplilogo}
                                     />
                                     <div
                                         className="playlistdetailcreatecommentpro">{JSON.parse(sessionStorage.getItem("data")).nick}</div>

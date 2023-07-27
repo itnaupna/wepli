@@ -3,7 +3,7 @@
 <mapper namespace="com.bit.mapper.MemberMapper">
 
     <insert id="insertJoinMember" parameterType="MemberDto"> 
-        insert into tblMember (email, pw, nick, emailconfirm, phoneconfirm, socialtype) values (#{email},sha2(#{pw}, 256), #{nick}, #{emailconfirm}, 0, #{socialtype})
+        insert into tblMember (email, pw, nick, emailconfirm, phoneconfirm, socialtype, img) values (#{email},sha2(#{pw}, 256), #{nick}, #{emailconfirm}, 0, #{socialtype}, #{img})
     </insert>
 
     <select id="selectCheckEmailExists" parameterType="string">
@@ -27,7 +27,7 @@
     </select>
 
     <select id="selectCheckEmailConfirm" parameterType="string">
-        select count(emailconfirm) from tblMember where email=#{email}
+        select emailconfirm from tblMember where email=#{email}
     </select>
 
     <select id="selectLogin" parameterType="Map" resultType="int">
@@ -35,7 +35,7 @@
     </select>
 
     <select id="selectCheckPhoneConfirm" parameterType="string">
-        select count(phoneconfirm) from tblMember where phone=#{phone}
+        select phoneconfirm from tblMember where phone=#{phone}
     </select>
 
     <update id="updateEmailConfirm" parameterType="string">
