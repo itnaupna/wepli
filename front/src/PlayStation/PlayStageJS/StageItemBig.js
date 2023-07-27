@@ -13,6 +13,7 @@ const StageItemBig = () => {
   };
   const data =JSON.parse(sessionStorage.getItem("data"));
   const [checkStage, SetCheckStage] = useState(false);
+  
 
   useEffect(() => {
     if (data&&data.stageaddress === null) {

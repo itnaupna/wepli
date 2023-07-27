@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../PlayStageCss/CreateStageModal.css';
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import Cancel from '../PlayStageImage/Icon/Cancel.svg';
 import Create from '../PlayStageImage/Icon/Create.svg';
 import Logo from '../PlayStageImage/img/Logo.png';
@@ -23,6 +23,9 @@ function CreateStageModal({setModalOpen}) {
     //파일 업로드/미리보기 이벤트
     const onUpload = (e)=>{
         const file = e.target.files[0];
+        if(!file){
+          return;
+        }
         const reader = new FileReader();
         reader.readAsDataURL(file);
 
@@ -93,45 +96,49 @@ function CreateStageModal({setModalOpen}) {
             console.log('Create success!')
         }
     }
-    // //스테이지 생성
-    // const MakeStage = async () =>{
-    //   const url = "/api/lv2/s/stage";
+    //스테이지 생성
+    const MakeStage = async () =>{
+      const url = "/api/lv2/s/stage";
 
-    // //   try {
-    // //     const res = await axios.post(url,{title,pw: pw, tag, genre});
-    // //     if(res.data){
-    // //         window.onload.reload();
-    // //         Navigate("/stage/url");
-    // //     }
-    // //   }
-    // // };
+      try {
+        const res = await axios.post(url,{title,pw: pw, tag, genre});
+        if(res.data){
+            window.onload.reload();
+            Navigate("/stage/url");
+        }
+  
+      }catch(error){
+        console.log(error);
+        alert(error);
+      }
+    };
     return (
-        <div ref={modalRef} className="createstagemodal-parent">
-        <div className="createstagemodal">
-          <div className="createstagemodal-inner">
-            <div className="frame-child" />
+        <div ref={modalRef} className="Mcreatestagemodal-parent">
+        <div className="Mcreatestagemodal">
+          <div className="Mcreatestagemodal-inner">
+            <div className="MFrame-child" />
           </div>
-          <div className="wrapper">
-            <div className="div">
-              <div className="child" />
+          <div className="MWrapper">
+            <div className="Mdiv">
+              <div className="Mchild" />
               <form onSubmit={handleSubmit}>
-                <button type='submit' className='div1'>Stage 생성</button>                
+                <button type='submit' className='MCreateStage'>Stage 생성</button>                
               </form>
             </div>
           </div>
           {/* <a href='./PlayStage.js'>
             <img className="createstagemodal-child" alt=""/>
           </a> */}
-          <div className="findmodaltitle">
-            <div className="wepli">WEPLi</div>
+          <div className="MFindmodaltitle">
+            <div className="MWepli">WEPLi</div>
           </div>
-          <div className="Makestage">Stage 생성</div>
-          <div className="mypageemailmodal">
-            <div className="rectangle-parent">
-              <div className="group-child" />
+          <div className="MMakestage">Stage 생성</div>
+          <div className="Mmypageemailmodal">
+            <div className="MCrectangle-parent">
+              <div className="Mgroup-child" />
               {isPhoto? (
-              <div className='div2'>
-                <label className="input-file-button" for="ImageUpload">
+              <div className='MPhotoUploadSpace'>
+                <label className="MPhotoUpload-file-button" for="ImageUpload">
                   <img src={Upload} alt=''/>
                     </label>
                       <input 
@@ -148,8 +155,11 @@ function CreateStageModal({setModalOpen}) {
                     onChange={e=>onUpload(e)}>
                     </input>  
                 <img 
+
+
+                
                   
-                width={'60%'} src={img} alt='' className='groupChildImage' for='ImageUpload' onClick={handleImageClick}/>
+                width={'60%'} src={img} alt='' className='MgroupChildImage' for='ImageUpload' onClick={handleImageClick}/>
                 </div>             
             )}
               
@@ -159,44 +169,44 @@ function CreateStageModal({setModalOpen}) {
             </div>
             
             <img
-              className="mypageemailmodal-child"
+              className="Mmypageemailmodal-child"
               alt=""
               src={Cancel}
               onClick={closeModal}
             />
             
-            <div className="rectangle-group">
-              <div className="group-item" />
-              <div className="container">
-                <div className="div3">
-                    <input type='text' placeholder='스테이지 제목' value={title} onChange={(e)=>setTitle(e.target.value)}/>
+            <div className="Mrectangle-group">
+              <div className="Mgroup-item" />
+              <div className="Mcontainer">
+                <div className="MStageTitle">
+                    <input type='text' className='MStageTitleSpace' placeholder='스테이지 제목' value={title} onChange={(e)=>setTitle(e.target.value)}/>
                 </div>
               </div>
             </div>
-            <div className="rectangle-container">
-              <div className="group-inner" />
-              <div className="checkbox-wrapper">
-                <input type='text' className='checkboxPW' disabled={disable} placeholder='패스워드 입력'
+            <div className="Mrectangle-container">
+              <div className="Mgroup-inner" />
+              <div className="Mcheckbox-wrapper">
+                <input type='text' className='McheckboxPW' disabled={disable} placeholder='패스워드 입력'
                 value={pw} onChange={(e)=>setPw(e.target.value)}/>
                 <input type='checkbox' onClick={OpenPw}/>Private
                 {/* <div className="checkbox-">{`공개 비공개(checkBox)->비공개 암호설정`}</div> */}
               </div>
             </div>
-            <div className="group-div">
-              <div className="group-inner" />
-              <div className="frame">
-                <input type='text' className='div4' placeholder='태그입력' value={tag} onChange={(e)=>setTag(e.target.value)}/>
+            <div className="Mgroup-div">
+              <div className="Mgroup-inner" />
+              <div className="Mframe">
+                <input type='text' className='MTagSpace' placeholder='태그입력' value={tag} onChange={(e)=>setTag(e.target.value)}/>
               </div>
             </div>
-            <div className="rectangle-parent1">
-              <div className="group-inner" />
-              <div className="frame">
-                <input type='text' className='frameGenre' placeholder='장르입력' value={genre} onChange={(e)=>setGenre(e.target.value)}/>
+            <div className="MCrectangle-parent1">
+              <div className="Mgroup-inner" />
+              <div className="Mframe">
+                <input type='text' className='MCframeGenre' placeholder='장르입력' value={genre} onChange={(e)=>setGenre(e.target.value)}/>
               </div>
             </div>
           </div>
           <img
-            className="wplieonlylogo-4-icon"
+            className="Mwplieonlylogo-4-icon"
             alt=""
             src={Logo}
           />

@@ -9,8 +9,8 @@
     right: auto;
   }
   /* 모달버튼 css */
-*:after,
-*:before {
+/* :after,
+:before {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
@@ -21,7 +21,7 @@
 }
 .cf:after {
 	clear: both;
-}
+} */
 
 .support {
 	font-weight: bold;
@@ -46,7 +46,7 @@ a:focus {
 	overflow: hidden;
 	pointer-events: none;
 }
-.container {
+.Mcontainer {
 	margin: 0 auto;
 	text-align: center;
 	overflow: hidden;
@@ -375,7 +375,7 @@ a:focus {
 
 
 /* 모달 백그라운드 */
-.frame-child {
+.MFrame-child {
     position: absolute;
     border-radius: 29px;
     background-color: #fff;
@@ -383,21 +383,25 @@ a:focus {
     width: 46.94rem;
     height: 31.69rem;
     opacity: 1;
+
+    
   }
-  .createstagemodal-inner {
+  .Mcreatestagemodal-inner {
     position: absolute;
     top: 0;
     left: 0;
+    bottom: 0;
+    margin:auto;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
   }
-  .child,
-  .div1 {
+  .Mchild,
+  .MCreateStage {
     position: absolute;
   }
-  .child {
+  .Mchild {
     height: 100%;
     width: 100%;
     top: 0;
@@ -407,7 +411,7 @@ a:focus {
     border-radius: 8px;
     background-color: #d0e0f4;
   }
-  .div1 {
+  .MCreateStage {
     border:0;
     outline: 0;
     top: 35.94%;
@@ -422,17 +426,17 @@ a:focus {
   }
 
 
-  .div,
-  .wrapper {
+  .Mdiv,
+  .MWrapper {
     position: absolute;
     width: 37.35rem;
     height: 4.53rem;
   }
-  .div {
+  .Mdiv {
     top: 0;
     left: 0;
   }
-  .wrapper {
+  .MWrapper {
     top: 24rem;
     left: 4.56rem;
     color: #fff;
@@ -444,7 +448,7 @@ a:focus {
     width: 3.03rem;
     height: 1.81rem;
   }
-  .wepli {
+  .MWepli {
     position: absolute;
     top: 0;
     left: 0;
@@ -453,19 +457,19 @@ a:focus {
     width: 11.23rem;
     height: 3.31rem;
   }
-  .findmodaltitle,
-  .Makestage {
+  .MFindmodaltitle,
+  .MMakestage {
     position: absolute;
     opacity: 0.5;
   }
-  .findmodaltitle {
+  .MFindmodaltitle {
     top: 1.88rem;
     left: 17.81rem;
     width: 11.23rem;
     height: 3.31rem;
     font-size: 2.5rem;
   }
-  .Makestage {
+  .MMakestage {
     top: 5.81rem;
     left: 13.38rem;
     font-size: 1.5rem;
@@ -473,7 +477,7 @@ a:focus {
     display: inline-block;
     width: 20.31rem;
   }
-  .group-child {
+  .Mgroup-child {
     position: absolute;
     top: 0;
     left: 0;
@@ -482,24 +486,26 @@ a:focus {
     width: 16.06rem;
     height: 11.44rem;
   }
-  .input-file-button{
+  .MPhotoUpload-file-button{
     padding: 6px 25px;
-    background-color:#a649da;
+    background-color:transparent;
     border-radius: 4px;
     color: white;
     cursor: pointer;
     position: absolute;
-    top:70px;
+    top:0;
+    bottom: 0;
+    margin:auto;
     left: 33%;
   }
-  .groupChildImage{
+  .MgroupChildImage{
     position: absolute;
     top:0;
     bottom:0;
     left:50px;
     margin:auto;
   }
-  .div2 {
+  .MPhotoUploadSpace {
     position: absolute;
     top: 5.14rem;
     left: 0.75rem;
@@ -508,7 +514,7 @@ a:focus {
     width: 14.56rem;
     height: 1.16rem;
   }
-  .rectangle-parent {
+  .MCrectangle-parent {
     position: absolute;
     top: 7.19rem;
     left: 1.88rem;
@@ -517,7 +523,7 @@ a:focus {
     font-size: 0.63rem;
     color: #fff;
   }
-  .mypageemailmodal-child {
+  .Mmypageemailmodal-child {
     position: absolute;
     top: 0;
     left: 0;
@@ -525,7 +531,7 @@ a:focus {
     height: 2rem;
     opacity: 0.5;
   }
-  .group-item {
+  .Mgroup-item {
     position: absolute;
     top: 0;
     left: 0;
@@ -534,14 +540,14 @@ a:focus {
     width: 19.45rem;
     height: 2.25rem;
   }
-  .container,
-  .div3,
-  .rectangle-group {
+  .Mcontainer,
+  .MStageTitle,
+  .Mrectangle-group {
     position: absolute;
     width: 15.47rem;
     height: 1.44rem;
   }
-  .div3 {
+  .MStageTitle {
     top: 0;
     left: -15px;
     bottom: 10px;
@@ -549,21 +555,28 @@ a:focus {
     font-weight: 500;
     display: inline-block;
   }
-  .div3 input{
-    background-color: transparent!important;
+  .MStageTitleSpace{
+    background-color: transparent!important;    
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
   }
-  .container,
-  .rectangle-group {
+  .MStageTitleSpace:focus{
+    outline:none;
+  }
+  .Mcontainer,
+  .Mrectangle-group {
     top: 0.81rem;
     left: 1.69rem;
   }
-  .rectangle-group {
+  .Mrectangle-group {
     top: 7.19rem;
     left: 19.94rem;
     width: 19.45rem;
     height: 2.25rem;
   }
-  .group-inner {
+  .Mgroup-inner {
     position: absolute;
     top: 0;
     left: 0;
@@ -573,7 +586,7 @@ a:focus {
     height: 2.5rem;
   }
   .checkbox-,
-  .checkbox-wrapper {
+  .Mcheckbox-wrapper {
     position: absolute;
     width: 17.38rem;
     height: 1.19rem;
@@ -584,52 +597,74 @@ a:focus {
     font-weight: 500;
     display: inline-block;
   }
-  .checkbox-wrapper {
+  .Mcheckbox-wrapper {
     top: 0.69rem;
     left: 1.94rem;
   }
-  .checkboxPW{
+  .McheckboxPW{
     background-color: transparent;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
   }
-  .rectangle-container {
+  .McheckboxPW:focus{
+    outline: none;
+  }
+  .Mrectangle-container {
     position: absolute;
     top: 10rem;
     left: 19.94rem;
     width: 19.5rem;
     height: 2.5rem;
   }
-  .div4,
-  .frame {
+  .MTagSpace,
+  .Mframe {
     position: absolute;
     width: 14.88rem;
     height: 1.19rem;
   }
-  .div4 {
+  .MTagSpace {
     top: 0;
     left: 30px;
     font-weight: 500;
     display: inline-block;
     background-color: transparent;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
   }
-  .frame {
+  .MTagSpace:focus{
+    outline: none;
+  }
+
+  .Mframe {
     top: 0.69rem;
-    left:17px;
+    left:18px;
   }
-  .frameGenre{
+  .MCframeGenre{
     background-color: transparent;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
   }
-  .group-div,
-  .rectangle-parent1 {
+  .MCframeGenre:focus{
+    outline: none;
+  }
+  .Mgroup-div,
+  .MCrectangle-parent1 {
     position: absolute;
     top: 13.06rem;
     left: 19.94rem;
     width: 19.5rem;
     height: 2.5rem;
   }
-  .rectangle-parent1 {
+  .MCrectangle-parent1 {
     top: 16.13rem;
   }
-  .mypageemailmodal {
+  .Mmypageemailmodal {
     position: absolute;
     top: 2.25rem;
     left: 2.69rem;
@@ -639,7 +674,7 @@ a:focus {
     font-size: 0.94rem;
     color: #a2a7ad;
   }
-  .wplieonlylogo-4-icon {
+  .Mwplieonlylogo-4-icon {
     position: absolute;
     top: 1.69rem;
     left: 34.69rem;
@@ -648,7 +683,7 @@ a:focus {
     object-fit: cover;
     opacity: 0.5;
   }
-  .createstagemodal {
+  .Mcreatestagemodal {
     position: absolute;
     top: 0;
     left: 0;
@@ -656,10 +691,11 @@ a:focus {
     height: 100%;
     margin:auto;
   }
-  .createstagemodal-parent {
+  .Mcreatestagemodal-parent {
     position: absolute;
     width: 1000px;
     height: 700px;
+    top:0px;
     overflow: hidden;
     text-align: center;
     font-size: 1rem;

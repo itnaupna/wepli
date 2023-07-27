@@ -1,67 +1,80 @@
-import React, {Component, useEffect, useState} from "react";
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Axios from "axios";
-import dayjs from 'dayjs';
-import ResultItem from "./ResultItem";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import '../PlayStageCss/StageSlide.css'
-
-
+import "react-alice-carousel/lib/alice-carousel.css";
+import AliceCarousel from 'react-alice-carousel';
+import ResultItem from "./ResultItem";
+import '../PlayStageCss/StageSlide.css';
+import PreButtonIcon from '../PlayStageImage/Icon/slpfollowPreButton.png';
+import NextButtonIcon from '../PlayStageImage/Icon/slpfollowNextButton.png';
 function StageSlider() {
-    const [resItems, setResItems] = useState([]);
+  const [resItems, setResItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    
-    useEffect(() => {
-      axios.get("/api/lv0/s/stage", { params: { curr: 1, cpp: 6 } })
-        .then(res => { setResItems(res.data); console.log(res.data); })
-        .catch(res => console.log(res));
-    }, []);
-        const settings = {
-            className: "middle",
-            centerMode: true,
-            infinite: true,
-            autoplay: true,
-            autoplaySpeed: 1000,  
-            centerPadding: "50px",
-            variableWidth:true,
-            speed: 400,
-            slidesToScroll: 1,
-        };
-        const bucketURl = process.env.REACT_APP_BUCKET_URL;
-        const [FollowStage, setFollowStage] = useState([]);
-        const [noLogin , setNoLogin] = useState("팔로우한 스테이지가 없습니다.");
+  const stagePaddingConfig = {
+    paddingLeft: 0,
+    paddingRight: 0,
+  };
+  const responsive = {
+    0: { items: 1 },
+    568: { items: 1 },
+    1024: { items: 1 },
+  };
 
-        useEffect(()=>{
-            if(sessionStorage.getItem("data")!=null) {
-                const FollowStageUrl = "/api/lv2/s/fstage";
-                Axios.get(FollowStageUrl)
-                    .then(res =>
-                        setFollowStage(res.data));
-            }else{
-            }
-            setNoLogin("로그인 후 이용해주세요");
-        },[]);
 
-        return (
-            <div className="FollowStageSliderBody" style={{margin:'auto',top:'20px',bottom:0}}>
-                <Slider {...settings}>
-                
-                {
-            resItems.map((v, i) =>
-              <Link to={"/stage/" + v.address}>
-                <ResultItem data={v} key={i} />
-              </Link>
-            )
-                    
-            }
-                
-                </Slider>
-            </div>
-                
-        );
+  useEffect(() => {
+    axios.get("/api/lv0/s/stage", { params: { curr: 1, cpp: 6 } })
+      .then(res => {
+        setResItems(res.data);
+        setLoading(false);
+      })
+      .catch(error => console.log(error));
+  }, []);
 
+  const bucketURl = process.env.REACT_APP_BUCKET_URL;
+  const [FollowStage, setFollowStage] = useState([]);
+  const [noLogin, setNoLogin] = useState("팔로우한 스테이지가 없습니다.");
+
+  useEffect(() => {
+    if (sessionStorage.getItem("data") !== null) {
+      const FollowStageUrl = "/api/lv2/s/fstage";
+      axios.get(FollowStageUrl)
+        .then(res => setFollowStage(res.data))
+        .catch(error => console.log(error));
+    } else {
+      setNoLogin("로그인 후 이용해주세요");
+    }
+  }, []);
+
+  return (
+    <div className="FollowStageSliderBody">
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <AliceCarousel
+          mouseTracking
+          infinite // 무한 슬라이드를 구현하기 위해 infinite 속성을 설정
+          animationDuration={1000}
+          stagePadding={[stagePaddingConfig]}
+          disableDotsControls
+        //   disableButtonsControls={false} 
+          responsive={responsive}
+          renderPrevButton={()=>{
+            return <p className="p-4 absolute left-0 top-0"><img src={PreButtonIcon} alt=''/></p>
+          }}
+          renderNextButton={()=>{
+            return <p className="p-4 absolute right-0 top-0"><img src={NextButtonIcon} alt=''/></p>
+          }}
+        >
+          {resItems.map((v, i) => (
+            <Link to={"/stage/" + v.address} key={i}>
+              <ResultItem data={v} />
+            </Link>
+          ))}
+        </AliceCarousel>
+      )}
+    </div>
+  );
 }
+
 export default StageSlider;
