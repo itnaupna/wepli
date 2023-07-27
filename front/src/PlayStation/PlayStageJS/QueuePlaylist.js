@@ -20,9 +20,9 @@ const QueuePlaylist = ({ data, rank, index }) => {
             const width = +btnSetRef.current.offsetWidth;
             infoRef.current.style.maxWidth = `${parseInt(infoRef.current.style.maxWidth) - width}px`;
         } else {
-            setIsGrabbing(false);
+            
             if (infoRef.current) {
-                infoRef.current.style.maxWidth = `${420 - timeinfoRef.current.offsetWidth}px`;
+                infoRef.current.style.maxWidth = `420px`;
             }
         }
     }, [showButton]);
@@ -35,7 +35,7 @@ const QueuePlaylist = ({ data, rank, index }) => {
             onMouseLeave={() => { setShowButton(false) }}
         >
             {IsGrabbing
-                ? <GrabToPlaylist data={data}/>
+                ? <GrabToPlaylist data={data} index={index}/>
                 : <>
                     <div>{rank}</div>
                     <img src={data.snippet.thumbnails.default.url} alt='' style={{ width: '50px', height: '50px' }} />
@@ -47,20 +47,6 @@ const QueuePlaylist = ({ data, rank, index }) => {
                         <div style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                             {data.snippet.channelTitle}
                         </div>
-                    </div>
-
-                    <div ref={timeinfoRef}>
-                        {
-                            ButtonType === 'history' &&
-                            <div>
-                                999/999
-                            </div>
-                        }
-                        {
-                            ButtonType !== 'search' && <div>
-                                99:99:99
-                            </div>
-                        }
                     </div>
                     <div ref={btnSetRef}>
                         {IsLogin && showButton && <QueuePlayItemButtonSet keyString={ButtonType} data={data} index={index} />}

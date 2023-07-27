@@ -8,8 +8,14 @@ import lombok.Data;
 
 @Data
 public class StageHistoryDto {
-    private int songidx;
+    private int idx;
+    private String nick;
     private String stageaddress;
+    private String songaddress;
+    private String songtitle;
+    private String songauthor;
+    private String songlength;
+    private String songimg;
     private int likes;
     private int dislikes;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")

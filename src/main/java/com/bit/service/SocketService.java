@@ -1,7 +1,12 @@
 package com.bit.service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -14,6 +19,7 @@ import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import com.bit.dto.SocketDto;
+import com.bit.dto.SongDto;
 import com.bit.dto.SocketDto.Types;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +35,7 @@ public class SocketService {
 
     private final String prefix = "/sub/stage/";
     private final SimpMessageSendingOperations sendingOperations;
+    private final ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
     private final Map<String, String> userPosition;
 
     private void logging(StompHeaderAccessor headers) {
@@ -93,7 +100,45 @@ public class SocketService {
         // logging(headers);
     }
 
+
+
+    private SongDto msgToSongDto(Object msg) {
+        LinkedHashMap msgObj = (LinkedHashMap) msg;
+        SongDto songDto = new SongDto();
+        songDto.setIdx((Integer) msgObj.get("idx"));
+        songDto.setPlaylistID((Integer) msgObj.get("playlistID"));
+        songDto.setTitle((String) msgObj.get("title"));
+        songDto.setImg((String) msgObj.get("img"));
+        songDto.setSonglength((Integer) msgObj.get("songlength"));
+        songDto.setGenre((String) msgObj.get("genre"));
+        songDto.setTag((String) msgObj.get("tag"));
+        songDto.setSinger((String) msgObj.get("singer"));
+        songDto.setSongaddress((String) msgObj.get("songaddress"));
+        songDto.setSongorigin((String) msgObj.get("songorigin"));
+        return songDto;
+    }
+
+    private void RequestPlay(String stageId){
+        
+        CompletableFuture.runAsync(() -> {
+            SongDto song = stageService.requestNextSong(stageId);
+            SocketDto msg = new SocketDto();
+            msg.setType(Types.PLAY);
+            msg.setStageId(stageId);
+            msg.setUserNick(song.getPlayerNick());
+            msg.setMsg(song);
+            SendMsg(msg);
+            //TODO : 여기서부터 시작. 소켓 송신처리 어떻게 할지, 이후 중도 난입유저에게 어떻게 보내줄지.
+            
+            stageService.setSes(stageId,ses.schedule(() -> {
+                RequestPlay(stageId);
+            }, song.getSonglength(), TimeUnit.SECONDS));
+        });
+    
+    }
+
     public void SendMsg(SocketDto msg) {
+        System.out.println(msg);
         Map<String, Object> data = new HashMap<>();
         switch (msg.getType()) {
             case ENTER:
@@ -116,7 +161,7 @@ public class SocketService {
             case VOTE_DOWN:
                 break;
             case KICK:
-                
+
                 break;
             case BAN:
                 break;
@@ -125,15 +170,41 @@ public class SocketService {
             case QUEUE_IN:
                 break;
             case QUEUE_OUT:
+                String nick = msg.getMsg() == null ? msg.getUserNick() : msg.getMsg().toString();
+                stageService.removeUserToQueue(msg.getStageId(), nick);
+
+                msg.setType(Types.QUEUE_OUT);
+                msg.setUserNick(nick);
+                msg.setMsg(stageService.getRoomQueueList(msg.getStageId()));
                 break;
             case QUEUE_ORDER_CHANGE:
+                // 수정해야함
+                System.out.println(msg);
+                // stageService.changeUserOrderInStage(msg.getStageId(), msg.getUserNick());
+                // msg.setType(Types.QUEUE_DATA);
+                // msg.setMsg(stageService.getRoomQueueList(msg.getStageId()));
                 break;
             case QUEUE_CHANGE_SONG:
+                boolean check = stageService.isInQueueAlready(msg.getStageId(), msg.getUserNick());
+                if (check) {
+                    stageService.changeUserSongInQueue(msg.getStageId(), msg.getUserNick(), msgToSongDto(msg.getMsg()));
+                    msg.setType(Types.QUEUE_DATA);
+                } else {
+                    stageService.addUserToQueue(msg.getStageId(), msg.getUserNick(), msgToSongDto(msg.getMsg()));
+                    msg.setType(Types.QUEUE_IN);
+                }
+                msg.setMsg(stageService.getRoomQueueList(msg.getStageId()));
                 break;
             case CHAT:
                 msg.setImg(memberService.getUserImg(msg.getUserNick()));
                 break;
             case PLAY:
+                // stageService.setVideoInStage(msg.getStageId());
+
+                break;
+            case QUEUE_DATA:
+                break;
+            default:
                 break;
         }
         sendingOperations.convertAndSend("/sub/stage/" + msg.getStageId(), msg);

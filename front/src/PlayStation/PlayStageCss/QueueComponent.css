@@ -150,6 +150,11 @@
     padding: 0.13rem;
     align-items: center;
     justify-content: center;
+    cursor:pointer;
+}
+
+.queueallbutton:hover{
+    background-color: #bcbcff;
 }
 
 .delete-icon {

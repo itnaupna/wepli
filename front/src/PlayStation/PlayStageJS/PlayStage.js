@@ -2,27 +2,54 @@ import React, { useEffect, useRef, useState } from 'react';
 import '../PlayStageCss/PlayStage.css';
 import { useParams } from 'react-router';
 import LoadingScreen from './LoadingScreen';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { SocketAtom, handleSendMsg, subSocket } from '../../recoil/SocketAtom';
 import StageLeftSide from './StageLeftSide';
 import StageRightSide from './StageRightSide';
 import { ChatItemsAtom, StageUrlAtom, UserCountInStageAtom, UsersItemsAtom } from '../../recoil/ChatItemAtom';
+import { LoginStatusAtom } from '../../recoil/LoginStatusAtom';
+import { IsInQueueAtom, MyQListAtom, RoomQListAtom } from '../../recoil/StageDataAtom';
+
 
 function PlayStage() {
     const { stageUrl } = useParams();
-    const setSu = useSetRecoilState(StageUrlAtom);
+    const [su, setSu] = useRecoilState(StageUrlAtom);
     const sockClient = useRecoilValue(SocketAtom);
     const setChatLog = useSetRecoilState(ChatItemsAtom);
     const setUserList = useSetRecoilState(UsersItemsAtom);
     const setUserCount = useSetRecoilState(UserCountInStageAtom);
     const [isLoading, setIsLoading] = useState(true);
     const [conmsg, setConmsg] = useState('접속중');
+    const IsLogin = useRecoilValue(LoginStatusAtom);
+    const [isInQueue, setIsInQueue] = useRecoilState(IsInQueueAtom);
+    const [myQueue, setMyQueue] = useRecoilState(MyQListAtom);
+    const [roomQueue, setRoomQueue] = useRecoilState(RoomQListAtom);
 
     const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
 
+    // useEffect(() => {
+    //     if (isInQueue) {
+    //         handleSendMsg("QUEUE_IN", myQueue[0], su);
+    //     }
+    // }, [isInQueue]);
+
+    useEffect(() => {
+        // console.log("내 큐길이 : ", myQueue.length);
+        // console.log("큐 첫번째값 : ", myQueue[0]);
+        if(isLoading) return;
+        setIsInQueue(myQueue.length>0);
+        if(myQueue.length>0){
+            handleSendMsg("QUEUE_CHANGE_SONG", myQueue[0], su);
+        }else{
+            handleSendMsg("QUEUE_OUT",null,su);
+        }
+    }, [myQueue[0]]);
+
+
+
     useEffect(() => {
         connect();
-    }, []);
+    }, [IsLogin]);
 
     const connect = async () => {
         if (!sockClient.connected) {
@@ -116,8 +143,22 @@ function PlayStage() {
             case 'DELETE':
                 break;
             case 'QUEUE_IN':
+                setRoomQueue(
+                    data.msg
+                );
+                addChatLog({
+                    type: data.type,
+                    nick: data.userNick,
+                    msg: '님이 스테이지 플리에 참여하였습니다.'
+                });
                 break;
             case 'QUEUE_OUT':
+                setRoomQueue(data.msg);
+                addChatLog({
+                    type:data.type,
+                    nick:data.userNick,
+                    msg: '님이 스테이지 플리에서 나갔습니다.'
+                });
                 break;
             case 'QUEUE_ORDER_CHANGE':
                 break;
@@ -133,6 +174,11 @@ function PlayStage() {
                 });
                 break;
             case 'PLAY':
+                break;
+            case 'QUEUE_DATA':
+                setRoomQueue(
+                    data.msg
+                );
                 break;
             default:
                 break;

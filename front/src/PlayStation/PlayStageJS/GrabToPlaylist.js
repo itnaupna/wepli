@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { LoginStatusAtom } from '../../recoil/LoginStatusAtom';
 import axios from 'axios';
 import { doGrab } from '../../recoil/StageDataAtom';
+import { getIsGrabbingAtom } from '../../recoil/StageDataAtom';
 
-const GrabToPlaylist = ({data}) => {
+const GrabToPlaylist = ({data,index}) => {
     const IsLogin = useRecoilValue(LoginStatusAtom);
     const [myPlaylists, setMyPlaylists] = useState([]);
     const [isLoaded,setIsLoaded] = useState(false);
+    const [IsGrabbing, setIsGrabbing] = useRecoilState(getIsGrabbingAtom(index));
     const loadMyPlaylists = async () => {
         if (!IsLogin) return;
         let request = await axios.get("/api/lv1/p/playlist");
@@ -38,10 +40,10 @@ const GrabToPlaylist = ({data}) => {
                     <option>재생목록을 불러오는 중입니다.</option>
                 </select>
             )}
-            <div onClick={()=>{doGrab(selectRef.current.value, data.id.videoId);}}>
+            <div onClick={()=>{if(doGrab(selectRef.current.value, data.id.videoId))setIsGrabbing(false);}}>
                 ➕
             </div>
-            <div>
+            <div onClick={()=>{setIsGrabbing(false);}}>
                 ❌
             </div>
         </div>

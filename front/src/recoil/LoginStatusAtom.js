@@ -18,6 +18,14 @@ export const emailConfirmState = selector({
     },
 });
 
+export const phoneConfirmState = selector({
+    key: 'phoneConfirmState',
+    get: ({ get }) => {
+        const data = get(DataState);
+        return data.phoneconfirm;
+    },
+});
+
 export const ProfileImageUrl = atom({
    key: 'ProfileImageUrl',
    default: null
