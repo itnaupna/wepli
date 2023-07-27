@@ -25,27 +25,27 @@ public class BuiltStageDto {
             ses.cancel(true);
     }
 
-    public String getFirstOrderUser() {
+    public String gFirstOrderUser() {
         return QueueOrder.get(0);
     }
 
-    private SongDto getUserSong(String nick) {
+    private SongDto gUserSong(String nick) {
         return UserQueue.get(nick);
     }
 
-    public int getSongLength(){
+    public int gSongLength(){
         return songInfo.getSonglength();
     }
 
-    public SongDto setNextSong() {
-        String firstOrderUser = getFirstOrderUser();
+    public SongDto sNextSong() {
+        String firstOrderUser = gFirstOrderUser();
         if (firstOrderUser == null) {
             startTime = null;
             songInfo = null;
             return null;
         }
 
-        SongDto userSong = getUserSong(firstOrderUser);
+        SongDto userSong = gUserSong(firstOrderUser);
 
         if (userSong != null) {
             startTime = LocalDateTime.now();

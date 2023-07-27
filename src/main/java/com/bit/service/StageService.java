@@ -90,8 +90,8 @@ public class StageService {
 
     public void setVideoInStage(String stageId) {
         CompletableFuture.runAsync(() -> {
-            builtStages.get(stageId).setNextSong();
-            int delay = builtStages.get(stageId).getSongLength();
+            builtStages.get(stageId).sNextSong();
+            int delay = builtStages.get(stageId).gSongLength();
             
             
             builtStages.get(stageId).setSes(ses.schedule(() -> {
@@ -101,7 +101,7 @@ public class StageService {
     }
     
     public SongDto requestNextSong(String stageId){
-        return builtStages.get(stageId).setNextSong();
+        return builtStages.get(stageId).sNextSong();
     } 
 
     public void setSes(String stageId,ScheduledFuture<?> ses){
