@@ -19,7 +19,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
 import {useRecoilState} from "recoil";
-import {AddSongModalOpen, SearchSongModalOpen} from "../recoil/SearchSongAtom";
+import {AddSongModalOpen, SearchSongModalOpen, VideoId} from "../recoil/SearchSongAtom";
 import SearchSongModal from "./SearchSongModal";
 import AddSongModal from "./AddSongModal";
 
@@ -128,7 +128,7 @@ const PlayListDetail = () => {
         Axios({
             method:"post",
             url: "/api/lv2/p/like",
-            data: {playlistID : idx}
+            params:{playlistID: idx,}
         }).then(res => {
             alert("좋아요");
         }).catch(error => {
@@ -164,6 +164,7 @@ const PlayListDetail = () => {
             return "Invalid input";
         }
     }
+    const [videoId, setVideoId] = useRecoilState(VideoId);
 
     return (
         <div className="playlistdetailframe">
@@ -297,7 +298,7 @@ const PlayListDetail = () => {
                                 <img
                                     className="imgthumbnail-icon"
                                     alt=""
-                                    src={`${songList.img}`}
+                                    src={songList.img === null ? `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg` : `${bucketURl}/songimg/${songList.img}`}
                                 />
                                 <div className="txtrank">{idx + 1}</div>
                             </div>

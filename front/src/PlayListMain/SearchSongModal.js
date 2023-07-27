@@ -27,8 +27,8 @@ function SearchSongModal(props) {
     const [loading, setLoading] = useState(false);//로딩중일때 처리
 
 
-    /*const youtubeApiKey = `${process.env.REACT_APP_YOUTUBE_KEY}`;*/
-    const youtubeApiKey = "AIzaSyCe587-zYmedX4obUgR-iFRGm97-bln-Ww";
+    const youtubeApiKey = `${process.env.REACT_APP_YOUTUBE_KEY}`;
+    /*const youtubeApiKey = "AIzaSyCe587-zYmedX4obUgR-iFRGm97-bln-Ww";*/
     /*const youtubeApiKey = "AIzaSyB4lBwQ7YtWtiSW2yhn6lbHtmHqKwRSUSs";*/
 /*    /!*검색입력시 바로바로 변경(주의 !!)*!/
     useEffect(() => {

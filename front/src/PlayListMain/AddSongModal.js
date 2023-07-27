@@ -16,6 +16,7 @@ function AddSongModal(props) {
     const youtubeAddUrl = "https://www.googleapis.com/youtube/v3/videos";
     const idx = useParams().pliId;
 
+
     const youtubeApiKey = `${process.env.REACT_APP_YOUTUBE_KEY}`;
     /*const youtubeApiKey = "AIzaSyCe587-zYmedX4obUgR-iFRGm97-bln-Ww";*/
     /* const youtubeApiKey = "AIzaSyB4lBwQ7YtWtiSW2yhn6lbHtmHqKwRSUSs";*/
@@ -47,7 +48,7 @@ function AddSongModal(props) {
         const songData = {
             playlistID: idx,
             title: youtubeAddResult[0]?.snippet?.title,
-            img: youtubeAddResult[0]?.snippet?.thumbnails?.standard?.url,
+            img: null,
             songlength: (extractNumbersFromString(youtubeAddResult[0]?.contentDetails?.duration)),
             genre: "",
             tag: "",
@@ -106,7 +107,7 @@ function AddSongModal(props) {
                             <img
                                 className="addsongmodalcover-icon"
                                 alt=""
-                                src={youtubeAddResult[0]?.snippet?.thumbnails?.standard?.url}
+                                src={`https://i.ytimg.com/vi/${youtubeAddResult[0]?.id}/sddefault.jpg`}
                             />
                             <div className="addsongmodalinfos">
                                 <div className="addsongmodaltitle">
