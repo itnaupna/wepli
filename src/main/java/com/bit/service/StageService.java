@@ -1,5 +1,7 @@
 package com.bit.service;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +62,14 @@ public class StageService {
         builtStages.get(stageId).getUserQueue().remove(nick);
     }
 
+    public long getSongPos(String stageId){
+        return Duration.between(builtStages.get(stageId).getStartTime(),LocalDateTime.now()).getSeconds();
+    }
+
+    public SongDto getPlayingSong(String stageId){
+        return builtStages.get(stageId).getSongInfo();
+    }
+
     public List<Map<String, SongDto>> getRoomQueueList(String stageId) {
         List<Map<String, SongDto>> result = new ArrayList<>();
 
@@ -80,8 +90,8 @@ public class StageService {
 
     public void setVideoInStage(String stageId) {
         CompletableFuture.runAsync(() -> {
-            builtStages.get(stageId).setNextSong();
-            int delay = builtStages.get(stageId).getSongLength();
+            builtStages.get(stageId).sNextSong();
+            int delay = builtStages.get(stageId).gSongLength();
             
             
             builtStages.get(stageId).setSes(ses.schedule(() -> {
@@ -91,7 +101,7 @@ public class StageService {
     }
     
     public SongDto requestNextSong(String stageId){
-        return builtStages.get(stageId).setNextSong();
+        return builtStages.get(stageId).sNextSong();
     } 
 
     public void setSes(String stageId,ScheduledFuture<?> ses){
