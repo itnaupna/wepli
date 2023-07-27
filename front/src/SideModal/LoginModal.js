@@ -212,6 +212,7 @@ function LoginModal() {
                         className="loginbackarrowicongroup"
                         alt=""
                         src={arrow}
+                        onClick={closeModal}
                     />
                 </div>
             </div>

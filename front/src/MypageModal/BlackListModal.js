@@ -15,6 +15,7 @@ function BlackListModal({target}) {
     const blackMember = useRecoilValue(BlackMemberAtom);
     const [blackMember1, setBlackMember1] = useRecoilState(BlackMemberAtom);
     console.log(blackMember);
+    // console.log(blackMember[0].isblack);
     const [isblackListModalOpen, setIsBlackListModalOpen] = useRecoilState(BlackListModalOpen);
     const dataState = useRecoilValue(DataState);
     const userNick = dataState.nick;
