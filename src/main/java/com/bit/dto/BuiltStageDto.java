@@ -21,8 +21,10 @@ public class BuiltStageDto {
     private ScheduledFuture<?> ses;
 
     public void cancelSES() {
-        if (ses != null)
+        if (ses != null){
+            System.out.println("캔슬됨");
             ses.cancel(true);
+        }
     }
 
     public String gFirstOrderUser() {

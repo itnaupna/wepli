@@ -80,7 +80,6 @@ function PlayStageList(props) {
 
   return (
     <div className="slp">
-      <button onClick={handleMo}>sdfiojweofijsdoguierhtiordfj애옹</button>
       <Modal open={mo} onClose={handleMc}>
         <CSM types={true} />
       </Modal>

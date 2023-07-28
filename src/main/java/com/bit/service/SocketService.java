@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -68,7 +69,16 @@ public class SocketService {
             msg.setSessionId(headers.getSessionId());
             msg.setUserNick(userNick);
             msg.setStageId(stageId);
-            System.out.println(msg);
+            SongDto s = stageService.getPlayingSong(stageId);
+            System.out.println(s.toString());
+            if(userNick.equals(s.getPlayerNick())){
+                System.out.println("현재곡 제거");
+                stageService.removeUserToQueue(stageId, userNick);
+                stageService.cancelSes(stageId);
+                RequestPlay(stageId);
+            }
+            
+            // System.out.println(msg);
             SendMsg(msg);
         } catch (Exception ex) {
         }
@@ -120,13 +130,20 @@ public class SocketService {
     private void RequestPlay(String stageId) {
 
         CompletableFuture.runAsync(() -> {
-            SongDto song = stageService.requestNextSong(stageId);
+            // System.out.println("다음곡 재생 시작");
+            SongDto song = stageService.setNextSong(stageId);
+            // System.out.println("다음곡 정보 : " + song.toString());
+            if(song == null) {
+                // System.out.println("다음 대기곡이 없습니다.");
+                return;
+            }
             SocketDto msg = new SocketDto();
             msg.setType(Types.PLAY);
             msg.setStageId(stageId);
             msg.setUserNick(song.getPlayerNick());
             msg.setMsg(song);
             SendMsg(msg);
+            // System.out.println(song.getSonglength() + "초후 다음곡 재생");
             stageService.setSes(stageId, ses.schedule(() -> {
                 RequestPlay(stageId);
             }, song.getSonglength(), TimeUnit.SECONDS));
@@ -159,11 +176,14 @@ public class SocketService {
                 }
                 break;
             case EXIT:
+                
                 data.put("count", stageService.getUserCount(msg.getStageId()));
                 data.put("memberlist", stageService.getMembersListInStage(msg.getStageId()));
                 msg.setMsg(data);
                 break;
             case SKIP:
+                stageService.cancelSes(msg.getStageId());
+                RequestPlay(msg.getStageId());
                 break;
             case VOTE_UP:
                 break;
@@ -213,7 +233,7 @@ public class SocketService {
                 break;
             case PLAY:
                 // stageService.setVideoInStage(msg.getStageId());
-                System.out.println("재생정보 보냄" + msg.toString());
+                System.out.println("재생정보 보냄");
                 break;
             case QUEUE_DATA:
                 break;

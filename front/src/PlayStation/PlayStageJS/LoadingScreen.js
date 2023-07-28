@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import '../PlayStageCss/LoadingScreen.css';
-const LoadingScreen = ({ msg, isLoading,setShowLoading }) => {
+const LoadingScreen = ({ msg, isLoading,setShowLoading,showL }) => {
     let [show, setShow] = useState(true);
-    if (show)
+    if (showL&& show)
         return (
             <div id="wrapper" onClick={()=>{
                 if(!isLoading) {setShow(false); setShowLoading(false);}

@@ -7,7 +7,7 @@ import { ChatItemsAtom } from './ChatItemAtom';
 const sc = new SockJS("https://localhost/ws");
 const ws = StompJS.Stomp.over(sc);
 
-let subs;
+let subs = null;
 let sessionId = null;
 
 export const conSocket = () => {
@@ -20,13 +20,15 @@ export const conSocket = () => {
   });
 }
 
-export const subSocket = (endpoint, callback) => {
+export const SubSocket = (endpoint, callback) => {
   subs?.unsubscribe();
   subs = ws.subscribe(endpoint, callback);
+  console.log(subs);
 }
 
-export const unSubSocket = () =>{
+export const UnSubSocket = () =>{
   subs?.unsubscribe();
+  subs=null;
 }
 
 export const SendMsg = (e) => {
@@ -49,6 +51,11 @@ export const handleSendMsg = (type, msg, stageId) => {
 
 };
 
+export const SocketSubsAtom = atom({
+  key: 'SocketSubsAtom',
+  default:subs,
+  dangerouslyAllowMutability:true
+});
 
 
 

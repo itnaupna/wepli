@@ -70,7 +70,7 @@ function App() {
                 document.title = e.target.getPlayerState();
             }} opts={opt} />
             <SideBar />
-            {showController !==0 && <MusicBarV2 />}
+            {showController > 0 && <MusicBarV2 />}
             {/* <MusicPlayerBar/> */}
             {/* {showController  && <MusicPlayerBar/>} */}
             <div className="backgroundImgDiv" />

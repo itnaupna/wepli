@@ -27,7 +27,7 @@ import { SecondToHMS } from "../recoil/StageDataAtom";
 import PlusIcon from "../MainIMG/plusIcon.png";
 import { YTPListAtom, YoutubeAtom } from "../recoil/YoutubeAtom";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { SocketAtom, unSubSocket } from "../recoil/SocketAtom";
+import { SocketAtom, UnSubSocket } from "../recoil/SocketAtom";
 import { StageUrlAtom } from "../recoil/ChatItemAtom";
 const PlayListDetail = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
@@ -267,7 +267,7 @@ const PlayListDetail = () => {
                                     () => {
                                         if (stageUrl !== null && !window.confirm("스테이지에 입장한 상태입니다. 플리에서 직접 재생시 스테이지에서 퇴장됩니다. 계속 진행하시겠습니까?"))
                                             return;
-                                        unSubSocket();
+                                        UnSubSocket();
                                         setStageUrl(null);
                                         let data = [];
                                         let data2 = plaListDetailSong.reduce((pv, cv) => {
@@ -402,7 +402,7 @@ const PlayListDetail = () => {
                                 <div className="txtrank" onClick={() => {
                                     if (stageUrl !== null && !window.confirm("스테이지에 입장한 상태입니다. 플리에서 직접 재생시 스테이지에서 퇴장됩니다. 계속 진행하시겠습니까?"))
                                         return;
-                                    unSubSocket();
+                                    UnSubSocket();
                                     setStageUrl(null);
                                     setYTPList({
                                         [songList.songaddress]: songList
