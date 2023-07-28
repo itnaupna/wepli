@@ -53,7 +53,7 @@ const PlayListDetail = () => {
                 setPlaListDetailResult(res.data);
                 console.log(res.data);
                 setPlaListDetailComment(res.data.comment);
-                setPlaListDetailInfo(res.data.play[0]);
+                setPlaListDetailInfo(res.data.play);
                 setPlaListDetailSong(res.data.song);
             })
             .catch(res => console.log(res));

@@ -108,7 +108,7 @@ public class PlaylistController {
     }
 
     // 곡 1개 수정
-    // 데이터 -> playlistID, title, songlength, img, genre, tag, singer, songaddress, songorigin idx
+    // 데이터 -> playlistID, title, img, genre, tag, singer, idx
     @PatchMapping("/lv1/p/song")
     public boolean patchSong(@CookieValue String token, @RequestBody SongDto data, HttpServletResponse response){
         return pService.updateSong(token, data, response);

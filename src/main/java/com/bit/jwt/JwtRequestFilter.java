@@ -60,7 +60,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 //         jwt cookie 사용 시 해당 코드를 사용하여 쿠키에서 토큰을 받아오도록 함
-        String token = "";
+        String token = null;
         if(request.getCookies() != null) {
             token = Arrays.stream(request.getCookies())
             .filter(c -> c.getName().equals("token"))
@@ -72,6 +72,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         String nick = null;
         String accessToken = null;
+        String refreshToken = null;
         Map<String, Object> rules = new HashMap<>();
         String authValue = "";
         MypageDto userDto;
@@ -84,7 +85,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         } else if(token.startsWith("Bearer") && jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
             // access token이 만료되었을경우
             // log.info("[doFilterInternal] expired");
-            String refreshToken = ts.accessToRefresh(token);
+            refreshToken = ts.accessToRefresh(token);
             log.info("doFilterInternal -> {}",refreshToken);
             if(refreshToken != null && !jwtTokenProvider.expiredCheck(refreshToken.substring(6)).equals("expired")) {
                 refreshToken = refreshToken.substring(6);
@@ -120,21 +121,30 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     cookie.setHttpOnly(true);
 
                     response.addCookie(cookie);
-                    // log.info("[reGenerateAccessToken] accessToken Regen");
+                    log.info("[reGenerateAccessToken] accessToken Regen");
 
                 // refreshToken 사용이 불가능한 경우
                 } else {
-                    // log.warn("accessToken Refresh Fail");
+                    log.warn("accessToken Refresh Fail");
                 }
             } else {
                 // 기존 쿠키 삭제
-                 log.info("expired cookie remove");
+                log.info("expired cookie remove");
                 Cookie cookie = new Cookie("token", null);
                 cookie.setPath("/");
                 cookie.setMaxAge(0);
                 response.addCookie(cookie);
             }
         } else {
+            refreshToken = ts.accessToRefresh(token);
+            if(refreshToken == null || refreshToken.equals("")) {
+                log.warn("duplicate login cookie remove");
+                Cookie cookie = new Cookie("token", null);
+                cookie.setPath("/");
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
             // Bearer token인 경우 JWT 토큰 유효성 검사 진행
             if (token != null && token.startsWith("Bearer")) {
                 accessToken = token.substring(6);
@@ -158,6 +168,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             } else {
                 logger.warn("JWT Token does not begin with Bearer String");
             }
+            
         }
         if(nick != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
@@ -172,7 +183,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
-        log.info("[doFilterInternal]success");
         filterChain.doFilter(request,response);
     }
 
