@@ -4,7 +4,7 @@ import "./css/mypage1.css";
 import logo from './photo/wplieonlylogo.png';
 import message from "./svg/message.svg";
 import axios from "axios";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import {
     BlackListModalOpen, BlackListOptionModalOpen, EmailConfirmModalOpen,
     FollowModalOpen,
@@ -13,7 +13,7 @@ import {
     TargetListModalOpen
 } from "../recoil/MypageModalAtom";
 import {BlackMemberAtom, FollowMemberAtom, TargetMemberAtom} from "../recoil/FollowAtom";
-import {LoginStatusAtom, ProfileImageUrl, UserStorageDesc} from "../recoil/LoginStatusAtom";
+import {emailConfirmState, LoginStatusAtom, ProfileImageUrl, UserStorageDesc} from "../recoil/LoginStatusAtom";
 import FollowListModal from "../MypageModal/FollowListModal";
 import BlackListModal from "../MypageModal/BlackListModal";
 import FollowerListModal from "../MypageModal/FollowerListModal";
@@ -22,6 +22,7 @@ import OutMemberModal from "../MypageModal/OutMemberModal";
 import EmailConfirmModal from "../MypageModal/EmailConfirmModal";
 import PhoneConfirmModal from "../MypageModal/PhoneConfirmModal";
 import BlackListOptionModal from "../MypageModal/BlackListOptionModal";
+import Axios from "axios";
 
 function Mypage1(props) {
 
@@ -200,9 +201,24 @@ function Mypage1(props) {
         setMenuOpen(prevState => !prevState);
     };
 
+    const [userdata, setData] = useState({});
+    const userEmailConfirm = useRecoilValue(emailConfirmState);
+
+    const hadlememberPage = () => {
+        Axios({
+            method: "get",
+            url: "/api/lv0/m/mypage",
+            params: {userNick : userNick}
+        }).then(res => {
+            setData(res.data);
+        }).catch(error => {
+            alert(error);
+        })
+    }
 
     useEffect(() => {
         setProfileImageUrl(profile);
+        hadlememberPage();
     }, [profile]);
     return (
         <div className="mypagemainframe">
@@ -229,13 +245,13 @@ function Mypage1(props) {
                     {/*팔로잉리스트*/}
                     <div className={'mypagefollowinggroup'}>
                         <div className={'mypagefollowing'} onClick={showFollowListModal}>
-                            <div className={'mypagefollowtext1'}>팔로잉</div>
+                            <div className={'mypagefollowtext1'}>팔로잉 {userdata.followCnt}</div>
                         </div>
                     </div>
                     {/*팔로워리스트*/}
                     <div className={'mypagefollowegroup'} onClick={showTargetListModal}>
                         <div className={'mypagefollowering'}>
-                            <div className={'mypagefollowertext1'}>팔로워</div>
+                            <div className={'mypagefollowertext1'}>팔로워 {userdata.followerCnt}</div>
                         </div>
                     </div>
                     {/*블랙리스트*/}
@@ -275,16 +291,24 @@ function Mypage1(props) {
                         <li onClick={showInfoChangeModal}>
                             회원정보수정
                         </li>
+                        {emailconfirm=== 1 ?
+                        <li onClick={emailconfirm === 1 ? null : showEmailConfirmModal}>
+                            이메일인증완료
+                        </li> :
+                            <li onClick={showEmailConfirmModal}>
+                                이메일인증
+                            </li>
+                        }
+                        {phoneconfirm === 1 ?
+                        <li onClick={phoneconfirm === 1 ? null : showPhoneConfirmModal}>
+                            전화번호인증완료
+                        </li> :
+                            <li onClick={showPhoneConfirmModal}>
+                                전화번호인증
+                            </li>
+                        }
 
-                        <li onClick={showEmailConfirmModal}>
-                            이메일인증
-                        </li>
-
-                        <li onClick={showPhoneConfirmModal}>
-                            전화번호인증
-                        </li>
-
-                        <li onClick={showBlackListOptionModal}>
+                            <li onClick={showBlackListOptionModal}>
                             블랙리스트옵션
                         </li>
 

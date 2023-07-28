@@ -1,8 +1,8 @@
 .mypagemainframe {
     width: 100vw;
     height: 100vh;
-    background-color: white !important;
-    background-image: none !important;
+    /*background-color: white !important;*/
+    /*background-image: none !important;*/
     position: relative;
 }
 
@@ -19,6 +19,7 @@
     transform: translateX(-50%);
     background-color: #D4E1F7;
     border-radius: 30px;
+    box-shadow: 0 2px 10px beige;
 }
 
 .mypageuserprofile {
@@ -29,10 +30,10 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
-.file-input:hover,
-.mypageuserprofile:hover{
-    opacity: 0.6;
-}
+/*.file-input:hover,*/
+/*.mypageuserprofile:hover{*/
+/*    opacity: 0.6;*/
+/*}*/
 
 .file-input:hover{
     display: none;
@@ -244,7 +245,7 @@
 }
 .mypagelistmenu {
     border: 1px solid red;
-    width: 1500px;
+    width: 1300px;
     height: 100px;
     position: relative;
     top: 40vh;
@@ -265,9 +266,13 @@
     align-items: center;
     justify-content: center;
     display: flex;
-    width: 200px;
+    width: 180px;
     height: 10vh;
     margin-right: 50px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 30px;
+    background-color:#f8f9fa ;
+    cursor: pointer;
 }
 
 .hamburger-button {
@@ -315,10 +320,10 @@
     .mypageheader {
         gap: 50px;
         top: 5%;
-        width: 400px;
+        width: 360px;
         height: 700px;
         transform: translateX(-50%);
-        left: 55%;
+        left: 65%;
     }
 
     .mypageleftheader {
@@ -344,7 +349,8 @@
     }
 
     .mypageuserprofile{
-        margin-left: 23px;
+        width: 300px;
+        margin-left: 30px;
         margin-top: 15px;
     }
 
@@ -389,8 +395,31 @@
         margin-top: 300px;
     }
 
-    .mypageul.open lㄴㄴi {
+    .mypageul.open li {
         display: flex;
     }
+
+    .mypagelistmenu{
+        width: 65vw;
+        top: 0;
+        position: absolute;
+    }
+
 }
+
+@media (max-width: 1310px){
+    /*.mypagelistmenu{*/
+    /*    width: 600px;*/
+    /*}*/
+
+    .mypageul li{
+        width: 15vw;
+        left: 10%;
+    }
+
+    .mypagelistmenu{
+        left: 5%;
+    }
+}
+
 
