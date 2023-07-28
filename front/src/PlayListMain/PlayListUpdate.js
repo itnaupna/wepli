@@ -25,6 +25,7 @@ function PlayListUpdate(props) {
     const [tag04, setTag04] = useState("");
     const [tags , setTags] = useState("");
     const navigate = useNavigate();
+    const [isPublicCheckBox, setIsPublicCheckBox] = useState(false);
 
     const closBacknavigate = useNavigate();
 
@@ -69,7 +70,7 @@ function PlayListUpdate(props) {
     });
 
     const closBack = () => {
-        closBacknavigate(-1);
+        window.location.href = "../pli/" + idx;
     };
 
     useEffect(() => {
@@ -109,7 +110,7 @@ function PlayListUpdate(props) {
         genre: genres,
         tag: tags,
         img: uploadPliImgName,
-        isPublic: 0
+        isPublic: isPublicCheckBox? 0 : 1
     }
 
 
@@ -141,21 +142,26 @@ function PlayListUpdate(props) {
                 setPlaListDetailResult(res.data);
                 console.log(res.data);
                 setPlaListDetailInfo(res.data.play[0]);
-                setPliTitle(res.data.play[0].title);
-                setPliDesc(res.data.play[0].desc);
-                setGenre01(res.data.play[0].genre.split(",")[0] === undefined ? "" : res.data.play[0].genre.split(",")[0]);
-                setGenre02(res.data.play[0].genre.split(",")[1] === undefined ? "" : res.data.play[0].genre.split(",")[1]);
-                setGenre03(res.data.play[0].genre.split(",")[2] === undefined ? "" : res.data.play[0].genre.split(",")[2]);
-                setGenre04(res.data.play[0].genre.split(",")[3] === undefined ? "" : res.data.play[0].genre.split(",")[3]);
-                setTag01(res.data.play[0].tag.split(",")[0] === undefined ? "" : res.data.play[0].tag.split(",")[0]);
-                setTag02(res.data.play[0].tag.split(",")[1] === undefined ? "" : res.data.play[0].tag.split(",")[1]);
-                setTag03(res.data.play[0].tag.split(",")[2] === undefined ? "" : res.data.play[0].tag.split(",")[2]);
-                setTag04(res.data.play[0].tag.split(",")[3] === undefined ? "" : res.data.play[0].tag.split(",")[3]);
-                setPliImg(bucketURl + res.data.play[0].img);
-                setUploadPliImgName(res.data.play[0].img);
+                setPliTitle(res.data.play.title);
+                setPliDesc(res.data.play.desc);
+                setGenre01(res.data.play.genre.split(",")[0] === undefined ? "" : res.data.play.genre.split(",")[0]);
+                setGenre02(res.data.play.genre.split(",")[1] === undefined ? "" : res.data.play.genre.split(",")[1]);
+                setGenre03(res.data.play.genre.split(",")[2] === undefined ? "" : res.data.play.genre.split(",")[2]);
+                setGenre04(res.data.play.genre.split(",")[3] === undefined ? "" : res.data.play.genre.split(",")[3]);
+                setTag01(res.data.play.tag.split(",")[0] === undefined ? "" : res.data.play.tag.split(",")[0]);
+                setTag02(res.data.play.tag.split(",")[1] === undefined ? "" : res.data.play.tag.split(",")[1]);
+                setTag03(res.data.play.tag.split(",")[2] === undefined ? "" : res.data.play.tag.split(",")[2]);
+                setTag04(res.data.play.tag.split(",")[3] === undefined ? "" : res.data.play.tag.split(",")[3]);
+                setPliImg(bucketURl + res.data.play.img);
+                setUploadPliImgName(res.data.play.img);
+                setIsPublicCheckBox(res.data.play.isPublic === 0 ? true : false);
             })
             .catch(res => console.log(res));
     }, []);
+
+    const isPublicCheckBoxChange = () => {
+        setIsPublicCheckBox(!isPublicCheckBox);
+    }
 
     return (
         <div className="playlistaddframe">
@@ -201,12 +207,14 @@ function PlayListUpdate(props) {
                         </div>
                     </div>
                 </div>
-                    공개
+                <div className="isPublicgtogleBody">
+                    <span className="isPublicgtoggleText">공개</span>
                     <div className="isPublicgtoggle isPublicgtoggle-r" id="isPublicgtoggle-3">
-                        <input type="checkbox" className="checkbox"/>
+                        <input type="checkbox" className="isPublicCheckbox" checked={isPublicCheckBox} onClick={isPublicCheckBoxChange}/>
                         <div className="knobs"></div>
                         <div className="layer"></div>
                     </div>
+                </div>
                 <div className="playlistaddtagframe">
                     <div className="playlistaddtaggroup1">
                         <div className="playlistaddtagheader">

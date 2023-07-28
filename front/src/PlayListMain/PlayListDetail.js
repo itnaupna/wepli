@@ -232,13 +232,10 @@ const PlayListDetail = () => {
         const updateSongData = {
             playlistID: idx,
             title: songTitle,
-            songlength: 300,
             img: uploadSongImgName,
             genre: "",
             tag: "",
             singer: songSinger ,
-            songaddress: "anUYNyTZTxM",
-            songorigin : "yt",
             idx: index
         };
 
