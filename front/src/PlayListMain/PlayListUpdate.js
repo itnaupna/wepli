@@ -27,16 +27,6 @@ function PlayListUpdate(props) {
     const navigate = useNavigate();
     const [isPublicCheckBox, setIsPublicCheckBox] = useState(false);
 
-    const closBacknavigate = useNavigate();
-
-    const onIconsClick = useCallback(() => {
-        // Please sync "PlayListMain03MyPlayListMain" to the project
-    }, []);
-
-    const onPlayListaddCloseIconClick = useCallback(() => {
-        // Please sync "PlayListMain03MyPlayListMain" to the project
-    }, []);
-
 
     const pliTitleOnChange = useCallback(e => {
         setPliTitle(e.target.value);
@@ -132,7 +122,6 @@ function PlayListUpdate(props) {
     };
 
     const [plaListDetailResult, setPlaListDetailResult] = useState([]);
-    const [plaListDetailComment, setPlaListDetailComment] = useState([]);
     const [plaListDetailInfo, setPlaListDetailInfo] = useState([]);
 
     useEffect(() => {
@@ -140,7 +129,6 @@ function PlayListUpdate(props) {
         Axios.get(plaListDetailUrl, {params: {idx: idx, curr: 1, cpp: 6}})
             .then(res => {
                 setPlaListDetailResult(res.data);
-                console.log(res.data);
                 setPlaListDetailInfo(res.data.play[0]);
                 setPliTitle(res.data.play.title);
                 setPliDesc(res.data.play.desc);
@@ -159,8 +147,8 @@ function PlayListUpdate(props) {
             .catch(res => console.log(res));
     }, []);
 
-    const isPublicCheckBoxChange = () => {
-        setIsPublicCheckBox(!isPublicCheckBox);
+    const isPublicCheckBoxChange = (e) => {
+        setIsPublicCheckBox(e.target.checked);
     }
 
     return (
@@ -210,7 +198,7 @@ function PlayListUpdate(props) {
                 <div className="isPublicgtogleBody">
                     <span className="isPublicgtoggleText">공개</span>
                     <div className="isPublicgtoggle isPublicgtoggle-r" id="isPublicgtoggle-3">
-                        <input type="checkbox" className="isPublicCheckbox" checked={isPublicCheckBox} onClick={isPublicCheckBoxChange}/>
+                        <input type="checkbox" className="isPublicCheckbox" defaultChecked={isPublicCheckBox} onChange={isPublicCheckBoxChange}/>
                         <div className="knobs"></div>
                         <div className="layer"></div>
                     </div>
