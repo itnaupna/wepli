@@ -40,11 +40,9 @@ function SideBar(props) {
         if(social == null) {
             social = window.sessionStorage.getItem("data");
         } 
-        console.log(social);
         if(social && social.includes("socialtype")) {
             setIsSocial(JSON.parse(social).socialtype == null ? false : true);
         }
-        console.log(isSocial);
         try {
             setProfileImage(JSON.parse(localStorage.data || sessionStorage.data).img);
         } catch (error) {

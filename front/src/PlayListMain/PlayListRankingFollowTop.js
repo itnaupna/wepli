@@ -5,7 +5,7 @@ import MusicList from "../MainIMG/MusicList.png";
 import dayjs from 'dayjs';
 import Axios from "axios";
 
-function PlayListRankingFollowTop({item, ranking}) {
+function PlayListRankingFollowTop({item, ranking, mypage}) {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
 
     return (
@@ -15,6 +15,7 @@ function PlayListRankingFollowTop({item, ranking}) {
                 className="playlistmain01followprofillimg-icon"
                 alt=""
                 src={`${bucketURl}/profile/${item.img}`}
+                onClick={() => mypage(item.mNick)}
             />
             <div className="playlistrankinglistiteminfo12">
                 <div className="playlistrankinglistitemtitle">
