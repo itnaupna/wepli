@@ -50,3 +50,7 @@ a:focus{
 :focus-visible{
   outline:inherit !important;
 }
+
+input{
+  border:none !important;
+}

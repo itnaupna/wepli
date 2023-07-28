@@ -47,13 +47,32 @@ function PlayStage() {
         }
     }, [myQueue[0]]);
 
+    useEffect(()=>{
+        if(su){
+            setIsLoading(false);
+            setShowLoading(false);
+        }
+    },[]);
 
 
     useEffect(() => {
-        connect();
+        let t = window.location.pathname.search("/stage/") === 0;
+        t && !su && connect();
+
+        // if (t === 0){}
+        // else {
+        //     setIsLoading(false);
+        //     setShowLoading(false);
+        // }
     }, [IsLogin]);
 
     const connect = async () => {
+        // let t = window.location.pathname.search("/stage/");
+        // if (t === 0 && !su){}
+        // else {
+        //     setIsLoading(false);
+        //     setShowLoading(false);
+        // }
         if (!sockClient.connected) {
             try {
                 await waitConnect();

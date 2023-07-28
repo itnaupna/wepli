@@ -1,5 +1,4 @@
-import { atom, selector, selectorFamily, useSetRecoilState } from 'recoil';
-import YouTube from 'react-youtube';
+import { atom, selector } from 'recoil';
 
 const opt={
     playerVars:{
@@ -7,32 +6,20 @@ const opt={
         controls:0,
         disablekb:1,
         iv_load_policy:3,
+        mute:1,
     }
 }
 
-// let yt = null;
-let ytp;
-// let ytp =
-//     <YouTube
-//         style={{
-//             width: '0px',
-//             height: '0px',
-//             display: 'none'
-//         }}
-//         onReady={(e) => {
-//             yt = e.target;
-//         }}
-//         opts={opt}
-//     />;
+export const YTPListAtom = atom({
+  key: 'YTPListAtom',
+  default: [],
+});
 
 export const YTPOptionAtom = atom({
     key:'YTPOptionAtom',
     default:opt,
 })
 
-// export const loadVideoById = (videoId, startSeconds) => {
-//     ytp.loadVideoById(videoId, startSeconds);
-// };
 
 export const IsPlayingAtom = atom({
   key: 'IsPlayingAtom',

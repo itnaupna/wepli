@@ -13,7 +13,7 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import { useRecoilState } from 'recoil';
-import { IsPlayingAtom, YoutubeAtom } from '../recoil/YoutubeAtom';
+import { IsPlayingAtom, YTPListAtom, YoutubeAtom } from '../recoil/YoutubeAtom';
 
 
 
@@ -26,6 +26,11 @@ const MusicBarV2 = () => {
     const [loop, setLoop] = useState(false);
     const [shuffle, setShuffle] = useState(false);
     const [mute, setMute] = useState(false);
+    const [YTPList, setYTPList] = useRecoilState(YTPListAtom);
+    const [title,setTitle] = useState('');
+    const [author,setAuthor] = useState('');
+    const [playerNick,setPlayerNick] = useState('');
+    const [img,setImg] = useState('');
 
     useEffect(() => {
         if (YTP) {
@@ -37,15 +42,26 @@ const MusicBarV2 = () => {
                 clearInterval(timer);
             };
         }
-        // console.log("애옹 : ", isp);
     }, [YTP]);
+
+    useEffect(()=>{
+        let videoId = YTP?.getVideoUrl().split("?v=")[1]?.substr(0,11);
+        if(!videoId) return;
+        let data = YTPList[videoId];
+        setTitle(data?.title);
+        setAuthor(data?.singer);
+        setPlayerNick(data?.playerNick);
+        setImg(data?.img || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
+        
+    },[isp])
+
 
 
 
     useEffect(() => {
         if (YTP)
             YTP?.setShuffle(shuffle);
-    }, [shuffle]);
+    }, [shuffle,YTPList]);
 
     useEffect(() => {
         if (YTP)
@@ -61,18 +77,19 @@ const MusicBarV2 = () => {
     }
 
 
+
     return (
         <div className='MPF'>
             <div className='MPFTop' style={{
                 width: `${YTP?.getCurrentTime() / YTP?.getDuration() * 100}%`
             }} />
-            <div className='MPFBody' style={{ backgroundImage: 'url("https://kr.object.ncloudstorage.com/wepli/playlist/MoluCover")' }}>
+            <div className='MPFBody' style={{ backgroundImage: `url("${img}")` }}>
                 <div className='MPFBlur' />
                 <div className='MPFInfo'>
-                    <img className='MPFImg' alt='eong' src='https://kr.object.ncloudstorage.com/wepli/playlist/MoluCover' />
+                    <div className='MPFImg' style={{backgroundImage:`url("${img}")`}}/>
                     <div className='MPFText'>
-                        <h3 style={{ fontSize: '180%' }}>제목</h3>
-                        <font style={{ fontSize: '120%' }}>가수</font>
+                        <h3 style={{ fontSize: '180%' }}>{title}</h3>
+                        <font style={{ fontSize: '120%' }}>{author}{playerNick ? "by " + playerNick : null}</font>
                     </div>
                 </div>
                 <div className='MPFController'>
@@ -82,18 +99,18 @@ const MusicBarV2 = () => {
                             onChange={handleBV}
                             style={{ flex: '1', justifyContent: 'space-around' }}
                         >
-                            <ToggleButton value='shuffle' onClick={() => {
+                            <ToggleButton value="s" onClick={() => {
                                 setShuffle(!shuffle);
                             }}>
                                 <ShuffleIcon />
                             </ToggleButton>
-                            <ToggleButton onClick={() => {
+                            <ToggleButton  onClick={() => {
                                 if (YTP)
                                     YTP?.previousVideo();
                             }}>
                                 <SkipPreviousIcon />
                             </ToggleButton>
-                            <ToggleButton
+                            <ToggleButton 
                                 onClick={() => {
                                     isp === 1 ? YTP?.pauseVideo() : YTP?.playVideo()
                                 }}
@@ -102,13 +119,13 @@ const MusicBarV2 = () => {
                                 }} >
                                 {isp === 1 ? <PauseIcon style={{ fill: '#fff' }} /> : <PlayArrowIcon style={{ fill: '#FFF' }} />}
                             </ToggleButton>
-                            <ToggleButton onClick={() => {
+                            <ToggleButton  onClick={() => {
                                 if (YTP)
                                     YTP?.nextVideo();
                             }}>
                                 <SkipNextIcon />
                             </ToggleButton>
-                            <ToggleButton value='loop' onClick={() => {
+                            <ToggleButton value="l" onClick={() => {
                                 setLoop(!loop);
                             }}>
                                 <RepeatIcon />
@@ -128,7 +145,7 @@ const MusicBarV2 = () => {
                                         : <VolumeMuteIcon />
                             }
                         </span>
-                        <Slider defaultValue={10} value={YTP?.getVolume()} onChange={(e) => { YTP?.setVolume(e.target.value); setCurrentTime(e.target.value) }} />
+                        <Slider value={(YTP && YTP?.getVolume())} onChange={(e) => { YTP?.setVolume(e.target.value); setCurrentTime(e.target.value) }} />
                     </div>
                 </div>
             </div>

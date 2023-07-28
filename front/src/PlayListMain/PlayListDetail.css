@@ -338,17 +338,13 @@
     height: 3.13rem;
     object-fit: cover;
 }
+
 .txtrank {
     position: absolute;
     top: calc(50% - 10px);
     left: 1.06rem;
-    font-size: var(--font-size-sm);
-    text-transform: capitalize;
-    font-family: var(--font-black-han-sans);
-    display: inline-block;
-    width: 2.19rem;
-    height: 1.25rem;
 }
+
 .playlistdetailitems {
     flex: 1;
     position: relative;
@@ -715,14 +711,14 @@
     border-radius: var(--br-11xl);
     background-color: var(--color-gray-300);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    height: 60.56rem;
+    /* height: 60.56rem; */
     flex-direction: column;
     padding: var(--padding-xl);
     align-items: center;
     justify-content: flex-start;
     gap: 2.5rem;
     max-width: 68.75rem;
-    max-height: 60.56rem;
+    /* max-height: 60.56rem; */
     overflow: auto;
 }
 
@@ -731,13 +727,13 @@
 }
 .playlistdetailframe {
     width: 100%;
-    height: 63.06rem;
+    /* height: 63.06rem; */
     flex-direction: row;
     padding: var(--padding-xl) 0;
     align-items: flex-start;
     justify-content: center;
-    min-height: 63.06rem;
-    max-height: 67.5rem;
+    /* min-height: 63.06rem; */
+    /* max-height: 67.5rem; */
     text-align: left;
     font-size: var(--font-size-xl);
     color: var(--color-black);

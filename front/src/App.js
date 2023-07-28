@@ -1,4 +1,6 @@
 import './App.css';
+import Modal from '@mui/material/Modal';
+
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import PlayListMain01PlayListRangkingMain from "./PlayListMain/PlayListMain01PlayListRangkingMain";
 import PlayListMain02PlayListSearchMain from "./PlayListMain/PlayListMain02PlayListSearchMain";
@@ -51,13 +53,13 @@ function App() {
         conSocket();
     }, []);
 
-    useEffect(() => {
-        if (YTP !== null) {
-            YTP.loadPlaylist(['pfUdcAvxh_Q', 'Syb1e8XsI90']);
-            // YTP.loadVideoById('pfUdcAvxh_Q', 0);
-            YTP.setVolume(10);
-        }
-    }, [YTP]);
+    // useEffect(() => {
+    //     if (YTP !== null) {
+    //         // YTP.loadPlaylist(['pfUdcAvxh_Q', 'Syb1e8XsI90']);
+    //         // YTP.loadVideoById('pfUdcAvxh_Q', 0);
+    //         YTP.setVolume(10);
+    //     }
+    // }, [YTP]);
 
 
     return (
@@ -65,12 +67,14 @@ function App() {
             <YouTube style={{display: 'none'
             }} onReady={(e) => { setYTP(e.target); }} onStateChange={(e) => {
                 setShowController(e.target.getPlayerState());
+                document.title = e.target.getPlayerState();
             }} opts={opt} />
             <SideBar />
-            <MusicBarV2 />
+            {showController !==0 && <MusicBarV2 />}
             {/* <MusicPlayerBar/> */}
             {/* {showController  && <MusicPlayerBar/>} */}
             <div className="backgroundImgDiv" />
+            <div style={{paddingBottom: showController !== 0 ? '100px' : '0'}}>
             <Routes>
                 <Route path="/" element={<MainPage />} />
 
@@ -99,7 +103,7 @@ function App() {
                 } />
                 <Route path={"/hyuk"} element={<Hyukmain />} />
             </Routes>
-
+            </div>
             {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen} />}
             {loginmodalopen && <LoginModal setloginmodalopen={setloginmodalopen} />}
         </BrowserRouter>

@@ -1,0 +1,88 @@
+.CSMWrapper, .CSMWrapper>*{
+    padding:10px;
+}
+.CSMWrapper{
+    position:absolute;
+    left:50%;
+    top:50%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    transform: translate(-50%,-50%);
+    display: flex;
+    max-width: 860px;
+    min-width: 360px;
+    flex:1;
+    flex-direction: column;
+}
+
+.CSMContent{
+    display:flex;
+    padding:10px;
+    align-items: center;
+    gap:10px;
+    align-self: stretch;
+    height:80px;
+}
+
+.btnCSMTitle{
+    flex: 1;
+}
+
+
+.btnCSM{
+    width: 50px;
+    height:50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+}
+
+.btnCSM svg{
+    font-size: 48px;
+}
+
+
+.CSMlv2{
+    padding-left: 0px !important;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height:inherit;
+    flex-direction: row;
+}
+
+.CSMImg{
+    width:318px;
+    height:178px;
+    border:1px solid black;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.CSMInfo{
+    display: flex;
+    min-width: 240px;
+    padding: 11px 10px 10px 0px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 180px;
+}
+
+.CSMInput, .CSMDetail{
+    /* height:32px; */
+    align-self: stretch;
+    background-color: lightgray;
+    border-radius: 10px;
+    flex:1;
+    padding-left: 10px;
+}
+
+.CSMlv4{
+    border-radius: 10px;
+    background-color: aqua;
+}
