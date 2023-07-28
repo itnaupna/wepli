@@ -37,6 +37,20 @@ function FollowerListModal(props) {
         })
     }
 
+    const handleUnFollow = async (fValues, idx) => {
+        const url = "/api/lv2/f/delfollow";
+
+        axios({
+            method:'delete',
+            url: url,
+            params: {target: fValues}
+        }).then(res=>{
+            const updatedUnFollow = [...targetMember];
+            updatedUnFollow[idx] = {...updatedUnFollow[idx], isfollow: res.data};
+            setTargetMember(updatedUnFollow);
+        })
+    }
+
 
     return (
         <div>
@@ -88,6 +102,8 @@ function FollowerListModal(props) {
                                                 onClick={(e)=> handleDeFollow(item.t, e.target.value)}>
                                                     {item.isfollow === 0 ? "추가" : "삭제"}</button>
                                             </div>
+                                            <button type={'button'} value={idx} className={'followermodalunfollowbtn'}
+                                                    onClick={(e)=> handleUnFollow(item.t,e.target.value)}>언팔로우</button>
                                         </div>
                                     </div>
                                 </div>

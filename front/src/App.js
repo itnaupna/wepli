@@ -59,7 +59,7 @@ function App() {
                      : ""
                 }
                 {loginStatus && isPasswordEntered ?
-                    <Route path="/mypage" element={<Mypage />} /> :
+                    <Route path="/mypage" element={<Mypage1 />} /> :
                     ""
                 }
                 <Route path="/mypage/:userNick" element={<MemberPage/>}/>
@@ -78,7 +78,7 @@ function App() {
                     <h1 style={{ width: "100%", textAlign: "center", marginTop: "25%", position: "absolute" }}>페이지가 없습니다</h1>
                 } />
                 <Route path={"/hyuk"} element={<Hyukmain/>}/>
-                <Route path={"/hh"} element={<Mypage1/>}/>
+                {/*<Route path={"/hh"} element={<Mypage1/>}/>*/}
             </Routes>
 
             {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen} />}

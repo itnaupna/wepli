@@ -5,12 +5,23 @@ import logo from './photo/wplieonlylogo.png';
 import message from "./svg/message.svg";
 import axios from "axios";
 import {useRecoilState} from "recoil";
-import {BlackListModalOpen, FollowModalOpen, TargetListModalOpen} from "../recoil/MypageModalAtom";
+import {
+    BlackListModalOpen, BlackListOptionModalOpen, EmailConfirmModalOpen,
+    FollowModalOpen,
+    InfoChangeModalOpen,
+    OutMemberModalOpen, PhoneConfirmModalOpen,
+    TargetListModalOpen
+} from "../recoil/MypageModalAtom";
 import {BlackMemberAtom, FollowMemberAtom, TargetMemberAtom} from "../recoil/FollowAtom";
 import {LoginStatusAtom, ProfileImageUrl, UserStorageDesc} from "../recoil/LoginStatusAtom";
 import FollowListModal from "../MypageModal/FollowListModal";
 import BlackListModal from "../MypageModal/BlackListModal";
 import FollowerListModal from "../MypageModal/FollowerListModal";
+import InfoChageModal from "../MypageModal/InfoChageModal";
+import OutMemberModal from "../MypageModal/OutMemberModal";
+import EmailConfirmModal from "../MypageModal/EmailConfirmModal";
+import PhoneConfirmModal from "../MypageModal/PhoneConfirmModal";
+import BlackListOptionModal from "../MypageModal/BlackListOptionModal";
 
 function Mypage1(props) {
 
@@ -19,7 +30,11 @@ function Mypage1(props) {
     const [isFollowListModalOpen, setisFollowListModalOpen] = useRecoilState(FollowModalOpen);
     const [isTargetListModalOpen, setisTargetListModalOpen] = useRecoilState(TargetListModalOpen);
     const [isBlackListModalOpen, setisBlackListModalOpen] = useRecoilState(BlackListModalOpen);
-
+    const [isInfoChangeModalOpen, setIsInfoChangeModalOpen] = useRecoilState(InfoChangeModalOpen);
+    const [isOutMemberModalOpen, setIsOutMemberModalOpen] = useRecoilState(OutMemberModalOpen);
+    const [isEmailConfirmModalOpen, setisEmailConfirmModalOpen] = useRecoilState(EmailConfirmModalOpen);
+    const [isPhoneConfirmModalOpen, setisPhoneConfirmModalOpen] = useRecoilState(PhoneConfirmModalOpen);
+    const [isBlackListOptionModalOpen, setisBlackListOptionModalOpen] = useRecoilState(BlackListOptionModalOpen);
     const [followMember, setFollowMember] = useRecoilState(FollowMemberAtom);
     const [targetMember, setTargetMember] = useRecoilState(TargetMemberAtom);
     const [blackMember, setBlackMember] = useRecoilState(BlackMemberAtom);
@@ -50,6 +65,26 @@ function Mypage1(props) {
 
 
     const bucket = process.env.REACT_APP_BUCKET_URL;
+
+    const showOutMemberModal = () => {
+        setIsOutMemberModalOpen(true);
+    };
+
+    const showInfoChangeModal = () => {
+        setIsInfoChangeModalOpen(true);
+    }
+
+    const showEmailConfirmModal = () => {
+        setisEmailConfirmModalOpen(true);
+    }
+
+    const showPhoneConfirmModal = () => {
+        setisPhoneConfirmModalOpen(true);
+    }
+
+    const showBlackListOptionModal = () => {
+        setisBlackListOptionModalOpen(true);
+    }
 
     const showFollowListModal = () => {
         setisFollowListModalOpen(true);
@@ -237,30 +272,36 @@ function Mypage1(props) {
                 <div className={'mypagelistmenu'}>
                     <button className="hamburger-button" onClick={handleMenuToggle}>메뉴</button>
                     <ul className={`mypageul ${isMenuOpen ? 'open' : ''}`}>
-                        <li>
+                        <li onClick={showInfoChangeModal}>
                             회원정보수정
                         </li>
 
-                        <li>
-                            이메일인증ㄴㄴ
+                        <li onClick={showEmailConfirmModal}>
+                            이메일인증
                         </li>
 
-                        <li>
+                        <li onClick={showPhoneConfirmModal}>
                             전화번호인증
                         </li>
 
-                        <li>
+                        <li onClick={showBlackListOptionModal}>
                             블랙리스트옵션
                         </li>
 
-                        <li>
+                        <li onClick={showOutMemberModal}>
                             회원탈퇴
                         </li>
                     </ul>
                 </div>
             </div>
-
-
+            {isEmailConfirmModalOpen &&
+                <EmailConfirmModal setisEmailConfirmModalOpen={setisEmailConfirmModalOpen}/>}
+            {isPhoneConfirmModalOpen &&
+                <PhoneConfirmModal setisPhoneConfirmModalOpen={setisPhoneConfirmModalOpen}/>}
+            {isBlackListOptionModalOpen &&
+                <BlackListOptionModal setisBlackListOptionModalOpen={setisBlackListOptionModalOpen}/>}
+            {isOutMemberModalOpen && <OutMemberModal setIsOutMemberModalOpen={setIsOutMemberModalOpen}/>}
+            {isInfoChangeModalOpen && <InfoChageModal setIsInfoChangeModalOpen={setIsInfoChangeModalOpen}/>}
             {isBlackListModalOpen && <BlackListModal setisBlackListModalOpen={setisBlackListModalOpen}/>}
             {isTargetListModalOpen && <FollowerListModal setisTargetListModalOpen={setisTargetListModalOpen}/>}
             {isFollowListModalOpen && (
