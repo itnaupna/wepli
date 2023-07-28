@@ -13,15 +13,9 @@ function PlayListUpdate(props) {
     const [pliImg, setPliImg] = useState(bucketURl + "/playlist/88e584de-fb85-46ce-bc1a-8b2772babe42");
     const PliImgRef = useRef();
     const [uploadPliImgName , setUploadPliImgName] = useState("/playlist/88e584de-fb85-46ce-bc1a-8b2772babe42");
-    const [genre01, setGenre01] = useState("");
-    const [genre02, setGenre02] = useState("");
-    const [genre03, setGenre03] = useState("");
-    const [genre04, setGenre04] = useState("");
+    const [genre, setGenre] = useState([]);
     const [genres , setGenres] = useState("");
-    const [tag01, setTag01] = useState("");
-    const [tag02, setTag02] = useState("");
-    const [tag03, setTag03] = useState("");
-    const [tag04, setTag04] = useState("");
+    const [tag, setTag] = useState([]);
     const [tags , setTags] = useState("");
     const navigate = useNavigate();
 
@@ -42,41 +36,16 @@ function PlayListUpdate(props) {
     const pliDescOnChange = useCallback(e => {
         setPliDesc(e.target.value);
     });
-    const genre01OnChange = useCallback(e => {
-        setGenre01(e.target.value);
+    const genreOnChange = useCallback(e => {
+        setGenre(e.target.value);
     });
-    const genre02OnChange = useCallback(e => {
-        setGenre02(e.target.value);
-    });
-    const genre03OnChange = useCallback(e => {
-        setGenre03(e.target.value);
-    });
-    const genre04OnChange = useCallback(e => {
-        setGenre04(e.target.value);
-    });
-    const tag01OnChange = useCallback(e => {
-        setTag01(e.target.value);
-    });
-    const tag02OnChange = useCallback(e => {
-        setTag02(e.target.value);
-    });
-    const tag03OnChange = useCallback(e => {
-        setTag03(e.target.value);
-    });
-    const tag04OnChange = useCallback(e => {
-        setTag04(e.target.value);
+    const tagOnChange = useCallback(e => {
+        setTag(e.target.value);
     });
 
     const closBack = () => {
         closBacknavigate(-1);
     };
-
-    useEffect(() => {
-        setGenres((genre01 === "" ? genre01 : genre02 === "" && genre03 === "" && genre04 === "" ?  genre01 : (genre01 + ",")) + (genre02 === "" ? genre02 : genre03 === "" && genre04 === "" ? genre02 : (genre02 + ",")) + (genre03 === ""  ? genre03 : genre04 === "" ? genre03 : (genre03 + ",")) +  (genre04));
-    },[genre01, genre02, genre03, genre04]);
-    useEffect(() => {
-        setTags((tag01 === "" ? tag01 : tag02 === "" && tag03 === "" && tag04 === "" ?  tag01 : (tag01 + ",")) + (tag02 === "" ? tag02 : tag03 === "" && tag04 === "" ? tag02 : (tag02 + ",")) + (tag03 === ""  ? tag03 : tag04 === "" ? tag03 : (tag03 + ",")) +  (tag04));
-    },[tag01, tag02, tag03, tag04]);
 
     const savePliImg = (e) => {
         const uploadPliImg = new FormData();
@@ -141,16 +110,17 @@ function PlayListUpdate(props) {
                 setPlaListDetailInfo(res.data.play);
                 setPliTitle(res.data.play.title);
                 setPliDesc(res.data.play.desc);
-                setGenre01(res.data.play.genre.split(",")[0] === undefined ? "" : res.data.play[0].genre.split(",")[0]);
-                setGenre02(res.data.play.genre.split(",")[1] === undefined ? "" : res.data.play[0].genre.split(",")[1]);
-                setGenre03(res.data.play.genre.split(",")[2] === undefined ? "" : res.data.play[0].genre.split(",")[2]);
-                setGenre04(res.data.play.genre.split(",")[3] === undefined ? "" : res.data.play[0].genre.split(",")[3]);
-                setTag01(res.data.play.tag.split(",")[0] === undefined ? "" : res.data.play[0].tag.split(",")[0]);
-                setTag02(res.data.play.tag.split(",")[1] === undefined ? "" : res.data.play[0].tag.split(",")[1]);
-                setTag03(res.data.play.tag.split(",")[2] === undefined ? "" : res.data.play[0].tag.split(",")[2]);
-                setTag04(res.data.play.tag.split(",")[3] === undefined ? "" : res.data.play[0].tag.split(",")[3]);
+                if(res.data.genre != null) {
+                    setGenre((res.data.play.genre).split(","));
+                }
+                if(res.data.tag != null) {
+                    setTag((res.data.play.tag).split(","));
+                }
                 setPliImg(bucketURl + res.data.play.img);
                 setUploadPliImgName(res.data.play.img);
+                console.log(genre);
+                console.log(tag);
+
             })
             .catch(res => console.log(res));
     }, []);
@@ -205,45 +175,26 @@ function PlayListUpdate(props) {
                             <div className="tagtitle">장르 (10글자 까지 입력 가능합니다)</div>
                             <div className="commettilteiconbody">#</div>
                         </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={genre01} maxLength="10"
-                                   onChange={genre01OnChange} placeholder="장르를 적어주세요"/>
-                        </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={genre02} maxLength="10"
-                                   onChange={genre02OnChange} placeholder="장르를 적어주세요"/>
-                        </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={genre03} maxLength="10"
-                                   onChange={genre03OnChange} placeholder="장르를 적어주세요"/>
-                        </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={genre04} maxLength="10"
-                                   onChange={genre04OnChange} placeholder="장르를 적어주세요"/>
-                        </div>
-
+                        {Array(4).fill().map((_, idx) => 
+                            <div className="playlistaddtagform">
+                                <input className="txtplaylistaddform" value={genre[idx] == null ? "" : genre[idx]} maxLength="10"
+                                    onChange={genreOnChange} placeholder="장르를 적어주세요"/>
+                            </div>
+                        )}
                     </div>
                     <div className="playlistaddtaggroup1">
                         <div className="playlistaddtagheader">
                             <div className="tagtitle">태그 (10글자 까지 입력 가능합니다)</div>
                             <div className="commettilteiconbody">#</div>
                         </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={tag01} maxLength="10" onChange={tag01OnChange}
-                                   placeholder="태그를 적어주세요"/>
-                        </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={tag02} maxLength="10" onChange={tag02OnChange}
-                                   placeholder="태그를 적어주세요"/>
-                        </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={tag03} maxLength="10" onChange={tag03OnChange}
-                                   placeholder="태그를 적어주세요"/>
-                        </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={tag04} maxLength="10" onChange={tag04OnChange}
-                                   placeholder="태그를 적어주세요"/>
-                        </div>
+                        {Array(4).fill().map((_, idx) => 
+                            <div className="playlistaddtagform">
+                                <input className="txtplaylistaddform" value={tag[idx] == null ? "" : tag[idx]} maxLength="10" onChange={tagOnChange}
+                                    placeholder="태그를 적어주세요"/>
+                            </div>
+                        )}
+
+
                     </div>
                 </div>
                 <img
