@@ -159,11 +159,13 @@ const PlayListDetail = () => {
 
     const [txtsingerVal, setTxtsingerVal] = useState("");
 
+    const [songTitle, setSongTitle] = useState("");
+    const [songSinger, setSongSinger] = useState("");
     const handleChangeSinger = (index, value) => {
-
         setPlaListDetailSong(prevSongList => {
             const newSongList = [...prevSongList];
             newSongList[index] = { ...newSongList[index], singer: value };
+            setSongSinger(value);
             return newSongList;
         });
     };
@@ -172,9 +174,10 @@ const PlayListDetail = () => {
         setPlaListDetailSong(prevSongList => {
             const newSongList = [...prevSongList];
             newSongList[index] = { ...newSongList[index], title: value };
+            setSongTitle(value);
             return newSongList;
         });
-    };
+    };  
 
     const [readonlyInputVal, setReadonlyInputVal] = useState(true);
     const readonlyInput = () => {
@@ -185,9 +188,10 @@ const PlayListDetail = () => {
 
     const handleSelectInput = (index) => {
         setSelectedInputIdx(index);
+        setSongImg("");
     };
 
-    const [uploadSongImgName , setUploadSongImgName] = useState("");
+    const [uploadSongImgName , setUploadSongImgName] = useState(null);
     const SongImgRef = useRef();
     const [songImg, setSongImg] = useState("");
 
@@ -216,6 +220,39 @@ const PlayListDetail = () => {
             };
         }
     };
+    const updateSongSetting = (songSinger, songTitle) => {
+        setSongTitle(songTitle);
+        setSongSinger(songSinger);
+    }
+
+
+    const updateSong = (index) => {
+        const updateSongURl = "/api/lv1/p/song";
+        alert(songTitle + "+" + songSinger + "+" + uploadSongImgName + "+" + idx + "+" + index);
+        const updateSongData = {
+            playlistID: idx,
+            title: songTitle,
+            songlength: 300,
+            img: uploadSongImgName,
+            genre: "",
+            tag: "",
+            singer: songSinger ,
+            songaddress: "anUYNyTZTxM",
+            songorigin : "yt",
+            idx: index
+        };
+
+
+        Axios.patch(updateSongURl, updateSongData)
+            .then(res =>
+                alert("수정 완료")
+            )
+            .catch((error) => {
+                alert("실패애러" + error)
+
+                }
+            )
+    }
 
     return (
         <div className="playlistdetailframe">
@@ -262,12 +299,11 @@ const PlayListDetail = () => {
                                         src={PlayListPlayIcon}
                                     />
                                 </div>
-                                <div className="playlistdetailbuttons">
+                                <div className="playlistdetailbuttons" onClick={likeOnClick}>
                                     <img
                                         className="playlistdetaillikebutton-icon"
                                         alt=""
                                         src={PlayListDetailHeart}
-                                        onClick={likeOnClick}
                                     />
                                 </div>
                                 <div className="playlistdetailbuttons" onClick={ShowSearchModalOpen}>
@@ -335,13 +371,13 @@ const PlayListDetail = () => {
                                         className={selectedInputIdx !== idx ?"playlistdetaillistupdatebutton-icon" : "playlistdetaillistupdatebutton-icon playlistdetaillistupdatebutton-hidden"}
                                         alt=""
                                         src={PlayListDetailOption}
-                                        onClick={() => handleSelectInput(idx)}
+                                        onClick={() => {updateSongSetting(songList.singer, songList.title); handleSelectInput(idx)}}
                                     />
                                     <img
                                         className={selectedInputIdx === idx ?"playlistdetaillistupdatebutton-icon" : "playlistdetaillistupdatebutton-icon playlistdetaillistupdatebutton-hidden"}
                                         alt=""
                                         src={songUpdateSave}
-                                        onClick={() => handleSelectInput(-1)}
+                                        onClick={() => {updateSong(songList.idx); handleSelectInput(-1)}}
                                     />
                                     <img
                                         className="playlistdetaillistdelete-icon"
@@ -371,8 +407,8 @@ const PlayListDetail = () => {
                                     alt=""
                                     src={
                                         selectedInputIdx === idx
-                                            ? songImg !== null ? songImg :  songList.img !== null ? `${bucketURl}/songimg/${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
-                                                : selectedInputIdx !== idx && songList.img !== null ? `${bucketURl}/songimg/${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
+                                            ? songImg !== "" ? songImg : songList.img !== null ? `${bucketURl}${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
+                                                :  songList.img !== null ? `${bucketURl}${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
                                     }
                                 />
                                 </label>

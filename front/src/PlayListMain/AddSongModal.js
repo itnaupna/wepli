@@ -131,13 +131,13 @@ function AddSongModal(props) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="addsongmodaladdbutton">
+                                    <div className="addsongmodaladdbutton" onClick={saveSong}>
                                         <img
                                             className="addsongmodaladdbuttonicon"
                                             alt=""
                                             src={PlayListDetaliAddMusic}
                                         />
-                                        <div className="addsongmodaladdbuttontxt" onClick={saveSong}>추가</div>
+                                        <div className="addsongmodaladdbuttontxt">추가</div>
                                     </div>
                                 </div>
                             </div>

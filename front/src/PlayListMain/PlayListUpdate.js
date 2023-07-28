@@ -4,6 +4,7 @@ import Axios from "axios";
 import PlusIcon from "../MainIMG/plusIcon.png";
 import PlayListSave from "../MainIMG/playListSave.png";
 import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
+import "./PlayListUpdate.css";
 
 function PlayListUpdate(props) {
     const idx = useParams().pliId;
@@ -129,7 +130,8 @@ function PlayListUpdate(props) {
             )
     };
 
-    const [plaListDetailResult, setPlaListDetailResult] = useState([]);const [plaListDetailComment, setPlaListDetailComment] = useState([]);
+    const [plaListDetailResult, setPlaListDetailResult] = useState([]);
+    const [plaListDetailComment, setPlaListDetailComment] = useState([]);
     const [plaListDetailInfo, setPlaListDetailInfo] = useState([]);
 
     useEffect(() => {
@@ -199,6 +201,12 @@ function PlayListUpdate(props) {
                         </div>
                     </div>
                 </div>
+                    공개
+                    <div className="isPublicgtoggle isPublicgtoggle-r" id="isPublicgtoggle-3">
+                        <input type="checkbox" className="checkbox"/>
+                        <div className="knobs"></div>
+                        <div className="layer"></div>
+                    </div>
                 <div className="playlistaddtagframe">
                     <div className="playlistaddtaggroup1">
                         <div className="playlistaddtagheader">
@@ -207,19 +215,19 @@ function PlayListUpdate(props) {
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={genre01} maxLength="10"
-                                   onChange={genre01OnChange} placeholder="장르를 적어주세요"/>
+                                   onChange={genre01OnChange} placeholder="장르를 적어주세요" type="text"/>
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={genre02} maxLength="10"
-                                   onChange={genre02OnChange} placeholder="장르를 적어주세요"/>
+                                   onChange={genre02OnChange} placeholder="장르를 적어주세요" type="text"/>
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={genre03} maxLength="10"
-                                   onChange={genre03OnChange} placeholder="장르를 적어주세요"/>
+                                   onChange={genre03OnChange} placeholder="장르를 적어주세요" type="text"/>
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={genre04} maxLength="10"
-                                   onChange={genre04OnChange} placeholder="장르를 적어주세요"/>
+                                   onChange={genre04OnChange} placeholder="장르를 적어주세요" type="text"/>
                         </div>
 
                     </div>
@@ -230,19 +238,19 @@ function PlayListUpdate(props) {
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={tag01} maxLength="10" onChange={tag01OnChange}
-                                   placeholder="태그를 적어주세요"/>
+                                   placeholder="태그를 적어주세요" type="text"/>
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={tag02} maxLength="10" onChange={tag02OnChange}
-                                   placeholder="태그를 적어주세요"/>
+                                   placeholder="태그를 적어주세요" type="text"/>
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={tag03} maxLength="10" onChange={tag03OnChange}
-                                   placeholder="태그를 적어주세요"/>
+                                   placeholder="태그를 적어주세요" type="text"/>
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={tag04} maxLength="10" onChange={tag04OnChange}
-                                   placeholder="태그를 적어주세요"/>
+                                   placeholder="태그를 적어주세요" type="text"/>
                         </div>
                     </div>
                 </div>
