@@ -22,6 +22,7 @@ import {
 } from "../recoil/MypageModalAtom";
 import FollowerListModal from "../MypageModal/FollowerListModal";
 import BlackListModal from "../MypageModal/BlackListModal";
+import { pwChkModalOpen } from '../recoil/FindIdModalAtom';
 
 function Mypage(props) {
 
@@ -32,6 +33,7 @@ function Mypage(props) {
 
     if (data) {
         const parsedData = JSON.parse(data);
+        console.log(parsedData);
         userNick = parsedData.nick;
         profile = parsedData.img;
         console.log(userNick);
@@ -56,7 +58,9 @@ function Mypage(props) {
     const [isFollowListModalOpen, setisFollowListModalOpen] = useRecoilState(FollowModalOpen);
     const [isTargetListModalOpen, setisTargetListModalOpen] = useRecoilState(TargetListModalOpen);
     const [isBlackListModalOpen, setisBlackListModalOpen] = useRecoilState(BlackListModalOpen);
+    const [pwChkmodalOpen, setpwChkmodalOpen] = useRecoilState(pwChkModalOpen);
     const [memberProfile, setmemberProfile] = useState('');
+    const [isSocial, setIsSocial] = useState(false);
     const [loginStatus, setLoginStatus] = useRecoilState(LoginStatusAtom);
     const [profileImageUrl, setProfileImageUrl] = useRecoilState(ProfileImageUrl);
     const [followMember, setFollowMember] = useRecoilState(FollowMemberAtom);
@@ -190,7 +194,18 @@ function Mypage(props) {
 
     useEffect(() => {
         setProfileImageUrl(profile);
-    }, [profile]);
+        let social = window.localStorage.getItem("data");
+        if(social == null) {
+            social = window.sessionStorage.getItem("data");
+        }
+        if(social && social.includes("socialtype")) {
+            setIsSocial(JSON.parse(social).socialtype == null ? false : true);
+        }
+
+        if(isSocial) {
+            setpwChkmodalOpen(false);
+        }
+    }, [profile, isSocial]);
 
 
     return (

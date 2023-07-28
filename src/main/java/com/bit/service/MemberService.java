@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.bit.dto.MemberDto;
 import com.bit.dto.MypageDto;
+import com.bit.dto.StageDto;
 import com.bit.dto.TokenDto;
 import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.BlacklistMapper;
@@ -213,8 +214,10 @@ public class MemberService {
         if(profile != null && !profile.equals("")) {
             ncpObjectStorageService.deleteFile(bucketname, "profile", profile);
         }
-        String stageImg = stageMapper.selectStageOneByMasterNick(nick).getImg();
-        if(stageImg != null && !stageImg.equals("")) {
+        StageDto stage = stageMapper.selectStageOneByMasterNick(nick);
+        String stageImg = null;
+        if(stage != null && !stage.equals("")) {
+            stageImg = stage.getImg();
             ncpObjectStorageService.deleteFile(bucketname, "stage", stageImg);
             
         }
