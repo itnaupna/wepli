@@ -41,9 +41,7 @@ function App() {
         }
         if(social && social.includes("socialtype")) {
             setIsSocial(JSON.parse(social).socialtype == null ? false : true);
-            console.log(JSON.parse(social).socialtype);
         }
-        console.log(isSocial);
         conSocket();
     }, [isSocial,loginStatus]);
     

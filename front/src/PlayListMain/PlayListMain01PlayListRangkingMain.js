@@ -8,8 +8,10 @@ import PlayListRankingFollowTop from "./PlayListRankingFollowTop";
 import MyLikeList from "./MyLikeList";
 import MyFollowList from "./MyFollowList";
 import FollowToggleButton from "../MainIMG/FollowToggleButton.png";
+import { useNavigate } from 'react-router-dom';
 
 function PlayListMain01PlayListRangkingMain(props) {
+    const navigate = useNavigate();
     const [rankingData, setRankingData] = useState([]);
     const [likeTop50, setLikeTop50] = useState([]);
     const [followTop50, setFollowTop50] = useState([]);
@@ -17,8 +19,18 @@ function PlayListMain01PlayListRangkingMain(props) {
     const [myFollowList, setMyFollowList] = useState([]);
     const [isLikeHidden, setIsLikeHidden] = useState(true);
     const [isFollowHidden, setIsFollowHidden] = useState(false);
+    const [nickname, setNickname] = useState("");
 
     useEffect(() => {
+        let nickname = window.localStorage.getItem("data");
+        if(nickname == null) {
+            nickname = window.sessionStorage.getItem("data");
+        } 
+        
+        if(nickname && nickname.includes("nick")) {
+            nickname = JSON.parse(nickname).nick;
+        }
+        setNickname(nickname);
         const RankingDataUrl = "/api/lv0/p/plimaindata";
         Axios.get(RankingDataUrl)
             .then(res =>
@@ -49,6 +61,18 @@ function PlayListMain01PlayListRangkingMain(props) {
         }
     });
 
+    const clickMypageHandler = (target) => {
+        if(nickname === target) {
+            navigate("/mypage");
+        } else {
+            navigate(`/mypage/${target}`);
+        }
+    }
+
+    const pliDetailHandler = (target) => {
+        navigate(`/pli/${target}`);
+    }
+
     return (
         <div className="playlistmain01">
             <div className="playlistrankingheader">
@@ -66,7 +90,7 @@ function PlayListMain01PlayListRangkingMain(props) {
                             {
                                 likeTop50 !== undefined ?
                                     likeTop50.map((likeTop50, idx) =>
-                                        <PlayLsitRankingLikeTop item={likeTop50} key={idx} ranking={idx}/>
+                                        <PlayLsitRankingLikeTop item={likeTop50} key={idx} ranking={idx} pliDetail={pliDetailHandler}/>
                                     ) : <div className="MyLikePliNoLoging">Loading...</div>
                             }
                         </div>
@@ -85,7 +109,7 @@ function PlayListMain01PlayListRangkingMain(props) {
                                         myLikeList.length === 0 ?
                                             <div className="MyLikePliNoLoging">좋아요 한 플레이리스트가 없습니다.</div> :
                                             myLikeList.map((myLikeList, idx) =>
-                                                <MyLikeList item={myLikeList} key={idx} idx={idx}/>
+                                                <MyLikeList item={myLikeList} key={idx} idx={idx} pliDetail={pliDetailHandler}/>
                                             )
                             }
                         </div>
@@ -116,7 +140,7 @@ function PlayListMain01PlayListRangkingMain(props) {
                                     myFollowList.length === 0 ?
                                         <div className="MyLikePliNoLoging">팔로우 한 유저가 없습니다</div> :
                                         myFollowList.map((myFollowList, idx) =>
-                                            <MyFollowList item={myFollowList} key={idx} idx={idx}/>
+                                            <MyFollowList item={myFollowList} key={idx} idx={idx} pliDetail={pliDetailHandler}/>
                                         )
                             }
                         </div>
@@ -141,7 +165,7 @@ function PlayListMain01PlayListRangkingMain(props) {
                             {
                                 followTop50 !== undefined ?
                                     followTop50.map((followTop50, idx) =>
-                                        <PlayListRankingFollowTop item={followTop50} key={idx} ranking={idx}/>
+                                        <PlayListRankingFollowTop item={followTop50} key={idx} ranking={idx} mypage={clickMypageHandler}/>
                                     ) : <div className="MyLikePliNoLoging">Loading...</div>
                             }
                         </div>
