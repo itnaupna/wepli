@@ -1,7 +1,7 @@
 .StageModalContainer{
     /* width: 1000px;
     height: 1000px; */
-    z-index: 999;
+    z-index: 1;
     position: absolute;
     margin:auto;
     top:340px;
@@ -208,7 +208,7 @@ a:focus {
 	background: none;
 	color: inherit;
 	position: relative;
-	z-index: 1;
+	z-index: 0;
   text-align: center;
   left: 140px;
 	-webkit-backface-visibility: hidden;

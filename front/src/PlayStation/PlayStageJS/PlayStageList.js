@@ -9,7 +9,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import SearchBar from "./PlayStageSearchBar.js";
 import StageSlide from './StageSlide.js';
-import {useInView} from "react-intersection-observer";
+
 
 function PlayStageList(props) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -18,11 +18,20 @@ function PlayStageList(props) {
     setModalOpen(true);
   };
   const [resItems, setResItems] = useState([]);
+  const [currentPage,setCurrentPage] = useState(1);
+  // useEffect(() => {
+  //   axios.get("/api/lv0/s/stage", { params: { curr: 1, cpp: 3} })
+  //     .then(res => { setResItems(res.data); console.log(res.data); })
+  //     .catch(res => console.log(res));
+  // }, []);
   useEffect(() => {
-    axios.get("/api/lv0/s/stage", { params: { curr: 1, cpp: 6 } })
-      .then(res => { setResItems(res.data); console.log(res.data); })
+    axios.get("/api/lv0/s/stage", { params: { curr: currentPage, cpp: 3} })
+      .then(res => {
+        setResItems(prevItems => [...prevItems, ...res.data]);
+        console.log(res.data);
+      })
       .catch(res => console.log(res));
-  }, []);
+  }, [currentPage]);
   
   //최신순(기본값) 인기순 토글 셀렉트
   const [type1,setType1] = useState(0);
@@ -34,6 +43,7 @@ function PlayStageList(props) {
   const [isLogin,setIsLogin] = useState(false);
   const [checkStage,SetCheckStage] = useState(false);
   const [confirmAccount,SetConfirmAccount] = useState(0);
+  
   const toggle1Dropdown = () =>{
     setIsOpen1(!isOpen1);
   };
@@ -71,6 +81,27 @@ function PlayStageList(props) {
     }
   },[]);
 
+// 스크롤 이벤트 핸들러
+const handleScroll = () => {
+  const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
+  if (isAtBottom) {
+    setCurrentPage(prevPage => prevPage + 1);
+    console.log('무한 스크롤 작동!');
+  }
+};
+
+useEffect(() => {
+  // 초기 로딩 시 스크롤 이벤트 발생시키기
+  handleScroll();
+
+  // 스크롤 이벤트 리스너 등록
+  window.addEventListener("scroll", handleScroll);
+
+  return () => {
+    // 스크롤 이벤트 리스너 해제
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
 
   return (
     <div className="slp">
@@ -132,16 +163,14 @@ function PlayStageList(props) {
           </div>
         </div>
         <div className="slpresult">
-          {
-            resItems.map((v, i) =>
-              <Link to={"/stage/" + v.address}>
-                <ResultItem data={v} key={i}/>
-              </Link>
-            )
-          }          
+        {resItems.map((v, i) => (
+          <Link to={"/stage/" + v.address} key={v.id}>
+            <ResultItem data={v} />
+          </Link>
+        ))}       
         </div>
       </div>
     </div>
-  )
+  );
 }
 export default PlayStageList;

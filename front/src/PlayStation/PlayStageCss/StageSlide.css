@@ -63,12 +63,8 @@
   margin:auto;
   left: -300px;
 }
-.alice-carousel__prev-btn span{
-
-}
 
 .alice-carousel__next-btn{
-z-index: 999;
 position: absolute;
 top:160px;
 bottom:0;

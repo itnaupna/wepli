@@ -8,7 +8,7 @@ import Upload from '../PlayStageImage/Icon/upload.svg';
 import axios from 'axios';
 
 function CreateStageModal({setModalOpen}) {
-    // const [address,setAdress] =('');
+    const [address,setAdress] =('');
     const [title,setTitle] = useState('');
     const [desc,setDesc] = useState('');
     const [genre,setGenre] = useState('');
@@ -101,18 +101,19 @@ function CreateStageModal({setModalOpen}) {
       const url = "/api/lv2/s/stage";
 
       try {
-        const res = await axios.post(url,{title,pw: pw, tag, genre});
+        const res = await axios.post(url,{title,pw,tag,genre});
         if(res.data){
-            window.onload.reload();
-            Navigate("/stage/url");
+          console.log("Create success!");
+          window.location.reload();
         }
   
       }catch(error){
         console.log(error);
-        alert(error);
+        alert("스테이지 생성에 실패했습니다.");
       }
     };
     return (
+      <div className='modal__background'>
         <div ref={modalRef} className="Mcreatestagemodal-parent">
         <div className="Mcreatestagemodal">
           <div className="Mcreatestagemodal-inner">
@@ -204,6 +205,12 @@ function CreateStageModal({setModalOpen}) {
                 <input type='text' className='MCframeGenre' placeholder='장르입력' value={genre} onChange={(e)=>setGenre(e.target.value)}/>
               </div>
             </div>
+            <div className='MCrectangle-parent2'>
+                <div className='Mgroup-inner'/>
+                <div className="Mframe">
+                  <input type='text' className='MCAdrress' placeholder='' value={address} onChange={(e)=>setAdress(e.target.value)}/>
+                </div>
+            </div>
           </div>
           <img
             className="Mwplieonlylogo-4-icon"
@@ -212,6 +219,7 @@ function CreateStageModal({setModalOpen}) {
           />
         </div>
       </div>
+    </div>
     );
 }
 
