@@ -3,12 +3,13 @@ import '../PlayStageCss/PlayStage.css';
 import { useParams } from 'react-router';
 import LoadingScreen from './LoadingScreen';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { SocketAtom, SocketSubsAtom, handleSendMsg, SubSocket } from '../../recoil/SocketAtom';
+import { SocketAtom, SocketSubsAtom, handleSendMsg, SubSocket, SocketIdAtom } from '../../recoil/SocketAtom';
 import StageLeftSide from './StageLeftSide';
 import StageRightSide from './StageRightSide';
 import { ChatItemsAtom, StageUrlAtom, UserCountInStageAtom, UsersItemsAtom } from '../../recoil/ChatItemAtom';
 import { LoginStatusAtom } from '../../recoil/LoginStatusAtom';
 import { IsInQueueAtom, MyQListAtom, RoomQListAtom } from '../../recoil/StageDataAtom';
+import { IsPlayingAtom, YTPListAtom, YoutubeAtom, YoutubeInStageAtom } from '../../recoil/YoutubeAtom';
 
 
 function PlayStage() {
@@ -26,13 +27,37 @@ function PlayStage() {
     const [isInQueue, setIsInQueue] = useRecoilState(IsInQueueAtom);
     const [myQueue, setMyQueue] = useRecoilState(MyQListAtom);
     const [roomQueue, setRoomQueue] = useRecoilState(RoomQListAtom);
+    const [YTP, setYTP] = useRecoilState(YoutubeAtom); //전역 유튜브 플레이어
+    const [YTPS, setYTPS] = useRecoilState(YoutubeInStageAtom); //인스테이지 유튜브 플레이어
+    // const sessionId = useRecoilValue(SocketIdAtom);
 
     const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
-
-
-
     useEffect(() => {
 
+        return () => {
+            document.getElementById('YTPFrame').parentElement.style.display = 'none';
+        }
+    }, []);
+
+    useEffect(() => {
+        if (YTP !== null) {
+            // if (YTP !== null && YTPS !== null) {
+            setIsLoading(false);
+            if (su !== null)
+                setShowLoading(false);
+        }
+    }, [YTP, YTPS, su]);
+
+    useEffect(() => {
+        if (!showLoading) {
+            if (su === null || su !== stageUrl)
+                connect();
+            document.getElementById('YTPFrame').parentElement.style.display = 'block';
+        }
+
+    }, [showLoading, su]);
+
+    useEffect(() => {
         if (isLoading) return;
         setIsInQueue(myQueue.length > 0);
         if (myQueue.length > 0) {
@@ -42,51 +67,40 @@ function PlayStage() {
         }
     }, [myQueue[0]]);
 
-    useEffect(() => {
-        if (!su){
-            connect();
-        }else{
-            setShowLoading(false);
-        }
-    }, [su]);
-
-    useEffect(() => {
-        setSu(null);
-        //connect();
-
-    }, [IsLogin]);
-
     const connect = async () => {
 
         if (!sockClient.connected) {
             try {
                 await waitConnect();
-                SubSocket("/sub/stage/" + stageUrl, data => {
-                    handleSocketData(JSON.parse(data.body));
-                });
-                setChatLog([]);
-                setIsLoading(false);
-                setSu(stageUrl);
-                handleSendMsg('ENTER', null, stageUrl);
+                subChannel();
             }
             catch (ex) {
                 setConmsg(ex.toString());
             }
         } else {
-            SubSocket("/sub/stage/" + stageUrl, data => {
-                handleSocketData(JSON.parse(data.body));
-            });
-            setChatLog([]);
-            setIsLoading(false);
-            setSu(stageUrl);
-            handleSendMsg('ENTER', null, stageUrl);
+            subChannel();
 
         }
     }
 
+    const subChannel = () => {
+
+        YTP?.loadVideoById('tATNYnFTetg', 0);
+        YTP?.seekTo(0);
+        YTP?.stopVideo();
+        setYTPList([]);
+        SubSocket("/sub/stage/" + stageUrl, data => {
+            handleSocketData(JSON.parse(data.body));
+        });
+        setChatLog([]);
+        setIsLoading(false);
+        setSu(stageUrl);
+        handleSendMsg('ENTER', null, stageUrl);
+    }
+
     const waitConnect = () => {
         return new Promise((resolve, reject) => {
-            const limit = 10;
+            const limit = 20;
             const intervalTime = 500;
             let currentAttempt = 0;
             const interval = setInterval(() => {
@@ -109,9 +123,12 @@ function PlayStage() {
         ]);
     }
 
+    const [YTPList, setYTPList] = useRecoilState(YTPListAtom);
+    // const [isp, setIsp] = useRecoilState(IsPlayingAtom);
 
     const handleSocketData = (data) => {
-        // console.log("패킷수신 " + data.msg.toString());
+        console.log(data);
+        // console.log("패킷수신 " + data.msg);
         switch (data.type) {
             case 'ENTER':
                 setUserList(data.msg.memberlist);
@@ -180,24 +197,75 @@ function PlayStage() {
                 });
                 break;
             case 'PLAY':
+                console.log(data.msg.songaddress);
+
+                // console.log(sessionId);
+                let udata = JSON.parse(sessionStorage.getItem('data') || localStorage.getItem('data'));
+                let userNick = udata?.nick;
+                let target = data.msg.target;
+                let mys = sessionStorage.getItem('s');
+
+                if (target !== null && target !== mys) return;
                 //만약 내 곡이라면 내 대기열의 0번째 인덱스값을 지운다.
-                let userNick = (JSON.parse(sessionStorage.getItem('data') || localStorage.getItem('data')))?.nick;
-                if(data.msg.playerNick === userNick){
-                    
-                    console.log([...myQueue]);
+                //그리고 스킵버튼을 띄우고 추천/비추 숨기고
+                //아니라면 그 반대로
+                if (data.msg.playerNick === userNick) {
+                    setMyQueue(v => {
+                        const a = [...v];
+                        a.splice(0, 1);
+                        return a;
+                    });
+                    if (userNick !== null) {
+                        // document.getElementsByClassName('stage-button-up')[0].style.display = 'none';
+                        // document.getElementsByClassName('stage-button-down')[0].style.display = 'none';
+                    }
+                    document.getElementsByClassName('stage-button-skip')[0].style.display = 'flex';
+                } else {
+                    if (userNick !== null) {
+                        // document.getElementsByClassName('stage-button-up')[0].style.display = 'flex';
+                        // document.getElementsByClassName('stage-button-down')[0].style.display = 'flex';
+                    }
+                    document.getElementsByClassName('stage-button-skip')[0].style.display = 'none';
                 }
-                // setMyQueue([...myQueue.splice(0,1)]);
+                //테스트용
+                document.getElementsByClassName('stage-button-up')[0].style.display = 'flex';
+                document.getElementsByClassName('stage-button-down')[0].style.display = 'flex';
+                //테스트용끝
+                //방장이면 스킵버튼은 항상 띄운다.
+                let s = window.location.pathname.split('/stage/')[1];
+                if (s === udata?.stageaddress)
+                document.getElementsByClassName('stage-button-skip')[0].style.display = 'flex';
+                
+                //곡을 재생한다.
+                YTP.loadPlaylist([data.msg.songaddress],0,data.msg.startPosition);
+                setYTPList({
+                    [data.msg.songaddress]: data.msg
+                });
+                // setYTPList([data.msg]);
+                // setIsp(true);
+
                 //재생곡에 대한 로그를 띄운다.
                 addChatLog({
-                    type:data.type,
-                    msg:`님이 ${data.msg.title} @${data.msg.singer}을(를) 재생합니다.`,
-                    nick:data.msg.playerNick
+                    type: data.type,
+                    msg: `님이 ${data.msg.title} @${data.msg.singer}을(를) 재생합니다.`,
+                    nick: data.msg.playerNick
                 })
                 break;
             case 'QUEUE_DATA':
                 setRoomQueue(
                     data.msg
                 );
+                break;
+            case 'STOP':
+                //재생할 곡이 없다면 정지.
+                document.getElementsByClassName('stage-button-up')[0].style.display = 'none';
+                document.getElementsByClassName('stage-button-down')[0].style.display = 'none';
+                document.getElementsByClassName('stage-button-skip')[0].style.display = 'none';
+                YTP?.loadVideoById('tATNYnFTetg', 0);
+                YTP?.seekTo(0);
+                YTP?.stopVideo();
+                setYTPList([]);
+
                 break;
             default:
                 break;
@@ -206,13 +274,12 @@ function PlayStage() {
 
     return (
         <>
-            <LoadingScreen msg={conmsg} isLoading={isLoading} showL={showLoading} setShowLoading={setShowLoading} />
-            {!showLoading &&
-                <div className="stage">
-                    <StageLeftSide />
-                    <StageRightSide />
-                </div>
-            }
+            {showLoading && <LoadingScreen msg={conmsg} isLoading={isLoading} setShow={setShowLoading} />}
+            <div className="stage" >
+                <StageLeftSide />
+                <StageRightSide />
+            </div>
+
         </>
     );
 }

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -62,6 +63,31 @@ public class StageService {
         builtStages.get(stageId).getUserQueue().remove(nick);
     }
 
+    public void addVoteUp(String stageId, String nick) {
+        if (builtStages.get(stageId).getVoteup().contains(nick)) {
+            builtStages.get(stageId).getVoteup().remove(nick);
+        } else {
+            builtStages.get(stageId).getVoteup().add(nick);
+        }
+        builtStages.get(stageId).getVotedown().remove(nick);
+    }
+
+    public void clearVote(String stageId, String nick) {
+        builtStages.get(stageId).getVotedown().remove(nick);
+        builtStages.get(stageId).getVoteup().remove(nick);
+    }
+
+    public void addVoteDown(String stageId, String nick) {
+        if (builtStages.get(stageId).getVotedown().contains(nick)) {
+            builtStages.get(stageId).getVotedown().remove(nick);
+        } else {
+            builtStages.get(stageId).getVotedown().add(nick);
+        }
+        builtStages.get(stageId).getVoteup().remove(nick);
+    }
+
+    
+
     public long getSongPos(String stageId) {
         return Duration.between(builtStages.get(stageId).getStartTime(), LocalDateTime.now()).getSeconds();
     }
@@ -71,48 +97,52 @@ public class StageService {
     }
 
     public SongDto setNextSong(String stageId) {
-        try{
-        synchronized (builtStages.get(stageId)) {
-            System.out.println("a1");
-            SongDto result = null;
-            if(builtStages.get(stageId).getQueueOrder().isEmpty()){
-                System.out.println("다음 대기열 없음 ㅅㄱ");
-                builtStages.get(stageId).setSongInfo(null);
-                builtStages.get(stageId).setStartTime(null);
-                return null;
+        try {
+            synchronized (builtStages.get(stageId)) {
+                // System.out.println("a1");
+                SongDto result = null;
+
+                builtStages.get(stageId).setVoteup(new HashSet<>());
+                builtStages.get(stageId).setVotedown(new HashSet<>());
+
+                if (builtStages.get(stageId).getQueueOrder().isEmpty()) {
+                    // System.out.println("다음 대기열 없음 ㅅㄱ");
+                    builtStages.get(stageId).setSongInfo(null);
+                    builtStages.get(stageId).setStartTime(null);
+                    return null;
+                }
+
+                String firstOrderUser = builtStages.get(stageId).getQueueOrder().get(0);
+                // System.out.println("a2");
+
+                if (firstOrderUser == null) {
+                    // System.out.println("a3");
+                    builtStages.get(stageId).setSongInfo(null);
+                    builtStages.get(stageId).setStartTime(null);
+                    return null;
+                }
+                result = builtStages.get(stageId).getUserQueue().get(firstOrderUser);
+                // System.out.println("a4");
+                if (result == null) {
+                    // System.out.println("a5");
+                    builtStages.get(stageId).setSongInfo(null);
+                    builtStages.get(stageId).setStartTime(null);
+                    return null;
+                }
+
+                // System.out.println("a6");
+                result.setPlayerNick(firstOrderUser);
+
+                builtStages.get(stageId).getUserQueue().put(firstOrderUser, null);
+                builtStages.get(stageId).getQueueOrder().remove(0);
+                builtStages.get(stageId).getQueueOrder().add(firstOrderUser);
+                builtStages.get(stageId).setStartTime(LocalDateTime.now());
+                builtStages.get(stageId).setSongInfo(result);
+
+                // System.out.println("a7");
+                return result;
             }
-            
-            String firstOrderUser = builtStages.get(stageId).getQueueOrder().get(0);
-            System.out.println("a2");
-
-            if (firstOrderUser == null) {
-                System.out.println("a3");
-                builtStages.get(stageId).setSongInfo(null);
-                builtStages.get(stageId).setStartTime(null);
-                return null;
-            }
-            result = builtStages.get(stageId).getUserQueue().get(firstOrderUser);
-            System.out.println("a4");
-            if (result == null) {
-                System.out.println("a5");
-                builtStages.get(stageId).setSongInfo(null);
-                builtStages.get(stageId).setStartTime(null);
-                return null;
-            }
-
-            System.out.println("a6");
-            result.setPlayerNick(firstOrderUser);
-
-            builtStages.get(stageId).getUserQueue().put(firstOrderUser, null);
-            builtStages.get(stageId).getQueueOrder().remove(0);
-            builtStages.get(stageId).getQueueOrder().add(firstOrderUser);
-            builtStages.get(stageId).setStartTime(LocalDateTime.now());
-            builtStages.get(stageId).setSongInfo(result);
-
-            System.out.println("a7");
-            return result;
-        }}
-        catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
@@ -170,7 +200,12 @@ public class StageService {
     }
 
     public boolean isInQueueAlready(String stageId, String nick) {
-        return builtStages.get(stageId).getQueueOrder().contains(nick);
+        try {
+            return builtStages.get(stageId).getQueueOrder().contains(nick);
+
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public int getUserCount(String stageUrl) {

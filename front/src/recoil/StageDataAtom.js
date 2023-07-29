@@ -16,6 +16,16 @@ export const IsInQueueAtom = atom({
     default: false,
 });
 
+export const VoteUpAtom = atom({
+    key:'VoteUpAtom',
+    default: false,
+});
+
+export const VoteDownAtom = atom({
+    key:'VoteDownAtom',
+    default: false,
+});
+
 export const ButtonTypeAtom = atom({
     key: 'ButtonTypeAtom',
     default: 'normal',

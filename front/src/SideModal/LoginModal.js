@@ -7,10 +7,11 @@ import arrow from "./svg/backarrow.svg";
 import axios from "axios";
 import {Await, useLocation, useNavigate} from "react-router-dom";
 import { LoginStatusAtom } from '../recoil/LoginStatusAtom';
-import {useRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {findIdModalOpenState, FindPassModalOpen, LoginModalOpen, SignUpModalOpen} from "../recoil/FindIdModalAtom";
 import FindPassModal from "./FindPassModal";
 import FindIdModal from "./FindIdModal";
+import { StageUrlAtom } from '../recoil/ChatItemAtom';
 
 
 
@@ -49,7 +50,7 @@ function LoginModal() {
     const closeModal = () => {
         setloginmodalopen(false);
     }
-
+    const setsu = useSetRecoilState(StageUrlAtom);
     const handleLogin = (e) => {
         const url = "/api/lv0/m/login";
         axios.post(
@@ -63,6 +64,7 @@ function LoginModal() {
                 let data = JSON.stringify(res.data.data)
                 isChecked ? localStorage.setItem('data',data) : sessionStorage.setItem('data',data);
                 setUserData(JSON.parse(data));
+                setsu(null);
                 navi(window.location.pathname);
                 setloginmodalopen(false);
             }else if(res.data.result==="error"){

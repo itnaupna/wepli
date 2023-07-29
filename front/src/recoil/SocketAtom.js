@@ -14,16 +14,18 @@ export const conSocket = () => {
   // let sock = new SockJS("https://localhost/ws");
   // ws = StompJS.Stomp.over(sock);
   ws.disconnect();
+  ws.debug = () => {};
   ws.connect({}, () => {
     sessionId = sc._transport.url.split("/ws/")[1].split("/")[1];
-    console.log("웨오옹" + sessionId);
+    sessionStorage.setItem('s',sessionId);
+    // console.log("웨오옹" + sessionId);
   });
 }
 
 export const SubSocket = (endpoint, callback) => {
   subs?.unsubscribe();
   subs = ws.subscribe(endpoint, callback);
-  console.log(subs);
+  // console.log(subs);
 }
 
 export const UnSubSocket = () =>{
@@ -65,3 +67,8 @@ export const SocketAtom = atom({
   dangerouslyAllowMutability: true
 });
 
+export const SocketIdAtom = atom({
+  key: 'SocketIdAtom',
+  default: sessionId,
+  dangerouslyAllowMutability: true,
+});

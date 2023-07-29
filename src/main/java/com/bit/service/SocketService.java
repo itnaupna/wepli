@@ -1,6 +1,5 @@
 package com.bit.service;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -9,7 +8,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -70,14 +68,15 @@ public class SocketService {
             msg.setUserNick(userNick);
             msg.setStageId(stageId);
             SongDto s = stageService.getPlayingSong(stageId);
-            System.out.println(s.toString());
-            if(userNick.equals(s.getPlayerNick())){
-                System.out.println("현재곡 제거");
-                stageService.removeUserToQueue(stageId, userNick);
-                stageService.cancelSes(stageId);
-                RequestPlay(stageId);
+            if (s != null) {
+                System.out.println(s.toString());
+                if (userNick.equals(s.getPlayerNick())) {
+                    System.out.println("현재곡 제거");
+                    stageService.removeUserToQueue(stageId, userNick);
+                    stageService.cancelSes(stageId);
+                    RequestPlay(stageId);
+                }
             }
-            
             // System.out.println(msg);
             SendMsg(msg);
         } catch (Exception ex) {
@@ -133,8 +132,12 @@ public class SocketService {
             // System.out.println("다음곡 재생 시작");
             SongDto song = stageService.setNextSong(stageId);
             // System.out.println("다음곡 정보 : " + song.toString());
-            if(song == null) {
+            if (song == null) {
                 // System.out.println("다음 대기곡이 없습니다.");
+                SocketDto msg = new SocketDto();
+                msg.setType(Types.STOP);
+                msg.setStageId(stageId);
+                SendMsg(msg);
                 return;
             }
             SocketDto msg = new SocketDto();
@@ -163,20 +166,21 @@ public class SocketService {
                 data.put("memberlist", stageService.getMembersListInStage(msg.getStageId()));
                 msg.setMsg(data);
                 if (stageService.isPlaying(msg.getStageId())) {
-                    //방에 입장했을때 재생중인 곡이 있다면 정보를 보내준다.
+                    // 방에 입장했을때 재생중인 곡이 있다면 정보를 보내준다.
                     SocketDto m = new SocketDto();
                     SongDto songdata = stageService.getPlayingSong(msg.getStageId());
                     long pos = stageService.getSongPos(msg.getStageId());
                     songdata.setStartPosition(pos);
+                    songdata.setTarget(msg.getSessionId());
                     m.setType(Types.PLAY);
-                    m.setUserNick(songdata.getPlayerNick());
+                    m.setUserNick(msg.getSessionId());
                     m.setMsg(songdata);
                     m.setStageId(msg.getStageId());
                     SendMsg(m);
                 }
                 break;
             case EXIT:
-                
+
                 data.put("count", stageService.getUserCount(msg.getStageId()));
                 data.put("memberlist", stageService.getMembersListInStage(msg.getStageId()));
                 msg.setMsg(data);
@@ -185,10 +189,25 @@ public class SocketService {
                 stageService.cancelSes(msg.getStageId());
                 RequestPlay(msg.getStageId());
                 break;
+            case VOTE:
+                switch (msg.getMsg().toString()) {
+                    case "UP":
+                        stageService.addVoteUp(msg.getStageId(), msg.getUserNick());
+                        break;
+                    case "DOWN":
+                        stageService.addVoteDown(msg.getStageId(), msg.getUserNick());
+                        break;
+                    case "CLEAR":
+                        stageService.clearVote(msg.getStageId(), msg.getUserNick());
+                        break;
+                }
+                
+                // SendMsg(msg);
+                break;
             case VOTE_UP:
-                break;
+                return;
             case VOTE_DOWN:
-                break;
+                return;
             case KICK:
 
                 break;
@@ -207,13 +226,14 @@ public class SocketService {
                 msg.setMsg(stageService.getRoomQueueList(msg.getStageId()));
                 break;
             case QUEUE_ORDER_CHANGE:
-                // 수정해야함
-                System.out.println(msg);
-                // stageService.changeUserOrderInStage(msg.getStageId(), msg.getUserNick());
-                // msg.setType(Types.QUEUE_DATA);
-                // msg.setMsg(stageService.getRoomQueueList(msg.getStageId()));
+                // 유저들의 재생 순사가 변경되었을때
+                // System.out.println(msg);
+                // // stageService.changeUserOrderInStage(msg.getStageId(), msg.getUserNick());
+                // // msg.setType(Types.QUEUE_DATA);
+                // // msg.setMsg(stageService.getRoomQueueList(msg.getStageId()));
                 break;
             case QUEUE_CHANGE_SONG:
+                // 특정 유저의 곡 순서가 변경되었을때
                 boolean check = stageService.isInQueueAlready(msg.getStageId(), msg.getUserNick());
                 if (check) {
                     stageService.changeUserSongInQueue(msg.getStageId(), msg.getUserNick(), msgToSongDto(msg.getMsg()));
@@ -224,7 +244,7 @@ public class SocketService {
                 }
                 msg.setMsg(stageService.getRoomQueueList(msg.getStageId()));
                 if (!stageService.isPlaying(msg.getStageId())) {
-                    //큐 변경이 있을때 재생중인 곡이 없으면 곡을 재생하도록 한다.
+                    // 큐 변경이 있을때 재생중인 곡이 없으면 곡을 재생하도록 한다.
                     RequestPlay(msg.getStageId());
                 }
                 break;
@@ -233,13 +253,14 @@ public class SocketService {
                 break;
             case PLAY:
                 // stageService.setVideoInStage(msg.getStageId());
-                System.out.println("재생정보 보냄");
+                // System.out.println("재생정보 보냄");
                 break;
             case QUEUE_DATA:
                 break;
             default:
                 break;
         }
+
         sendingOperations.convertAndSend("/sub/stage/" + msg.getStageId(), msg);
     }
 }
