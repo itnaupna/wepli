@@ -94,9 +94,7 @@ function FollowerListModal(props) {
                                     </div>
                                     <div className="followermodalbtngroup">
                                         <div className="followermodalbtnsection">
-
                                             <div className="followermodalfollowbtnframe">
-                                                <div className="followermodalblackbtnrectangle" />
                                                 <button type={'button'} className="followermodalfollowbtntext"
                                                         value={idx}
                                                 onClick={(e)=> handleDeFollow(item.t, e.target.value)}>

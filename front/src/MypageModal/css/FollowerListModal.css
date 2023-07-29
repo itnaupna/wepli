@@ -66,38 +66,8 @@
     justify-content: center;
     gap: 0.5rem;
 }
-.followermodalblackbtnrectangle {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border-radius: 20px;
-    background-color: blue;
-    box-shadow: 10px 10px 10px red;
-    opacity: 0.15;
-    mix-blend-mode: normal;
-}
-.followermodalblackbtntext {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 25%;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border-radius: 20px;
-    background-color: rgba(166, 73, 218, 0.012);
-    box-shadow: 10px 10px 10px red;
-    mix-blend-mode: normal;
-    color: black;
-    border: none;
-    cursor: pointer;
-    font-size: 12px;
-    text-align: center;
-}
+
+
 .followermodalblackbtnframe {
     position: absolute;
     top: calc(50% + 5px);
@@ -131,28 +101,19 @@
     top: calc(50% - 25px);
     left: calc(50% - 25px);
     border-radius: 20px;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 4rem;
+    background-color: rgba(166, 73, 218, 0.012);
+    box-shadow: 0 5px 5px 0px rgba(0,0,0,0.3);
+    width: 3.13rem;
     height: 1.25rem;
     overflow: hidden;
-    margin-top: 15px;
 }
 .followermodalbtnsection {
     position: relative;
     width: 3.13rem;
     height: 3.13rem;
-    right: 40%;
+    border: 1px solid black;
 }
-.followermodalbtngroup {
-    width: 3.25rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-start;
-    font-size: 0.5rem;
-    color: #a649da;
-    font-family: "KBO Dia Gothic";
-}
+
 .followermodallist {
     border-radius: 20px;
     background-color: #fff;
@@ -174,6 +135,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    border-radius: 30px;
 }
 .followermodalveticalframe {
     align-self: stretch;
@@ -214,6 +176,7 @@
     width: 23.25rem;
     height: 41.75rem;
     transform: translate(-50%, -50%);
+
     z-index: 9999;
 }
 .tagetlistmodalframe {
@@ -235,9 +198,20 @@
 
 .followermodalunfollowbtn{
     position: absolute;
-    margin-top: 40px;
-    width: 80px;
     height: 20px;
+    width: 60px;
+    top: 50%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 20px;
+    background-color: #fff;
+    mix-blend-mode: normal;
+    color: black;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
 }
 
 @media (max-width: 768px) {
