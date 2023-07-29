@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 
 import com.bit.dto.BuiltStageDto;
 import com.bit.dto.MemberDto;
+import com.bit.dto.SocketDto;
+import com.bit.dto.SocketDto.Types;
 import com.bit.dto.SongDto;
 import com.bit.dto.StageDto;
 import com.bit.dto.StageHistoryDto;
@@ -86,7 +88,14 @@ public class StageService {
         builtStages.get(stageId).getVoteup().remove(nick);
     }
 
-    
+    public Map<String, Integer> getVoteCount(String stageId) {
+        Map<String, Integer> result = new HashMap<>();
+
+        result.put("UP", builtStages.get(stageId).getVoteup().size());
+        result.put("DOWN", builtStages.get(stageId).getVotedown().size());
+
+        return result;
+    }
 
     public long getSongPos(String stageId) {
         return Duration.between(builtStages.get(stageId).getStartTime(), LocalDateTime.now()).getSeconds();
@@ -96,9 +105,35 @@ public class StageService {
         return builtStages.get(stageId).getSongInfo();
     }
 
+    public List<Map<String,Object>> getHistory(String stageId){
+        return sMapper.selectStageHistory(stageId);
+    }
+
+    public boolean saveHistory(String stageId) {
+        // SocketDto m = new SocketDto();
+        // m.setType(Types.HISTORY);
+        // m.setStageId(stageId);
+        SongDto song = builtStages.get(stageId).getSongInfo();
+        if(song == null) return false;
+        Map<String, Integer> votecount = getVoteCount(stageId);
+        StageHistoryDto h = new StageHistoryDto();
+        h.setNick(song.getPlayerNick());
+        h.setStageaddress(stageId);
+        h.setLikes(votecount.get("UP"));
+        h.setDislikes(votecount.get("DOWN"));
+        h.setSongaddress(song.getSongaddress());
+        h.setSongtitle(song.getTitle());
+        h.setSongauthor(song.getSinger());
+        h.setSonglength(song.getSonglength());
+        h.setSongimg(song.getImg());
+        
+        return sMapper.insertStageHistory(h) > 0;
+    }
+
     public SongDto setNextSong(String stageId) {
         try {
             synchronized (builtStages.get(stageId)) {
+
                 // System.out.println("a1");
                 SongDto result = null;
 

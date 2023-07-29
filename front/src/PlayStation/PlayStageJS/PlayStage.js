@@ -8,7 +8,7 @@ import StageLeftSide from './StageLeftSide';
 import StageRightSide from './StageRightSide';
 import { ChatItemsAtom, StageUrlAtom, UserCountInStageAtom, UsersItemsAtom } from '../../recoil/ChatItemAtom';
 import { LoginStatusAtom } from '../../recoil/LoginStatusAtom';
-import { IsInQueueAtom, MyQListAtom, RoomQListAtom } from '../../recoil/StageDataAtom';
+import { HistoryCountAtom, IsInQueueAtom, MyQListAtom, RoomQListAtom, VoteDownAtom, VoteDownCountAtom, VoteUpAtom, VoteUpCountAtom } from '../../recoil/StageDataAtom';
 import { IsPlayingAtom, YTPListAtom, YoutubeAtom, YoutubeInStageAtom } from '../../recoil/YoutubeAtom';
 
 
@@ -29,7 +29,9 @@ function PlayStage() {
     const [roomQueue, setRoomQueue] = useRecoilState(RoomQListAtom);
     const [YTP, setYTP] = useRecoilState(YoutubeAtom); //전역 유튜브 플레이어
     const [YTPS, setYTPS] = useRecoilState(YoutubeInStageAtom); //인스테이지 유튜브 플레이어
-    // const sessionId = useRecoilValue(SocketIdAtom);
+    const [vu, setVu] = useRecoilState(VoteUpAtom);
+    const [vd, setVd] = useRecoilState(VoteDownAtom);
+
 
     const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
     useEffect(() => {
@@ -125,7 +127,9 @@ function PlayStage() {
 
     const [YTPList, setYTPList] = useRecoilState(YTPListAtom);
     // const [isp, setIsp] = useRecoilState(IsPlayingAtom);
-
+    const [vuc, setVuc] = useRecoilState(VoteUpCountAtom);
+    const [vdc, setVdc] = useRecoilState(VoteDownCountAtom);
+    const setHistoryCount = useSetRecoilState(HistoryCountAtom);
     const handleSocketData = (data) => {
         console.log(data);
         // console.log("패킷수신 " + data.msg);
@@ -154,6 +158,10 @@ function PlayStage() {
                     nick: data.userNick,
                     msg: '님이 현재 곡을 스킵하였습니다.'
                 });
+                break;
+            case 'VOTE':
+                setVuc(data.msg.UP);
+                setVdc(data.msg.DOWN);
                 break;
             case 'VOTE_UP':
                 break;
@@ -234,10 +242,10 @@ function PlayStage() {
                 //방장이면 스킵버튼은 항상 띄운다.
                 let s = window.location.pathname.split('/stage/')[1];
                 if (s === udata?.stageaddress)
-                document.getElementsByClassName('stage-button-skip')[0].style.display = 'flex';
-                
+                    document.getElementsByClassName('stage-button-skip')[0].style.display = 'flex';
+
                 //곡을 재생한다.
-                YTP.loadPlaylist([data.msg.songaddress],0,data.msg.startPosition);
+                YTP.loadPlaylist([data.msg.songaddress], 0, data.msg.startPosition);
                 setYTPList({
                     [data.msg.songaddress]: data.msg
                 });
@@ -250,6 +258,10 @@ function PlayStage() {
                     msg: `님이 ${data.msg.title} @${data.msg.singer}을(를) 재생합니다.`,
                     nick: data.msg.playerNick
                 })
+
+                //추천내역을 초기화한다.
+                setVu(false);
+                setVd(false);
                 break;
             case 'QUEUE_DATA':
                 setRoomQueue(
@@ -266,6 +278,9 @@ function PlayStage() {
                 YTP?.stopVideo();
                 setYTPList([]);
 
+                break;
+            case 'HISTORY':
+                    setHistoryCount(+data.msg);
                 break;
             default:
                 break;

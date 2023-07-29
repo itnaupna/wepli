@@ -2,6 +2,7 @@ package com.bit.service;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
@@ -20,6 +21,7 @@ import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import com.bit.dto.SocketDto;
 import com.bit.dto.SongDto;
+import com.bit.dto.StageHistoryDto;
 import com.bit.dto.SocketDto.Types;
 
 import lombok.RequiredArgsConstructor;
@@ -129,6 +131,16 @@ public class SocketService {
     private void RequestPlay(String stageId) {
 
         CompletableFuture.runAsync(() -> {
+            // 재생했던 곡을 저장한다.
+            if (stageService.saveHistory(stageId)) {
+                // 재생했던 곡이 있어서 저장했으면 최신 히스토리 정보를 보내준다.
+                SocketDto m = new SocketDto();
+                m.setType(Types.HISTORY);
+                m.setMsg(stageService.getHistory(stageId).size());
+                m.setStageId(stageId);
+                SendMsg(m);
+            }
+
             // System.out.println("다음곡 재생 시작");
             SongDto song = stageService.setNextSong(stageId);
             // System.out.println("다음곡 정보 : " + song.toString());
@@ -161,6 +173,15 @@ public class SocketService {
             case ENTER:
                 if (msg.getUserNick() != null) {
                     stageService.setUserNickInStage(msg.getStageId(), msg.getSessionId(), msg.getUserNick());
+                }
+
+                List<Map<String, Object>> hd = stageService.getHistory(msg.getStageId());
+                if (hd.size() > 0) {
+                    SocketDto ms = new SocketDto();
+                    ms.setType(Types.HISTORY);
+                    ms.setMsg(hd.size());
+                    ms.setStageId(msg.getStageId());
+                    SendMsg(ms);
                 }
                 data.put("count", stageService.getUserCount(msg.getStageId()));
                 data.put("memberlist", stageService.getMembersListInStage(msg.getStageId()));
@@ -201,8 +222,8 @@ public class SocketService {
                         stageService.clearVote(msg.getStageId(), msg.getUserNick());
                         break;
                 }
-                
-                // SendMsg(msg);
+                msg.setUserNick(null);
+                msg.setMsg(stageService.getVoteCount(msg.getStageId()));
                 break;
             case VOTE_UP:
                 return;

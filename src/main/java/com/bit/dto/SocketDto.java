@@ -23,6 +23,7 @@ public class SocketDto {
         CHAT,               //채팅
         PLAY,               //재생
         STOP,               //정지명령 ㄱ
+        HISTORY,            //히스토리 정보
     }
 
     private Types type;

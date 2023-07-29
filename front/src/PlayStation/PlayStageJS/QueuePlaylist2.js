@@ -7,7 +7,7 @@ import GrabToPlaylist from './GrabToPlaylist';
 
 
 
-const QueuePlaylist2 = ({ data, rank, index,nick }) => {
+const QueuePlaylist2 = ({ data, rank, index, nick }) => {
     const ButtonType = useRecoilValue(ButtonTypeAtom);
     const IsLogin = useRecoilValue(LoginStatusAtom);
     const [showButton, setShowButton] = useState(false);
@@ -20,13 +20,15 @@ const QueuePlaylist2 = ({ data, rank, index,nick }) => {
             const width = +btnSetRef.current.offsetWidth;
             infoRef.current.style.maxWidth = `${parseInt(infoRef.current.style.maxWidth) - width}px`;
         } else {
-            
+
             if (infoRef.current) {
                 infoRef.current.style.maxWidth = `${420 - timeinfoRef.current.offsetWidth}px`;
             }
         }
     }, [showButton]);
-
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
     return (
         <div
             className='qplidiv'

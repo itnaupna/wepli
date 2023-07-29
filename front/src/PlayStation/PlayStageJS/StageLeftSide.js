@@ -1,16 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import QueueComponent from './QueueComponent';
-import YouTube from 'react-youtube';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { YTPOptionAtom, YoutubeAtom, YoutubeInStageAtom, loadVideoById } from '../../recoil/YoutubeAtom';
 import SettingModal from './SettingModal.js';
 import { DownIcon, GrabIcon, UpIcon } from '../Icons';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import { StageUrlAtom } from '../../recoil/ChatItemAtom';
 import { handleSendMsg } from '../../recoil/SocketAtom';
-import { useNavigate } from 'react-router-dom';
-import { VoteDownAtom, VoteUpAtom } from '../../recoil/StageDataAtom';
+
+import { VoteDownAtom, VoteDownCountAtom, VoteUpAtom, VoteUpCountAtom } from '../../recoil/StageDataAtom';
 
 const StageLeftSide = () => {
 
@@ -31,16 +29,7 @@ const StageLeftSide = () => {
             return;
         }
     }
-    const opt = {
-        playerVars: {
-            autoplay: 0,
-            controls: 0,
-            disablekb: 1,
-            iv_load_policy: 3,
-            volume: 0,
-            // mute:1,
-        }
-    }
+    
     useEffect(() => {
         const handleResize = () => {
             let a = document.getElementById('YTPFrame').parentElement;
@@ -62,6 +51,9 @@ const StageLeftSide = () => {
 
     const [vu, setVu] = useRecoilState(VoteUpAtom);
     const [vd, setVd] = useRecoilState(VoteDownAtom);
+
+    const vuc = useRecoilValue(VoteUpCountAtom);
+    const vdc = useRecoilValue(VoteDownCountAtom);
 
     const handleUp = () => {
         setVu(!vu);
@@ -91,7 +83,6 @@ const StageLeftSide = () => {
     const handleSkip = () => {
         handleSendMsg("SKIP", null, su);
     }
-    const navi = useNavigate();
 
     // const AAA = <YouTube onReady={(e)=>{setYTA([ e.target);}}/>;
     return (
@@ -120,10 +111,12 @@ const StageLeftSide = () => {
 
                     <div className="stage-button-up stagebutton" onClick={handleUp} style={{ display: 'none' }}>
                         <UpIcon isFill={vu} />
+                        {vuc > 0 && <span style={{position:'absolute',right:'5px',bottom:'5px'}}>{vuc}</span>}
                     </div>
 
                     <div className="stage-button-down stagebutton" onClick={handleDown} style={{ display: 'none' }}>
                         <DownIcon isFill={vd} />
+                        {vdc > 0 && <span style={{position:'absolute',right:'5px',bottom:'5px'}}>{vdc}</span>}
                     </div>
 
                     <div className="stage-button-skip stagebutton" onClick={handleSkip} style={{ display: 'none' }}>
