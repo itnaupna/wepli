@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.bit.jwt.JwtTokenProvider;
 import com.bit.mapper.MemberMapper;
 import com.bit.mapper.UserConfirmMapper;
 import com.bit.util.SendSMS;
@@ -28,28 +29,39 @@ public class UserConfirmService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+
     private String BuildCode() {
         String code = String.valueOf(new Random().nextInt(900000) + 100000);
         return code;
     }
 
-    public boolean RequestCode(int type, String key) {
+    public boolean RequestCode(int type, String key, String token) {
+
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        Map<String, String> data = new HashMap<>();
+            data.put("nick", nick);
+
         switch (type) {
             case 0:
-                return mMapper.selectCheckEmailConfirm(key) > 0 ?  false : CreateEmailVerifyCode(key);
+                data.put("email", key);
+                return mMapper.selectCheckEmailConfirm(data) > 0 ? false : CreateEmailVerifyCode(key, nick);
             case 1:
-                return mMapper.selectCheckPhoneConfirm(key) > 0 ? false : CreatePhoneVerifyCode(key);
+                data.put("phone", key);
+                return mMapper.selectCheckPhoneConfirm(data) > 0 ? false : CreatePhoneVerifyCode(key, nick);
             default:
                 return false;
         }
     }
 
-    public boolean RequestCodeFind(int type, String key,String email,String phone) {
+    public boolean RequestCodeFind(int type, String key) {
+
         switch (type) {
             case 0:
-                return mMapper.selectCheckEmailConfirm(key) > 0 ? CreateEmailVerifyCode(key) : false;
+                return mMapper.selectFindPhoneConfirm(key) > 0 ? CreateEmailVerifyCode(key,null) : false;
             case 1:
-                return mMapper.selectCheckPhoneConfirm(key) > 0 ? CreatePhoneVerifyCode(key) : false;
+                return mMapper.selectFindPhoneConfirm(key) > 0 ? CreatePhoneVerifyCode(key, null) : false;
             default:
                 return false;
         }
@@ -66,7 +78,8 @@ public class UserConfirmService {
         }
     }
 
-    private boolean CreateEmailVerifyCode(String email) {
+    private boolean CreateEmailVerifyCode(String email, String nick) {
+        System.out.println(email+"eeeee");
 
         Map<String, String> data = new HashMap<>();
         data.put("email", email);
@@ -84,10 +97,9 @@ public class UserConfirmService {
     @Autowired
     SendSMS sms;
 
-    private boolean CreatePhoneVerifyCode(String phone) {
+    private boolean CreatePhoneVerifyCode(String phone, String nick) {
         String code = BuildCode();
         String res = "";
-
         try {
             // 핸드폰 번호 정규식 ex) 01012345678
             boolean checkPhone = Pattern.matches("^[\\d]{11}+$",phone);
@@ -108,17 +120,33 @@ public class UserConfirmService {
         Map<String, String> data = new HashMap<>();
         data.put("phone", phone);
         data.put("code", code);
-        System.out.println(data);
+        System.out.println("code="+code+"phone="+phone);
+
+        Map<String, String> updateData = new HashMap<>();
+        updateData.put("phone", phone);
+        updateData.put("nick", nick);
+        System.out.println("nick="+nick+"phone="+phone);
+
         if (uMapper.selectIsAlreadyHasPhoneCode(phone) > 0) {
             System.out.println("인증코드 삭제후 재발급");
-            if (uMapper.deletePhoneCode(phone) > 0)
-                return uMapper.insertPhoneCode(data) > 0;
-            else
+            
+            if (uMapper.deletePhoneCode(phone) > 0) {
+                if(mMapper.updatePhone(updateData) > 0)
+                    return uMapper.insertPhoneCode(data) > 0;
+               else
+                   return false;
+            } else {
                 return false;
+            }
         } else {
             System.out.println("인증코드 발급");
-            return uMapper.insertPhoneCode(data) > 0;
+            if(nick==null){
+                return uMapper.insertPhoneCode(data) > 0;
+            }
+            if(mMapper.updatePhone(updateData) > 0)
+                return uMapper.insertPhoneCode(data) > 0;
         }
+        return true;      
     }
 
     private boolean CheckEmailCode(String email, String code) {

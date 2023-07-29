@@ -115,13 +115,22 @@ public class MemberService {
     }
 
     // 이메일 인증여부 확인
-    public boolean checkEmailConfirm(String email) {
-        return memberMapper.selectCheckEmailConfirm(email) > 0;
+    public boolean checkEmailConfirm(String token, String email) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        Map<String, String> data = new HashMap<>();
+        data.put("nick",nick);
+        data.put("email",email);
+        return memberMapper.selectCheckEmailConfirm(data) > 0;
     }
 
     // 전화번호 인증여부 확인
-    public boolean checkPhoneConfirm(String phone) {
-        return memberMapper.selectCheckPhoneConfirm(phone) > 0;
+    public boolean checkPhoneConfirm(String token, String phone) {
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        Map<String, String> data = new HashMap<>();
+        data.put("nick",nick);
+        data.put("phone",phone);
+
+        return memberMapper.selectCheckPhoneConfirm(data) > 0;
     }
 
     // 이메일 인증

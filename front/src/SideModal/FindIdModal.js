@@ -25,7 +25,7 @@ function FindIdModal() {
         const url = "/api/lv0/m/requestcode";
 
         try {
-            const res = await axios.post(url, { type: 1, key: verifyKey, email: verifyKey, phone: verifyKey });
+            const res = await axios.post(url, { type: 1, key: verifyKey });
             console.log("아이디 찾기",res);
             if (res.data === true) {
                 setResultRV(res.data);

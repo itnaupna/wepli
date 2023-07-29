@@ -25,9 +25,9 @@ public interface MemberMapper {
     public int selectCheckPasswordByEmail(MemberDto mDto);
     public int selectCheckPasswordByNick(MemberDto mDto);
     //이메일 인증여부 확인
-    public int selectCheckEmailConfirm(String email);
+    public int selectCheckEmailConfirm(Map<String,String> data);
     //전화번호 인증여부 확인
-    public int selectCheckPhoneConfirm(String phone);
+    public int selectCheckPhoneConfirm(Map<String,String> data);
     //이메일 인증
     public int updateEmailConfirm(String email);
     //전화번호 인증
@@ -61,4 +61,6 @@ public interface MemberMapper {
     public void FindCheckPhonePw(Map<String, String> data);
     //비밀번호찾기(이메일) 
     public void FindCheckEmailPw(Map<String, String> data);
+    public int updatePhone(Map<String,String> data);
+    public int selectFindPhoneConfirm(String phone);
 }
