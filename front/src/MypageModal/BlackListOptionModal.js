@@ -33,7 +33,8 @@ function BlackListOptionModal() {
                 console.log("Server", res);
                 console.log("Data", res.data);
                 if (res.data === true) {
-                    alert("해치움");
+                    alert("옵션설정이 완료되었습니다.");
+                    setisBlackListModalOpen(false);
                 } else {
                     alert("ㄷㄷ");
                 }
@@ -84,6 +85,9 @@ function BlackListOptionModal() {
                             checked={mute}
                             onChange={(e) => setMute(e.target.checked)}
                         />
+                    </div>
+                    <div className={'blacklistoptionsubtext'}>
+                        <span>플리 블라인드, 스테이지 차단, 스테이지 블라인드</span>
                     </div>
                 </div>
 

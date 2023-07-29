@@ -239,3 +239,15 @@
     width: 80px;
     height: 20px;
 }
+
+@media (max-width: 768px) {
+    .tagetlistmodalframe{
+        height: 100%;
+        width: 100%;
+        margin-left: 70px;
+    }
+
+    .followermodalwapper{
+        margin-left: 30px;
+    }
+}

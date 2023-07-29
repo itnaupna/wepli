@@ -289,3 +289,15 @@
         opacity: 1;
     }
 }
+
+@media (max-width: 768px) {
+    .followmodalframe{
+        height: 100%;
+        width: 100%;
+        margin-left: 70px;
+    }
+
+    .followmodalwapper{
+        margin-left: 30px;
+    }
+}

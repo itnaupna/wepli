@@ -141,3 +141,15 @@
         opacity: 1;
     }
 }
+
+@media (max-width: 768px) {
+    .mypageoutmemebermodalframe{
+        height: 100%;
+        width: 100%;
+        margin-left: 70px;
+    }
+
+    .mypageoutmemebermodalgroup{
+        margin-left: 30px;
+    }
+}

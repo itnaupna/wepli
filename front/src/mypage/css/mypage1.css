@@ -140,6 +140,7 @@
 
 .mypagedesctextsection{
     width: 250px;
+    height: 50px;
     right: 17%;
     position: absolute;
 }
@@ -202,7 +203,7 @@
 .mypagedescchangebtn{
     position: relative;
     overflow: hidden;
-    width: 100px;
+    width: 80px;
     height: 30px;
     padding: 0 2rem;
     border-radius: 1.5rem;
@@ -216,9 +217,13 @@
     transform: scaleX(1);
 }
 .button-content {
-    position: relative;
+    position: absolute;
     z-index: 1;
     color: black;
+    width: 50px !important;
+    top: 25%;
+    float: left;
+    left: 20% !important;
 }
 
 .button-content:hover{
@@ -244,14 +249,15 @@
     transition: all 0.475s;
 }
 .mypagelistmenu {
-    border: 1px solid red;
-    width: 1300px;
+    max-width: 1200px;
     height: 100px;
     position: relative;
-    top: 40vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 55vh;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transform: translate(-50%, -50%);
+    left: 50%;
 }
 
 .mypageul {
@@ -282,7 +288,7 @@
     background: transparent;
     border: none;
     outline: none;
-    right: 63%;
+    /*right: 63%;*/
     position: absolute;
 }
 
@@ -323,7 +329,13 @@
         width: 360px;
         height: 700px;
         transform: translateX(-50%);
-        left: 65%;
+        left: 68%;
+        margin-top: 100px;
+    }
+
+    .mypagedesctextsection{
+        left: 25%;
+        height: 50px;
     }
 
     .mypageleftheader {
@@ -368,6 +380,7 @@
 
     .hamburger-button {
         display: block;
+
     }
 
     .mypagelistmenu.active .mypageul li {
@@ -383,43 +396,114 @@
     }
 
     .mypageul li {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         margin-right: 0;
         margin-bottom: 10px;
+        opacity: 0;
+        animation: fadeIn 0.7s ease-in-out;
+        border-top-left-radius: 30px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        font-size: 20px;
     }
+
+    .mypageul li:nth-child(n+2) {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    .mypageul li.active {
+        animation: none;
+        opacity: 1;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
 
     .mypageul.open {
         display: block;
-        width: 350px;
-        border: 1px solid blue;
-        height: 350px;
-        margin-top: 300px;
+        gap: 50px;
+        top: 5%;
+        width: 360px;
+        height: 700px;
+        margin-top: 800px;
+        background-color: white;
+        border-radius: 30px;
     }
 
     .mypageul.open li {
         display: flex;
+        width: 100%;
+        background-color: #47bdff;
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 0.2s;
     }
 
     .mypagelistmenu{
-        width: 65vw;
-        top: 0;
+        transform: translateX(-50%);
+        width: 360px;
+        top: 10%;
         position: absolute;
+        left: 43% !important;
+        background-color: white;
+        border-radius: 10px;
+        height: 5%;
+    }
+
+    .hamburger-button{
+        text-align: left;
+        padding-left: 30px;
+        width: 100%;
+        height: 100%;
+        border-radius: 30px;
     }
 
 }
 
 @media (max-width: 1310px){
-    /*.mypagelistmenu{*/
-    /*    width: 600px;*/
-    /*}*/
+    .mypagelistmenu{
+        margin-left: 165px;
+    }
 
     .mypageul li{
-        width: 15vw;
+        width: 150px;
         left: 10%;
     }
 
     .mypagelistmenu{
-        left: 5%;
+        /*left: 5%;*/
+    }
+
+    .mypagelistmenu {
+        left: 37%;
+        transform: translate(-50%, -50%);
+    }
+
+}
+
+
+@media (max-width: 610px){
+    .mypagelistmenu {
+        width: 340px;
+        top: 10%;
+        margin-right: 100px;
     }
 }
 
+@media (max-width: 510px){
+    .mypagelistmenu {
+        position: absolute;
+        right: 20px ;
+        top: 10%;
+    }
+}
 

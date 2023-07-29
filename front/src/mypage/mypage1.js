@@ -195,10 +195,10 @@ function Mypage1(props) {
         color: '#5ea6ff'
     }
 
-    const [isMenuOpen, setMenuOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleMenuToggle = () => {
-        setMenuOpen(prevState => !prevState);
+        setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen);
     };
 
     const [userdata, setData] = useState({});
@@ -219,7 +219,26 @@ function Mypage1(props) {
     useEffect(() => {
         setProfileImageUrl(profile);
         hadlememberPage();
-    }, [profile]);
+
+        const itemElements = document.querySelectorAll('.mypageul li');
+
+        if (isMenuOpen) {
+            let count = 0;
+            const interval = setInterval(() => {
+                if (count < itemElements.length) {
+                    itemElements[count].classList.add('active');
+                    count++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 100);
+
+            return () => clearInterval(interval);
+        } else {
+            itemElements.forEach((item) => item.classList.remove('active'));
+        }
+
+    }, [profile,isMenuOpen]);
     return (
         <div className="mypagemainframe">
             <div className="mypageheader">
@@ -273,6 +292,7 @@ function Mypage1(props) {
                         <input className={'mypagedescinput'} type="text"
                             value={desc}
                             onChange={(e) => setUserDescInput(e.target.value)}
+                               placeholder={"자기소개 변경이 가능합니다"}
                         />
                             <div className="highlight"></div>
                         </div>
@@ -284,39 +304,40 @@ function Mypage1(props) {
                         </div>
                     </div>
                 </div>
-                <div className={'mypagelinergroup'}></div>
-                <div className={'mypagelistmenu'}>
-                    <button className="hamburger-button" onClick={handleMenuToggle}>메뉴</button>
-                    <ul className={`mypageul ${isMenuOpen ? 'open' : ''}`}>
-                        <li onClick={showInfoChangeModal}>
-                            회원정보수정
-                        </li>
-                        {emailconfirm=== 1 ?
+
+            </div>
+            <div className={'mypagelinergroup'}></div>
+            <div className={'mypagelistmenu'}>
+                <button className="hamburger-button" onClick={handleMenuToggle}>메뉴</button>
+                <ul className={`mypageul ${isMenuOpen ? 'open' : ''}`}>
+                    <li onClick={showInfoChangeModal}>
+                        회원정보수정
+                    </li>
+                    {emailconfirm=== 1 ?
                         <li onClick={emailconfirm === 1 ? null : showEmailConfirmModal}>
                             이메일인증완료
                         </li> :
-                            <li onClick={showEmailConfirmModal}>
-                                이메일인증
-                            </li>
-                        }
-                        {phoneconfirm === 1 ?
+                        <li onClick={showEmailConfirmModal}>
+                            이메일인증
+                        </li>
+                    }
+                    {phoneconfirm === 1 ?
                         <li onClick={phoneconfirm === 1 ? null : showPhoneConfirmModal}>
                             전화번호인증완료
                         </li> :
-                            <li onClick={showPhoneConfirmModal}>
-                                전화번호인증
-                            </li>
-                        }
-
-                            <li onClick={showBlackListOptionModal}>
-                            블랙리스트옵션
+                        <li onClick={showPhoneConfirmModal}>
+                            전화번호인증
                         </li>
+                    }
 
-                        <li onClick={showOutMemberModal}>
-                            회원탈퇴
-                        </li>
-                    </ul>
-                </div>
+                    <li onClick={showBlackListOptionModal}>
+                        블랙리스트옵션
+                    </li>
+
+                    <li onClick={showOutMemberModal}>
+                        회원탈퇴
+                    </li>
+                </ul>
             </div>
             {isEmailConfirmModalOpen &&
                 <EmailConfirmModal setisEmailConfirmModalOpen={setisEmailConfirmModalOpen}/>}

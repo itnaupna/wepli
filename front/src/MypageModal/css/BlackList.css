@@ -196,3 +196,15 @@
     animation: fadeIn 0.4s ease-in-out;
     z-index: 999;
 }
+
+@media (max-width: 768px) {
+    .blacklistmodalframe{
+        height: 100%;
+        width: 100%;
+        margin-left: 70px;
+    }
+
+    .blacklistmodalwapper{
+        margin-left: 30px;
+    }
+}
