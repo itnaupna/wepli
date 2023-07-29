@@ -9,13 +9,13 @@ function PlayListRankingFollowTop({item, ranking, mypage}) {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
 
     return (
-        <div className="playlistrankinglistitem">
+        <div className="playlistrankinglistitem" onClick={() => mypage(item.mNick)}>
             <div className="playlistrankinglistitemnumber">{ranking + 1}</div>
             <img
                 className="playlistmain01followprofillimg-icon"
                 alt=""
                 src={`${bucketURl}/profile/${item.img}`}
-                onClick={() => mypage(item.mNick)}
+
             />
             <div className="playlistrankinglistiteminfo12">
                 <div className="playlistrankinglistitemtitle">

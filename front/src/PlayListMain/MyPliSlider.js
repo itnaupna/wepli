@@ -33,7 +33,7 @@ function MyPliSlider() {
                         setMyPli(res.data));
 
             }
-        },[]);
+        },[sessionStorage.getItem("data")]);
 
         return (
             <div className="MyPliSliderBody">

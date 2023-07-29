@@ -35,3 +35,9 @@ export const VideoId = atom({
     key: 'VideoId',
     default: ""
 });
+
+
+export const AddSongResult = atom({
+    key: 'AddSongResult',
+    default: true
+});

@@ -762,6 +762,10 @@
     transform: translate(3px, 3px);
     box-shadow: -2px -2px 2px rgba(0, 0, 0, 0.75);
 }
+
+.playlistdetailbuttonsHidden{
+    width: 150px !important;
+}
 .tagcontainer{
     height: 20px;
     min-width: 46.88rem;
@@ -772,13 +776,23 @@
 }
 .tagitems{
     left:80px ;
-    min-width: 23.44rem;
-    max-width: 33.125rem;
+    width: 300px;
+    display: inline-block;
+    /*min-width: 23.44rem;
+    max-width: 33.125rem;*/
     position: relative;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 .genreitems{
-    min-width: 23.44rem;
-    max-width: 33.125rem;
+    width: 300px;
+    display: inline-block;
+    /*min-width: 23.44rem;
+    max-width: 33.125rem;*/
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 
 .songImgInput{

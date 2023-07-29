@@ -248,6 +248,9 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+.playlistrankinglistitem:hover{
+    cursor: pointer;
+}
 .playlistrankinglistitemswrappe {
     position: absolute;
     height: 100%;
@@ -485,4 +488,105 @@
 }
 .playlistrankingHidden{
     display: none;
+}
+
+/* 토글 버튼 css */
+
+.rankingbutton-cover,
+.rankingknobs,
+.rankinglayer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.rankingtoggle {
+    position: relative;
+    top: 50%;
+    width: 74px;
+    height: 36px;
+    margin: -30px auto -30px auto;
+    overflow: hidden;
+    left: 46%;
+    border: 1px solid black;
+}
+
+.rankingCheckbox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.rankingknobs {
+    z-index: 2;
+}
+
+.rankinglayer {
+    width: 100%;
+    background-color: #ebf7fc;
+    transition: 0.3s ease all;
+    z-index: 1;
+}
+
+.rankingtoggle.rankingtoggle-r,
+.rankingtoggle.rankingtoggle-r .rankinglayer {
+    border-radius: 100px;
+}
+
+#rankingtoggle-3 .rankingknobs:before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 20px;
+    height: 10px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    padding: 9px 4px;
+    background-color: #03a9f4;
+    border-radius: 50%;
+    transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
+}
+
+#rankingtogglen-3 .rankingCheckbox:active + .rankingknobs:before {
+    width: 46px;
+    border-radius: 100px;
+}
+
+#rankingtoggle-3 .rankingCheckbox:checked:active + .rankingknobs:before {
+    margin-left: -26px;
+}
+
+#rankingtoggle-3 .rankingCheckbox:checked + .rankingknobs:before {
+    content: "";
+    left: 42px;
+    background-color: #f44336;
+}
+
+#rankingtoggle-3 .rankingCheckbox:checked ~ .rankinglayer {
+    background-color: #fcebeb;
+}
+
+.rankingtoggleBody{
+    position: relative;
+    display: block;
+    height: auto;
+    width: 140px;
+    left: 28%;
+    top: -555px;
+    margin: -30px auto 0 auto;
+}
+.rankingtoggleText{
+    font-family: var(--font-bm-dohyeon);
+    font-size: 16px;
 }

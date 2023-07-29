@@ -9,6 +9,8 @@ import MyLikeList from "./MyLikeList";
 import MyFollowList from "./MyFollowList";
 import FollowToggleButton from "../MainIMG/FollowToggleButton.png";
 import { useNavigate } from 'react-router-dom';
+import {LikeMyPli} from "../recoil/SearchSongAtom";
+import {useRecoilState} from "recoil";
 
 function PlayListMain01PlayListRangkingMain(props) {
     const navigate = useNavigate();
@@ -45,21 +47,6 @@ function PlayListMain01PlayListRangkingMain(props) {
     }, [rankingData]);
 
 
-    const LikeToggle = (() => {
-        setIsLikeHidden(true);
-        setIsFollowHidden(false);
-    });
-
-    const FollowToggle = (() => {
-        setIsLikeHidden(false);
-        setIsFollowHidden(true);
-        if (sessionStorage.getItem("data") != null) {
-            const myFollowListUrl = "/api/lv2/p/listfollow";
-            Axios.get(myFollowListUrl)
-                .then(res =>
-                    setMyFollowList(res.data));
-        }
-    });
 
     const clickMypageHandler = (target) => {
         if(nickname === target) {
@@ -72,6 +59,31 @@ function PlayListMain01PlayListRangkingMain(props) {
     const pliDetailHandler = (target) => {
         navigate(`/pli/${target}`);
     }
+
+    const FollowToggle = (() => {
+        setIsLikeHidden(false);
+        setIsFollowHidden(true);
+        if (sessionStorage.getItem("data") != null) {
+            const myFollowListUrl = "/api/lv2/p/listfollow";
+            Axios.get(myFollowListUrl)
+                .then(res =>
+                    setMyFollowList(res.data));
+        }
+    });
+    const [rankingCheckBox, setRankingCheckBox] = useState(false);
+    const  rankingCheckBoxChange = async (e) => {
+        await setRankingCheckBox(e.target.checked);
+        if (sessionStorage.getItem("data") != null && !rankingCheckBox) {
+            const myFollowListUrl = "/api/lv2/p/listfollow";
+            Axios.get(myFollowListUrl)
+                .then(res =>
+                    setMyFollowList(res.data));
+        }
+
+        setIsLikeHidden(!isLikeHidden);
+        setIsFollowHidden(!isFollowHidden);
+    }
+
 
     return (
         <div className="playlistmain01">
@@ -97,7 +109,7 @@ function PlayListMain01PlayListRangkingMain(props) {
                     </div>
                     <div className="playlistrankinglisttitle">좋아요 TOP</div>
                 </div>
-
+                <div>
                 <div className={isFollowHidden ? "playlistrankinglistwapper playlistrankingHidden" : "playlistrankinglistwapper"}>
                     <div
                         className="playlistrankinglistwrapper">
@@ -113,23 +125,13 @@ function PlayListMain01PlayListRangkingMain(props) {
                                             )
                             }
                         </div>
-                        <div
-                            className="playlistrankinglisttoggle"
-                            onClick={FollowToggle}>
-                            <div className="rankinglistitemtogglecaption">팔로우</div>
-                            <img
-                                className="rankinglistitemtogglebox-icon"
-                                alt=""
-                                src={FollowToggleButton}
-                            />
-                        </div>
                     </div>
                     <div
-                        className={isFollowHidden ? "playlistrankinglisttitle playlistrankingHidden" : "playlistrankinglisttitle"}>
+                        className="playlistrankinglisttitle">
                         좋아요 표시한 플레이리스트
                     </div>
                 </div>
-                <div className={ isLikeHidden ? "playlistrankinglistwapper playlistrankingHidden" : "playlistrankinglistwapper"}>
+                <div className={isLikeHidden ? "playlistrankinglistwapper playlistrankingHidden" : "playlistrankinglistwapper"}>
                     <div
                         className="playlistrankinglistwrapper">
                         <div className="playlistrankinglistitemswrappe">
@@ -144,21 +146,22 @@ function PlayListMain01PlayListRangkingMain(props) {
                                         )
                             }
                         </div>
-                        <div className="playlistrankinglisttoggle" onClick={LikeToggle}>
-                            <div className="rankinglistitemtogglecaption">좋아요</div>
-                            <img
-                                className="rankinglistitemtogglebox-icon"
-                                alt=""
-                                src={FollowToggleButton}
-                            />
-                        </div>
                     </div>
                     <div
                         className="playlistrankinglisttitle">
                         팔로우 한 유저 플레이리스트
                     </div>
                 </div>
-
+                        <div className="rankingtoggleBody">
+                            <span className={isLikeHidden ? "rankingtoggleText playlistrankingHidden" : "rankingtoggleText"}>좋아요</span>
+                            <span className={!isLikeHidden ? "rankingtoggleText playlistrankingHidden" : "rankingtoggleText"}>팔로우</span>
+                            <div className="rankingtoggle rankingtoggle-r" id="rankingtoggle-3">
+                                <input type="checkbox" className="rankingCheckbox" defaultChecked={rankingCheckBox} onChange={rankingCheckBoxChange}/>
+                                <div className="rankingknobs"></div>
+                                <div className="rankinglayer"></div>
+                            </div>
+                        </div>
+                </div>
                 <div className="playlistrankinglistwapper">
                     <div className="playlistrankinglistwrapper2">
                         <div className="playlistrankinglistitemswrappe">

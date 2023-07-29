@@ -24,6 +24,8 @@ function PlayListUpdate(props) {
     const [tag03, setTag03] = useState("");
     const [tag04, setTag04] = useState("");
     const [tags , setTags] = useState("");
+    const [updateNick, setUpdateNick] = useState("");
+    const [updatePlayUserImg, setUpdatePlayUserImg] = useState("");
     const navigate = useNavigate();
     const [isPublicCheckBox, setIsPublicCheckBox] = useState(false);
 
@@ -59,8 +61,17 @@ function PlayListUpdate(props) {
         setTag04(e.target.value);
     });
 
-    const closBack = () => {
-        window.location.href = "../pli/" + idx;
+    const closBack = async ()  => {
+       await Axios({
+            method: "delete",
+            url: "/api/lv1/os/imgdelete",
+            directoryPath : "playlist"
+        })
+            .then(res => {
+            })
+            .catch(error => {
+            })
+        navigate("/pli/" + idx);
     };
 
     useEffect(() => {
@@ -142,7 +153,9 @@ function PlayListUpdate(props) {
                 setTag04(res.data.play.tag.split(",")[3] === undefined ? "" : res.data.play.tag.split(",")[3]);
                 setPliImg(bucketURl + res.data.play.img);
                 setUploadPliImgName(res.data.play.img);
-                setIsPublicCheckBox(res.data.play.isPublic === 0 ? true : false);
+                setIsPublicCheckBox(res.data.play.isPublic === 0);
+                setUpdateNick(res.data.play.nick);
+                setUpdatePlayUserImg(res.data.playUserImg);
             })
             .catch(res => console.log(res));
     }, []);
@@ -150,9 +163,11 @@ function PlayListUpdate(props) {
     const isPublicCheckBoxChange = (e) => {
         setIsPublicCheckBox(e.target.checked);
     }
-
+    const updateSessionNick = JSON.parse(sessionStorage.getItem("data")).nick;
     return (
         <div className="playlistaddframe">
+        {
+            updateSessionNick === updateNick ?
             <div className="playlistadd">
                 <div className="playlistaddtop">
                     <label className="playlistaddchangimginputbody">
@@ -172,12 +187,10 @@ function PlayListUpdate(props) {
                             <img
                                 className="playlistaddprofileimage-icon"
                                 alt=""
-                                src={`${bucketURl}/profile/${JSON.parse(sessionStorage.getItem("data")).img}`}
+                                src={`${bucketURl}/profile/${updatePlayUserImg}`}
                             />
                             <div className="playlistaddinplaylistnickna">
-                                {
-                                    JSON.parse(sessionStorage.getItem("data")).nick
-                                }
+                                {updateNick}
                             </div>
                         </div>
                         <textarea className="playlistaddinplaylistinfo" placeholder="소개글을 적어주세요 (이미지는 클릭시 변경하실 수 있습니다.)"
@@ -195,10 +208,10 @@ function PlayListUpdate(props) {
                         </div>
                     </div>
                 </div>
-                <div className="isPublicgtogleBody">
-                    <span className="isPublicgtoggleText">공개</span>
-                    <div className="isPublicgtoggle isPublicgtoggle-r" id="isPublicgtoggle-3">
-                        <input type="checkbox" className="isPublicCheckbox" defaultChecked={isPublicCheckBox} onChange={isPublicCheckBoxChange}/>
+                <div className="isPublictoggleBody">
+                    <span className="isPublictoggleText">공개</span>
+                    <div className="isPublictoggle isPublictoggle-r" id="isPublictoggle-3">
+                        <input type="checkbox" className="isPublicCheckbox" checked={isPublicCheckBox} onChange={isPublicCheckBoxChange}/>
                         <div className="knobs"></div>
                         <div className="layer"></div>
                     </div>
@@ -257,6 +270,8 @@ function PlayListUpdate(props) {
                     onClick={closBack}
                 />
             </div>
+                :<h1 style={{ width: "100%", textAlign: "center", marginTop: "25%", position: "absolute" }}>페이지가 없습니다</h1>
+        }
         </div>
     );
 };

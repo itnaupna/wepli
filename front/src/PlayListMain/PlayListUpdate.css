@@ -762,7 +762,7 @@
     left: 0;
 }
 
-.isPublicgtoggle {
+.isPublictoggle {
     position: relative;
     top: 50%;
     width: 74px;
@@ -794,12 +794,12 @@
     z-index: 1;
 }
 
-.isPublicgtoggle.isPublicgtoggle-r,
-.isPublicgtoggle.isPublicgtoggle-r .layer {
+.isPublictoggle.isPublictoggle-r,
+.isPublictoggle.isPublictoggle-r .layer {
     border-radius: 100px;
 }
 
-#isPublicgtoggle-3 .knobs:before {
+#isPublictoggle-3 .knobs:before {
     content: "YES";
     position: absolute;
     top: 4px;
@@ -817,33 +817,33 @@
     transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
 }
 
-#isPublicgtogglen-3 .isPublicCheckbox:active + .knobs:before {
+#isPublictogglen-3 .isPublicCheckbox:active + .knobs:before {
     width: 46px;
     border-radius: 100px;
 }
 
-#isPublicgtoggle-3 .isPublicCheckbox:checked:active + .knobs:before {
+#isPublictoggle-3 .isPublicCheckbox:checked:active + .knobs:before {
     margin-left: -26px;
 }
 
-#isPublicgtoggle-3 .isPublicCheckbox:checked + .knobs:before {
+#isPublictoggle-3 .isPublicCheckbox:checked + .knobs:before {
     content: "NO";
     left: 42px;
     background-color: #f44336;
 }
 
-#isPublicgtoggle-3 .isPublicCheckbox:checked ~ .layer {
+#isPublictoggle-3 .isPublicCheckbox:checked ~ .layer {
     background-color: #fcebeb;
 }
 
-.isPublicgtogleBody{
+.isPublictoggleBody{
     position: relative;
     height: auto;
     width: auto;
     left: 43%;
     margin: -30px auto 0 auto;
 }
-.isPublicgtoggleText{
+.isPublictoggleText{
     font-family: var(--font-bm-dohyeon);
     font-size: 16px;
 }

@@ -13,13 +13,12 @@ function MyLikeList({item, idx, pliDetail}) {
 
     return (
 
-        <div className="playlistrankinglistitem">
+        <div className="playlistrankinglistitem" onClick={() => {pliDetail(item.idx)}}>
             <div className="playlistrankinglistitemnumber">{idx + 1}</div>
             <img
                 className="playlistrankinglistitemthumbna-icon"
                 alt=""
                 src={`${bucketURl}${item.img}`}
-                onClick={() => {pliDetail(item.idx)}}
             />
             <div className="playlistrankinglistiteminfo1">
                 <div className="playlistrankinglistitemtitle">

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import "./AddSongModal.css";
 import {useRecoilState} from "recoil";
-import {AddSongModalOpen, VideoId, YoutubeAddResult} from "../recoil/SearchSongAtom";
+import {AddSongModalOpen, SearchSongModalOpen, VideoId, YoutubeAddResult , AddSongResult} from "../recoil/SearchSongAtom";
 import backIcon from "../MainIMG/backarrow.svg";
 import MusicList from "../MainIMG/MusicList.png";
 import PlayListDetaliAddMusic from "../MainIMG/PlayListDetailAddMusic.png";
@@ -12,17 +12,21 @@ import {parseDurationToSeconds} from "../recoil/StageDataAtom";
 
 function AddSongModal(props) {
     const [addSongModalOpen, setAddSongModalOpen] = useRecoilState(AddSongModalOpen);
+    const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
     const [youtubeAddResult, setYoutubeAddResult] = useRecoilState(YoutubeAddResult);
+    const [addSongResult, setAddSongResult] = useRecoilState(AddSongResult);
     const [videoId, setVideoId] = useRecoilState(VideoId);
     const youtubeAddUrl = "https://www.googleapis.com/youtube/v3/videos";
     const idx = useParams().pliId;
 
 
     const youtubeApiKey = `${process.env.REACT_APP_YOUTUBE_KEY}`;
-    /*const youtubeApiKey = "AIzaSyCe587-zYmedX4obUgR-iFRGm97-bln-Ww";*/
-    /* const youtubeApiKey = "AIzaSyB4lBwQ7YtWtiSW2yhn6lbHtmHqKwRSUSs";*/
-    const closeAddSongModal = () => {
+    const closeAddSongModal = async () => {
         setAddSongModalOpen(false);
+    }
+    const backButtonClick = async () => {
+        await setAddSongModalOpen(false);
+        setSearchSongModalOpen(true);
     }
     useEffect(() => {
         addSongItem();
@@ -62,7 +66,8 @@ function AddSongModal(props) {
             url: "/api/lv1/p/song",
             data: songData
         }).then(res => {
-            alert("저장 완료"); //나중에 재 랜더링 넣기
+            setAddSongResult(!addSongResult);
+            closeAddSongModal(); //나중에 재 랜더링 넣기
         }).catch(error => {
             console.log(error);
         })
@@ -100,7 +105,7 @@ function AddSongModal(props) {
                         className="addsongmodalback-icon"
                         alt=""
                         src={backIcon}
-                        onClick={closeAddSongModal}
+                        onClick={backButtonClick}
                     />
                 </div>
                 {youtubeAddResult && youtubeAddResult.length > 0 ? (

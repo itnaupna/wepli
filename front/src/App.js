@@ -68,7 +68,7 @@ function App() {
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
                 <Route path="/pli/:pliId" element={<PlayListDetail/>}/>
-                <Route path="/pliupdate/:pliId" element={<PlayListUpdate/>}/>
+                <Route path={sessionStorage.getItem("data") !== null ? "/pliupdate/:pliId" : ""} element={<PlayListUpdate/>}/>
                 <Route path="/addpli" element={<AddPlayLsit/>} />
                 <Route path="/mypli" element={<PlayListMain03MyPlayListMain />} />
                 <Route path="/stage/:stageUrl" element={<PlayStage />} />

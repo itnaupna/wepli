@@ -1,9 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import "./PlayListDetail.css";
-import Molu from "../MainIMG/Molu.gif";
-import Aru from "../MainIMG/ARu.gif";
 import MusicList from "../MainIMG/MusicList.png";
-import Aris from "../MainIMG/Aris.gif";
 import Axios from "axios";
 import HeartImg from "../MainIMG/Heart.png";
 import SearchCommentIcon from "../MainIMG/SearchCommentIcon.png";
@@ -19,8 +16,8 @@ import songUpdateSave from "../MainIMG/songUpdateSave.png";
 import {Link, useNavigate} from "react-router-dom";
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
-import {useRecoilState} from "recoil";
-import {AddSongModalOpen, SearchSongModalOpen, VideoId} from "../recoil/SearchSongAtom";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {AddSongModalOpen, AddSongResult, SearchSongModalOpen, VideoId} from "../recoil/SearchSongAtom";
 import SearchSongModal from "./SearchSongModal";
 import AddSongModal from "./AddSongModal";
 import {SecondToHMS} from "../recoil/StageDataAtom";
@@ -103,7 +100,7 @@ const PlayListDetail = () => {
             url: "/api/lv2/p/comment",
             data: commnetdata
         }).then(res => {
-            alert("작성완료");
+            setCommentContent("");
             plaListDetail();
         }).catch(error => {
             if(error.response.status === 401) {
@@ -127,7 +124,6 @@ const PlayListDetail = () => {
             url: "/api/lv2/p/comment",
             data: commetdata
         }).then(res => {
-            alert("작성완료");
             plaListDetail();
         }).catch(error => {
             if(error.response.status === 401) {
@@ -162,7 +158,7 @@ const PlayListDetail = () => {
             url: "/api/lv2/p/like",
             params:{playlistID: idx,}
         }).then(res => {
-            alert("좋아요");
+            setAddSongResult(!addSongResult);
         }).catch(error => {
             console.log(error);
         })
@@ -172,7 +168,7 @@ const PlayListDetail = () => {
         if (window.confirm("정말 삭제하시겠습니까?")) {
             Axios.delete(`/api/lv1/p/song?idx=${idx}`)
                 .then(res => {
-                    alert("삭제완료");
+                    setAddSongResult(!addSongResult);
                 })
                 .catch(error => {
                     console.log(error);
@@ -279,6 +275,12 @@ const PlayListDetail = () => {
             )
     }
 
+    const [addSongResult, setAddSongResult] = useRecoilState(AddSongResult);
+
+    useEffect(() => {
+        plaListDetail();
+    }, [addSongResult]);
+
     return (
         <div className="playlistdetailframe">
             <div className="playlistdetail">
@@ -317,14 +319,14 @@ const PlayListDetail = () => {
                         </div>
                         <div className="playlistdetailinplaylistinfobu">
                             <div className="playlistdetailbuttonbody">
-                                <div className="playlistdetailbuttons">
+                                <div className={nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"}>
                                     <img
                                         className="playlistdetailplaybutton-icon"
                                         alt=""
                                         src={PlayListPlayIcon}
                                     />
                                 </div>
-                                <div className="playlistdetailbuttons" onClick={likeOnClick}>
+                                <div className={nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"} onClick={likeOnClick}>
                                     <img
                                         className="playlistdetaillikebutton-icon"
                                         alt=""
