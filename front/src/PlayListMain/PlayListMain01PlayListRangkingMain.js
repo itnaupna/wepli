@@ -27,24 +27,34 @@ function PlayListMain01PlayListRangkingMain(props) {
         let nickname = window.localStorage.getItem("data");
         if(nickname == null) {
             nickname = window.sessionStorage.getItem("data");
-        } 
-        
+        }
+
         if(nickname && nickname.includes("nick")) {
             nickname = JSON.parse(nickname).nick;
         }
         setNickname(nickname);
         const RankingDataUrl = "/api/lv0/p/plimaindata";
         Axios.get(RankingDataUrl)
-            .then(res =>
-                setRankingData(res.data),
+            .then(res => {
+                setRankingData(res.data)
+            }
             );
     }, []);
 
-    useEffect(() => {
+    useEffect( ()  => {
         setLikeTop50(rankingData.likeTopPli);
         setFollowTop50(rankingData.followTop);
         setMyLikeList(rankingData.likePli);
     }, [rankingData]);
+
+    useEffect(() => {
+        const RankingDataUrl = "/api/lv0/p/plimaindata";
+        Axios.get(RankingDataUrl)
+            .then(res => {
+                setMyLikeList(res.data.likePli);
+                }
+            );
+    },[sessionStorage.getItem("data")])
 
 
 
