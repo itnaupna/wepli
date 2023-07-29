@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./css/FollowerListModal.css";
 import backarrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
@@ -6,6 +6,7 @@ import {useRecoilState, useRecoilValue} from "recoil";
 import {TargetListModalOpen} from "../recoil/MypageModalAtom";
 import {TargetMemberAtom} from "../recoil/FollowAtom";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 function FollowerListModal(props) {
     const [isTargetListModalOpen, setisTargetListModalOpen] = useRecoilState(TargetListModalOpen);
@@ -29,6 +30,7 @@ function FollowerListModal(props) {
             url: url,
             params: {target: fValues}
         }).then(res=>{
+            alert("추가되었습니다");
             const updatedUnFollow = [...targetMember];
             updatedUnFollow[idx] = {...updatedUnFollow[idx], isfollow: res.data};
             setTargetMember(updatedUnFollow);
@@ -45,10 +47,23 @@ function FollowerListModal(props) {
             url: url,
             params: {target: fValues}
         }).then(res=>{
+            alert("팔로우 취소되었습니다.")
             const updatedUnFollow = [...targetMember];
             updatedUnFollow[idx] = {...updatedUnFollow[idx], isfollow: res.data};
             setTargetMember(updatedUnFollow);
         })
+    }
+
+    const [nickname, setNickname] = useState("");
+    const navigate = useNavigate();
+
+    const clickImgHandler = (target) => {
+        setisTargetListModalOpen(false);
+        if(nickname === target) {
+            navigate("/mypage");
+        } else {
+            navigate(`/mypage/${target}`);
+        }
     }
 
 
@@ -83,6 +98,7 @@ function FollowerListModal(props) {
                                         src={item.img ? `${bucket}/profile/${item.img}` : logo}
                                         onError={(e) => (e.target.src = logo)}
                                         referrerPolicy={'no-referrer'}
+                                        onClick={(e) => clickImgHandler(item.t)}
                                     />
                                     <div className="followermodalinfogroup">
                                         <div className="followermodalmembernicknametex">

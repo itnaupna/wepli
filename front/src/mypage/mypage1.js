@@ -87,7 +87,7 @@ function Mypage1(props) {
         setisBlackListOptionModalOpen(true);
     }
 
-    const showFollowListModal = () => {
+    const showFollowListModal = (target) => {
         setisFollowListModalOpen(true);
         const url = "/api/lv2/f/follow";
 
@@ -96,10 +96,12 @@ function Mypage1(props) {
             setFollowMember(res.data);
             console.log("follow 멤버", res.data);
         });
+
+        setvalue(target);
     }
 
 
-    const showTargetListModal = () => {
+    const showTargetListModal = (target) => {
         setisTargetListModalOpen(true);
 
         const url = "/api/lv2/f/follower";
@@ -111,6 +113,7 @@ function Mypage1(props) {
                 console.log("여기가 팔로워 출력" + setTargetMember);
                 console.log("팔로워 출력", res);
             });
+        setvalue(target);
     }
 
     const showBlackListModal = (target) => {
@@ -123,6 +126,8 @@ function Mypage1(props) {
             .then(res => {
                 setBlackMember(res.data);
             })
+
+        setvalue(target);
     }
 
 
@@ -211,6 +216,10 @@ function Mypage1(props) {
             params: {userNick : userNick}
         }).then(res => {
             setData(res.data);
+            console.log("1",userdata);
+            console.log("2",setData);
+            console.log("3",res.data);
+            console.log("4",res);
         }).catch(error => {
             alert(error);
         })
@@ -347,12 +356,12 @@ function Mypage1(props) {
                 <BlackListOptionModal setisBlackListOptionModalOpen={setisBlackListOptionModalOpen}/>}
             {isOutMemberModalOpen && <OutMemberModal setIsOutMemberModalOpen={setIsOutMemberModalOpen}/>}
             {isInfoChangeModalOpen && <InfoChageModal setIsInfoChangeModalOpen={setIsInfoChangeModalOpen}/>}
-            {isBlackListModalOpen && <BlackListModal setisBlackListModalOpen={setisBlackListModalOpen}/>}
-            {isTargetListModalOpen && <FollowerListModal setisTargetListModalOpen={setisTargetListModalOpen}/>}
+            {isBlackListModalOpen && <BlackListModal setisBlackListModalOpen={setisBlackListModalOpen} nick={data.nick}/>}
+            {isTargetListModalOpen && <FollowerListModal setisTargetListModalOpen={setisTargetListModalOpen} nick={data.nick}/> }
             {isFollowListModalOpen && (
                 <FollowListModal
                     setisFollowListModalOpen={setisFollowListModalOpen}
-                    followMember={followMember}
+                    followMember={followMember} nick={data.nick}
                 />
             )}
         </div>

@@ -85,7 +85,7 @@ function SignUpModal({setSignUpModalOpen}) {
             }
 
             // 이메일 및 비밀번호 입력 여부 검사
-            if (!email || !pw) {
+            if (!email || !pw || !nick) {
                 alert("이메일과 비밀번호를 입력해주세요.");
                 return;
             }

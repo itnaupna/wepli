@@ -36,6 +36,21 @@ export const UserStorageNick = atom({
     default: null
 });
 
+export const UserStoragelstfollow = atom({
+    key : 'UserStoragelstfollow',
+    default: null
+})
+
+export const UserStoragelstblack = atom({
+    key : 'UserStoragelstblack',
+    default: null
+})
+
+export const UserStorageemail = atom({
+    key : 'UserStorageemail',
+    default: null
+})
+
 export const UserStorageDesc = atom({
     key: 'UserStorageDesc',
     default: null

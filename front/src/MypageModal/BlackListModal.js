@@ -6,7 +6,8 @@ import {useRecoilState, useRecoilValue} from "recoil";
 import {BlackMemberAtom} from "../recoil/FollowAtom";
 import {BlackListModalOpen} from "../recoil/MypageModalAtom";
 import axios from "axios";
-import {DataState} from "../recoil/LoginStatusAtom";
+import {DataState, UserStoragelstblack} from "../recoil/LoginStatusAtom";
+import {useNavigate} from "react-router-dom";
 
 function BlackListModal({target}) {
 
@@ -21,6 +22,10 @@ function BlackListModal({target}) {
     const userNick = dataState.nick;
 
 
+    const data = sessionStorage.getItem("data") || localStorage.getItem("data");
+
+    const storagedata = JSON.parse(data);
+    const lstblack = storagedata.lstblack;
 
     const closeBlackListModal = () => {
         setIsBlackListModalOpen(false);
@@ -28,29 +33,72 @@ function BlackListModal({target}) {
 
     const fValues = blackMember.map((item) => item.t);
 
+    const [userStoragelstblack, setUserStoragelstblack] = useRecoilState(UserStoragelstblack);
 
     const handleBlackToggle = async (fValues, idx) => {
         const url = "/api/lv2/b/blacktoggle";
-        console.log("ㅗㅗ",fValues);
-        console.log("idx ->", idx);
+
         axios({
             method : 'post',
             url: url,
             params: {target: fValues}
         }).then(res=>{
-            console.log(res.data);
-            const updatedBlackMember = [...blackMember];
-            console.log(updatedBlackMember);
-            updatedBlackMember[idx] = { ...updatedBlackMember[idx], isblack: res.data };
-            setBlackMember1(updatedBlackMember);
-            console.log(res.data);
+            const mypageurl = "/api/lv0/m/mypage";
+            axios({
+                method: 'get',
+                url: mypageurl,
+                data: { userNick: userNick },
+            }).then(res=>{
+                if(res.data){
+                    alert("완료되었습니다");
+                    const lstblackArray = JSON.parse(lstblack) || [];
+                    const updatedLstBlack = lstblackArray.filter(name => name !== fValues);
+
+                    if (lstblackArray.length === updatedLstBlack.length) {
+                        updatedLstBlack.push(fValues);
+                    }
+
+                    const storedData = {
+                        ...JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")),
+                        lstblack: JSON.stringify(updatedLstBlack)
+                    };
+
+                    if (sessionStorage.getItem("data")) {
+                        sessionStorage.setItem("data", JSON.stringify(storedData));
+                        setUserStoragelstblack(JSON.stringify(updatedLstBlack));
+                    } else if (localStorage.getItem("data")) {
+                        localStorage.setItem("data", JSON.stringify(storedData));
+                        setUserStoragelstblack(JSON.stringify(updatedLstBlack));
+                    }
+
+                    const updatedBlackMember = [...blackMember];
+                    updatedBlackMember[idx] = { ...updatedBlackMember[idx], isblack: res.data };
+                    setBlackMember1(updatedBlackMember);
+                }else {
+
+                }
+            })
+
         }).catch(error => {
             alert(error);
         })
     }
 
+    const [nickname, setNickname] = useState("");
+    const navigate = useNavigate();
+
+    const clickImgHandler = (target) => {
+        setIsBlackListModalOpen(false);
+        if(nickname === target) {
+            navigate("/mypage");
+        } else {
+            navigate(`/mypage/${target}`);
+        }
+    }
+
     useEffect(() => {
-    }, [userNick]);
+        setUserStoragelstblack(userStoragelstblack);
+    }, [userNick,userStoragelstblack]);
 
     return (
         <div>
@@ -82,6 +130,7 @@ function BlackListModal({target}) {
                                         alt=""
                                         src={item.img ? `${bucket}/profile/${item.img}` : logo}
                                         onError={(e) => (e.target.src = logo)}
+                                        onClick={(e) => clickImgHandler(item.t)}
                                     />
 
                                     <div className="blacklistmodalinfogroup">
