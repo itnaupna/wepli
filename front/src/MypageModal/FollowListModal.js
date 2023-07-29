@@ -103,6 +103,7 @@ function FollowListModal({ setisFollowListModalOpen }) {
     const targetMember= useRecoilValue(TargetMemberAtom);
     const [targetMember1, setTargetMember] = useRecoilState(TargetMemberAtom);
     const [userStoragelstfollow, setuserStoragelstfollow] = useRecoilState(UserStoragelstfollow);
+
     const handleDeFollow = async (fValues, idx) => {
         const url = "/api/lv2/f/followtoggle";
 

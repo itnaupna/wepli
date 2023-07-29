@@ -19,6 +19,10 @@ function OutMemberModal({setIsOutMemberModalOpen}) {
 
     const navi = useNavigate();
     const onDeleteMemberSubmit = async () => {
+        if(!pw){
+            alert("비밀번호를 입력해주세요");
+            return;
+        }
 
         const url = "/api/lv1/m/member";
 
@@ -35,26 +39,12 @@ function OutMemberModal({setIsOutMemberModalOpen}) {
                 alert("비밀번호가 맞지않습니다");
             }
         })
-        // axios
-        //     .delete(url, { params })
-        //     .then((res) => {
-        //         if (res.data === true) {
-        //
-        //             console.log(res.data);
-        //             sessionStorage.removeItem('data') || localStorage.removeItem('data');
-        //             navi("/");
-        //             window.location.reload();
-        //         } else {
-        //             console.log("실패");
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         if (error.response && error.response.status === 405) {
-        //             console.log("405 오류");
-        //         } else {
-        //             console.log("오류:", error.message);
-        //         }
-        //     });
+    };
+
+    const OutMemberEnter = (e) =>{
+        if (e.key === 'Enter') {
+            onDeleteMemberSubmit();
+        }
     };
 
 
@@ -70,6 +60,7 @@ function OutMemberModal({setIsOutMemberModalOpen}) {
                             className="mypageoutmemebermodalarrowgrou-icon"
                             alt=""
                             src={backarrow}
+                            onClick={closeOutMemberModal}
                         />
                         <img
                             className="mypageoutmemebermodalweplilogo-icon"
@@ -81,7 +72,8 @@ function OutMemberModal({setIsOutMemberModalOpen}) {
                         <div className="mypageoutmemebermodalcentertex">회원탈퇴</div>
                     </div>
                     <div className="mypageoutmemebermodalpassinput">
-                        <input type={'password'} value={pw} onChange={handleInputPw} className="mypageoutmemebermodalpassinput1"></input>
+                        <input type={'password'} value={pw} onChange={handleInputPw} className="mypageoutmemebermodalpassinput1"
+                        onKeyPress={OutMemberEnter}></input>
                     </div>
 
                     <div className="mypageoutmemebermodalbtngroup">

@@ -180,6 +180,14 @@
     transform: translate(-50%, -50%);
     z-index: 9999;
 }
+
+.blacklistmodalmodalarrow-icon{
+    cursor: pointer;
+}
+
+.blacklistmodalveticalframe::-webkit-scrollbar{
+    display: none;
+}
 .blacklistmodalframe {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.2);

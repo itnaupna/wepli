@@ -23,6 +23,10 @@ function EmailConfirmModal({setisEmailConfirmModalOpen}) {
 
     // 인증번호 전송
     const handleRequestCode = async () => {
+        if(!verifyKey){
+            alert('정보를 입력해주세요');
+            return;
+        }
         const url = "/api/lv1/m/requestcode";
         try{
             const res = await axios
@@ -42,6 +46,10 @@ function EmailConfirmModal({setisEmailConfirmModalOpen}) {
 
     // 인증번호 검수
     const handleVerifyCode = async ()=>{
+        if(!verifyCode){
+            alert('정보를 입력해주세요');
+            return;
+        }
         const url = "/api/lv1/m/verifycode";
         try{
             const res = await axios.post(url,{key:verifyKey,code:verifyCode});
@@ -71,6 +79,12 @@ function EmailConfirmModal({setisEmailConfirmModalOpen}) {
         await setisEmailConfirmModalOpen(false);
     }
 
+    const EmailConfirmEnter = (e) =>{
+        if (e.key === 'Enter') {
+            handleVerifyCode();
+        }
+    };
+
 
     return (
         <div>
@@ -84,6 +98,7 @@ function EmailConfirmModal({setisEmailConfirmModalOpen}) {
                             className="emailconfirmmodalarrowgroup-icon"
                             alt=""
                             src={backarrow}
+                            onClick={closeEmailConfirmModal}
                         />
                         <img
                             className="emailconfirmmodalweplilogo-icon"
@@ -96,7 +111,8 @@ function EmailConfirmModal({setisEmailConfirmModalOpen}) {
                     </div>
                     <div className="emailconfirmmodalemailinputgro">
                         <input type={'email'} className="emailconfirmmodalemailinput"
-                               value={verifyKey} onChange={(e) => setVerifyKey(e.target.value)}></input>
+                               value={verifyKey} onChange={(e) => setVerifyKey(e.target.value)}
+                               onKeyPress={EmailConfirmEnter}></input>
                     </div>
                     <div className="emailconfirmemailbtngroup">
                         <div className="emailconfirmsendbtn" />
@@ -104,7 +120,8 @@ function EmailConfirmModal({setisEmailConfirmModalOpen}) {
                          onClick={handleRequestCode}>전송</button>
                     </div>
                     <div className="emailconfirmmodalemailinputgro">
-                        <input type={'text'} value={verifyCode} onChange={(e)=>setVerifyCode(e.target.value)} className="emailconfirmmodalemailinput"></input>
+                        <input type={'text'} value={verifyCode} onChange={(e)=>setVerifyCode(e.target.value)} className="emailconfirmmodalemailinput"
+                        onKeyPress={EmailConfirmEnter}></input>
                     </div>
                     <div className="emailconfirmemailbtngroup">
                         <div className="emailconfirmsendbtn" />

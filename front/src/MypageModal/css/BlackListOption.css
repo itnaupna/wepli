@@ -20,6 +20,7 @@
     left: 0;
     width: 2.06rem;
     height: 2rem;
+    cursor: pointer;
 }
 .blacklistoptionmodalweplilogo-icon {
     position: absolute;

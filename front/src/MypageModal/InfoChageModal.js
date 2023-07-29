@@ -50,7 +50,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
         const emailRegex = new RegExp("^[a-zA-Z0-9._+-,]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
 
         if (!pw) {
-            alert("비밀번호 입력해주세요");
+            alert("회원정보를 입력해주세요");
             return;
         }
 
@@ -110,7 +110,11 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
         });
     }
 
-
+    const InfoChangeEnter = (e) =>{
+        if (e.key === 'Enter') {
+            handleinfoChnage();
+        }
+    };
 
     useEffect(()=>{
         setUserStorageNick(userStorageNick);
@@ -127,6 +131,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
                         className="mypageinfochangemodalarrowgrou-icon"
                         alt=""
                         src={backarrow}
+                        onClick={closeInfoChangeModal}
                     />
                     <img
                         className="mypageinfochangemodalweplilogo-icon"
@@ -145,19 +150,19 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
                             ? '이메일을 입력해주세요'
                             : '이미 이메일이 인증이되어 변경할 수 없습니다.'
                     } className="mypageinfochangemodalnicknamei"
-                           value={email} onChange={handleInputEmail} readOnly={emailconfirm === 1}></input>
+                           value={email} onChange={handleInputEmail} onKeyPress={InfoChangeEnter} readOnly={emailconfirm === 1}></input>
                 </div>
 
                 {/*닉네임 입력*/}
                 <div className="mypageinfochangemodalpassnickn">
                     <input placeholder={'닉네임을 입력해주세요'} className="mypageinfochangemodalnicknamei"
-                           value={nick} onChange={(e)=>setNickName(e.target.value)}></input>
+                           value={nick} onChange={(e)=>setNickName(e.target.value)} onKeyPress={InfoChangeEnter}></input>
                 </div>
 
                 {/*비밀번호 입력*/}
                 <div className="mypageinfochangemodalpassnickn">
                     <input placeholder={'비밀번호를 입력해주세요'} className="mypageinfochangemodalnicknamei"
-                           value={pw} type={'password'} onChange={handleInputPw}></input>
+                           value={pw} type={'password'} onChange={handleInputPw} onKeyPress={InfoChangeEnter}></input>
                 </div>
 
                 {/*정보수정 버튼*/}

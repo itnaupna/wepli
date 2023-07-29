@@ -111,6 +111,7 @@ function BlackListModal({target}) {
                                     className="blacklistmodalmodalarrow-icon"
                                     alt=""
                                     src={backarrow}
+                                    onClick={closeBlackListModal}
                                 />
                                 <div className="blacklistmodaltitle">
                                     <div className="blacklistmodalwepli">WEPLi</div>

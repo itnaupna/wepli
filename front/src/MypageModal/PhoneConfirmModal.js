@@ -18,6 +18,10 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
 
     // 인증번호 전송 타입
     const handleRequestCode = async () => {
+        if(!verifyKey){
+            alert("정보를 입력해주세요");
+            return;
+        }
         const url = "/api/lv1/m/requestcode";
         try {
 
@@ -46,6 +50,10 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
 
     // 인증번호 검수임
     const handleVerifyCode = async ()=>{
+        if(!verifyCode){
+            alert("정보를 입력해주세요");
+            return;
+        }
         const url = "/api/lv1/m/verifycode";
         try{
             const res = await axios.post(url,{type:1,key:verifyKey,code:verifyCode});
@@ -65,6 +73,12 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
         }
     }
 
+    const PhoneConfirmEnter = (e) =>{
+        if (e.key === 'Enter') {
+            handleVerifyCode();
+        }
+    };
+
     return (
         <div>
             <div className="phoneconfirmmodalframe" onClick={closePhoneConfirmModal}></div>
@@ -77,6 +91,7 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
                             className="phoneconfirmmodalarrowgroup-icon"
                             alt=""
                             src={backarrow}
+                            onClick={closePhoneConfirmModal}
                         />
                         <img
                             className="phoneconfirmmodalweplilogo-icon"
@@ -89,7 +104,8 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
                     </div>
                     <div className="phoneconfirmmodalphoneinputgro">
                         <input type={'text'} value={verifyKey}
-                               onChange={(e)=> setVerifyKey(e.target.value)} className="phoneconfirmmodalphoneinput"></input>
+                               onChange={(e)=> setVerifyKey(e.target.value)}
+                               onKeyPress={PhoneConfirmEnter} className="phoneconfirmmodalphoneinput"></input>
                     </div>
                     <div className="phoneconfirmphonebtngroup">
                         <div className="phoneconfirmsendbtn" />
@@ -97,7 +113,8 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
                     </div>
                     <div className="phoneconfirmmodalphoneinputgro">
                         <input type={'text'} value={verifyCode}
-                               onChange={(e)=>setVerifyCode(e.target.value)} className="phoneconfirmmodalphoneinput"></input>
+                               onChange={(e)=>setVerifyCode(e.target.value)}
+                               onKeyPress={PhoneConfirmEnter} className="phoneconfirmmodalphoneinput"></input>
                     </div>
                     <div className="phoneconfirmphonebtngroup">
                         <div className="phoneconfirmsendbtn" />

@@ -168,6 +168,10 @@
     border: 1px solid red;
 }
 
+.findidmodalarrowgroup-icon{
+    cursor: pointer;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;

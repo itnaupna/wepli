@@ -56,6 +56,7 @@ function BlackListOptionModal() {
                         className="blacklistoptionmodalarrowgroup-icon"
                         alt=""
                         src={backarrow}
+                        onClick={closeBlackListOptionModal}
                     />
                     <img
                         className="blacklistoptionmodalweplilogo-icon"

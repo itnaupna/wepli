@@ -4,15 +4,22 @@ import arrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import btnarrow from "./svg/btnarrow.svg";
 import {useRecoilState, useRecoilValue} from "recoil";
-import {findIdSuccessModalOpenState, recoveredEmailState} from "../recoil/FindIdModalAtom";
+import {findIdSuccessModalOpenState, LoginModalOpen, recoveredEmailState} from "../recoil/FindIdModalAtom";
 function FindIdSuccessModal() {
 
     const [findIdSuccessModalopen,setfindIdSuccessModalopen] = useRecoilState(findIdSuccessModalOpenState);
+    const [loginmodalopen, setloginmodalopen] = useRecoilState(LoginModalOpen);
+
     const closeFindIdSuccessModal = () => {
         setfindIdSuccessModalopen(false);
     }
 
     const recoveredEmail = useRecoilValue(recoveredEmailState);
+
+    const closeNowModal = async () => {
+        await setfindIdSuccessModalopen(false);
+        setloginmodalopen(true);
+    }
 
     return (
         <div>
@@ -26,6 +33,7 @@ function FindIdSuccessModal() {
                             className="findidsuccessmodalarrowgroup-icon"
                             alt=""
                             src={arrow}
+                            onClick={closeNowModal}
                         />
                         <img
                             className="findidsuccessmodalweplilogo-icon"

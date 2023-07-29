@@ -78,6 +78,7 @@ function FollowerListModal(props) {
                                     className="followermodalmodalarrow-icon"
                                     alt=""
                                     src={backarrow}
+                                    onClick={closeTargetListModal}
                                 />
                                 <div className="followermodaltitle">
                                     <div className="followermodalwepli">WEPLi</div>

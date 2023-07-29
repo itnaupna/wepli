@@ -196,6 +196,13 @@ function SignUpModal({setSignUpModalOpen}) {
         }
     }, [socialEmail, socialtype])
 
+    const SignEnter = (e) =>{
+        if (e.key === 'Enter') {
+            signUpSubmit();
+        }
+    };
+
+
     return (
         <div>
             <div className="signupmodalframe" onClick={closeFindIdModal}></div>
@@ -230,7 +237,7 @@ function SignUpModal({setSignUpModalOpen}) {
                         name="email"
                         type="email"
                         readOnly = {isSocial ? true : false}
-                        
+                        onKeyPress={SignEnter}
                     />
                     { isSocial ? "" : 
                     <div className="signupemailbtngroup">
@@ -250,6 +257,7 @@ function SignUpModal({setSignUpModalOpen}) {
                         value={nick}
                         name="nick"
                         type="text"
+                        onKeyPress={SignEnter}
                     />
                     <div className="signupemailbtngroup">
                         <button onClick={checkNick} className="signuemailduplicationbtn">
@@ -269,6 +277,7 @@ function SignUpModal({setSignUpModalOpen}) {
                                 value={pw}
                                 name="pw"
                                 type="password"
+                                onKeyPress={SignEnter}
                             />
                         </div>
                 }
@@ -282,6 +291,7 @@ function SignUpModal({setSignUpModalOpen}) {
                             value={pwConfirm}
                             name="pwConfirm"
                             onChange={handleInputPwConfirm}
+                            onKeyPress={SignEnter}
                         />
                     </div>
                 }
