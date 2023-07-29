@@ -45,7 +45,7 @@ function LoginModal() {
         setSignUpModalOpen(true);
     };
 
-    //로그인 모달 닫는 이벤트
+    //로그인 모달 닫는 이벤트n
     const closeModal = () => {
         setloginmodalopen(false);
     }

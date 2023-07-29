@@ -36,9 +36,9 @@ public class UserConfirmService {
     public boolean RequestCode(int type, String key) {
         switch (type) {
             case 0:
-                return  CreateEmailVerifyCode(key);
+                return mMapper.selectCheckEmailConfirm(key) > 0 ?  false : CreateEmailVerifyCode(key);
             case 1:
-                return CreatePhoneVerifyCode(key);
+                return mMapper.selectCheckPhoneConfirm(key) > 0 ? false : CreatePhoneVerifyCode(key);
             default:
                 return false;
         }

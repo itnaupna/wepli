@@ -56,15 +56,18 @@ public class MemberService {
         try {
             if(mDto.getSocialtype() == null) {
                 mDto.setEmailconfirm(0);
+                mDto.setImg("logo.png");
+                 System.out.println(mDto);
             } else {
                 mDto.setEmailconfirm(1);
                 mDto.setPw(mDto.getEmail() + mDto.getNick() + mDto.getSocialtype());
+                mDto.setImg("logo.png");
             }
             mDto.setEmailconfirm(mDto.getSocialtype() == null ? 0 : 1);
             log.info("{}",mDto.getEmailconfirm());
             if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1 || mDto.getNick().length() > 10 ) {
-                // 이메일 정규식
-                boolean checkEmail = Pattern.matches("^[a-zA-Z0-9]+@[0-9a-zA-Z]+\\.[a-z]+$",mDto.getEmail());
+
+                boolean checkEmail = Pattern.matches("^[a-zA-Z0-9._+-,]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",mDto.getEmail());
                 if(!checkEmail)
                    return false;
                 return false;
@@ -185,7 +188,7 @@ public class MemberService {
             }
         }
 
-        boolean checkEmail = Pattern.matches("^[a-zA-Z0-9]+@[0-9a-zA-Z]+\\.[a-z]+$",mDto.getEmail());
+        boolean checkEmail = Pattern.matches("^[a-zA-Z0-9._+-,]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",mDto.getEmail());
         if(!checkEmail) {
             result.put("result", false);
             response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);

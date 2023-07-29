@@ -21,7 +21,7 @@ function PhoneConfirmModal({setisPhoneConfirmModalOpen}) {
         const url = "/api/lv1/m/requestcode";
         try {
 
-            const res = await axios.post(url, {type: 1, key: verifyKey});
+            const res = await axios.post(url, {type: 1, key: verifyKey, email:verifyKey, phone:verifyKey});
             console.log(res);
             if (res.data === true) {
                 const data= JSON.parse(sessionStorage.getItem('data') || localStorage.getItem("data"));

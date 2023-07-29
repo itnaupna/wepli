@@ -56,3 +56,15 @@ export function useIsPasswordEntered() {
 
     return { isPasswordEntered, setIsPasswordEntered };
 }
+
+
+export const passwordRegexAtom = atom({
+    key: 'passwordRegex',
+    default: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/,
+  });
+  
+  export const emailRegexAtom = atom({
+    key: 'emailRegex',
+    default: /^[a-zA-Z0-9._+-,]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+});
+
