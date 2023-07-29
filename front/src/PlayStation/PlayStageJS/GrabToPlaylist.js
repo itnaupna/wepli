@@ -5,10 +5,10 @@ import axios from 'axios';
 import { doGrab } from '../../recoil/StageDataAtom';
 import { getIsGrabbingAtom } from '../../recoil/StageDataAtom';
 
-const GrabToPlaylist = ({data,index}) => {
+const GrabToPlaylist = ({ data, index }) => {
     const IsLogin = useRecoilValue(LoginStatusAtom);
     const [myPlaylists, setMyPlaylists] = useState([]);
-    const [isLoaded,setIsLoaded] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [IsGrabbing, setIsGrabbing] = useRecoilState(getIsGrabbingAtom(index));
     const loadMyPlaylists = async () => {
         if (!IsLogin) return;
@@ -28,10 +28,10 @@ const GrabToPlaylist = ({data,index}) => {
                 <select style={{ height: '22px' }} disabled={myPlaylists.length === 0} ref={selectRef}>
                     {myPlaylists.length > 0
                         ? myPlaylists.map((v, i) => (
-                              <option key={i} value={v.idx}>
-                                  {v.title} ({v.songscount})
-                              </option>
-                          ))
+                            <option key={i} value={v.idx}>
+                                {v.title} ({v.songscount})
+                            </option>
+                        ))
                         : <option disabled>재생목록이 없습니다</option>
                     }
                 </select>
@@ -40,10 +40,13 @@ const GrabToPlaylist = ({data,index}) => {
                     <option>재생목록을 불러오는 중입니다.</option>
                 </select>
             )}
-            <div onClick={()=>{if(doGrab(selectRef.current.value, data.id.videoId))setIsGrabbing(false);}}>
+            <div onClick={() => {
+                if (doGrab(selectRef.current.value, data.id.videoId))
+                    setIsGrabbing(false);
+            }}>
                 ➕
             </div>
-            <div onClick={()=>{setIsGrabbing(false);}}>
+            <div onClick={() => { setIsGrabbing(false); }}>
                 ❌
             </div>
         </div>
