@@ -183,14 +183,15 @@ public class MemberService {
                 response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                 return result;
             }
+        }else {
+            boolean checkEmail = Pattern.matches("^[a-zA-Z0-9]+@[0-9a-zA-Z]+\\.[a-z]+$",mDto.getEmail());
+            if(!checkEmail) {
+                result.put("result", false);
+                response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+                return result;
+            }
         }
 
-        boolean checkEmail = Pattern.matches("^[a-zA-Z0-9]+@[0-9a-zA-Z]+\\.[a-z]+$",mDto.getEmail());
-        if(!checkEmail) {
-            result.put("result", false);
-            response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
-            return result;
-        }
         data.put("nick", nick);
         System.out.println(data);                
         memberMapper.updateInfo(data);

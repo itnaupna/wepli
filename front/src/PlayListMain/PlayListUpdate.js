@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import Axios from "axios";
+import logo from "../mypage/photo/wplieonlylogo.png";
 import PlusIcon from "../MainIMG/plusIcon.png";
 import PlayListSave from "../MainIMG/playListSave.png";
 import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
@@ -10,6 +11,8 @@ function PlayListUpdate(props) {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
     const [pliTitle, setPliTitle] = useState("");
     const [pliDesc, setPliDesc] = useState("");
+    const [nick, setNick] = useState("");
+    const [userImg, setUserImg] = useState("");
     const [pliImg, setPliImg] = useState(bucketURl + "/playlist/88e584de-fb85-46ce-bc1a-8b2772babe42");
     const PliImgRef = useRef();
     const [uploadPliImgName , setUploadPliImgName] = useState("/playlist/88e584de-fb85-46ce-bc1a-8b2772babe42");
@@ -36,12 +39,22 @@ function PlayListUpdate(props) {
     const pliDescOnChange = useCallback(e => {
         setPliDesc(e.target.value);
     });
-    const genreOnChange = useCallback(e => {
-        setGenre(e.target.value);
-    });
-    const tagOnChange = useCallback(e => {
-        setTag(e.target.value);
-    });
+
+    const genreOnChange = (e, idx) => {
+        const updatedGenre = [...genre];
+        updatedGenre[idx] = e.target.value;
+        setGenre(updatedGenre);
+        setGenres(updatedGenre.join(","));
+        console.log(genres);
+        console.log(genre);
+    }
+    const tagOnChange = (e, idx) => {
+        const updatedTag = [...tag];
+        updatedTag[idx] = e.target.value;
+        setTag(updatedTag);
+        setTags(updatedTag.join(","));
+        console.log(tag);
+    }
 
     const closBack = () => {
         closBacknavigate(-1);
@@ -110,16 +123,29 @@ function PlayListUpdate(props) {
                 setPlaListDetailInfo(res.data.play);
                 setPliTitle(res.data.play.title);
                 setPliDesc(res.data.play.desc);
-                if(res.data.genre != null) {
+                setUserImg(res.data.playUserImg);
+                setNick(res.data.play.nick);
+                if(res.data.play.genre != null) {
                     setGenre((res.data.play.genre).split(","));
                 }
-                if(res.data.tag != null) {
+                if(res.data.play.tag != null) {
                     setTag((res.data.play.tag).split(","));
                 }
                 setPliImg(bucketURl + res.data.play.img);
                 setUploadPliImgName(res.data.play.img);
-                console.log(genre);
-                console.log(tag);
+                console.log(res.data.play.nick);
+
+                let nickname = window.localStorage.getItem("data");
+                if(nickname == null) {
+                    nickname = window.sessionStorage.getItem("data");
+                }       
+                if(nickname && nickname.includes("nick")) {
+                    nickname = JSON.parse(nickname).nick;
+                }
+                if(nickname != res.data.play.nick) {
+                    alert("어허 안돼~");
+                    closBacknavigate(-1);
+                }
 
             })
             .catch(res => console.log(res));
@@ -146,12 +172,10 @@ function PlayListUpdate(props) {
                             <img
                                 className="playlistaddprofileimage-icon"
                                 alt=""
-                                src={`${bucketURl}/profile/${JSON.parse(sessionStorage.getItem("data")).img}`}
+                                src={userImg != null ? `${bucketURl}/profile/${userImg}` : logo }
                             />
                             <div className="playlistaddinplaylistnickna">
-                                {
-                                    JSON.parse(sessionStorage.getItem("data")).nick
-                                }
+                                {nick}
                             </div>
                         </div>
                         <textarea className="playlistaddinplaylistinfo" placeholder="소개글을 적어주세요 (이미지는 클릭시 변경하실 수 있습니다.)"
@@ -178,7 +202,7 @@ function PlayListUpdate(props) {
                         {Array(4).fill().map((_, idx) => 
                             <div className="playlistaddtagform">
                                 <input className="txtplaylistaddform" value={genre[idx] == null ? "" : genre[idx]} maxLength="10"
-                                    onChange={genreOnChange} placeholder="장르를 적어주세요"/>
+                                    onChange={(e) => genreOnChange(e, idx)} placeholder="장르를 적어주세요"/>
                             </div>
                         )}
                     </div>
@@ -189,8 +213,8 @@ function PlayListUpdate(props) {
                         </div>
                         {Array(4).fill().map((_, idx) => 
                             <div className="playlistaddtagform">
-                                <input className="txtplaylistaddform" value={tag[idx] == null ? "" : tag[idx]} maxLength="10" onChange={tagOnChange}
-                                    placeholder="태그를 적어주세요"/>
+                                <input className="txtplaylistaddform" value={tag[idx] == null ? "" : tag[idx]} maxLength="10" 
+                                onChange={(e) => tagOnChange(e, idx)} placeholder="태그를 적어주세요"/>
                             </div>
                         )}
 
