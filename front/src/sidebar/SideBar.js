@@ -174,7 +174,7 @@ function SideBar(props) {
             {findIdModalOpen && <FindIdModal setFindIdModalOpen={setFindIdModalOpen} />}
 
             {/*아이디찾기성공*/}
-            {findIdSuccessModalOpen && <FindIdSuccessModal setFindIdSuccessModalOpen={setFindIdSuccessModalOpen} />}
+            {findIdSuccessModalOpen && <FindIdSuccessModal setFindIdSuccessModalOpen={setFindIdSuccessModalOpen} setloginmodalopen={setloginmodalopen}/>}
 
             {/*비밀번호찾기*/}
             {findPassModalOpen && <FindPassModal setFindPassModalOpen={setFindPassModalOpen} />}

@@ -185,3 +185,7 @@
         opacity: 1;
     }
 }
+
+.signupmodalarrowgroup-icon{
+    cursor: pointer;
+}

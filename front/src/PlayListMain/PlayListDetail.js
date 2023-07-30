@@ -17,8 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { AddSongModalOpen, SearchSongModalOpen, VideoId } from "../recoil/SearchSongAtom";
-import {AddSongModalOpen, AddSongResult, SearchSongModalOpen, VideoId} from "../recoil/SearchSongAtom";
+import { AddSongModalOpen, SearchSongModalOpen, VideoId,AddSongResult } from "../recoil/SearchSongAtom";
 import SearchSongModal from "./SearchSongModal";
 import AddSongModal from "./AddSongModal";
 import { SecondToHMS } from "../recoil/StageDataAtom";
@@ -28,6 +27,9 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { SocketAtom, UnSubSocket } from "../recoil/SocketAtom";
 import { StageUrlAtom } from "../recoil/ChatItemAtom";
 import { LoginStatusAtom } from "../recoil/LoginStatusAtom";
+import weplilogo from "../sidebar/photo/weplilogo.png";
+
+
 const PlayListDetail = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
     const idx = useParams().pliId;
@@ -53,7 +55,7 @@ const PlayListDetail = () => {
     const [plaListDetailComment, setPlaListDetailComment] = useState([]);
     const [plaListDetailInfo, setPlaListDetailInfo] = useState([]);
     const [plaListDetailSong, setPlaListDetailSong] = useState([]);
-    const [plaListDetailplayUserImg ,setPlaListDetailplayUserImg] = useState("");
+    const [plaListDetailplayUserImg, setPlaListDetailplayUserImg] = useState("");
     const [nickname, setNickname] = useState("");
 
     const plaListDetail = () => {
@@ -73,11 +75,11 @@ const PlayListDetail = () => {
 
     useEffect(() => {
         let nickname = window.localStorage.getItem("data");
-        if(nickname == null) {
+        if (nickname == null) {
             nickname = window.sessionStorage.getItem("data");
         }
 
-        if(nickname && nickname.includes("nick")) {
+        if (nickname && nickname.includes("nick")) {
             nickname = JSON.parse(nickname).nick;
         }
         setNickname(nickname);
@@ -111,9 +113,9 @@ const PlayListDetail = () => {
             setCommentContent("");
             plaListDetail();
         }).catch(error => {
-            if(error.response.status === 401) {
+            if (error.response.status === 401) {
                 alert("로그인 후 사용가능한 기능입니다");
-            } else if(error.response.status === 403) {
+            } else if (error.response.status === 403) {
                 alert("메일 또는 문자인증 후 사용 가능합니다");
             } else {
                 alert("알수없는 오류");
@@ -134,9 +136,9 @@ const PlayListDetail = () => {
         }).then(res => {
             plaListDetail();
         }).catch(error => {
-            if(error.response.status === 401) {
+            if (error.response.status === 401) {
                 alert("로그인 후 사용가능한 기능입니다");
-            } else if(error.response.status === 403) {
+            } else if (error.response.status === 403) {
                 alert("메일 또는 문자인증 후 사용 가능합니다");
             } else {
                 alert("알수없는 오류");
@@ -223,7 +225,7 @@ const PlayListDetail = () => {
         setSongImg("");
     };
 
-    const [uploadSongImgName , setUploadSongImgName] = useState(null);
+    const [uploadSongImgName, setUploadSongImgName] = useState(null);
     const SongImgRef = useRef();
     const [songImg, setSongImg] = useState("");
 
@@ -267,7 +269,7 @@ const PlayListDetail = () => {
             img: uploadSongImgName,
             genre: "",
             tag: "",
-            singer: songSinger ,
+            singer: songSinger,
             idx: index
         };
 
@@ -279,7 +281,7 @@ const PlayListDetail = () => {
             .catch((error) => {
                 alert("실패애러" + error)
 
-                }
+            }
             )
     }
 
@@ -288,6 +290,7 @@ const PlayListDetail = () => {
     useEffect(() => {
         plaListDetail();
     }, [addSongResult]);
+    const pliProfileImg = JSON.parse(sessionStorage.getItem("data")).img;
 
     return (
         <div className="playlistdetailframe">
@@ -357,38 +360,39 @@ const PlayListDetail = () => {
                                     />
                                 </div>
                                 {nickname === plaListDetailInfo.nick ?
-                                <div className="playlistdetailbuttons" onClick={ShowSearchModalOpen}>
-                                    <img
-                                        className="playlistdetailinsertmusicbutto-icon"
-                                        alt=""
-                                        src={PlayListDetaliAddMusic}
-                                    />
-                                </div> : ""
+                                    <div className="playlistdetailbuttons" onClick={ShowSearchModalOpen}>
+                                        <img
+                                            className="playlistdetailinsertmusicbutto-icon"
+                                            alt=""
+                                            src={PlayListDetaliAddMusic}
+                                        />
+                                    </div> : ""
                                 }
                                 {nickname === plaListDetailInfo.nick ?
-                                <Link to={"../pliupdate/" + idx} className="playlistdetailbuttons">
-                                    <img
-                                        className="playlistdetaillistupdatebutton-icon"
-                                        alt=""
-                                        src={PlayListDetailOption}
-                                    />
-                                </Link> : ""
+                                    <Link to={"../pliupdate/" + idx} className="playlistdetailbuttons">
+                                        <img
+                                            className="playlistdetaillistupdatebutton-icon"
+                                            alt=""
+                                            src={PlayListDetailOption}
+                                        />
+                                    </Link> : ""
                                 }
                                 {nickname === plaListDetailInfo.nick ?
-                                <div className="playlistdetailbuttons">
-                                    <img
-                                        className="playlistdetailplaybutton-icon"
-                                        alt=""
-                                        src={PlayListDetailDelete}
-                                        onClick={deletePli}
-                                    />
-                                </div> : ""
+                                    <div className="playlistdetailbuttons">
+                                        <img
+                                            className="playlistdetailplaybutton-icon"
+                                            alt=""
+                                            src={PlayListDetailDelete}
+                                            onClick={deletePli}
+                                        />
+                                    </div> : ""
                                 }
                             </div>
                             <div className="playlistdetailviewicons">
                                 <div className="playlistdetailviewicon">
                                     <div className="playlistdetailviewcomment">
                                         <div className="playlistmessegecount">{plaListDetailInfo.commentscount}</div>
+
                                         <img
                                             className="playlistmessegeicon"
                                             alt=""
@@ -423,26 +427,26 @@ const PlayListDetail = () => {
                         plaListDetailSong.map((songList, idx) =>
                             <div className="playlistdetailitems" key={idx}>
                                 {nickname === plaListDetailInfo.nick ?
-                                <div className="grpbtnset">
-                                    <img
-                                        className={selectedInputIdx !== idx ? "playlistdetaillistupdatebutton-icon" : "playlistdetaillistupdatebutton-icon playlistdetaillistupdatebutton-hidden"}
-                                        alt=""
-                                        src={PlayListDetailOption}
-                                        onClick={() => {updateSongSetting(songList.singer, songList.title); handleSelectInput(idx)}}
-                                    />
-                                    <img
-                                        className={selectedInputIdx === idx ? "playlistdetaillistupdatebutton-icon" : "playlistdetaillistupdatebutton-icon playlistdetaillistupdatebutton-hidden"}
-                                        alt=""
-                                        src={songUpdateSave}
-                                        onClick={() => {updateSong(songList.idx); handleSelectInput(-1)}}
-                                    />
-                                    <img
-                                        className="playlistdetaillistdelete-icon"
-                                        alt=""
-                                        src={PlayListDetailClose}
-                                        onClick={() => songDelete(songList.idx)}
-                                    />
-                                </div>:""
+                                    <div className="grpbtnset">
+                                        <img
+                                            className={selectedInputIdx !== idx ? "playlistdetaillistupdatebutton-icon" : "playlistdetaillistupdatebutton-icon playlistdetaillistupdatebutton-hidden"}
+                                            alt=""
+                                            src={PlayListDetailOption}
+                                            onClick={() => { updateSongSetting(songList.singer, songList.title); handleSelectInput(idx) }}
+                                        />
+                                        <img
+                                            className={selectedInputIdx === idx ? "playlistdetaillistupdatebutton-icon" : "playlistdetaillistupdatebutton-icon playlistdetaillistupdatebutton-hidden"}
+                                            alt=""
+                                            src={songUpdateSave}
+                                            onClick={() => { updateSong(songList.idx); handleSelectInput(-1) }}
+                                        />
+                                        <img
+                                            className="playlistdetaillistdelete-icon"
+                                            alt=""
+                                            src={PlayListDetailClose}
+                                            onClick={() => songDelete(songList.idx)}
+                                        />
+                                    </div> : ""
                                 }
                                 <div className="txtlength">{SecondToHMS(songList.songlength)}</div>
                                 <input className="txtsinger" maxLength={10} value={songList.singer} readOnly={selectedInputIdx !== idx} onChange={(e) => handleChangeSinger(idx, e.target.value)} />
@@ -460,15 +464,15 @@ const PlayListDetail = () => {
                                                 src={PlusIcon}
                                             /> : null
                                     }
-                                <img
-                                    className="imgthumbnail-icon"
-                                    alt=""
-                                    src={
-                                        selectedInputIdx === idx
-                                            ? songImg !== "" ? songImg : songList.img !== null ? `${bucketURl}${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
-                                                :  songList.img !== null ? `${bucketURl}${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
-                                    }
-                                />
+                                    <img
+                                        className="imgthumbnail-icon"
+                                        alt=""
+                                        src={
+                                            selectedInputIdx === idx
+                                                ? songImg !== "" ? songImg : songList.img !== null ? `${bucketURl}${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
+                                                : songList.img !== null ? `${bucketURl}${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
+                                        }
+                                    />
                                 </label>
                                 <div className="txtrank" onClick={() => {
                                     if (stageUrl !== null && !window.confirm("스테이지에 입장한 상태입니다. 플리에서 직접 재생시 스테이지에서 퇴장됩니다. 계속 진행하시겠습니까?"))
@@ -495,7 +499,7 @@ const PlayListDetail = () => {
                                     <img
                                         className="commettilteiconbody"
                                         alt=""
-                                        src={SearchCommentIcon}
+                                        src={pliProfileImg ? bucketURl + "/profile/" + pliProfileImg : weplilogo}
                                     />
                                 </div>
                                 <div className="playlistdetailcommentform">
@@ -530,13 +534,13 @@ const PlayListDetail = () => {
                                                     작성일 : {dayjs(commentList.writeda).format('YYYY-MM-DD')}
                                                 </div>
                                             </div>
-                                            { commentList.writer === nickname || plaListDetailInfo.nick === nickname ?
-                                            <img
-                                                className="playlistdetailcommentdeletefra-icon"
-                                                alt=""
-                                                src={PlayListDetailCommentDelete}
-                                                onClick={() => deleteComment(commentList.idx)}
-                                            /> : ""
+                                            {commentList.writer === nickname || plaListDetailInfo.nick === nickname ?
+                                                <img
+                                                    className="playlistdetailcommentdeletefra-icon"
+                                                    alt=""
+                                                    src={PlayListDetailCommentDelete}
+                                                    onClick={() => deleteComment(commentList.idx)}
+                                                /> : ""
                                             }
                                             <div className="playlistdetailcommentprofileim">
                                                 <img

@@ -76,6 +76,8 @@ function MemberPage(props) {
         })
     }
 
+
+
     useEffect(() => {
         hadlememberPage();
         // eslint-disable-next-line react-hooks/exhaustive-deps

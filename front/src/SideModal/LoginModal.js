@@ -46,7 +46,7 @@ function LoginModal() {
         setSignUpModalOpen(true);
     };
 
-    //로그인 모달 닫는 이벤트
+    //로그인 모달 닫는 이벤트n
     const closeModal = () => {
         setloginmodalopen(false);
     }
@@ -115,6 +115,12 @@ function LoginModal() {
         window.location.href = NAVER_AUTH_URL;
 
     }
+
+    const LoginEnter = (e) =>{
+        if (e.key === 'Enter') {
+            handleLogin();
+        }
+    };
 
 
     return (
@@ -188,7 +194,7 @@ function LoginModal() {
                         <div className="loginmodalgosignupbtn">
                             <input type={'email'} className="loginmodalpassrectangle-child"
                                 placeholder={'아이디를 입력해주세요'}
-                                value={email} onChange={handleInputEmail}></input>
+                                value={email} onChange={handleInputEmail} onKeyPress={LoginEnter}></input>
                         </div>
                     </div>
                 </div>
@@ -197,7 +203,7 @@ function LoginModal() {
                         <div className="loginmodalgosignupbtn">
                             <input type={'password'} className="loginmodalpassrectangle-child"
                                 placeholder={'비밀번호를 입력해주세요'}
-                                value={pw} onChange={handleInputPw}></input>
+                                value={pw} onChange={handleInputPw} onKeyPress={LoginEnter}></input>
                         </div>
                     </div>
                 </div>

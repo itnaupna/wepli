@@ -2,9 +2,9 @@
     position: absolute;
     top: 0;
     left: 0;
-    font-weight: 500;
     display: inline-block;
     width: 7.86rem;
+    font-size: 2.5rem;
 }
 .mypageoutmemebermodaltitlegrou {
     position: absolute;
@@ -19,6 +19,7 @@
     left: 0;
     width: 2.06rem;
     height: 2rem;
+    cursor: pointer;
 }
 .mypageoutmemebermodalweplilogo-icon {
     position: absolute;
@@ -139,5 +140,17 @@
     }
     to {
         opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .mypageoutmemebermodalframe{
+        height: 100%;
+        width: 100%;
+        margin-left: 70px;
+    }
+
+    .mypageoutmemebermodalgroup{
+        margin-left: 30px;
     }
 }

@@ -30,6 +30,8 @@ import PwChkModal from './SideModal/PwChkModal';
 import YouTube from 'react-youtube';
 import MusicBarV2 from './MusicbarV2/MusicBarV2';
 import { StageUrlAtom } from './recoil/ChatItemAtom';
+import { UrlChk } from './recoil/MypageModalAtom';
+import Mypage1 from "./mypage/mypage1";
 
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
@@ -65,6 +67,7 @@ function App() {
         }
         conSocket();
     }, [isSocial, loginStatus]);
+
 
 
     return (

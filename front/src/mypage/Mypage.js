@@ -122,8 +122,6 @@ function Mypage(props) {
             .get(url)
             .then(res => {
                 setBlackMember(res.data);
-                console.log("블랙리스트 출력Mypage" ,res);
-                console.log("블랙리스트 출력Mypage" + setBlackMember);
             })
     }
 
@@ -234,7 +232,7 @@ function Mypage(props) {
                         </div>
 
                         {emailconfirm === 1 ?
-                            <div className="mypagechangeinfobox" onClick={showEmailConfirmModal}>
+                            <div className="mypagechangeinfobox" onClick={emailconfirm === 1 ? null : showEmailConfirmModal}>
                                 <div className="mypagechangeinfobutton">
                                     <div className="mypagechangeinfosurface"/>
                                     <div className="mypageemailsendlabel">이메일 인증됨</div>
@@ -249,7 +247,7 @@ function Mypage(props) {
                         }
 
                         {phoneconfirm === 1 ?
-                            <div className="mypagechangeinfobox" onClick={showPhoneConfirmModal}>
+                            <div className="mypagechangeinfobox" onClick={phoneconfirm === 1 ? null : showPhoneConfirmModal}>
                                 <div className="mypagechangeinfobutton">
                                     <div className="mypagechangeinfosurface"/>
                                     <div className="mypageemailsendlabel">휴대폰 인증됨</div>

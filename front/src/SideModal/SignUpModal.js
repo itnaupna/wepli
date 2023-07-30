@@ -5,8 +5,9 @@ import logo from "./photo/weplieonlylogoonlylogo.png";
 import btnarrow from "./svg/btnarrow.svg";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { emailState, socialtypeState } from '../recoil/FindIdModalAtom';
+import { emailRegexAtom, passwordRegexAtom } from '../recoil/LoginStatusAtom';
 
 function SignUpModal({setSignUpModalOpen}) {
     const navigate = useNavigate();
@@ -24,8 +25,8 @@ function SignUpModal({setSignUpModalOpen}) {
     const [pwConfirm, setPwConfirm] = useState("");
     const [isNickChecked, setIsNickChecked] = useState(false);
     const [isEmailChecked, setIsEmailChecked] = useState(false);
-    const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
-    const passwordRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
+    const emailRegEx = useRecoilValue(emailRegexAtom);
+    const passwordRegEx = useRecoilValue(passwordRegexAtom);
 
     const closeFindIdModal = () => {
         setSocialEmail(null);
@@ -84,7 +85,7 @@ function SignUpModal({setSignUpModalOpen}) {
             }
 
             // 이메일 및 비밀번호 입력 여부 검사
-            if (!email || !pw) {
+            if (!email || !pw || !nick) {
                 alert("이메일과 비밀번호를 입력해주세요.");
                 return;
             }
@@ -104,22 +105,24 @@ function SignUpModal({setSignUpModalOpen}) {
                 setPwConfirm("");
                 return;
             }
+
+            try {
+                const res = await axios.post(url, {email, pw: pw, nick, socialtype: socialtype});
+                if (res.data) {
+                    alert("회원가입됨");
+                    await setSignUpModalOpen(false);
+                    window.location.reload();
+                    navigate("/");
+                } else {
+                    alert("다시 입력해주십쇼 -_-");
+                }
+            } catch (error) {
+                console.log(error);
+                alert(error);
+            }
         }
 
-        try {
-            const res = await axios.post(url, {email, pw: pw, nick, socialtype: socialtype});
-            if (res.data) {
-                alert("회원가입됨");
-                await setSignUpModalOpen(false);
-                window.location.reload();
-                navigate("/");
-            } else {
-                alert("다시 입력해주십쇼 -_-");
-            }
-        } catch (error) {
-            console.log(error);
-            alert(error);
-        }
+        
     };
 
     // 닉네임 중복체크
@@ -133,7 +136,6 @@ function SignUpModal({setSignUpModalOpen}) {
             setIsNickChecked(false);
             return;
         }
-
         try {
             const res = await axios.get(url, { params: { nick } });
             console.log(res.data);
@@ -194,6 +196,13 @@ function SignUpModal({setSignUpModalOpen}) {
         }
     }, [socialEmail, socialtype])
 
+    const SignEnter = (e) =>{
+        if (e.key === 'Enter') {
+            signUpSubmit();
+        }
+    };
+
+
     return (
         <div>
             <div className="signupmodalframe" onClick={closeFindIdModal}></div>
@@ -228,7 +237,7 @@ function SignUpModal({setSignUpModalOpen}) {
                         name="email"
                         type="email"
                         readOnly = {isSocial ? true : false}
-                        
+                        onKeyPress={SignEnter}
                     />
                     { isSocial ? "" : 
                     <div className="signupemailbtngroup">
@@ -248,6 +257,7 @@ function SignUpModal({setSignUpModalOpen}) {
                         value={nick}
                         name="nick"
                         type="text"
+                        onKeyPress={SignEnter}
                     />
                     <div className="signupemailbtngroup">
                         <button onClick={checkNick} className="signuemailduplicationbtn">
@@ -267,6 +277,7 @@ function SignUpModal({setSignUpModalOpen}) {
                                 value={pw}
                                 name="pw"
                                 type="password"
+                                onKeyPress={SignEnter}
                             />
                         </div>
                 }
@@ -280,6 +291,7 @@ function SignUpModal({setSignUpModalOpen}) {
                             value={pwConfirm}
                             name="pwConfirm"
                             onChange={handleInputPwConfirm}
+                            onKeyPress={SignEnter}
                         />
                     </div>
                 }
@@ -293,7 +305,7 @@ function SignUpModal({setSignUpModalOpen}) {
                             type="button"
                             className="signupmodalbottombtntext"
                             onClick={signUpSubmit}
-                            disabled={!isEmailValid || !isNickValid || !isEmailChecked || !isNickChecked}
+                            // disabled={!isEmailValid || !isNickValid || !isEmailChecked || !isNickChecked}
                         >
                             회원가입
                         </button>
