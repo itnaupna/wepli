@@ -8,7 +8,7 @@ import Upload from '../PlayStageImage/Icon/upload.svg';
 import axios from 'axios';
 
 function CreateStageModal({ setModalOpen }) {
-  // const [address,setAdress] =('');
+  const [address, setAdress] = ('');
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [genre, setGenre] = useState('');
@@ -96,34 +96,14 @@ function CreateStageModal({ setModalOpen }) {
       console.log('Create success!')
     }
   }
-  //스테이지 생성
-  const MakeStage = async () => {
-    const url = "/api/lv2/s/stage";
 
-    try {
-      const res = await axios.post(url, { title, pw: pw, tag, genre });
-      if (res.data) {
-        window.onload.reload();
-        Navigate("/stage/url");
-      }
 
-    } catch (error) {
-      console.log(error);
-      alert(error);
-    }
-  };
   return (
-    <div ref={modalRef} className="Mcreatestagemodal-parent">
-      <div className="Mcreatestagemodal">
-        <div className="Mcreatestagemodal-inner">
-          <div className="MFrame-child" />
-        </div>
-        <div className="MWrapper">
-          <div className="Mdiv">
-            <div className="Mchild" />
-            <form onSubmit={handleSubmit}>
-              <button type='submit' className='MCreateStage'>Stage 생성</button>
-            </form>
+    <div className='modal__background'>
+      <div ref={modalRef} className="Mcreatestagemodal-parent">
+        <div className="Mcreatestagemodal">
+          <div className="Mcreatestagemodal-inner">
+            <div className="MFrame-child" />
           </div>
         </div>
         {/* <a href='./PlayStage.js'>
@@ -180,6 +160,12 @@ function CreateStageModal({ setModalOpen }) {
             <div className="Mcontainer">
               <div className="MStageTitle">
                 <input type='text' className='MStageTitleSpace' placeholder='스테이지 제목' value={title} onChange={(e) => setTitle(e.target.value)} />
+              </div>
+            </div>
+            <div className='MCrectangle-parent2'>
+              <div className='Mgroup-inner' />
+              <div className="Mframe">
+                <input type='text' className='MCAdrress' placeholder='' value={address} onChange={(e) => setAdress(e.target.value)} />
               </div>
             </div>
           </div>

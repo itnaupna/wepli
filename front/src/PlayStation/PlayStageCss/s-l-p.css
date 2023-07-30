@@ -413,7 +413,10 @@
   flex-wrap: wrap;
   padding: 5px;
   justify-content: center;
+   /* 최소 화면 높이로 설정합니다. */
+  
 }
+
 .slp,
 .slpbottom {
   flex-direction: column;
