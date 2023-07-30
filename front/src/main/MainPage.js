@@ -8,7 +8,7 @@ import MainSection2 from "./MainSection2";
 
 function MainPage(props) {
     return (
-        <div className={"MainWrappers"}>
+        <div>
             <MainSection1/>
             <MainSection2/>
             <MainWrapper3/>

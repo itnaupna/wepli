@@ -57,14 +57,14 @@ function MainSection1(props) {
                 start: 'top 70%',
                 end: 'top 40%',
                 scrub: 1,
-                once: true
             },
         });
+
 
         tl.fromTo(
             iphonemgRef.current,
             { opacity: 1, x: -100},
-            { opacity: 1, x: 20, ease: 'power1.in' }
+            { opacity: 1, x: 0, duration: 1, ease: 'power1.in' }
         );
     }, []);
 
@@ -72,6 +72,7 @@ function MainSection1(props) {
         setCursorPosition({ x: e.clientX, y: e.clientY });
     };
     return (
+
         <div className='mainsection1'>
             <div className="cursorItem" style={{ top: cursorPosition.y, left: cursorPosition.x }}>
                 <span className="circle"></span>
