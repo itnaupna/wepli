@@ -1,0 +1,39 @@
+.mainsection3 {
+    width: 100vw;
+    height: 100vh;
+    background-color: #5ea6ff
+}
+
+.mscontainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 200vh;
+    width: 100%;
+}
+
+.mscontainer .mstext {
+    font-size: 150px;
+}
+
+.mstext > p {
+    background: linear-gradient(to right, rgb(255, 255, 255) 50%, rgb(37, 37, 37) 50%);
+    background-size: 200% 100%;
+    background-position-x: 100%;
+    color: transparent;
+    -webkit-background-clip: text;
+    margin-bottom: -200px;
+    margin-left: 70px;
+    margin-right: 50px;
+}
+
+.wepli1min{
+    width: 20vw;
+    height: 50vh;
+}
+
+.wepli1mingroup{
+    position: absolute;
+    left: 50%;
+}
+
