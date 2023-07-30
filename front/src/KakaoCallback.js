@@ -11,10 +11,11 @@ function KakaoCallback() {
     const [email, setEmail] = useRecoilState(emailState);
     const [socialtype, setSocialtype] = useRecoilState(socialtypeState);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
-        // 회원가입 모달 오픈
-        const showSignUpModal = async () => {
-            setSignUpModalOpen(true);
-        };
+    // 회원가입 모달 오픈
+    const showSignUpModal = async () => {
+        setSignUpModalOpen(true);
+    };
+
     useEffect(() => {
         const params = new URL(document.location.toString()).searchParams;
         const code = params.get('code');
@@ -45,17 +46,16 @@ function KakaoCallback() {
                             let email = kakao_account.email;
 
                             axios.post("/api/lv0/m/social", { email, socialtype: 'kakao' })
-                        .then(res => {
+                                .then(res => {
                                     if (res.data.result === 'true') {
                                         console.log("res.data입니당", res.data);
-
-                                        sessionStorage.setItem("data", JSON.stringify(res.data));
+                                        sessionStorage.setItem("data", JSON.stringify(res.data.data));
                                         setLoginStatus(true);
                                         navi("/", {
                                             state: {
                                                 data: kakao_account.email,
-                                            }
-                                        });
+                                                }
+                                            });
                                     }
                                 })
                                 .catch((error) => {

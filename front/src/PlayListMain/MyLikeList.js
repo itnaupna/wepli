@@ -8,12 +8,12 @@ import Follow from "../MainIMG/Follow.png";
 import MusicList from "../MainIMG/MusicList.png";
 import dayjs from "dayjs";
 
-function MyLikeList({item, idx}) {
+function MyLikeList({item, idx, pliDetail}) {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
 
     return (
 
-        <div className="playlistrankinglistitem">
+        <div className="playlistrankinglistitem" onClick={() => {pliDetail(item.idx)}}>
             <div className="playlistrankinglistitemnumber">{idx + 1}</div>
             <img
                 className="playlistrankinglistitemthumbna-icon"
@@ -42,10 +42,10 @@ function MyLikeList({item, idx}) {
                 </div>
                 <div className="playlistrankinglistitemtags">
                     <div className="playlistrankinglistitemcategor">
-                        {item.genre===""?null:"#" + item.genre?.split(",")[0]}
+                        {item.genre == null ? "" : "#" + item.genre?.split(",")[0]}
                     </div>
                     <div className="playlistrankinglistitemcategor">
-                        {item.tag === ""?null:"#" + item.tag.split(",")[0]}
+                        {item.tag == null ? "" : "#" + item.tag.split(",")[0]}
                     </div>
                 </div>
             </div>

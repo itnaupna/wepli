@@ -97,6 +97,9 @@ public class BlacklistService {
     public boolean updateBlackOpt(String token, int hidechat, int mute) {
         Map<String, Object> data = new HashMap<>();
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        log.info("updateBlackOpt -> {}", hidechat);
+        log.info("updateBlackOpt -> {}", mute);
+
         data.put("nick", nick);
         data.put("hidechat", hidechat);
         data.put("mute", mute);

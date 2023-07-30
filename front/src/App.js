@@ -24,7 +24,7 @@ import AddPlayLsit from "./PlayListMain/AddPlayList";
 import PlayListUpdate from "./PlayListMain/PlayListUpdate";
 import NaverCallback from './NaverCallback';
 import MemberPage from './mypage/MemberPage';
-import { LoginModalOpen, pwChkModalOpen } from './recoil/FindIdModalAtom';
+import { LoginModalOpen, pwChkModalOpen, socialtypeState } from './recoil/FindIdModalAtom';
 import LoginModal from './SideModal/LoginModal';
 import PwChkModal from './SideModal/PwChkModal';
 import YouTube from 'react-youtube';
@@ -53,31 +53,43 @@ function App() {
     useEffect(() => {
         conSocket();
     }, []);
+    const [isSocial, setIsSocial] = useState();
+
+    useEffect(() => {
+        let social = window.localStorage.getItem("data");
+        if (social == null) {
+            social = window.sessionStorage.getItem("data");
+        }
+        if (social && social.includes("socialtype")) {
+            setIsSocial(JSON.parse(social).socialtype == null ? false : true);
+        }
+        conSocket();
+    }, [isSocial, loginStatus]);
+
 
     return (
         <BrowserRouter>
             <div id='YTPWrapper'>
-                <YouTube id='YTPFrame' style={{display: 'none',// opacity:'0.7',
-                position:'absolute'
+                <YouTube id='YTPFrame' style={{
+                    display: 'none',// opacity:'0.7',
+                    position: 'absolute'
                 }} onReady={(e) => { setYTP(e.target); }} onStateChange={(e) => {
                     setShowController(e.target.getPlayerState());
-                    // document.title = e.target.getPlayerState();
                 }} opts={opt} />
             </div>
             <SideBar />
             {(showController > 0 || su !== null) && <MusicBarV2 />}
-            {/* <MusicPlayerBar/> */}
-            {/* {showController  && <MusicPlayerBar/>} */}
             <div className="backgroundImgDiv" />
             <div style={{ paddingBottom: showController !== 0 ? '100px' : '0' }}>
                 <Routes>
                     <Route path="/" element={<MainPage />} />
 
-                    {window.location.pathname === "/mypage" && loginStatus && !isPasswordEntered ?
+
+                    {window.location.pathname === "/mypage" && loginStatus && !isPasswordEntered && !isSocial ?
                         setpwChkmodalOpen(true)
                         : ""
                     }
-                    {loginStatus && isPasswordEntered ?
+                    {loginStatus && (isPasswordEntered || isSocial) ?
                         <Route path="/mypage" element={<Mypage />} /> :
                         ""
                     }

@@ -13,8 +13,8 @@ import SignUpModal from "../SideModal/SignUpModal";
 import axios from "axios";
 import PwChkModal from "../SideModal/PwChkModal";
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { DataState, LoginStatusAtom, ProfileImageUrl } from '../recoil/LoginStatusAtom';
-import { findIdModalOpenState, findIdSuccessModalOpenState, LoginModalOpen, pwChkModalOpen, FindPassModalOpen, SignUpModalOpen, FindPwChangeModalOpen } from "../recoil/FindIdModalAtom";
+import { DataState, LoginStatusAtom, ProfileImageUrl, socialTypeState } from '../recoil/LoginStatusAtom';
+import { findIdModalOpenState, findIdSuccessModalOpenState, LoginModalOpen, pwChkModalOpen, FindPassModalOpen, SignUpModalOpen, FindPwChangeModalOpen, socialtypeState } from "../recoil/FindIdModalAtom";
 import FindIdSuccessModal from "../SideModal/FindIdSuccessModal";
 import FindPwChangeModal from "../SideModal/FindPwChangeModal";
 import { StageUrlAtom } from '../recoil/ChatItemAtom';
@@ -33,18 +33,26 @@ function SideBar(props) {
     const [findPassModalOpen, setFindPassModalOpen] = useRecoilState(FindPassModalOpen);
     const [findPwChangeModalOpen, setFindPwChangeModalOpen] = useRecoilState(FindPwChangeModalOpen);
     const profileImage1 = useRecoilValue(ProfileImageUrl);
+    const [isSocial, setIsSocial] = useState();
+
 
     useEffect(() => {
         // console.log("SideBar -> ",loginStatus);
+        let social = window.localStorage.getItem("data");
+        if (social == null) {
+            social = window.sessionStorage.getItem("data");
+        }
+        if (social && social.includes("socialtype")) {
+            setIsSocial(JSON.parse(social).socialtype == null ? false : true);
+        }
         try {
             setProfileImage(JSON.parse(localStorage.data || sessionStorage.data).img);
-            // console.log("개발개발",setProfileImage);
         } catch (error) {
 
         }
-    }, [loginStatus, profileImage1]);
+    }, [loginStatus, profileImage1, isSocial]);
 
-    {/* 사이드 메뉴 이동 */ }
+    /* 사이드 메뉴 이동 */ 
     //로그인 모달 오픈
     const showModal = () => {
         setloginmodalopen(true);
@@ -65,11 +73,11 @@ function SideBar(props) {
     // 스테이지 이동
     const handleStageClick = () => {
         navigate('/stage');
-        
+
     };
 
 
-    {/* 로그아웃 */ }
+    /* 로그아웃 */ 
     const onLogoutSubmit = () => {
 
         const url = '/api/lv0/m/logout';
@@ -91,25 +99,28 @@ function SideBar(props) {
             });
     };
 
-    {/*
+    /*
     로그인 했을때 -> 마이페이지
     로그인 안했을때 -> 로그인모달
-    */}
+    */
 
     const handleProfileClick = (e) => {
         e.preventDefault();
         if (loginStatus) {
             // console.log("뭐냐?", loginStatus);
-            setpwChkmodalOpen(true);
+            if (!isSocial) {
+                setpwChkmodalOpen(true);
+            } else {
+                navigate("/mypage");
+            }
         } else {
             setloginmodalopen(true);
         }
     };
-
-    {/* 버킷 url */ }
+    /* 버킷 url */ 
     const bucket = process.env.REACT_APP_BUCKET_URL;
 
-    {/* 로고 default 이미지 */ }
+    /* 로고 default 이미지 */
     const defaultprofile = weplilogo;
 
     return (
@@ -127,10 +138,10 @@ function SideBar(props) {
                         <img className="icon" alt="" src={stage} />
                     </div>
                     {stageUrl &&
-                        <div className="sidemenustagebutton sidemnubtn" onClick={()=>{
+                        <div className="sidemenustagebutton sidemnubtn" onClick={() => {
                             navigate('/stage/' + (stageUrl ? stageUrl : ''));
                         }}>
-                            <GroupsIcon/>
+                            <GroupsIcon />
                             {/* <img className="icon" alt="" src={stage} /> */}
                         </div>
                     }

@@ -4,6 +4,7 @@ import Axios from "axios";
 import PlusIcon from "../MainIMG/plusIcon.png";
 import PlayListSave from "../MainIMG/playListSave.png";
 import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
+import "./PlayListUpdate.css";
 
 function PlayListUpdate(props) {
     const idx = useParams().pliId;
@@ -23,17 +24,10 @@ function PlayListUpdate(props) {
     const [tag03, setTag03] = useState("");
     const [tag04, setTag04] = useState("");
     const [tags , setTags] = useState("");
+    const [updateNick, setUpdateNick] = useState("");
+    const [updatePlayUserImg, setUpdatePlayUserImg] = useState("");
     const navigate = useNavigate();
-
-    const closBacknavigate = useNavigate();
-
-    const onIconsClick = useCallback(() => {
-        // Please sync "PlayListMain03MyPlayListMain" to the project
-    }, []);
-
-    const onPlayListaddCloseIconClick = useCallback(() => {
-        // Please sync "PlayListMain03MyPlayListMain" to the project
-    }, []);
+    const [isPublicCheckBox, setIsPublicCheckBox] = useState(false);
 
 
     const pliTitleOnChange = useCallback(e => {
@@ -67,8 +61,17 @@ function PlayListUpdate(props) {
         setTag04(e.target.value);
     });
 
-    const closBack = () => {
-        closBacknavigate(-1);
+    const closBack = async ()  => {
+       await Axios({
+            method: "delete",
+            url: "/api/lv1/os/imgdelete",
+            directoryPath : "playlist"
+        })
+            .then(res => {
+            })
+            .catch(error => {
+            })
+        navigate("/pli/" + idx);
     };
 
     useEffect(() => {
@@ -108,7 +111,7 @@ function PlayListUpdate(props) {
         genre: genres,
         tag: tags,
         img: uploadPliImgName,
-        isPublic: 0
+        isPublic: isPublicCheckBox? 0 : 1
     }
 
 
@@ -129,7 +132,7 @@ function PlayListUpdate(props) {
             )
     };
 
-    const [plaListDetailResult, setPlaListDetailResult] = useState([]);const [plaListDetailComment, setPlaListDetailComment] = useState([]);
+    const [plaListDetailResult, setPlaListDetailResult] = useState([]);
     const [plaListDetailInfo, setPlaListDetailInfo] = useState([]);
 
     useEffect(() => {
@@ -137,26 +140,34 @@ function PlayListUpdate(props) {
         Axios.get(plaListDetailUrl, {params: {idx: idx, curr: 1, cpp: 6}})
             .then(res => {
                 setPlaListDetailResult(res.data);
-                console.log(res.data);
                 setPlaListDetailInfo(res.data.play[0]);
-                setPliTitle(res.data.play[0].title);
-                setPliDesc(res.data.play[0].desc);
-                setGenre01(res.data.play[0].genre.split(",")[0] === undefined ? "" : res.data.play[0].genre.split(",")[0]);
-                setGenre02(res.data.play[0].genre.split(",")[1] === undefined ? "" : res.data.play[0].genre.split(",")[1]);
-                setGenre03(res.data.play[0].genre.split(",")[2] === undefined ? "" : res.data.play[0].genre.split(",")[2]);
-                setGenre04(res.data.play[0].genre.split(",")[3] === undefined ? "" : res.data.play[0].genre.split(",")[3]);
-                setTag01(res.data.play[0].tag.split(",")[0] === undefined ? "" : res.data.play[0].tag.split(",")[0]);
-                setTag02(res.data.play[0].tag.split(",")[1] === undefined ? "" : res.data.play[0].tag.split(",")[1]);
-                setTag03(res.data.play[0].tag.split(",")[2] === undefined ? "" : res.data.play[0].tag.split(",")[2]);
-                setTag04(res.data.play[0].tag.split(",")[3] === undefined ? "" : res.data.play[0].tag.split(",")[3]);
-                setPliImg(bucketURl + res.data.play[0].img);
-                setUploadPliImgName(res.data.play[0].img);
+                setPliTitle(res.data.play.title);
+                setPliDesc(res.data.play.desc);
+                setGenre01(res.data.play.genre.split(",")[0] === undefined ? "" : res.data.play.genre.split(",")[0]);
+                setGenre02(res.data.play.genre.split(",")[1] === undefined ? "" : res.data.play.genre.split(",")[1]);
+                setGenre03(res.data.play.genre.split(",")[2] === undefined ? "" : res.data.play.genre.split(",")[2]);
+                setGenre04(res.data.play.genre.split(",")[3] === undefined ? "" : res.data.play.genre.split(",")[3]);
+                setTag01(res.data.play.tag.split(",")[0] === undefined ? "" : res.data.play.tag.split(",")[0]);
+                setTag02(res.data.play.tag.split(",")[1] === undefined ? "" : res.data.play.tag.split(",")[1]);
+                setTag03(res.data.play.tag.split(",")[2] === undefined ? "" : res.data.play.tag.split(",")[2]);
+                setTag04(res.data.play.tag.split(",")[3] === undefined ? "" : res.data.play.tag.split(",")[3]);
+                setPliImg(bucketURl + res.data.play.img);
+                setUploadPliImgName(res.data.play.img);
+                setIsPublicCheckBox(res.data.play.isPublic === 0);
+                setUpdateNick(res.data.play.nick);
+                setUpdatePlayUserImg(res.data.playUserImg);
             })
             .catch(res => console.log(res));
     }, []);
 
+    const isPublicCheckBoxChange = (e) => {
+        setIsPublicCheckBox(e.target.checked);
+    }
+    const updateSessionNick = JSON.parse(sessionStorage.getItem("data")).nick;
     return (
         <div className="playlistaddframe">
+        {
+            updateSessionNick === updateNick ?
             <div className="playlistadd">
                 <div className="playlistaddtop">
                     <label className="playlistaddchangimginputbody">
@@ -176,12 +187,10 @@ function PlayListUpdate(props) {
                             <img
                                 className="playlistaddprofileimage-icon"
                                 alt=""
-                                src={`${bucketURl}/profile/${JSON.parse(sessionStorage.getItem("data")).img}`}
+                                src={`${bucketURl}/profile/${updatePlayUserImg}`}
                             />
                             <div className="playlistaddinplaylistnickna">
-                                {
-                                    JSON.parse(sessionStorage.getItem("data")).nick
-                                }
+                                {updateNick}
                             </div>
                         </div>
                         <textarea className="playlistaddinplaylistinfo" placeholder="소개글을 적어주세요 (이미지는 클릭시 변경하실 수 있습니다.)"
@@ -199,6 +208,14 @@ function PlayListUpdate(props) {
                         </div>
                     </div>
                 </div>
+                <div className="isPublictoggleBody">
+                    <span className="isPublictoggleText">공개</span>
+                    <div className="isPublictoggle isPublictoggle-r" id="isPublictoggle-3">
+                        <input type="checkbox" className="isPublicCheckbox" checked={isPublicCheckBox} onChange={isPublicCheckBoxChange}/>
+                        <div className="knobs"></div>
+                        <div className="layer"></div>
+                    </div>
+                </div>
                 <div className="playlistaddtagframe">
                     <div className="playlistaddtaggroup1">
                         <div className="playlistaddtagheader">
@@ -207,19 +224,19 @@ function PlayListUpdate(props) {
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={genre01} maxLength="10"
-                                   onChange={genre01OnChange} placeholder="장르를 적어주세요"/>
+                                   onChange={genre01OnChange} placeholder="장르를 적어주세요" type="text"/>
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={genre02} maxLength="10"
-                                   onChange={genre02OnChange} placeholder="장르를 적어주세요"/>
+                                   onChange={genre02OnChange} placeholder="장르를 적어주세요" type="text"/>
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={genre03} maxLength="10"
-                                   onChange={genre03OnChange} placeholder="장르를 적어주세요"/>
+                                   onChange={genre03OnChange} placeholder="장르를 적어주세요" type="text"/>
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={genre04} maxLength="10"
-                                   onChange={genre04OnChange} placeholder="장르를 적어주세요"/>
+                                   onChange={genre04OnChange} placeholder="장르를 적어주세요" type="text"/>
                         </div>
 
                     </div>
@@ -230,19 +247,19 @@ function PlayListUpdate(props) {
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={tag01} maxLength="10" onChange={tag01OnChange}
-                                   placeholder="태그를 적어주세요"/>
+                                   placeholder="태그를 적어주세요" type="text"/>
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={tag02} maxLength="10" onChange={tag02OnChange}
-                                   placeholder="태그를 적어주세요"/>
+                                   placeholder="태그를 적어주세요" type="text"/>
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={tag03} maxLength="10" onChange={tag03OnChange}
-                                   placeholder="태그를 적어주세요"/>
+                                   placeholder="태그를 적어주세요" type="text"/>
                         </div>
                         <div className="playlistaddtagform">
                             <input className="txtplaylistaddform" value={tag04} maxLength="10" onChange={tag04OnChange}
-                                   placeholder="태그를 적어주세요"/>
+                                   placeholder="태그를 적어주세요" type="text"/>
                         </div>
                     </div>
                 </div>
@@ -253,6 +270,8 @@ function PlayListUpdate(props) {
                     onClick={closBack}
                 />
             </div>
+                :<h1 style={{ width: "100%", textAlign: "center", marginTop: "25%", position: "absolute" }}>페이지가 없습니다</h1>
+        }
         </div>
     );
 };

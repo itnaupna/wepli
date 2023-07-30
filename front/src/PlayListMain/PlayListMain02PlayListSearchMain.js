@@ -1,8 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import "./PlayListMain02PlayListSearchMain.css";
-import Molu from  "../MainIMG/Molu.gif";
-import Aru from  "../MainIMG/ARu.gif";
-import Aris from "../MainIMG/Aris.gif";
 import PlayListSearchlogoTitle from "../MainIMG/PlayListSearchlogoTitle.png";
 import SearchBarIcon from "../MainIMG/SearchBarIcon.png";
 import SearchToggleIcon from "../MainIMG/SearchToggleIcon.png";
@@ -10,8 +7,6 @@ import SearchToggleIconUp from "../MainIMG/SearchToggleIconUp.png";
 import PlayListSearchDetail from "./PlayListSearchDetail";
 import PlayListMenu from "./PlayListMenu";
 import Axios from "axios";
-import {Link} from "react-router-dom";
-import axios from "axios";
 
 
 function PlayListMain02PlayListSearchMain(props) {

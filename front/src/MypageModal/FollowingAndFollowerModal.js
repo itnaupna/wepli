@@ -3,11 +3,14 @@ import backarrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import Axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { LoginModalOpen } from '../recoil/FindIdModalAtom';
 
 function FollowingAndFollowerModal({setFollowingAndFollowerModalOpen, value, nick}) {
     const bucket = process.env.REACT_APP_BUCKET_URL;
     const [followMember, setFollowMemeber] = useState([]);
     const [nickname, setNickname] = useState("");
+    const [loginmodalopen, setloginmodalopen] = useRecoilState(LoginModalOpen);
     const navigate = useNavigate();  
     const closeFollowingAndFollowModal = async () => {
         await setFollowingAndFollowerModalOpen(false);
@@ -24,6 +27,7 @@ function FollowingAndFollowerModal({setFollowingAndFollowerModalOpen, value, nic
             if(error.response.status === 401) {
                 closeFollowingAndFollowModal();
                 alert("로그인 후 사용가능한 기능입니다");
+                setloginmodalopen(true);
             } else if(error.response.status === 403) {
                 closeFollowingAndFollowModal();
                 alert("메일 또는 문자인증 후 사용 가능합니다");
@@ -44,6 +48,7 @@ function FollowingAndFollowerModal({setFollowingAndFollowerModalOpen, value, nic
             if(error.response.status === 401) {
                 closeFollowingAndFollowModal();
                 alert("로그인 후 사용가능한 기능입니다");
+                setloginmodalopen(true);
             } else if(error.response.status === 403) {
                 closeFollowingAndFollowModal();
                 alert("메일 또는 문자인증 후 사용 가능합니다");
@@ -71,6 +76,7 @@ function FollowingAndFollowerModal({setFollowingAndFollowerModalOpen, value, nic
             if(error.response.status === 401) {
                 closeFollowingAndFollowModal();
                 alert("로그인 후 사용가능한 기능입니다");
+                setloginmodalopen(true);
             } else if(error.response.status === 403) {
                 closeFollowingAndFollowModal();
                 alert("메일 또는 문자인증 후 사용 가능합니다");
@@ -103,6 +109,7 @@ function FollowingAndFollowerModal({setFollowingAndFollowerModalOpen, value, nic
             nickname = JSON.parse(nickname).nick;
         }
         setNickname(nickname);
+        console.log(nickname);
         if(value === "follower") {
             followerListHandler();
             console.log(value);

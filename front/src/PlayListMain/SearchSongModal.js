@@ -28,12 +28,6 @@ function SearchSongModal(props) {
 
 
     const youtubeApiKey = `${process.env.REACT_APP_YOUTUBE_KEY}`;
-    /*const youtubeApiKey = "AIzaSyCe587-zYmedX4obUgR-iFRGm97-bln-Ww";*/
-    /*const youtubeApiKey = "AIzaSyB4lBwQ7YtWtiSW2yhn6lbHtmHqKwRSUSs";*/
-/*    /!*검색입력시 바로바로 변경(주의 !!)*!/
-    useEffect(() => {
-        handleSearch();
-    }, [youtubeSearchParam]);*/
 
 
     const handleSearch = () => {
@@ -137,6 +131,11 @@ function SearchSongModal(props) {
         textarea.innerHTML = text;
         return textarea.value;
     }
+    const SearchEnter = (e) =>{
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    };
 
     return (
         <div className="SearchSongModals">
@@ -145,7 +144,7 @@ function SearchSongModal(props) {
                 <div className="searchsongmodaltop">
                     <div className="searchsongmodalsearchtxt" >곡 검색</div>
                     <div className="searchsongmodalsearch">
-                        <input className="searchsongmodalsearchbody" value={youtubeSearchParam}
+                        <input className="searchsongmodalsearchbody" value={youtubeSearchParam} onKeyPress={SearchEnter}
                                placeholder="검색어를 입력해 주세요" onChange={youtubeSearchOnChange}/>
                         <img
                             className="searchsongmodalsearchicon"
