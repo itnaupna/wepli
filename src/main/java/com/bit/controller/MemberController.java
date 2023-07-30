@@ -102,7 +102,7 @@ public class MemberController {
     public String postVerifyCodefind(@RequestBody UserConfirmDto data){
         return uService.VerifyCodeFind(data.getType(),data.getKey(),data.getCode(),data.getAuthType());
     }
-
+    
     // 비밀번호 찾기 (인증 완료 시 비밀번호 변경)
     @PostMapping("/lv0/m/findPw")
     public void findPw(@RequestBody UserConfirmDto data){
@@ -212,7 +212,6 @@ public class MemberController {
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
         ResponseEntity<String> response = restTemplate.exchange("https://openapi.naver.com/v1/nid/me", HttpMethod.GET, entity, String.class);
-
         return response;
     }
 

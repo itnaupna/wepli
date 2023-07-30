@@ -27,7 +27,7 @@
     </select>
 
     <select id="selectCheckEmailConfirm" parameterType="hashMap" resultType="int">
-        select exists(select emailconfirm from tblMember where nick = #{nick} and email=#{email})
+        select emailconfirm from tblMember where nick = #{nick} and email=#{email}
     </select>
 
     <select id="selectLogin" parameterType="Map" resultType="int">
@@ -35,15 +35,15 @@
     </select>
 
     <select id="selectCheckPhoneConfirm" parameterType="hashMap" resultType="int">
-        select exists(select phoneconfirm from tblMember where nick = #{nick} and phone=#{phone})
+        select phoneconfirm from tblMember where nick = #{nick} and phone=#{phone}
     </select>
 
     <select id="selectFindPhoneConfirm" parameterType="string" resultType="int">
         select phoneconfirm from tblMember where phone = #{phone}
     </select>
-
+    
     <select id="selectFindEmailConfirm" parameterType="string" resultType="int">
-        select phoneconfirm from tblMember where email = #{email}
+        select emailconfirm from tblMember where email = #{email}
     </select>
 
     <update id="updateEmailConfirm" parameterType="string">
