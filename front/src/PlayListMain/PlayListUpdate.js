@@ -108,6 +108,9 @@ function PlayListUpdate(props) {
         const plaListDetailUrl = "/api/lv0/p/playdetail";
         Axios.get(plaListDetailUrl, { params: { idx: idx, curr: 1, cpp: 6 } })
             .then(res => {
+                console.log(res.data);
+                setUSN(JSON.parse(sessionStorage?.getItem("data") || localStorage?.getItem('data')).nick);
+                setUpdateNick(res.data.play.nick);
                 setPlaListDetailResult(res.data);
                 setPlaListDetailInfo(res.data.play[0]);
                 setPliTitle(res.data.play.title);
@@ -120,6 +123,7 @@ function PlayListUpdate(props) {
                 }
                 setPliImg(bucketURl + res.data.play.img);
                 setUploadPliImgName(res.data.play.img);
+                
                 console.log(genre);
                 console.log(tag);
 
@@ -130,7 +134,7 @@ function PlayListUpdate(props) {
     const isPublicCheckBoxChange = (e) => {
         setIsPublicCheckBox(e.target.checked);
     }
-    const updateSessionNick = JSON.parse(sessionStorage.getItem("data")).nick;
+    const [updateSessionNick,setUSN] = useState(''); 
     return (
         <div className="playlistaddframe">
             {
@@ -218,7 +222,7 @@ function PlayListUpdate(props) {
                             onClick={closBack}
                         />
                     </div>
-                    : <h1 style={{ width: "100%", textAlign: "center", marginTop: "25%", position: "absolute" }}>페이지가 없습니다</h1>
+                    : <h1 style={{ width: "100%", textAlign: "center", marginTop: "25%", position: "absolute" }}>잘못된 접근입니다.</h1>
             }
         </div>
     );

@@ -1,6 +1,7 @@
 package com.bit.service;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -260,6 +261,7 @@ public class StageService {
             v.getUsers().put(sessionId, "");
             return v;
         });
+        System.out.println("addusertostage");
     }
 
     public void subUserToStage(String stageUrl, String sessionId) {

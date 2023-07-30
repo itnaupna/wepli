@@ -64,7 +64,7 @@ public class MemberService {
                 mDto.setImg("logo.png");
             }
             mDto.setEmailconfirm(mDto.getSocialtype() == null ? 0 : 1);
-            log.info("{}",mDto.getEmailconfirm());
+            // log.info("{}",mDto.getEmailconfirm());
             if (mDto.getEmail().length() < 1 || mDto.getPw().length() < 1 || mDto.getNick().length() < 1 || mDto.getNick().length() > 10 ) {
 
                 boolean checkEmail = Pattern.matches("^[a-zA-Z0-9._+-,]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",mDto.getEmail());
@@ -244,10 +244,10 @@ public class MemberService {
                 ncpObjectStorageService.deleteFile(bucketname, "songimg", songsImg.get(i));
             }
         }
-        log.info("profile -> {}",profile);
-        log.info("stageImg -> {}",stageImg);
-        log.info("playlistImg -> {}",playlistImg);
-        log.info("songsImg -> {}",songsImg);
+        // log.info("profile -> {}",profile);
+        // log.info("stageImg -> {}",stageImg);
+        // log.info("playlistImg -> {}",playlistImg);
+        // log.info("songsImg -> {}",songsImg);
         return memberMapper.deleteMember(mDto) > 0;
     }
 
@@ -296,7 +296,7 @@ public class MemberService {
         Map<String, Object> data = memberMapper.selectMypageDtoAndFollowCnt(userNick);
         data.put("followChk", followChk);
         data.put("blackChk", blackChk);
-        log.info("after nick ->  {}", userNick);
+        // log.info("after nick ->  {}", userNick);
         return data;
     }
 
@@ -311,7 +311,7 @@ public class MemberService {
         try {
             boolean boolLogin = memberMapper.selectLogin(data) > 0;
             if (boolLogin) {
-                log.info("success");
+                // log.info("success");
                 // 로긴 성공하면
                 result = tokenService.generateToken(data,
                         autoLogin ? (JWT_TOKEN_VALIDITY_ONEDAY * 30) : JWT_TOKEN_VALIDITY_ONEDAY, request, response);
@@ -324,7 +324,7 @@ public class MemberService {
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-            log.info("error");
+            // log.info("error");
             result.put("result", "error");
             result.put("ecode",e.getMessage());
             return result;
@@ -338,7 +338,7 @@ public class MemberService {
         try {
             System.out.println(data);
             boolean emailExists = memberMapper.selectCheckEmailExists(data.get("email")) > 0;
-            log.info("emailchk {}", emailExists);
+            // log.info("emailchk {}", emailExists);
             if (emailExists) {
                 boolean boolLogin = memberMapper.CheckMemberExists(data) > 0;
                 if(boolLogin) {
@@ -350,14 +350,14 @@ public class MemberService {
                 } else {
 
                     // 로긴 실패하면 -> 요청 소셜이 아닌 다른 루트로 가입된 이메일
-                    log.info("socialLogin -> duplicate");
+                    // log.info("socialLogin -> duplicate");
                     response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                     result.put("action", false);
 
                 }
             } else {
                 // 로긴 실패하면 -> 에러 가입된 소셜회원 없음 -> 소셜 회원가입으로 이동
-                log.info("socialLogin -> Non-members");
+                // log.info("socialLogin -> Non-members");
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
 
@@ -372,9 +372,9 @@ public class MemberService {
 
     //로그아웃 시도
     public void logout(String token, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        log.info(token);
+        // log.info(token);
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        log.info("logout nick -> {}", nick);
+        // log.info("logout nick -> {}", nick);
         TokenDto tDto = new TokenDto();
         tDto.setNick(nick);
         tDto.setAccessToken("");

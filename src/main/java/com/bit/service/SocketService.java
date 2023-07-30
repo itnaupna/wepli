@@ -14,6 +14,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
@@ -50,16 +51,21 @@ public class SocketService {
     }
 
     @EventListener
+    public void onTryConnect(SessionConnectEvent e){
+        System.out.println("연결이 들어와요");
+    }
+
+    @EventListener
     public void onConnect(SessionConnectedEvent e) {
         // StompHeaderAccessor headers = StompHeaderAccessor.wrap(e.getMessage());
-        // System.out.println("연결이 이루어졌어요");
+        System.out.println("연결이 이루어졌어요");
         // logging(headers);
     }
 
     private void eong(StompHeaderAccessor headers) {
         try {
-            logging(headers);
-            System.out.println(userPosition);
+            // logging(headers);
+            System.out.println("위치: " + userPosition);
             String stageId = userPosition.get(headers.getSessionId());
             userPosition.remove(headers.getSessionId());
             String userNick = stageService.getUserNickInStage(stageId, headers.getSessionId());
@@ -90,7 +96,7 @@ public class SocketService {
     public void onDisconnect(SessionDisconnectEvent e) {
         StompHeaderAccessor headers = StompHeaderAccessor.wrap(e.getMessage());
         eong(headers);
-        // System.out.println("연결이 끊겨버렸어요");
+        System.out.println("연결이 끊겨버렸어요");
         // logging(headers);
     }
 
@@ -100,7 +106,7 @@ public class SocketService {
         String stageId = headers.getDestination().split(prefix)[1];
         userPosition.put(headers.getSessionId(), stageId);
         stageService.addUserToStage(stageId, headers.getSessionId());
-        // System.out.println("구독해요");
+        System.out.println("구독해요");
         // logging(headers);
     }
 
@@ -108,7 +114,7 @@ public class SocketService {
     public void onUnSubscribe(SessionUnsubscribeEvent e) {
         StompHeaderAccessor headers = StompHeaderAccessor.wrap(e.getMessage());
         eong(headers);
-        // System.out.println("구취해요");
+        System.out.println("구취해요");
         // logging(headers);
     }
 

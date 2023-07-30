@@ -55,6 +55,7 @@ function App() {
     useEffect(() => {
         conSocket();
     }, []);
+    
     const [isSocial, setIsSocial] = useState();
 
     useEffect(() => {
@@ -65,8 +66,8 @@ function App() {
         if (social && social.includes("socialtype")) {
             setIsSocial(JSON.parse(social).socialtype == null ? false : true);
         }
-        conSocket();
     }, [isSocial, loginStatus]);
+    
 
 
 
