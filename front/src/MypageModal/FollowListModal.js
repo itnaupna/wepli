@@ -52,6 +52,8 @@ function FollowListModal({ setisFollowListModalOpen }) {
                 data: {userNick: usernick},
             }).then(res=>{
                 if(res.data){
+
+                    console.log("cnt",res.data);
                     alert("블랙되었습니다");
                     const lstblackArray = JSON.parse(lstblack) || [];
                     const updatedLstBlack = lstblackArray.filter(name => name !== fValues);
@@ -108,53 +110,67 @@ function FollowListModal({ setisFollowListModalOpen }) {
         const url = "/api/lv2/f/followtoggle";
 
         axios({
-            method: 'post',
+            method: "post",
             url: url,
-            params: { target: fValues }
-        }).then(res => {
-            const mypageurl = "/api/lv0/m/mypage";
-            axios({
-                method: 'get',
-                url: mypageurl,
-                data: { userNick: usernick },
-            }).then(res => {
-                alert("언팔되었습니다");
-                if (res.data) {
-                    const lstfollowArray = JSON.parse(lstfollow);
-                    const updatedLstFollow = lstfollowArray.filter(name => name !== fValues);
+            params: { target: fValues },
+        })
+            .then((res) => {
+                const mypageurl = "/api/lv0/m/mypage";
+                axios({
+                    method: "get",
+                    url: mypageurl,
+                    data: { userNick: usernick },
+                }).then((response) => {
+                    alert("언팔되었습니다");
+                    if (response.data) {
+                        let newFollowerCount = followMember[idx].cnt;
+                        if (followMember[idx].isfollow === 0) {
+                            newFollowerCount++;
+                        } else {
+                            newFollowerCount--;
+                        }
 
-                    if (lstfollowArray.length === updatedLstFollow.length) {
-                        updatedLstFollow.push(fValues);
+                        const updatedFollowMember = [...followMember];
+                        updatedFollowMember[idx] = {
+                            ...updatedFollowMember[idx],
+                            cnt: newFollowerCount,
+                            isfollow: res.data,
+                        };
+                        setFollowMember(updatedFollowMember);
+
+                        const lstfollowArray = JSON.parse(lstfollow);
+                        const updatedLstFollow = lstfollowArray.filter((name) => name !== fValues);
+
+                        if (lstfollowArray.length === updatedLstFollow.length) {
+                            updatedLstFollow.push(fValues);
+                        }
+
+                        const storedData = {
+                            ...JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")),
+                            lstfollow: JSON.stringify(updatedLstFollow),
+                        };
+
+                        if (sessionStorage.getItem("data")) {
+                            sessionStorage.setItem("data", JSON.stringify(storedData));
+                            setuserStoragelstfollow(JSON.stringify(updatedLstFollow));
+                        } else if (localStorage.getItem("data")) {
+                            localStorage.setItem("data", JSON.stringify(storedData));
+                            setuserStoragelstfollow(JSON.stringify(updatedLstFollow));
+                        }
+
+                        const updatedUnFollow = [...targetMember];
+                        updatedUnFollow[idx] = { ...updatedUnFollow[idx], isfollow: res.data };
+                        setTargetMember(updatedUnFollow);
+                    } else {
+                        alert("오류");
                     }
-
-                    const storedData = {
-                        ...JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")),
-                        lstfollow: JSON.stringify(updatedLstFollow)
-                    };
-
-                    if (sessionStorage.getItem("data")) {
-                        sessionStorage.setItem("data", JSON.stringify(storedData));
-                        setuserStoragelstfollow(JSON.stringify(updatedLstFollow));
-                    } else if (localStorage.getItem("data")) {
-                        localStorage.setItem("data", JSON.stringify(storedData));
-                        setuserStoragelstfollow(JSON.stringify(updatedLstFollow));
-                    }
-
-                    const updatedUnFollow = [...targetMember];
-                    updatedUnFollow[idx] = { ...updatedUnFollow[idx], isfollow: res.data };
-                    setTargetMember(updatedUnFollow);
-
-                    const updatedFollowMember = [...followMember];
-                    updatedFollowMember[idx] = { ...updatedFollowMember[idx], isfollow: res.data };
-                    setFollowMember(updatedFollowMember);
-                } else {
-                    alert('오류');
-                }
+                });
+            })
+            .catch((error) => {
+                alert("에러");
             });
-        }).catch(error => {
-            alert("에러");
-        });
     };
+
 
     const [nickname, setNickname] = useState("");
 

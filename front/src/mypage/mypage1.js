@@ -272,7 +272,7 @@ function Mypage1(props) {
                     </div>
                     {/*팔로잉리스트*/}
                     <div className={'mypagefollowinggroup'}>
-                        <div className={'mypagefollowing'} onClick={showFollowListModal}>
+                        <div className={'mypagefollowing'} onClick={()=>showFollowListModal("follower")}>
                             <div className={'mypagefollowtext1'}>팔로잉 {userdata.followCnt}</div>
                         </div>
                     </div>
@@ -361,7 +361,7 @@ function Mypage1(props) {
             {isFollowListModalOpen && (
                 <FollowListModal
                     setisFollowListModalOpen={setisFollowListModalOpen}
-                    followMember={followMember} nick={data.nick}
+                    followMember={followMember} nick={data.nick} value={value}
                 />
             )}
         </div>

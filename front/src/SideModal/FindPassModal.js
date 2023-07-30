@@ -121,7 +121,8 @@ function FindPassModal() {
                         src={logo}
                     />
                 </div>
-                <select defaultValue={verifyType} onChange={(e) => setVerifyType(e.target.selectedIndex.toString())}>
+                <select defaultValue={verifyType} onChange={(e) => setVerifyType(e.target.selectedIndex.toString())}
+                className={'findpassmodalselect'}>
                     <option>이메일</option>
                     <option>문자</option>
                 </select>

@@ -140,8 +140,6 @@ function MemberPage(props) {
                             alt=""
                             src={`${bucket}/profile/${data.img}`}
                         />
-
-        
                 </div>
                 {followingAndFollowerModalOpen && <FollowingAndFollowerModal nick={data.nick} value={value} setFollowingAndFollowerModalOpen={setFollowingAndFollowerModalOpen}/>}
             </div>

@@ -28,6 +28,7 @@ import LoginModal from './SideModal/LoginModal';
 import PwChkModal from './SideModal/PwChkModal';
 import { UrlChk } from './recoil/MypageModalAtom';
 import Mypage1 from "./mypage/mypage1";
+import UserMypage from "./mypage/UserMypage";
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
@@ -62,7 +63,8 @@ function App() {
                     <Route path="/mypage" element={<Mypage1 />} /> :
                     ""
                 }
-                <Route path="/mypage/:userNick" element={<MemberPage/>}/>
+                {/*<Route path="/mypage/:userNick" element={<MemberPage/>}/>*/}
+                <Route path="/mypage/:userNick" element={<UserMypage/>}/>
                 <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                 <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
                 <Route path="/pli/:pliId" element={<PlayListDetail/>}/>

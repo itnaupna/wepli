@@ -516,3 +516,48 @@
     }
 }
 
+.userpagefollowing,
+.userpagefollowering{
+    margin-left: 50px;
+    width: 180px;
+    border-radius: 30px;
+    font-size: 15px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: #5ea6ff;
+    color: white;
+    font-weight: bold;
+    padding-left: 20px;
+}
+
+.userpagefollowingbox,
+.userpagefollowbox{
+    margin-left: 50px;
+    display: flex;
+    width: 200px;
+    border-radius: 30px;
+    margin-top: 15px;
+    background-color: #FFA500;
+    color: white;
+    font-weight: bold;
+    height: 28px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.userpagefollowbox{
+    margin-bottom: 10px;
+}
+
+.userfollowingnumber,
+.userpagefollownumber{
+    margin-left: 10px;
+    color: black;
+}
+
+.userpagefollowingtext,
+.userpagefollowtext{
+    margin-left: 15px;
+}
