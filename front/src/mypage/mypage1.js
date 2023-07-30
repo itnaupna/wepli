@@ -216,10 +216,7 @@ function Mypage1(props) {
             params: {userNick : userNick}
         }).then(res => {
             setData(res.data);
-            console.log("1",userdata);
-            console.log("2",setData);
-            console.log("3",res.data);
-            console.log("4",res);
+
         }).catch(error => {
             alert(error);
         })

@@ -1,0 +1,51 @@
+.mainsection2 {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+}
+
+.main2img {
+    width: 60vw;
+    animation: moveRight 8s linear infinite;
+}
+
+.mainsection2photogroup,
+.mainsection2photogroup1 {
+    position: relative;
+    top: 10%;
+    opacity: 0.8;
+}
+
+.main2img2 {
+    width: 60vw;
+    animation: moveLeft 8s linear infinite;
+}
+
+.mainsection2photogroup1{
+    float: right;
+}
+
+.iphone13mokup{
+    position: absolute;
+    width: 40vw;
+    display: flex;
+    align-items: center;
+    bottom: 0;
+}
+@keyframes moveRight {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes moveLeft {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}

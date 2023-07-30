@@ -13,7 +13,6 @@ import PlayStageList from "./PlayStation/PlayStageJS/PlayStageList"
 import TestPage from './TestPage';
 import { useEffect, useState } from "react";
 import KakaoCallback from "./KakaoCallback";
-import Mypage from "./mypage/Mypage";
 import { conSocket } from './recoil/SocketAtom';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import { YoutubeAtom } from './recoil/YoutubeAtom';
@@ -29,6 +28,7 @@ import PwChkModal from './SideModal/PwChkModal';
 import { UrlChk } from './recoil/MypageModalAtom';
 import Mypage1 from "./mypage/mypage1";
 import UserMypage from "./mypage/UserMypage";
+import MainSection1 from "./main/MainSection1";
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
@@ -80,7 +80,7 @@ function App() {
                     <h1 style={{ width: "100%", textAlign: "center", marginTop: "25%", position: "absolute" }}>페이지가 없습니다</h1>
                 } />
                 <Route path={"/hyuk"} element={<Hyukmain/>}/>
-                {/*<Route path={"/hh"} element={<Mypage1/>}/>*/}
+                <Route path={"/m1"} element={<MainSection1/>}/>
             </Routes>
 
             {pwChkmodalOpen && <PwChkModal setpwChkmodalOpen={setpwChkmodalOpen} />}

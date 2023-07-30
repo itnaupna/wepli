@@ -27,7 +27,7 @@
     </select>
 
     <select id="selectCheckEmailConfirm" parameterType="hashMap" resultType="int">
-        select exists(select emailconfirm from tblMember where nick = #{nick} and email=#{email})
+        select IFNULL(emailconfirm , 0) as emailconfirm  from tblMember where email = #{email} and nick = #{nick}
     </select>
 
     <select id="selectLogin" parameterType="Map" resultType="int">
@@ -123,5 +123,7 @@
         union
         select img from tblSongs where playlistID IN (select idx from tblPlaylist where nick = #{nick});
     </select>
+
+
 
 </mapper>
