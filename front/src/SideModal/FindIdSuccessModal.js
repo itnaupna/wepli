@@ -5,11 +5,19 @@ import logo from "./photo/weplieonlylogoonlylogo.png";
 import btnarrow from "./svg/btnarrow.svg";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {findIdSuccessModalOpenState, recoveredEmailState} from "../recoil/FindIdModalAtom";
+import { useNavigate } from 'react-router-dom';
 function FindIdSuccessModal() {
 
-    const [findIdSuccessModalopen,setfindIdSuccessModalopen] = useRecoilState(findIdSuccessModalOpenState);
+    const [findIdSuccessModalopen,setfindIdSuccessModalOpen] = useRecoilState(findIdSuccessModalOpenState);
     const closeFindIdSuccessModal = () => {
-        setfindIdSuccessModalopen(false);
+        setfindIdSuccessModalOpen(false);
+    }
+
+    const navi = useNavigate()
+
+    const moveMain = () => {
+        setfindIdSuccessModalOpen(false);
+        navi("/");
     }
 
     const recoveredEmail = useRecoilValue(recoveredEmailState);
@@ -37,9 +45,9 @@ function FindIdSuccessModal() {
                         {recoveredEmail ? `회원님의 아이디는 ${recoveredEmail}입니다.` : '아이디가 없어요'}
                     </div>
 
-                    <div className="findidsuccessmodalbtngroup">
+                    <div className="findidsuccessmodalbtngroup" onClick={moveMain}>
                         <div className="findidsuccessmypagebtn">
-                            <div className="findidsuccessmodalbtnrectangle" />
+                            <div className="findidsuccessmodalbtnrectangle"/>
                             <div className="findidsuccessmodalbtntext">확인</div>
                         </div>
                         <img

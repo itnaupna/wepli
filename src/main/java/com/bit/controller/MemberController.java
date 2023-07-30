@@ -93,7 +93,6 @@ public class MemberController {
     // 0-이메일, 1-전화
     @PostMapping("/lv0/m/requestcode")
     public boolean postRequestCodeFind(@RequestBody UserConfirmDto data){
-        System.out.println("0000호출"+data.getType()+ data.getKey());
         return uService.RequestCodeFind(data.getType(), data.getKey());
     }
 

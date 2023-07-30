@@ -63,4 +63,6 @@ public interface MemberMapper {
     public void FindCheckEmailPw(Map<String, String> data);
     public int updatePhone(Map<String,String> data);
     public int selectFindPhoneConfirm(String phone);
+    public int selectFindEmailConfirm(String email);
+
 }

@@ -59,7 +59,7 @@ public class UserConfirmService {
 
         switch (type) {
             case 0:
-                return mMapper.selectFindPhoneConfirm(key) > 0 ? CreateEmailVerifyCode(key,null) : false;
+                return mMapper.selectFindEmailConfirm(key) > 0 ? CreateEmailVerifyCode(key,null) : false;
             case 1:
                 return mMapper.selectFindPhoneConfirm(key) > 0 ? CreatePhoneVerifyCode(key, null) : false;
             default:
@@ -79,13 +79,12 @@ public class UserConfirmService {
     }
 
     private boolean CreateEmailVerifyCode(String email, String nick) {
-        System.out.println(email+"eeeee");
-
         Map<String, String> data = new HashMap<>();
         data.put("email", email);
         String code = BuildCode();
         data.put("code", code);
         sendEmailCode(email, code);
+        System.out.println("email= " + email + " code= " + code);
 
         if (uMapper.selectIsAlreadyHasEmailCode(email) > 0) {
             return uMapper.updateEmailCode(data) > 0;
@@ -119,13 +118,12 @@ public class UserConfirmService {
 
         Map<String, String> data = new HashMap<>();
         data.put("phone", phone);
-        data.put("code", code);
-        System.out.println("code="+code+"phone="+phone);
+        data.put("code", code);       
+        System.out.println("phone = "+ phone + " code= " + code);
 
         Map<String, String> updateData = new HashMap<>();
         updateData.put("phone", phone);
         updateData.put("nick", nick);
-        System.out.println("nick="+nick+"phone="+phone);
 
         if (uMapper.selectIsAlreadyHasPhoneCode(phone) > 0) {
             System.out.println("인증코드 삭제후 재발급");

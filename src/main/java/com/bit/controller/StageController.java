@@ -55,6 +55,7 @@ public class StageController {
     @GetMapping("/lv0/s/search")
     public List<StageDto> getSearch(@CookieValue(required = false) String token, @RequestParam(required = false) String queryString, 
     @RequestParam(required = false)String type, boolean orderByDay, int curr, int cpp) {
+        System.out.println("검색 : queryString = "+queryString+"orderByDay= "+orderByDay+" type="+type);
         return sService.selectSearchStage(token, queryString, type, orderByDay, curr, cpp);
     }
 
