@@ -18,7 +18,7 @@ function MainSection1(props) {
             window.removeEventListener('mousemove', handleMouseMove);
         };
     }, []);
-
+    // css
     useEffect(() => {
         const textElements = document.querySelectorAll(".text");
         let delay = 0.3;
