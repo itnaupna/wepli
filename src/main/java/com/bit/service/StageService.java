@@ -110,6 +110,7 @@ public class StageService {
     }
 
     public boolean saveHistory(String stageId) {
+        try{
         // SocketDto m = new SocketDto();
         // m.setType(Types.HISTORY);
         // m.setStageId(stageId);
@@ -122,12 +123,17 @@ public class StageService {
         h.setLikes(votecount.get("UP"));
         h.setDislikes(votecount.get("DOWN"));
         h.setSongaddress(song.getSongaddress());
-        h.setSongtitle(song.getTitle());
-        h.setSongauthor(song.getSinger());
+        h.setTitle(song.getTitle());
+        h.setSinger(song.getSinger());
         h.setSonglength(song.getSonglength());
-        h.setSongimg(song.getImg());
+        h.setImg(song.getImg());
         
         return sMapper.insertStageHistory(h) > 0;
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
     }
 
     public SongDto setNextSong(String stageId) {

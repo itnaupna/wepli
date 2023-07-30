@@ -185,7 +185,7 @@
 
     <insert id="insertStageHistory" parameterType="StageHistoryDto">
         insert into tblStageHistory 
-        (nick, stageaddress,likes,dislikes,songaddress,songtitle,songauthor,songlength,songimg)
+        (nick, stageaddress,likes,dislikes,songaddress,title,singer,songlength,img)
         values
         (#{nick},#{stageaddress},#{likes},#{dislikes},#{songaddress},#{title},#{singer},#{songlength},#{img})
     </insert>

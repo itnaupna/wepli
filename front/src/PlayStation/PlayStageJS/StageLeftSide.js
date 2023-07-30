@@ -29,7 +29,7 @@ const StageLeftSide = () => {
             return;
         }
     }
-    
+
     useEffect(() => {
         const handleResize = () => {
             let a = document.getElementById('YTPFrame').parentElement;
@@ -111,12 +111,12 @@ const StageLeftSide = () => {
 
                     <div className="stage-button-up stagebutton" onClick={handleUp} style={{ display: 'none' }}>
                         <UpIcon isFill={vu} />
-                        {vuc > 0 && <span style={{position:'absolute',right:'5px',bottom:'5px'}}>{vuc}</span>}
+                        {vuc > 0 && <span style={{ position: 'absolute', right: '5px', bottom: '5px' }}>{vuc}</span>}
                     </div>
 
                     <div className="stage-button-down stagebutton" onClick={handleDown} style={{ display: 'none' }}>
                         <DownIcon isFill={vd} />
-                        {vdc > 0 && <span style={{position:'absolute',right:'5px',bottom:'5px'}}>{vdc}</span>}
+                        {vdc > 0 && <span style={{ position: 'absolute', right: '5px', bottom: '5px' }}>{vdc}</span>}
                     </div>
 
                     <div className="stage-button-skip stagebutton" onClick={handleSkip} style={{ display: 'none' }}>
@@ -139,6 +139,7 @@ const StageLeftSide = () => {
                         margin: 'auto',
                         left: '0',
                         right: '0',
+                        top:'10px',
                         position: 'absolute',
                         visibility: 'hidden'
                     }} id='YTPPosi' />
@@ -172,9 +173,9 @@ const StageLeftSide = () => {
                         </svg>
                     </div>
                 </div> */}
-            </div>
-            <div style={{ display: !leftType ? 'block' : 'none', width: '100%' }}>
-                <QueueComponent />
+                <div style={{ display: !leftType ? 'block' : 'none', width: '100%' }}>
+                    <QueueComponent />
+                </div>
             </div>
         </div>
     );

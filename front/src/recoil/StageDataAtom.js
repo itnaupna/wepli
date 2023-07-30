@@ -118,6 +118,16 @@ export const doGrab = async (playlistID, address) => {
     return result.data;
 }
 
+export const doGrabHistory = async (playlistID, d) => {
+    let data = {...d};
+
+    data.songorigin = 'yt';
+    data.playlistID = playlistID;
+    let result = await axios.post("/api/lv1/p/song",data);
+
+    return result.data;
+}
+
 export const VoteUpCountAtom = atom({
   key: 'VoteUpCountAtom',
   default: 0,

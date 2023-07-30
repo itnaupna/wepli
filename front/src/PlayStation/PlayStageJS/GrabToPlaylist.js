@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { LoginStatusAtom } from '../../recoil/LoginStatusAtom';
 import axios from 'axios';
-import { doGrab } from '../../recoil/StageDataAtom';
+import { ButtonTypeAtom, doGrab, doGrabHistory } from '../../recoil/StageDataAtom';
 import { getIsGrabbingAtom } from '../../recoil/StageDataAtom';
 
 const GrabToPlaylist = ({ data, index }) => {
@@ -21,6 +21,8 @@ const GrabToPlaylist = ({ data, index }) => {
     useEffect(() => {
         loadMyPlaylists()
     }, []);
+
+    const buttonType = useRecoilValue(ButtonTypeAtom);
 
     return (
         <div className='grabtoplaylistdiv' >
@@ -41,8 +43,18 @@ const GrabToPlaylist = ({ data, index }) => {
                 </select>
             )}
             <div onClick={() => {
-                if (doGrab(selectRef.current.value, data.id.videoId))
-                    setIsGrabbing(false);
+                if (buttonType === 'search')
+                    if (doGrab(selectRef.current.value, data.id.videoId)) {
+                        setIsGrabbing(false);
+                    }
+                    else { alert('곡 저장에 실패하였습니다.'); }
+                else {
+                    if (doGrabHistory(selectRef.current.value, data)) {
+                        setIsGrabbing(false);
+                    }
+                    else { alert('곡 저장에 실패하였습니다.'); }
+                }
+
             }}>
                 ➕
             </div>
