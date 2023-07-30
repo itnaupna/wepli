@@ -7,9 +7,19 @@
     max-width: 100%;
 }
 
+.mainsection2gra{
+    margin-top: 80px;
+}
+
 .main2img {
-    width: 99vw;
-    animation: moveRight 15s infinite alternate;
+    width: 100vw;
+    animation: moveRight 15s infinite ;
+}
+
+.main2img2 {
+    width: 100%;
+    height: auto;
+    animation: moveLeft 15s infinite ;
 }
 
 .mainsection2photogroup,
@@ -23,10 +33,7 @@
     margin-bottom: 20px;
 }
 
-.main2img2 {
-    width: 99vw;
-    animation: moveLeft 15s linear infinite alternate;
-}
+
 
 
 .mainsection2photogroup1{
@@ -40,21 +47,23 @@
     align-items: center;
     bottom: 0;
 }
+
+
 @keyframes moveRight {
     0% {
-        transform: translateX(-100%);
+        transform: translate3d(0, 0, 0);
     }
     100% {
-        transform: translateX(100%);
+    transform: translate3d(-50%, 0, 0);
     }
 }
 
 @keyframes moveLeft {
     0% {
-        transform: translateX(100%);
+        transform: translate3d(0, 0, 0);
     }
     100% {
-        transform: translateX(-100%);
+        transform: translate3d(50%, 0, 0);
     }
 }
 
