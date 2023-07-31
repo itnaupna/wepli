@@ -135,14 +135,12 @@ public class PlaylistService {
     }
 
     // 플레이리스트 디테일
-    public Map<String, Object> getDetailPlayList(int idx, int curr, int cpp){
+    public Map<String, Object> getDetailPlayList(int idx){
 
         List<SongDto> song = pMapper.selectSongsAll(idx);
 
         Map<String,Object> cdata = new HashMap<>();
         cdata.put("playlistID",idx);
-        cdata.put("curr",(curr-1)*cpp);
-        cdata.put("cpp",cpp);
 
         List<PliCommentDto> comment = pMapper.selectPliComments(cdata);
         PlaylistDto play = pMapper.selectMyPliToIdx(idx);

@@ -5,6 +5,7 @@ import PlayListSave from "../MainIMG/playListSave.png";
 import PlusIcon from "../MainIMG/plusIcon.png";
 import "./AddPlayList.css";
 import {useNavigate} from "react-router-dom";
+import weplilogo from "../sidebar/photo/weplilogo.png";
 
 const AddPlayLsit = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
@@ -167,7 +168,7 @@ const AddPlayLsit = () => {
                             <img
                                 className="playlistaddprofileimage-icon"
                                 alt=""
-                                src={`${bucketURl}/profile/${userImg}`}
+                                src={userImg != null ? `${bucketURl}/profile/${userImg}` : weplilogo}
                             />
                             <div className="playlistaddinplaylistnickna">
                                 {nickname}

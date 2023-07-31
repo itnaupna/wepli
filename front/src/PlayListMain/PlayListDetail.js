@@ -316,7 +316,7 @@ const PlayListDetail = () => {
                             <img
                                 className="playlistdetailprofileimage-icon"
                                 alt=""
-                                src={`${bucketURl}/profile/${plaListDetailplayUserImg}`}
+                                src={plaListDetailplayUserImg ? `${bucketURl}/profile/${plaListDetailplayUserImg}` : weplilogo}
                             />
                             <div className="playlistdetailinplaylistnickna">
                                 {plaListDetailInfo.nick}

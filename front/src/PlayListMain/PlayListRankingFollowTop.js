@@ -4,6 +4,7 @@ import Follow from "../MainIMG/Follow.png";
 import MusicList from "../MainIMG/MusicList.png";
 import dayjs from 'dayjs';
 import Axios from "axios";
+import weplilogo from "../sidebar/photo/weplilogo.png";
 
 function PlayListRankingFollowTop({item, ranking, mypage}) {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
@@ -14,8 +15,7 @@ function PlayListRankingFollowTop({item, ranking, mypage}) {
             <img
                 className="playlistmain01followprofillimg-icon"
                 alt=""
-                src={`${bucketURl}/profile/${item.img}`}
-
+                src={item.img ? `${bucketURl}/profile/${item.img}` : weplilogo}
             />
             <div className="playlistrankinglistiteminfo12">
                 <div className="playlistrankinglistitemtitle">

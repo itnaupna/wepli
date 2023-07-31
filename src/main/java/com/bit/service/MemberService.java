@@ -189,6 +189,7 @@ public class MemberService {
 
         if(mDto.getEmailconfirm() + mDto.getPhoneconfirm() > 0) {
             if(!mDto.getEmail().equals(data.get("email"))) {
+                System.out.println("이메이이이이일"+data.get("email"));
                 result.put("result", false);
                 response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                 return result;
@@ -196,12 +197,14 @@ public class MemberService {
         }else {
             boolean checkEmail = Pattern.matches("^[a-zA-Z0-9]+@[0-9a-zA-Z]+\\.[a-z]+$",mDto.getEmail());
             if(!checkEmail) {
+                System.out.println("이메이이이이일"+data.get("email"));
                 result.put("result", false);
                 response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
                 return result;
             }
         }
 
+        System.out.println("이메이이이이일"+data.get("email"));
         data.put("nick", nick);
         System.out.println(data);
         memberMapper.updateInfo(data);

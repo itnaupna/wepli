@@ -5,11 +5,14 @@ import logo from "../mypage/photo/wplieonlylogo.png";
 import PlusIcon from "../MainIMG/plusIcon.png";
 import PlayListSave from "../MainIMG/playListSave.png";
 import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
+import weplilogo from "../sidebar/photo/weplilogo.png";
 import "./PlayListUpdate.css";
+
 
 function PlayListUpdate(props) {
     const idx = useParams().pliId;
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
+    const pliProfileImg = JSON.parse(sessionStorage.getItem("data")).img;
     const [pliTitle, setPliTitle] = useState("");
     const [pliDesc, setPliDesc] = useState("");
     const [nick, setNick] = useState("");
@@ -186,7 +189,7 @@ function PlayListUpdate(props) {
                             <img
                                 className="playlistaddprofileimage-icon"
                                 alt=""
-                                src={userImg != null ? `${bucketURl}/profile/${userImg}` : logo }
+                                src={pliProfileImg ? bucketURl + "/profile/" + pliProfileImg : weplilogo}
                             />
                             <div className="playlistaddinplaylistnickna">
                                 {nick}
