@@ -18,6 +18,14 @@ export const emailConfirmState = selector({
     },
 });
 
+export const emailState = selector({
+    key: 'emailState',
+    get: ({ get }) => {
+        const data = get(DataState);
+        return JSON.stringify(data.email);
+    },
+});
+
 export const phoneConfirmState = selector({
     key: 'phoneConfirmState',
     get: ({ get }) => {

@@ -6,13 +6,13 @@ import logo from "./photo/weplieonlylogoonlylogo.png";
 import {UserStorageNick} from "../recoil/LoginStatusAtom";
 import {useRecoilState, useRecoilValue} from "recoil";
 import axios from "axios";
+import {emailState} from "../recoil/LoginStatusAtom";
 function InfoChageModal({setIsInfoChangeModalOpen}) {
 
     const [nick, setNickName] = useState('');
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
     const [userStorageNick, setUserStorageNick] = useRecoilState(UserStorageNick);
-
 
     const closeInfoChangeModal = async () => {
         await setIsInfoChangeModalOpen(false);
@@ -47,7 +47,8 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
     }, [prevEmail]);
 
     const handleinfoChnage = async () => {
-        const emailRegex = new RegExp("^[a-zA-Z0-9._+-,]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+        const emailRegex = /^[a-zA-Z0-9]+@[0-9a-zA-Z]+\.[a-z]+$/;
+
 
         if (nick.length > 10) {
             alert("닉네임은 최대 10글자까지 입력할 수 있습니다.");
@@ -59,61 +60,64 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
             return;
         }
 
-        if (emailconfirm === 1) {
-            // emailconfirm이 1일 경우, 세션에 저장된 이메일 값을 사용
-            setEmail(useremail);
-        } else {
-            // emailconfirm이 0일 경우, 입력된 이메일 값 검증 후, 올바른 형식의 이메일인지 확인
-            if (!email) {
+        const selectedEmail = emailconfirm === 1 ? useremail : email;
+
+        // emailconfirm이 0일 경우, 입력된 이메일 값 검증 후, 올바른 형식의 이메일인지 확인
+        if (emailconfirm !== 1) {
+            if (!selectedEmail) {
                 alert("이메일을 입력해주세요");
                 return;
-            } else if (!emailRegex.test(email)) {
+            } else if (!emailRegex.test(selectedEmail)) {
                 alert("유효한 이메일 주소를 입력해주세요");
                 return;
             }
         }
 
         const url = "/api/lv1/m/info";
-        axios({
-            method: 'patch',
-            url: url,
-            data: { email: email, newNick: nick, pw : pw },
-            headers: { 'Content-Type': 'application/json' }
-        }).then(res => {
+        const requestData = {
+            email: selectedEmail,
+            newNick: nick,
+            pw: pw,
+        };
+
+        try {
+            const res = await axios.patch(url, requestData, {
+                headers: { 'Content-Type': 'application/json' },
+
+            });
+
             if (res.data) {
                 const mypageurl = "/api/lv0/m/mypage";
-                axios({
-                    method: 'get',
-                    url: mypageurl,
-                    data: { userNick: nick },
-                }).then(res => {
-                    if (res.data) {
-                        const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
-                        storedData.nick = res.data.nick;
-                        storedData.email = res.data.email;
+                const res2 = await axios.get(mypageurl, { data: { userNick: nick } });
 
-                        const newData = JSON.stringify(storedData);
-                        console.log("이미지" + newData);
-                        sessionStorage.setItem("data", newData);
-                        setUserStorageNick(res.data.nick);
-                        setIsInfoChangeModalOpen(false);
-                        alert('정보가 성공적으로 수정되었습니다.');
-                    }
-                }).catch(error => {
-                    // 두 번째 요청 실패 시 처리
-                    console.error('두 번째 요청 실패:', error);
-                    alert('인포안됨');
-                });
+                if (res2.data) {
+                    const storedData = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem("data")) || {};
+                    storedData.nick = res2.data.nick;
+                    storedData.email = res2.data.email;
+
+                    const newData = JSON.stringify(storedData);
+                    console.log("이미지" + newData);
+                    sessionStorage.setItem("data", newData);
+                    setUserStorageNick(res2.data.nick);
+                    setIsInfoChangeModalOpen(false);
+                    alert('정보가 성공적으로 수정되었습니다.');
+                }
             } else {
                 // 첫 번째 요청이 실패한 경우
                 alert('이메일 인증이 필요합니다.');
             }
-        }).catch(error => {
-            // 첫 번째 요청 실패 시 처리
-            console.error('첫 번째 요청 실패:', error);
-            alert('이미 사용중입니다.');
-        });
-    }
+        } catch (error) {
+            // 요청 실패 시 처리
+            console.error('요청 실패:', error);
+            if (error.response) {
+                console.error('Response status:', error.response.status);
+                console.error('Response data:', error.response.data);
+            }
+            alert('요청에 실패했습니다. 다시 시도해주세요.');
+        }
+    };
+
+
 
     const InfoChangeEnter = (e) =>{
         if (e.key === 'Enter') {
@@ -151,7 +155,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
                 {/*이메일 입력*/}
                 <div className="mypageinfochangemodalpassnickn">
                     <input placeholder={
-                        emailconfirm != 1
+                        emailconfirm !== 1
                             ? '이메일을 입력해주세요'
                             : '이미 이메일이 인증이되어 변경할 수 없습니다.'
                     } className="mypageinfochangemodalnicknamei"

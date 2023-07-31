@@ -16,12 +16,7 @@ function MainSection2(props) {
                     <img src={youtube1} className={'main2img2'}/>
                 </div>
             </div>
-            {/* New div for horizontal scrolling */}
-            {/*<div className={'mainsection2flow'}>*/}
-            {/*    <img src={handheart} className={'handheart'}/>*/}
-            {/*    <img src={handheart} className={'handheart1'}/>*/}
-            {/*    /!* Add more images here *!/*/}
-            {/*</div>*/}
+
         </div>
     );
 }
