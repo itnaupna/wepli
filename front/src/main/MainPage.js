@@ -12,7 +12,7 @@ function MainPage(props) {
             <MainSection1/>
             <MainSection2/>
             <MainSection3/>
-            {/*<MainWrapper4/>*/}
+            <MainWrapper4/>
         </div>
     );
 

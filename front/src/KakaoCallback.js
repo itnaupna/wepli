@@ -20,7 +20,7 @@ function KakaoCallback() {
         const code = params.get('code');
         const grantType = "authorization_code";
         const REST_API_KEY = "9d3f5e52469d4278fcbcbc2f8a944d2c";
-        const REDIRECT_URI = "http://localhost:3000/auth";
+        const REDIRECT_URI = "https://wepli.today/auth";
 
         axios.post(
             `https://kauth.kakao.com/oauth/token?grant_type=${grantType}&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}`,
