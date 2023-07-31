@@ -253,7 +253,7 @@
     justify-content: center !important;
     transform: translate(-50%, -40%);
     left: 50%;
-    background-color: white;
+    /* background-color: white; */
 }
 
 .mypageul {
@@ -270,14 +270,31 @@
     display: flex;
     width: 130px;
     height: 10vh;
+    gap: 8px;
+    padding: 8px 12px 8px 16px;
     margin-right: 50px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 30px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
     cursor: pointer;
-    background-color: #3CB44A;
+    background: #056bfa27;
     font-weight: bold;
     font-size: 20px;
+    margin-right: 30px;
+    
 }
+
+.mypageul li:hover {
+    background-color: #056bfa49;
+    box-shadow: 0px 15px 20px #056bfa49;
+    color: #fff;
+    transform: translateY(-7px);
+  }
+  
+  .mypageul li:active {
+    transform: translateY(-1px);
+  }
+
+
 
 .hamburger-button {
     display: none;

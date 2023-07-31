@@ -504,13 +504,13 @@
 
 .rankingtoggle {
     position: relative;
-    top: 50%;
-    width: 74px;
-    height: 36px;
-    margin: -30px auto -30px auto;
+    top: 55%;
+    width: 52px;
+    height: 25px;
+    margin: -23px auto -23px auto;
     overflow: hidden;
-    left: 46%;
-    border: 1px solid black;
+    left: 40%;
+    border: 1px solid #D7D7D7;
 }
 
 .rankingCheckbox {
@@ -545,15 +545,15 @@
     position: absolute;
     top: 4px;
     left: 4px;
-    width: 20px;
-    height: 10px;
+    width: 8px;
+    height: 0px;
     color: #fff;
     font-size: 10px;
     font-weight: bold;
     text-align: center;
     line-height: 1;
     padding: 9px 4px;
-    background-color: #03a9f4;
+    background-color: #B5D5FE;
     border-radius: 50%;
     transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
 }
@@ -569,12 +569,12 @@
 
 #rankingtoggle-3 .rankingCheckbox:checked + .rankingknobs:before {
     content: "";
-    left: 42px;
-    background-color: #f44336;
+    left: 32px;
+    background-color: #EBF7FC;
 }
 
 #rankingtoggle-3 .rankingCheckbox:checked ~ .rankinglayer {
-    background-color: #fcebeb;
+    background-color: #B5D5FE;
 }
 
 .rankingtoggleBody{
