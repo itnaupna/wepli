@@ -51,7 +51,7 @@ public class SocketService {
     }
 
     @EventListener
-    public void onTryConnect(SessionConnectEvent e){
+    public void onTryConnect(SessionConnectEvent e) {
         System.out.println("연결이 들어와요");
     }
 
@@ -164,10 +164,21 @@ public class SocketService {
             msg.setUserNick(song.getPlayerNick());
             msg.setMsg(song);
             SendMsg(msg);
+            int maxLength = stageService.getMaxSongLength(stageId);
+            int length = 0;
+            if(maxLength == 0)
+                length = song.getSonglength();
+            else{
+                if(song.getSonglength() > maxLength){
+                    length = maxLength;
+                }else{
+                    length = song.getSonglength();
+                }
+            }
             // System.out.println(song.getSonglength() + "초후 다음곡 재생");
             stageService.setSes(stageId, ses.schedule(() -> {
                 RequestPlay(stageId);
-            }, song.getSonglength(), TimeUnit.SECONDS));
+            }, length, TimeUnit.SECONDS));
         });
 
     }
