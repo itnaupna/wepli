@@ -17,6 +17,7 @@ import {DataState, LoginStatusAtom, ProfileImageUrl} from '../recoil/LoginStatus
 import {findIdModalOpenState, findIdSuccessModalOpenState, LoginModalOpen, pwChkModalOpen, FindPassModalOpen, SignUpModalOpen, FindPwChangeModalOpen} from "../recoil/FindIdModalAtom";
 import FindIdSuccessModal from "../SideModal/FindIdSuccessModal";
 import FindPwChangeModal from "../SideModal/FindPwChangeModal";
+import { StageUrlAtom } from '../recoil/ChatItemAtom';
 
 function SideBar(props) {
 
@@ -59,14 +60,18 @@ function SideBar(props) {
         navigate('/');
     };
 
+    const [stageUrl,setStageUrl] = useRecoilState(StageUrlAtom);
     // 스테이지 이동
     const handleStageClick = () => {
-        navigate('/stage');
+        navigate('/stage/' + (stageUrl ? stageUrl : ''));
     };
 
+    
     {/* 로그아웃 */}
     const onLogoutSubmit = () => {
+
         const url = '/api/lv0/m/logout';
+        setStageUrl(null);
         sessionStorage.removeItem('data');
         localStorage.removeItem('data');
         axios

@@ -25,6 +25,10 @@ export const subSocket = (endpoint, callback) => {
   subs = ws.subscribe(endpoint, callback);
 }
 
+export const unSubSocket = () =>{
+  subs?.unsubscribe();
+}
+
 export const SendMsg = (e) => {
   ws.send("/pub/msg", {}, JSON.stringify(e));
 }

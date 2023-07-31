@@ -1,5 +1,4 @@
-import { atom } from 'recoil';
-import YouTube from 'react-youtube';
+import { atom, selector } from 'recoil';
 
 const opt={
     playerVars:{
@@ -7,42 +6,38 @@ const opt={
         controls:0,
         disablekb:1,
         iv_load_policy:3,
-
+        mute:1,
     }
 }
 
-let yt;
-let ytp =
-    <YouTube
-        style={{
-            width: '0px',
-            height: '0px',
-            display: 'none'
-        }}
-        onReady={(e) => {
-            yt = e.target;
-        }}
-        opts={opt}
-    />;
-
+export const YTPListAtom = atom({
+  key: 'YTPListAtom',
+  default: [],
+});
 
 export const YTPOptionAtom = atom({
     key:'YTPOptionAtom',
     default:opt,
 })
 
-export const loadVideoById = (videoId, startSeconds) => {
-    yt.loadVideoById(videoId, startSeconds);
-};
 
-export const videoStatus = () => {
-    console.log(yt);
-    console.log(yt.PlayerState);
+export const IsPlayingAtom = atom({
+  key: 'IsPlayingAtom',
+  default: false,
+});
 
-}
+export const loadVideoById = (videoId, startSeconds) => selector({
+    key:'loadVideoByIdAtom',
+    get:({get}) => {
+        const yt = get(YoutubeAtom);
+        console.log(yt);
+        yt.loadVideoById(videoId,startSeconds);
+        console.log(videoId, startSeconds);
+    }
+});
 
 export const YoutubeAtom = atom({
     key: 'YoutubeAtom',
-    default: ytp,
+    default: null,
     dangerouslyAllowMutability: true
 });

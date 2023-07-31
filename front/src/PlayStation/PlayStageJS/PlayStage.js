@@ -19,6 +19,8 @@ function PlayStage() {
     const setUserList = useSetRecoilState(UsersItemsAtom);
     const setUserCount = useSetRecoilState(UserCountInStageAtom);
     const [isLoading, setIsLoading] = useState(true);
+    const [showLoading, setShowLoading] = useState(true);
+
     const [conmsg, setConmsg] = useState('접속중');
     const IsLogin = useRecoilValue(LoginStatusAtom);
     const [isInQueue, setIsInQueue] = useRecoilState(IsInQueueAtom);
@@ -36,22 +38,41 @@ function PlayStage() {
     useEffect(() => {
         // console.log("내 큐길이 : ", myQueue.length);
         // console.log("큐 첫번째값 : ", myQueue[0]);
-        if(isLoading) return;
-        setIsInQueue(myQueue.length>0);
-        if(myQueue.length>0){
+        if (isLoading) return;
+        setIsInQueue(myQueue.length > 0);
+        if (myQueue.length > 0) {
             handleSendMsg("QUEUE_CHANGE_SONG", myQueue[0], su);
-        }else{
-            handleSendMsg("QUEUE_OUT",null,su);
+        } else {
+            handleSendMsg("QUEUE_OUT", null, su);
         }
     }, [myQueue[0]]);
 
+    useEffect(()=>{
+        if(su){
+            setIsLoading(false);
+            setShowLoading(false);
+        }
+    },[]);
 
 
     useEffect(() => {
-        connect();
+        let t = window.location.pathname.search("/stage/") === 0;
+        t && !su && connect();
+
+        // if (t === 0){}
+        // else {
+        //     setIsLoading(false);
+        //     setShowLoading(false);
+        // }
     }, [IsLogin]);
 
     const connect = async () => {
+        // let t = window.location.pathname.search("/stage/");
+        // if (t === 0 && !su){}
+        // else {
+        //     setIsLoading(false);
+        //     setShowLoading(false);
+        // }
         if (!sockClient.connected) {
             try {
                 await waitConnect();
@@ -105,7 +126,7 @@ function PlayStage() {
 
 
     const handleSocketData = (data) => {
-        console.log(data);
+        // console.log("패킷수신 " + data.msg.toString());
         switch (data.type) {
             case 'ENTER':
                 setUserList(data.msg.memberlist);
@@ -155,8 +176,8 @@ function PlayStage() {
             case 'QUEUE_OUT':
                 setRoomQueue(data.msg);
                 addChatLog({
-                    type:data.type,
-                    nick:data.userNick,
+                    type: data.type,
+                    nick: data.userNick,
                     msg: '님이 스테이지 플리에서 나갔습니다.'
                 });
                 break;
@@ -174,6 +195,7 @@ function PlayStage() {
                 });
                 break;
             case 'PLAY':
+                console.log(data);
                 break;
             case 'QUEUE_DATA':
                 setRoomQueue(
@@ -187,11 +209,14 @@ function PlayStage() {
 
     return (
         <>
-            {isLoading ? <div onClick={connect}><LoadingScreen msg={conmsg} /></div> : null}
-            <div className="stage">
-                <StageLeftSide />
-                <StageRightSide />
-            </div>
+            {/* {isLoading ? <div onClick={connect}><LoadingScreen msg={conmsg} isLoading={isLoading}/></div> : null} */}
+            <LoadingScreen msg={conmsg} isLoading={isLoading} setShowLoading={setShowLoading} />
+            {!showLoading &&
+                <div className="stage">
+                    <StageLeftSide />
+                    <StageRightSide />
+                </div>
+            }
         </>
     );
 }
