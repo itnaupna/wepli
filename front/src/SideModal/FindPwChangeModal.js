@@ -11,6 +11,7 @@ import {
     recoveredEmailState,
     recoveredPhoneState
 } from "../recoil/FindIdModalAtom";
+import { useNavigate } from 'react-router-dom';
 function FindPwChangeModal() {
 
     const [findPassModalOpen, setFindPassModalOpen] = useRecoilState(FindPassModalOpen);
@@ -28,8 +29,10 @@ function FindPwChangeModal() {
     const [newPw, setNewPw] = useState('');
     console.log("변경하는곳",recoveredPhone , recoveredEmail);
 
+    const navi = useNavigate()
+
     const handleChangeNewPw = async () => {
-        const url = "/api/lv0/m/findPw";
+        const url = "/api/lv0/m/findPw";   
 
         try {
             const res = await axios.post(url,
@@ -39,6 +42,9 @@ function FindPwChangeModal() {
                     newPw: newPw
                 });
             alert("성공");
+            setFindPwChangeModalOpen(false);
+            navi("/");
+            
         } catch (error) {
             alert('비밀번호를 맞게 입력해주세요');
         }

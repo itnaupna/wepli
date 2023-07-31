@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.mapper.MemberMapper">
 
-    <insert id="insertJoinMember" parameterType="MemberDto">
-        insert into tblMember (email, pw, nick, emailconfirm, phoneconfirm, socialtype, img) values (#{email},sha2(#{pw}, 256), #{nick}, #{emailconfirm}, 0, #{socialtype}, #{img})
+    <insert id="insertJoinMember" parameterType="MemberDto"> 
+        insert into tblMember (email, pw, nick, emailconfirm, phoneconfirm, socialtype) values (#{email},sha2(#{pw}, 256), #{nick}, #{emailconfirm}, 0, #{socialtype})
     </insert>
 
     <select id="selectCheckEmailExists" parameterType="string">
@@ -27,7 +27,7 @@
     </select>
 
     <select id="selectCheckEmailConfirm" parameterType="hashMap" resultType="int">
-        select emailconfirm from tblMember where nick = #{nick} and email=#{email}
+        select IFNULL(emailconfirm , 0) as emailconfirm from tblMember where email = #{email} and nick = #{nick}
     </select>
 
     <select id="selectLogin" parameterType="Map" resultType="int">
@@ -35,7 +35,7 @@
     </select>
 
     <select id="selectCheckPhoneConfirm" parameterType="hashMap" resultType="int">
-        select phoneconfirm from tblMember where nick = #{nick} and phone=#{phone}
+        select exists(select phoneconfirm from tblMember where nick = #{nick} and phone=#{phone})
     </select>
 
     <select id="selectFindPhoneConfirm" parameterType="string" resultType="int">

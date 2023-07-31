@@ -7,6 +7,7 @@ import axios from "axios";
 import FindIdSuccessModal from "./FindIdSuccessModal";
 import {useRecoilState} from "recoil";
 import {findIdModalOpenState, findIdSuccessModalOpenState, recoveredEmailState} from "../recoil/FindIdModalAtom";
+import { useNavigate } from 'react-router-dom';
 
 function FindIdModal() {
     const closeFindIdModal =  async() => {
@@ -53,6 +54,8 @@ function FindIdModal() {
             }
         }
     };
+
+    const navi = useNavigate()
 
     const handleVerifyCodeFind = async ()=>{
         if(!verifyCode){
