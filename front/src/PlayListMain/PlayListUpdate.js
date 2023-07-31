@@ -118,7 +118,7 @@ function PlayListUpdate(props) {
 
     useEffect(() => {
         const plaListDetailUrl = "/api/lv0/p/playdetail";
-        Axios.get(plaListDetailUrl, {params: {idx: idx, curr: 1, cpp: 6}})
+        Axios.get(plaListDetailUrl, {params: {idx: idx}})
             .then(res => {
                 setUSN(res.data.play.nick);
                 setPlaListDetailResult(res.data);
