@@ -5,9 +5,12 @@ import PlayListSave from "../MainIMG/playListSave.png";
 import PlusIcon from "../MainIMG/plusIcon.png";
 import "./AddPlayList.css";
 import {useNavigate} from "react-router-dom";
+import weplilogo from "../sidebar/photo/weplilogo.png";
 
 const AddPlayLsit = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
+    const [nickname, setNickname] = useState("");
+    const [userImg, setUserImg] = useState("");
     const [pliTitle, setPliTitle] = useState("");
     const [pliDesc, setPliDesc] = useState("");
     const [pliImg, setPliImg] = useState(bucketURl + "/playlist/88e584de-fb85-46ce-bc1a-8b2772babe42");
@@ -78,6 +81,21 @@ const AddPlayLsit = () => {
         setTags((tag01 === null? tag01 : tag01 + ",") + (tag02 === null? tag02 : tag02 + ",") + (tag03 === null? tag03 : tag03 + ",") + tag04)
     },[tag01, tag02, tag03, tag04]);
 
+    useEffect(() => {
+        let nickname = window.localStorage.getItem("data");
+        if (nickname == null) {
+            nickname = window.sessionStorage.getItem("data");
+        }
+        if(nickname == null) {
+            alert("로그인 후 이용가능한 기능입니다");
+            closBacknavigate(-1);
+        } else {
+            setNickname(JSON.parse(nickname).nick);
+            setUserImg(JSON.parse(nickname).img);
+
+        }
+    }, []);
+
     const savePliImg = (e) => {
         const uploadPliImg = new FormData();
         uploadPliImg.append('directoryPath', "playlist");
@@ -108,7 +126,7 @@ const AddPlayLsit = () => {
         tag: tags,
         img: uploadPliImgName,
         isPublic: 0,
-        nick: JSON.parse(sessionStorage.getItem("data")).nick
+        nick: nickname
     }
 
 
@@ -150,12 +168,10 @@ const AddPlayLsit = () => {
                             <img
                                 className="playlistaddprofileimage-icon"
                                 alt=""
-                                src={`${bucketURl}/profile/${JSON.parse(sessionStorage.getItem("data")).img}`}
+                                src={userImg != null ? `${bucketURl}/profile/${userImg}` : weplilogo}
                             />
                             <div className="playlistaddinplaylistnickna">
-                                {
-                                    JSON.parse(sessionStorage.getItem("data")).nick
-                                }
+                                {nickname}
                             </div>
                         </div>
                         <textarea className="playlistaddinplaylistinfo" placeholder="소개글을 적어주세요 (이미지는 클릭시 변경하실 수 있습니다.)"

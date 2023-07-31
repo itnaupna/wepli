@@ -184,16 +184,14 @@
     </select>
 
     <insert id="insertStageHistory" parameterType="StageHistoryDto">
-        insert into tblStageHistory values(#{songidx},#{stageaddress},#{likes},#{dislikes},default)
+        insert into tblStageHistory 
+        (nick, stageaddress,likes,dislikes,songaddress,title,singer,songlength,img)
+        values
+        (#{nick},#{stageaddress},#{likes},#{dislikes},#{songaddress},#{title},#{singer},#{songlength},#{img})
     </insert>
 
     <select id="selectStageHistory" parameterType="String" resultType="Map">
-        select s.title, s.img, s.songlength, s.singer, s.songaddress, h.*
-        from tblSongs as s
-        inner join tblStageHistory as h
-        on s.idx = h.songidx
-        where h.stageaddress=#{stageaddress}
-        order by h.playdate desc
+        select * from tblStageHistory where stageaddress=#{stageaddress} order by playdate desc;
     </select>
 
     <select id="selectCheckAddress" parameterType="String" resultType="int">

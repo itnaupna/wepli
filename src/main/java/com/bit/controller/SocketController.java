@@ -1,7 +1,10 @@
 package com.bit.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bit.dto.SocketDto;
@@ -17,7 +20,7 @@ public class SocketController {
     SocketService socketService;
 
     @MessageMapping("/msg")
-    public void msg(SocketDto msg){
-        socketService.SendMsg(msg);
+    public void msg( SocketDto msg) {
+        socketService.SendMsg( msg);
     }
 }

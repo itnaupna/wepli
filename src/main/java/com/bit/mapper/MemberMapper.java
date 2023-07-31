@@ -25,9 +25,9 @@ public interface MemberMapper {
     public int selectCheckPasswordByEmail(MemberDto mDto);
     public int selectCheckPasswordByNick(MemberDto mDto);
     //이메일 인증여부 확인
-    public int selectCheckEmailConfirm(String email);
+    public int selectCheckEmailConfirm(Map<String,String> data);
     //전화번호 인증여부 확인
-    public int selectCheckPhoneConfirm(String phone);
+    public int selectCheckPhoneConfirm(Map<String,String> data);
     //이메일 인증
     public int updateEmailConfirm(String email);
     //전화번호 인증
@@ -49,7 +49,7 @@ public interface MemberMapper {
     public MypageDto selectMypageDto(String nick);
     public MypageDto selectMypageDtoByEmail(String email);
     // 위 데이터에서 팔로우 포함
-    public Map<String,Object> selectMypageDtoAndFollowCnt(String nick); 
+    public Map<String,Object> selectMypageDtoAndFollowCnt(String nick);
     //로그인
     public int selectLogin(Map<String, String> Map);
     // 소셜로그인
@@ -59,6 +59,10 @@ public interface MemberMapper {
     public String FindCheckPhoneCode(String phone);
     //비밀번호찾기(핸드폰)
     public void FindCheckPhonePw(Map<String, String> data);
-    //비밀번호찾기(이메일) 
+    //비밀번호찾기(이메일)
     public void FindCheckEmailPw(Map<String, String> data);
+    public int updatePhone(Map<String,String> data);
+    public int selectFindPhoneConfirm(String phone);
+    public int selectFindEmailConfirm(String email);
+
 }

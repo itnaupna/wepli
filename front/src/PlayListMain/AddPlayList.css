@@ -361,7 +361,7 @@
     object-fit: cover;
 }
 .txtrank {
-    position: absolute;
+    /* position: absolute;
     top: calc(50% - 10px);
     left: 1.06rem;
     font-size: var(--font-size-sm);
@@ -369,7 +369,7 @@
     font-family: var(--font-black-han-sans);
     display: inline-block;
     width: 2.19rem;
-    height: 1.25rem;
+    height: 1.25rem; */
 }
 .playlistadditems {
     flex: 1;

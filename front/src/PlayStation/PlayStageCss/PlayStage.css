@@ -23,7 +23,7 @@
 .stage-left {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     align-items: center;
     justify-content: flex-start;
     flex: 1;

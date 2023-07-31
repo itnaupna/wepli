@@ -5,9 +5,10 @@ import QueuePlaylist from './QueuePlaylist';
 import QueueMypliItem from './QueueMypliItem';
 import axios from 'axios';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ButtonTypeAtom, MyQListAtom, ResultItemsInStageAtom, RoomQListAtom } from '../../recoil/StageDataAtom';
+import { ButtonTypeAtom, HistoryCountAtom, MyQListAtom, ResultItemsInStageAtom, RoomQListAtom } from '../../recoil/StageDataAtom';
 import { LoginStatusAtom } from '../../recoil/LoginStatusAtom';
 import QueuePlaylist2 from './QueuePlaylist2';
+import { StageUrlAtom } from '../../recoil/ChatItemAtom';
 
 const QueueComponent = () => {
     const searchKeyword = useRef();
@@ -19,8 +20,9 @@ const QueueComponent = () => {
     const listRef = useRef();
     let cancelTokenSource;
     const IsLogin = useRecoilValue(LoginStatusAtom);
-
+    const historyCount = useRecoilValue(HistoryCountAtom);
     const [myPlaylists, setMyPlaylists] = useState([]);
+    const su = useRecoilValue(StageUrlAtom);
     const SearchYoutube = async (keyword, token) => {
         const input = document.getElementsByClassName("queuesearchbarwrapper")[0];
         input.style.pointerEvents = "none";
@@ -86,13 +88,18 @@ const QueueComponent = () => {
     const loadStageQueue = () => {
         setButtonType('stagequeue');
         setSearchResult(RoomQList);
-        console.log(RoomQList);
+        // console.log(RoomQList);
     }
 
     useEffect(() => {
         loadMyPlaylists()
     }, [IsLogin]);
 
+    const loadHistory = async () =>{
+        let result = await axios.get("/api/lv0/s/stagehistory",{params:{stageaddress:su}});
+        setButtonType('history');
+        setSearchResult(result.data);
+    }
 
     return (
         <div className="stagequeuebody">
@@ -125,8 +132,8 @@ const QueueComponent = () => {
                         <div className="queueplaylistitemcount">{RoomQList.length}</div>
                     </div>
                     <div className="btnmyqueue">
-                        <div className="queueplaylistitemtitle">재생 기록</div>
-                        <div className="queueplaylistitemcount">000</div>
+                        <div className="queueplaylistitemtitle" onClick={loadHistory}>재생 기록</div>
+                        <div className="queueplaylistitemcount">{historyCount}</div>
                     </div>
                     {IsLogin &&
                         <div className="plisidewrapper">

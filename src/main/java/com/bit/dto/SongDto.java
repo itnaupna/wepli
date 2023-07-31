@@ -18,4 +18,5 @@ public class SongDto {
     private String songorigin;
     private int songorder;
     private String playerNick;
+    private String target;
 }

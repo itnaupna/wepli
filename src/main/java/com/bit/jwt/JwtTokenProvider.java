@@ -27,7 +27,8 @@ public class JwtTokenProvider {
 
     // 30 분
     public static final long JWT_TOKEN_VALIDITY = 1000 * 60 * 30;
-    public static final long JWT_TOKEN_VALIDITY2 = 1000 * 60;
+    // public static final long JWT_TOKEN_VALIDITY = 1000 * 60 * 30;
+    // public static final long JWT_TOKEN_VALIDITY2 = 1000 * 60;
     public static final long JWT_TOKEN_VALIDITY3 = 1000 * 20;
 
     // token으로 사용자 id(nick) 조회
@@ -64,7 +65,7 @@ public class JwtTokenProvider {
 				.setId(nick)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
                 //access 토큰 유효기한 30분
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY3))
 				.signWith(SignatureAlgorithm.HS512, secret)
 				.compact();
 		
@@ -89,7 +90,7 @@ public class JwtTokenProvider {
 				.setClaims(claims)
 				.setId(nick)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY	))// 30분
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY3	))// 30분
 				.signWith(SignatureAlgorithm.HS512, secret)
 				.compact();
 		

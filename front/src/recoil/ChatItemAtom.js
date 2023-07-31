@@ -7,7 +7,7 @@ export const ChatItemsAtom = atom({
 
 export const StageUrlAtom = atom({
     key:'StageUrlAtom',
-    default:''
+    default:null
 });
 
 export const UserCountInStageAtom = atom({

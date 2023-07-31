@@ -1,6 +1,6 @@
 .musicplayerbgimg-icon {
     position: absolute;
-    /* width: 100%; */
+    width: 100%;
     top: 0;
     right: 0;
     left: 0;
@@ -10,7 +10,7 @@
     object-fit: cover;
   }
   .musicplayerbgeffect {
-    background-color: rgba(217, 217, 217, 0.1);
+    background-color: rgba(217, 217, 217, 0.5);
     backdrop-filter: blur(80px);
   }
   .musicplayerbg,

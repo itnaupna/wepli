@@ -11,12 +11,10 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WsConfig implements WebSocketMessageBrokerConfigurer{
 
-    // @Autowired
-    // private SocketInterceptor sInterceptor;
-
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/ws")
+        .setAllowedOriginPatterns("*").withSockJS();
     }
 
     @Override
@@ -25,10 +23,5 @@ public class WsConfig implements WebSocketMessageBrokerConfigurer{
         registry.setApplicationDestinationPrefixes("/pub"); //pub
     }
 
-    // @Override
-    // public void configureClientInboundChannel(ChannelRegistration registration) {
-    //     registration.interceptors(sInterceptor);
-    // }
 
-    
 }
