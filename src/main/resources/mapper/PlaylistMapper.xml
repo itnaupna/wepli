@@ -86,7 +86,7 @@
                     </foreach>
                     )
                 </if>
-                 ORDER BY makeday DESC limit #{param2.curr},#{param2.cpp}
+                 ORDER BY makeday DESC
             </when>
             <otherwise>
                 SELECT * FROM vwPlaylist where isPublic=1 
@@ -104,7 +104,7 @@
                     </foreach>
                     )
                 </if>
-                ORDER BY likesCount DESC limit #{param2.curr},#{param2.cpp}
+                ORDER BY likesCount DESC
             </otherwise>
         </choose>
     </select>

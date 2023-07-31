@@ -89,7 +89,7 @@ const PlayListDetail = () => {
             setUserImg(null);
         }
         plaListDetail();
-    }, [loginStatus, addSongResult, nickname]);
+    }, [loginStatus, addSongResult]);
 
     const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
     const [addSongModalOpen, setAddSongModalOpen] = useRecoilState(AddSongModalOpen);

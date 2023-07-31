@@ -155,15 +155,15 @@ function PlayListMain01PlayListRangkingMain(props) {
                         팔로우 한 유저 플레이리스트
                     </div>
                 </div>
-                        <div className="rankingtoggleBody">
-                            <span className={isLikeHidden ? "rankingtoggleText playlistrankingHidden" : "rankingtoggleText"}>좋아요</span>
-                            <span className={!isLikeHidden ? "rankingtoggleText playlistrankingHidden" : "rankingtoggleText"}>팔로우</span>
-                            <div className="rankingtoggle rankingtoggle-r" id="rankingtoggle-3">
-                                <input type="checkbox" className="rankingCheckbox" defaultChecked={rankingCheckBox} onChange={rankingCheckBoxChange}/>
-                                <div className="rankingknobs"></div>
-                                <div className="rankinglayer"></div>
-                            </div>
+                    <div className="rankingtoggleBody">
+                        <span className={isLikeHidden ? "rankingtoggleText playlistrankingHidden" : "rankingtoggleText"}>좋아요</span>
+                        <span className={!isLikeHidden ? "rankingtoggleText playlistrankingHidden" : "rankingtoggleText"}>팔로우</span>
+                        <div className="rankingtoggle rankingtoggle-r" id="rankingtoggle-3">
+                            <input type="checkbox" className="rankingCheckbox" defaultChecked={rankingCheckBox} onChange={rankingCheckBoxChange}/>
+                            <div className="rankingknobs"></div>
+                            <div className="rankinglayer"></div>
                         </div>
+                    </div>
                 </div>
                 <div className="playlistrankinglistwapper">
                     <div className="playlistrankinglistwrapper2">

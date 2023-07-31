@@ -16,15 +16,9 @@ const AddPlayLsit = () => {
     const [pliImg, setPliImg] = useState(bucketURl + "/playlist/88e584de-fb85-46ce-bc1a-8b2772babe42");
     const PliImgRef = useRef();
     const [uploadPliImgName , setUploadPliImgName] = useState("/playlist/88e584de-fb85-46ce-bc1a-8b2772babe42");
-    const [genre01, setGenre01] = useState("");
-    const [genre02, setGenre02] = useState("");
-    const [genre03, setGenre03] = useState("");
-    const [genre04, setGenre04] = useState("");
+    const [genre, setGenre] = useState([]);
     const [genres , setGenres] = useState("");
-    const [tag01, setTag01] = useState("");
-    const [tag02, setTag02] = useState("");
-    const [tag03, setTag03] = useState("");
-    const [tag04, setTag04] = useState("");
+    const [tag, setTag] = useState([]);
     const [tags , setTags] = useState("");
     const navigate = useNavigate();
 
@@ -45,41 +39,28 @@ const AddPlayLsit = () => {
     const pliDescOnChange = useCallback(e => {
         setPliDesc(e.target.value);
     });
-    const genre01OnChange = useCallback(e => {
-        setGenre01(e.target.value);
-    });
-    const genre02OnChange = useCallback(e => {
-        setGenre02(e.target.value);
-    });
-    const genre03OnChange = useCallback(e => {
-        setGenre03(e.target.value);
-    });
-    const genre04OnChange = useCallback(e => {
-        setGenre04(e.target.value);
-    });
-    const tag01OnChange = useCallback(e => {
-        setTag01(e.target.value);
-    });
-    const tag02OnChange = useCallback(e => {
-        setTag02(e.target.value);
-    });
-    const tag03OnChange = useCallback(e => {
-        setTag03(e.target.value);
-    });
-    const tag04OnChange = useCallback(e => {
-        setTag04(e.target.value);
-    });
+
 
     const closBack = () => {
         closBacknavigate(-1);
     };
 
-    useEffect(() => {
-        setGenres((genre01 === null? genre01 : genre01 + ",") + (genre02 === null? genre02 : genre02 + ",") + (genre03 === null? genre03 : genre03 + ",") + genre04)
-    },[genre01, genre02, genre03, genre04]);
-    useEffect(() => {
-        setTags((tag01 === null? tag01 : tag01 + ",") + (tag02 === null? tag02 : tag02 + ",") + (tag03 === null? tag03 : tag03 + ",") + tag04)
-    },[tag01, tag02, tag03, tag04]);
+    const genreOnChange = (e, idx) => {
+        const updatedGenre = [...genre];
+        updatedGenre[idx] = e.target.value;
+        const filteredGenre = updatedGenre.filter((element) => element.trim() !== "");
+        setGenre(filteredGenre);
+        setGenres(filteredGenre.join(","));
+    }
+    const tagOnChange = (e, idx) => {
+        const updatedTag = [...tag];
+        updatedTag[idx] = e.target.value;
+        const filteredTag = updatedTag.filter((element) => element.trim() !== "");
+        setTag(filteredTag);
+        setTags(filteredTag.join(","));
+    }
+
+
 
     useEffect(() => {
         let nickname = window.localStorage.getItem("data");
@@ -141,8 +122,13 @@ const AddPlayLsit = () => {
                 navigate("/mypli")
             )
             .catch((error) => {
-                    alert("실패애러" + error)
-
+                    if (error.response.status === 401) {
+                        alert("로그인 후 사용가능한 기능입니다");
+                    } else if (error.response.status === 403) {
+                        alert("메일 또는 문자인증 후 사용 가능합니다");
+                    } else {
+                        alert("잘못된 접근입니다");
+                    }
                 }
             )
     };
@@ -195,22 +181,12 @@ const AddPlayLsit = () => {
                             <div className="tagtitle">장르 (10글자 까지 입력 가능합니다)</div>
                             <div className="commettilteiconbody">#</div>
                         </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={genre01} maxLength="10"
-                                   onChange={genre01OnChange} placeholder="장르를 적어주세요"/>
-                        </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={genre02} maxLength="10"
-                                   onChange={genre02OnChange} placeholder="장르를 적어주세요"/>
-                        </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={genre03} maxLength="10"
-                                   onChange={genre03OnChange} placeholder="장르를 적어주세요"/>
-                        </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={genre04} maxLength="10"
-                                   onChange={genre04OnChange} placeholder="장르를 적어주세요"/>
-                        </div>
+                        {Array(4).fill().map((_, idx) =>
+                            <div className="playlistaddtagform">
+                                <input className="txtplaylistaddform" value={genre[idx] == null ? "" : genre[idx]} maxLength="10"
+                                    onChange={(e) => genreOnChange(e, idx)} placeholder="장르를 적어주세요"/>
+                            </div>
+                        )}
 
                     </div>
                     <div className="playlistaddtaggroup1">
@@ -218,22 +194,12 @@ const AddPlayLsit = () => {
                             <div className="tagtitle">태그 (10글자 까지 입력 가능합니다)</div>
                             <div className="commettilteiconbody">#</div>
                         </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={tag01} maxLength="10" onChange={tag01OnChange}
-                                   placeholder="태그를 적어주세요"/>
-                        </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={tag02} maxLength="10" onChange={tag02OnChange}
-                                   placeholder="태그를 적어주세요"/>
-                        </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={tag03} maxLength="10" onChange={tag03OnChange}
-                                   placeholder="태그를 적어주세요"/>
-                        </div>
-                        <div className="playlistaddtagform">
-                            <input className="txtplaylistaddform" value={tag04} maxLength="10" onChange={tag04OnChange}
-                                   placeholder="태그를 적어주세요"/>
-                        </div>
+                        {Array(4).fill().map((_, idx) =>
+                            <div className="playlistaddtagform">
+                                <input className="txtplaylistaddform" value={tag[idx] == null ? "" : tag[idx]} maxLength="10"
+                                onChange={(e) => tagOnChange(e, idx)} placeholder="태그를 적어주세요"/>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <img

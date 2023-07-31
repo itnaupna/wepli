@@ -57,13 +57,12 @@ public class PlaylistService {
     }
 
     // 플리 검색
-    public List<PlaylistDto> selectPublicPlaylist(String token, String queryString, String type, boolean orderByDay, int curr, int cpp){
+    public List<PlaylistDto> selectPublicPlaylist(String token, String queryString, String type, boolean orderByDay){
         String typeString[] = {"title","nick","genre","tag",null};
 
         Map<String,Object> data = new HashMap<>();
         data.put("orderByDay",orderByDay);
-        data.put("curr",(curr-1)*cpp);
-        data.put("cpp",cpp);
+
         Map<String, List<String>> searchAndBlack = new HashMap<>();
 
         if(token != null && !token.equals("")) {
@@ -72,8 +71,8 @@ public class PlaylistService {
             if(blackTarget != null && blackTarget.size() > 0) {
                 searchAndBlack.put("black", blackTarget);
             }
-        }
-        if(queryString != null && !queryString.equals("")) {
+        }   
+        if(queryString != null && !queryString.equals("") && !queryString.replaceAll(",", "").equals("")) {
             List<String> queryStrings = Arrays.stream(queryString.split(","))
                     .map(String::trim)
                     .filter(str -> !str.isEmpty())

@@ -85,7 +85,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             // access token이 만료되었을경우
             log.info("[doFilterInternal] expired");
             String refreshToken = ts.accessToRefresh(token);
-            log.info("doFilterInternal -> {}",refreshToken);
+            // log.info("doFilterInternal -> {}",refreshToken);
             if(refreshToken != null && !jwtTokenProvider.expiredCheck(refreshToken.substring(6)).equals("expired")) {
                 refreshToken = refreshToken.substring(6);
                 // log.info("doFilterInternal refToken after -> {}",refreshToken);
@@ -138,7 +138,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             // Bearer token인 경우 JWT 토큰 유효성 검사 진행
             if (token != null && token.startsWith("Bearer")) {
                 accessToken = token.substring(6);
-                log.info("token: {}", accessToken);
+                // log.info("token: {}", accessToken);
                 try {
                     nick = jwtTokenProvider.getUsernameFromToken(accessToken);
                     // db에서 메일, 문자 인증 받았는지 여부에 따라 권한 부여

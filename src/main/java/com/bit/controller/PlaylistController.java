@@ -31,8 +31,8 @@ public class PlaylistController {
     // 검색, 필터, 출력
     @GetMapping("/lv0/p/list")
     public List<PlaylistDto> getList(@CookieValue(required = false) String token, @RequestParam(required = false) String queryString, 
-    @RequestParam(required = false)String type, boolean orderByDay, int curr, int cpp){
-        return pService.selectPublicPlaylist(token, queryString, type, orderByDay, curr, cpp);
+    @RequestParam(required = false)String type, boolean orderByDay){
+        return pService.selectPublicPlaylist(token, queryString, type, orderByDay);
     }
     // 플레이 리스트 메인 데이터 top and 좋아요 누른 플리
     @GetMapping("/lv0/p/plimaindata")
