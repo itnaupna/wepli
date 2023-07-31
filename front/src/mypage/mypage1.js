@@ -166,6 +166,12 @@ function Mypage1(props) {
     const [userStorageDesc, setUserStorageDesc] = useRecoilState(UserStorageDesc);
 
     const handleDescChange = async () => {
+
+        if(desc.length > 50){
+            alert("자기소개는 최대 50글자까지 입력 가능합니다");
+            return;
+        }
+
         const url = "/api/lv1/m/desc";
         axios({
             method: "patch",
@@ -216,10 +222,7 @@ function Mypage1(props) {
             params: {userNick : userNick}
         }).then(res => {
             setData(res.data);
-            console.log("1",userdata);
-            console.log("2",setData);
-            console.log("3",res.data);
-            console.log("4",res);
+
         }).catch(error => {
             alert(error);
         })
@@ -272,7 +275,7 @@ function Mypage1(props) {
                     </div>
                     {/*팔로잉리스트*/}
                     <div className={'mypagefollowinggroup'}>
-                        <div className={'mypagefollowing'} onClick={showFollowListModal}>
+                        <div className={'mypagefollowing'} onClick={()=>showFollowListModal("follower")}>
                             <div className={'mypagefollowtext1'}>팔로잉 {userdata.followCnt}</div>
                         </div>
                     </div>
@@ -361,7 +364,7 @@ function Mypage1(props) {
             {isFollowListModalOpen && (
                 <FollowListModal
                     setisFollowListModalOpen={setisFollowListModalOpen}
-                    followMember={followMember} nick={data.nick}
+                    followMember={followMember} nick={data.nick} value={value}
                 />
             )}
         </div>

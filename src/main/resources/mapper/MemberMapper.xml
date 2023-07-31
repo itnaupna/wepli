@@ -124,4 +124,6 @@
         select img from tblSongs where playlistID IN (select idx from tblPlaylist where nick = #{nick});
     </select>
 
+
+
 </mapper>

@@ -14,7 +14,6 @@ import PlayStageList from "./PlayStation/PlayStageJS/PlayStageList"
 import TestPage from './TestPage';
 import { useEffect, useState } from "react";
 import KakaoCallback from "./KakaoCallback";
-import Mypage from "./mypage/Mypage";
 import { conSocket } from './recoil/SocketAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { IsPlayingAtom, YoutubeAtom, loadVideoById } from './recoil/YoutubeAtom';
@@ -32,7 +31,8 @@ import MusicBarV2 from './MusicbarV2/MusicBarV2';
 import { StageUrlAtom } from './recoil/ChatItemAtom';
 import { UrlChk } from './recoil/MypageModalAtom';
 import Mypage1 from "./mypage/mypage1";
-
+import UserMypage from "./mypage/UserMypage";
+import MainSection1 from "./main/MainSection1";
 function App() {
     const [YTP, setYTP] = useRecoilState(YoutubeAtom);
     const [loginStatus, setLoginStatus] = useRecoilState(LoginStatusAtom);
@@ -55,7 +55,7 @@ function App() {
     useEffect(() => {
         conSocket();
     }, []);
-    
+
     const [isSocial, setIsSocial] = useState();
 
     useEffect(() => {
@@ -67,7 +67,7 @@ function App() {
             setIsSocial(JSON.parse(social).socialtype == null ? false : true);
         }
     }, [isSocial, loginStatus]);
-    
+
 
 
 
@@ -94,10 +94,10 @@ function App() {
                         : ""
                     }
                     {loginStatus && (isPasswordEntered || isSocial) ?
-                        <Route path="/mypage" element={<Mypage />} /> :
+                        <Route path="/mypage" element={<Mypage1 />} /> :
                         ""
                     }
-                    <Route path="/mypage/:userNick" element={<MemberPage />} />
+                    <Route path="/mypage/:userNick" element={<UserMypage />} />
                     <Route path="/ranking" element={<PlayListMain01PlayListRangkingMain />} />
                     <Route path="/pli" element={<PlayListMain02PlayListSearchMain />} />
                     <Route path="/pli/:pliId" element={<PlayListDetail />} />
