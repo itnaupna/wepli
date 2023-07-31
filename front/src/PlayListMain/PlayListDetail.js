@@ -27,6 +27,7 @@ import weplilogo from "../sidebar/photo/weplilogo.png";
 
 const PlayListDetail = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
+    const pliProfileImg = JSON.parse(sessionStorage.getItem("data")).img;
     const idx = useParams().pliId;
 
     const onIconsClick = useCallback(() => {
@@ -166,8 +167,6 @@ const PlayListDetail = () => {
             return "Invalid input";
         }
     }
-
-    const pliProfileImg = JSON.parse(sessionStorage.getItem("data")).img;
 
     return (
         <div className="playlistdetailframe">
