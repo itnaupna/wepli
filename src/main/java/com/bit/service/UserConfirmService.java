@@ -41,7 +41,7 @@ public class UserConfirmService {
 
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         Map<String, String> data = new HashMap<>();
-            data.put("nick", nick);
+        data.put("nick", nick);
 
         switch (type) {
             case 0:
@@ -65,7 +65,7 @@ public class UserConfirmService {
             default:
                 return false;
         }
-    } 
+    }
 
     public boolean VerifyCode(int type, String key, String code) {
         switch (type) {
@@ -103,7 +103,7 @@ public class UserConfirmService {
             // 핸드폰 번호 정규식 ex) 01012345678
             boolean checkPhone = Pattern.matches("^[\\d]{11}+$",phone);
             if(!checkPhone)
-            return false;
+                return false;
             res = sms.Send(phone, code).getStatusCode();
         } catch (Exception e) {
             System.out.println("문자 발송 실패");
@@ -127,12 +127,12 @@ public class UserConfirmService {
 
         if (uMapper.selectIsAlreadyHasPhoneCode(phone) > 0) {
             System.out.println("인증코드 삭제후 재발급");
-            
+
             if (uMapper.deletePhoneCode(phone) > 0) {
                 if(mMapper.updatePhone(updateData) > 0)
                     return uMapper.insertPhoneCode(data) > 0;
-               else
-                   return false;
+                else
+                    return false;
             } else {
                 return false;
             }
@@ -144,7 +144,7 @@ public class UserConfirmService {
             if(mMapper.updatePhone(updateData) > 0)
                 return uMapper.insertPhoneCode(data) > 0;
         }
-        return true;      
+        return true;
     }
 
     private boolean CheckEmailCode(String email, String code) {
@@ -179,19 +179,19 @@ public class UserConfirmService {
             mmh.setFrom("wepli@naver.com");
             mmh.setTo(email);
             mmh.setSubject("[Wepli] 이메일 인증번호");
-            mmh.setText("<div style=\"display: flex; flex-direction: column; align-items: center; justify-content: center; background-image: url(https://kr.object.ncloudstorage.com/wepli/Frame_.png); width: 800px; height: 750px; margin: 30px auto 0 auto;\">" 
-            +"<div style=\"margin: 180px auto 0 auto;\">"
-            +"<span style=\"font-size:39px; font-weight:bold;\">이메일 인증번호</span>"
-            +"</div>"
-            +"<div style=\"background-color:white; width:250px; height: 70px; line-height: 70px; margin: 30px auto 0 auto; text-align: center; border-radius: 15px; box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);\">"
-            +"<span style=\"font-size:39px; font-weight:bold; color:#5DC1FE;\">"+ code +"</span>"
-            +"</div>"
-            +"<div style=\"margin: 50px auto 0 auto; background-color: #5DC1FE;border-radius: 15px;  padding: 20px;box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25); \">"
-            + "<a href=\"http://localhost:3001\" style=\"text-decoration:none; color:black;\">"
-            +"<span>wepli 바로가기</span>"
-            +"</a>"
-            +"</div>"
-            +"</div>", true);
+            mmh.setText("<div style=\"display: flex; flex-direction: column; align-items: center; justify-content: center; background-image: url(https://kr.object.ncloudstorage.com/wepli/Frame_.png); width: 800px; height: 750px; margin: 30px auto 0 auto;\">"
+                    +"<div style=\"margin: 180px auto 0 auto;\">"
+                    +"<span style=\"font-size:39px; font-weight:bold;\">이메일 인증번호</span>"
+                    +"</div>"
+                    +"<div style=\"background-color:white; width:250px; height: 70px; line-height: 70px; margin: 30px auto 0 auto; text-align: center; border-radius: 15px; box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);\">"
+                    +"<span style=\"font-size:39px; font-weight:bold; color:#5DC1FE;\">"+ code +"</span>"
+                    +"</div>"
+                    +"<div style=\"margin: 50px auto 0 auto; background-color: #5DC1FE;border-radius: 15px;  padding: 20px;box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25); \">"
+                    + "<a href=\"https://wepli.today\" style=\"text-decoration:none; color:black;\">"
+                    +"<span>wepli 바로가기</span>"
+                    +"</a>"
+                    +"</div>"
+                    +"</div>", true);
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -203,7 +203,7 @@ public class UserConfirmService {
     public String VerifyCodeFind(int type, String key, String code, String authType) {
         if (authType.equals("findId")) {
 
-                return FindCheckPhoneCode(key, code);
+            return FindCheckPhoneCode(key, code);
 
         } else if (authType.equals("findPw")) {
             if (type == 0) { // email type
@@ -229,34 +229,34 @@ public class UserConfirmService {
         }
     }
 
-     //비밀번호 찾기 코드 확인 (이메일)
-     private String FindCheckEmailPw(String email, String code){
+    //비밀번호 찾기 코드 확인 (이메일)
+    private String FindCheckEmailPw(String email, String code){
         Map<String, String> data = new HashMap<>();
-            data.put("email", email);
-            data.put("code", code);
-            if (uMapper.selectVerifyEmail(data) > 0) {
-                uMapper.deleteEmailCode(email);
-                return email;
-            } else {
-                return "false";
-            }
+        data.put("email", email);
+        data.put("code", code);
+        if (uMapper.selectVerifyEmail(data) > 0) {
+            uMapper.deleteEmailCode(email);
+            return email;
+        } else {
+            return "false";
         }
+    }
 
     // 비밀번호 찾기 코드 확인 (핸드폰)
     private String FindCheckPhonePw(String phone, String code){
         Map<String, String> data = new HashMap<>();
-            data.put("phone", phone);
-            data.put("code", code);
-            if (uMapper.selectVerifyPhone(data) > 0) {
-                uMapper.deletePhoneCode(phone);
-                return phone;
-            } else {
-                return "false";
-            }
+        data.put("phone", phone);
+        data.put("code", code);
+        if (uMapper.selectVerifyPhone(data) > 0) {
+            uMapper.deletePhoneCode(phone);
+            return phone;
+        } else {
+            return "false";
         }
+    }
 
-     // 비밀번호 찾기(비밀번호 변경)
-     public void findPwCode(int type, String phone, String email, String newPw){
+    // 비밀번호 찾기(비밀번호 변경)
+    public void findPwCode(int type, String phone, String email, String newPw){
         Map<String, String> data = new HashMap<>();
         switch (type) {
             case 0:  // email type

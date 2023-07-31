@@ -6,11 +6,11 @@ import dayjs from 'dayjs';
 import Axios from "axios";
 import weplilogo from "../sidebar/photo/weplilogo.png";
 
-function PlayListRankingFollowTop({item, ranking}) {
+function PlayListRankingFollowTop({item, ranking, mypage}) {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
 
     return (
-        <div className="playlistrankinglistitem">
+        <div className="playlistrankinglistitem" onClick={() => mypage(item.mNick)}>
             <div className="playlistrankinglistitemnumber">{ranking + 1}</div>
             <img
                 className="playlistmain01followprofillimg-icon"

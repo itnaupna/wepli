@@ -25,6 +25,11 @@ function FindIdModal() {
     const handleRequestCodeFind = async () => {
         const url = "/api/lv0/m/requestcode";
 
+        if(!verifyKey){
+            alert("번호를 입력해주세요");
+            return;
+        }
+
         try {
             const res = await axios.post(url, { type: 1, key: verifyKey });
             console.log("아이디 찾기",res);
@@ -53,6 +58,10 @@ function FindIdModal() {
     const navi = useNavigate()
 
     const handleVerifyCodeFind = async ()=>{
+        if(!verifyCode){
+            alert("정보를 입력해주세요");
+            return;
+        }
         const url = "/api/lv0/m/verifycodefind";
         try {
             const res = await axios.post(url,{type:1, key:verifyKey,code:verifyCode, authType:"findId"});
@@ -72,6 +81,12 @@ function FindIdModal() {
         }
     }
 
+    const FindidEnter = (e) =>{
+        if (e.key === 'Enter') {
+            handleVerifyCodeFind();
+        }
+    };
+
     return (
         <div>
             <div className="findidmodalframe" onClick={closeFindIdModal}></div>
@@ -84,6 +99,7 @@ function FindIdModal() {
                         className="findidmodalarrowgroup-icon"
                         alt=""
                         src={arrow}
+                        onClick={closeFindIdModal}
                     />
                     <img
                         className="findidmodalweplilogo-icon"
@@ -94,15 +110,15 @@ function FindIdModal() {
 
                 <div className="findidinputemailgroup">
                     <input className="findidinputemail" type={'text'} value={verifyKey} onChange={(e)=>setVerifyKey(e.target.value)}
-                           placeholder={'전화번호를 입력해주세요'}></input>
+                           placeholder={'전화번호를 입력해주세요'} onKeyPress={FindidEnter}></input>
                 </div>
                 <div className="findidemailbtngroup">
                     <div className="findidemailbtn"></div>
-                    <button type={'button'} onClick={handleRequestCodeFind} className="findidemailbtnsendtext" >전송</button>
+                    <button type={'button'} onClick={handleRequestCodeFind}  className="findidemailbtnsendtext" >전송</button>
                 </div>
                 <div className="findidinputemailgroup">
                     <input className="findidinputverfiy" type={'text'} value={verifyCode} onChange={(e)=>setVerifyCode(e.target.value)}
-                           placeholder={'인증번호를 입력해주세요'}></input>
+                           placeholder={'인증번호를 입력해주세요'} onKeyPress={FindidEnter}></input>
                 </div>
                     {/*ㅇㅇ*/}
                 <div className="findidmodalbottombtngroup">

@@ -100,11 +100,11 @@ public class StageController {
     }
 
 
-    // 스테이지 히스토리 추가
-    @PostMapping("/lv2/s/stagehistory")
-    public boolean postStageHistory(@RequestBody StageHistoryDto shDto) {
-        return sService.insertStageHistory(shDto);
-    }
+    // // 스테이지 히스토리 추가
+    // @PostMapping("/lv2/s/stagehistory")
+    // public boolean postStageHistory(@RequestBody StageHistoryDto shDto) {
+    //     return sService.insertStageHistory(shDto);
+    // }
 
     // 스테이지 히스토리 불러오기
     @GetMapping("/lv0/s/stagehistory")

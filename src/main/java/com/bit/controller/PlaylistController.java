@@ -59,8 +59,8 @@ public class PlaylistController {
 
     // 플레이리스트 디테일
     @GetMapping("/lv0/p/playdetail")
-    public Map<String, Object> getDetailPlayList(@RequestParam int idx, @RequestParam int curr, @RequestParam int cpp){
-        return pService.getDetailPlayList(idx, curr, cpp);
+    public Map<String, Object> getDetailPlayList(@RequestParam int idx){
+        return pService.getDetailPlayList(idx);
     }
     // 플레이리스트 추가
     // 데이터 -> title, desc, genre, tag, img, isPublic, nick
@@ -108,7 +108,7 @@ public class PlaylistController {
     }
 
     // 곡 1개 수정
-    // 데이터 -> playlistID, title, songlength, img, genre, tag, singer, songaddress, songorigin idx
+    // 데이터 -> playlistID, title, img, genre, tag, singer, idx
     @PatchMapping("/lv1/p/song")
     public boolean patchSong(@CookieValue String token, @RequestBody SongDto data, HttpServletResponse response){
         return pService.updateSong(token, data, response);

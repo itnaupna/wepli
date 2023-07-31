@@ -27,8 +27,9 @@ public class JwtTokenProvider {
 
     // 30 분
     public static final long JWT_TOKEN_VALIDITY = 1000 * 60 * 30;
-    public static final long JWT_TOKEN_VALIDITY2 = 1000 * 60;
-    public static final long JWT_TOKEN_VALIDITY3 = 1000 * 20;
+    // public static final long JWT_TOKEN_VALIDITY = 1000 * 60 * 30;
+    // public static final long JWT_TOKEN_VALIDITY2 = 1000 * 60;
+    // public static final long JWT_TOKEN_VALIDITY3 = 1000 * 20;
 
     // token으로 사용자 id(nick) 조회
     public String getUsernameFromToken(String token) {

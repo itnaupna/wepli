@@ -4,23 +4,30 @@ import arrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import btnarrow from "./svg/btnarrow.svg";
 import {useRecoilState, useRecoilValue} from "recoil";
-import {findIdSuccessModalOpenState, recoveredEmailState} from "../recoil/FindIdModalAtom";
+import {findIdSuccessModalOpenState, LoginModalOpen, recoveredEmailState} from "../recoil/FindIdModalAtom";
 import { useNavigate } from 'react-router-dom';
 function FindIdSuccessModal() {
 
-    const [findIdSuccessModalopen,setfindIdSuccessModalOpen] = useRecoilState(findIdSuccessModalOpenState);
+    const [findIdSuccessModalopen,setfindIdSuccessModalopen] = useRecoilState(findIdSuccessModalOpenState);
+    const [loginmodalopen, setloginmodalopen] = useRecoilState(LoginModalOpen);
+
     const closeFindIdSuccessModal = () => {
-        setfindIdSuccessModalOpen(false);
+        setfindIdSuccessModalopen(false);
     }
 
     const navi = useNavigate()
 
     const moveMain = () => {
-        setfindIdSuccessModalOpen(false);
+        setfindIdSuccessModalopen(false);
         navi("/");
     }
 
     const recoveredEmail = useRecoilValue(recoveredEmailState);
+
+    const closeNowModal = async () => {
+        await setfindIdSuccessModalopen(false);
+        setloginmodalopen(true);
+    }
 
     return (
         <div>
@@ -34,6 +41,7 @@ function FindIdSuccessModal() {
                             className="findidsuccessmodalarrowgroup-icon"
                             alt=""
                             src={arrow}
+                            onClick={closeNowModal}
                         />
                         <img
                             className="findidsuccessmodalweplilogo-icon"

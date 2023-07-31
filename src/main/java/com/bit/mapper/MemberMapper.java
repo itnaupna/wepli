@@ -49,7 +49,7 @@ public interface MemberMapper {
     public MypageDto selectMypageDto(String nick);
     public MypageDto selectMypageDtoByEmail(String email);
     // 위 데이터에서 팔로우 포함
-    public Map<String,Object> selectMypageDtoAndFollowCnt(String nick); 
+    public Map<String,Object> selectMypageDtoAndFollowCnt(String nick);
     //로그인
     public int selectLogin(Map<String, String> Map);
     // 소셜로그인
@@ -59,7 +59,7 @@ public interface MemberMapper {
     public String FindCheckPhoneCode(String phone);
     //비밀번호찾기(핸드폰)
     public void FindCheckPhonePw(Map<String, String> data);
-    //비밀번호찾기(이메일) 
+    //비밀번호찾기(이메일)
     public void FindCheckEmailPw(Map<String, String> data);
     public int updatePhone(Map<String,String> data);
     public int selectFindPhoneConfirm(String phone);

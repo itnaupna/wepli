@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import QueuePlayItemButtonSet from './QueuePlayItemButtonSet';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ButtonTypeAtom, GetBucketImgString, SecondToHMS, getIsGrabbingAtom } from '../../recoil/StageDataAtom';
+import { ButtonTypeAtom, GetBucketImgString, SecondToHMS, getIsGrabbingAtom, getTimeDifference } from '../../recoil/StageDataAtom';
 import { LoginStatusAtom } from '../../recoil/LoginStatusAtom';
 import GrabToPlaylist from './GrabToPlaylist';
 
 
 
-const QueuePlaylist2 = ({ data, rank, index,nick }) => {
+const QueuePlaylist2 = ({ data, rank, index, nick }) => {
     const ButtonType = useRecoilValue(ButtonTypeAtom);
     const IsLogin = useRecoilValue(LoginStatusAtom);
     const [showButton, setShowButton] = useState(false);
@@ -20,13 +20,15 @@ const QueuePlaylist2 = ({ data, rank, index,nick }) => {
             const width = +btnSetRef.current.offsetWidth;
             infoRef.current.style.maxWidth = `${parseInt(infoRef.current.style.maxWidth) - width}px`;
         } else {
-            
+
             if (infoRef.current) {
                 infoRef.current.style.maxWidth = `${420 - timeinfoRef.current.offsetWidth}px`;
             }
         }
     }, [showButton]);
-
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
     return (
         <div
             className='qplidiv'
@@ -44,7 +46,7 @@ const QueuePlaylist2 = ({ data, rank, index,nick }) => {
                             {data.title}
                         </div>
                         <div style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                            {data.singer}{nick && " by " + nick}
+                            {data.singer}{nick && " by " + nick}{ButtonType==='history' && " by " + data.nick} {data.playdate && getTimeDifference(data.playdate)}
                         </div>
                     </div>
 

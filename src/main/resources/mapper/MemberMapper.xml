@@ -7,7 +7,7 @@
     </insert>
 
     <select id="selectCheckEmailExists" parameterType="string">
-        select count(*) from tblMember where email=#{email} 
+        select count(*) from tblMember where email=#{email}
     </select>
 
     <select id="selectCheckNickExists" parameterType="string">
@@ -41,7 +41,7 @@
     <select id="selectFindPhoneConfirm" parameterType="string" resultType="int">
         select phoneconfirm from tblMember where phone = #{phone}
     </select>
-
+    
     <select id="selectFindEmailConfirm" parameterType="string" resultType="int">
         select emailconfirm from tblMember where email = #{email}
     </select>
@@ -56,7 +56,7 @@
         update tblMember set phone = #{phone} where nick = #{nick}
     </update>
     <update id="updateNick" parameterType="Map">
-        update tblMember set nick=#{newNick} where nick=#{nick}    
+        update tblMember set nick=#{newNick} where nick=#{nick}
     </update>
     <update id="updatePw" parameterType="Map">
         update tblMember set pw=sha2(#{pw},256) where nick=#{nick}
@@ -89,7 +89,7 @@
         (select count(*) from tblFollow where target = #{nick}) followerCnt
         from vwMypage where nick = #{nick}
     </select>
-    
+
     <select id="selectMypageDtoByEmail" parameterType="string">
         select * from vwMypage where email=#{email}
     </select>
@@ -111,7 +111,7 @@
     </update>
 
     <select id="selectMemberImgByNick" parameterType="string" resultType="string">
-          select img from tblMember where nick=#{nick}
+        select img from tblMember where nick=#{nick}
     </select>
 
     <select id="selectMemberAllImg" parameterType="String" resultType="String">
@@ -123,5 +123,7 @@
         union
         select img from tblSongs where playlistID IN (select idx from tblPlaylist where nick = #{nick});
     </select>
+
+
 
 </mapper>

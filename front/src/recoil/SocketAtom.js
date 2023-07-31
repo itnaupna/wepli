@@ -7,22 +7,30 @@ import { ChatItemsAtom } from './ChatItemAtom';
 const sc = new SockJS("https://localhost/ws");
 const ws = StompJS.Stomp.over(sc);
 
-let subs;
+let subs = null;
 let sessionId = null;
 
 export const conSocket = () => {
   // let sock = new SockJS("https://localhost/ws");
   // ws = StompJS.Stomp.over(sock);
   ws.disconnect();
+  ws.debug = () => {};
   ws.connect({}, () => {
     sessionId = sc._transport.url.split("/ws/")[1].split("/")[1];
-    console.log("웨오옹" + sessionId);
+    sessionStorage.setItem('s',sessionId);
+    // console.log("웨오옹" + sessionId);
   });
 }
 
-export const subSocket = (endpoint, callback) => {
+export const SubSocket = (endpoint, callback) => {
   subs?.unsubscribe();
   subs = ws.subscribe(endpoint, callback);
+  // console.log(subs);
+}
+
+export const UnSubSocket = () =>{
+  subs?.unsubscribe();
+  subs=null;
 }
 
 export const SendMsg = (e) => {
@@ -45,6 +53,11 @@ export const handleSendMsg = (type, msg, stageId) => {
 
 };
 
+export const SocketSubsAtom = atom({
+  key: 'SocketSubsAtom',
+  default:subs,
+  dangerouslyAllowMutability:true
+});
 
 
 
@@ -54,3 +67,8 @@ export const SocketAtom = atom({
   dangerouslyAllowMutability: true
 });
 
+export const SocketIdAtom = atom({
+  key: 'SocketIdAtom',
+  default: sessionId,
+  dangerouslyAllowMutability: true,
+});

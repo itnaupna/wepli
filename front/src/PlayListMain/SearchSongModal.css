@@ -52,6 +52,10 @@
     width: 2.06rem;
     height: 2rem;
     overflow: hidden;
+
+}
+.searchsongmodalback-icon:hover{
+    cursor: pointer;
 }
 .searchsongmodaltop {
     align-self: stretch;

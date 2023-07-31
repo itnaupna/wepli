@@ -1,26 +1,32 @@
 import React, {useEffect} from 'react';
 import "./AddSongModal.css";
 import {useRecoilState} from "recoil";
-import {AddSongModalOpen, VideoId, YoutubeAddResult} from "../recoil/SearchSongAtom";
+import {AddSongModalOpen, SearchSongModalOpen, VideoId, YoutubeAddResult , AddSongResult} from "../recoil/SearchSongAtom";
 import backIcon from "../MainIMG/backarrow.svg";
 import MusicList from "../MainIMG/MusicList.png";
 import PlayListDetaliAddMusic from "../MainIMG/PlayListDetailAddMusic.png";
 import axios from "axios";
 import {useParams} from "react-router-dom";
+import {parseDurationToSeconds} from "../recoil/StageDataAtom";
 
 
 function AddSongModal(props) {
     const [addSongModalOpen, setAddSongModalOpen] = useRecoilState(AddSongModalOpen);
+    const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
     const [youtubeAddResult, setYoutubeAddResult] = useRecoilState(YoutubeAddResult);
+    const [addSongResult, setAddSongResult] = useRecoilState(AddSongResult);
     const [videoId, setVideoId] = useRecoilState(VideoId);
     const youtubeAddUrl = "https://www.googleapis.com/youtube/v3/videos";
     const idx = useParams().pliId;
 
+
     const youtubeApiKey = `${process.env.REACT_APP_YOUTUBE_KEY}`;
-    /*const youtubeApiKey = "AIzaSyCe587-zYmedX4obUgR-iFRGm97-bln-Ww";*/
-    /* const youtubeApiKey = "AIzaSyB4lBwQ7YtWtiSW2yhn6lbHtmHqKwRSUSs";*/
-    const closeAddSongModal = () => {
+    const closeAddSongModal = async () => {
         setAddSongModalOpen(false);
+    }
+    const backButtonClick = async () => {
+        await setAddSongModalOpen(false);
+        setSearchSongModalOpen(true);
     }
     useEffect(() => {
         addSongItem();
@@ -47,8 +53,8 @@ function AddSongModal(props) {
         const songData = {
             playlistID: idx,
             title: youtubeAddResult[0]?.snippet?.title,
-            img: youtubeAddResult[0]?.snippet?.thumbnails?.standard?.url,
-            songlength: (extractNumbersFromString(youtubeAddResult[0]?.contentDetails?.duration)),
+            img: null,
+            songlength: (parseDurationToSeconds(youtubeAddResult[0]?.contentDetails?.duration)),
             genre: "",
             tag: "",
             singer: youtubeAddResult[0]?.snippet?.channelTitle,
@@ -60,7 +66,8 @@ function AddSongModal(props) {
             url: "/api/lv1/p/song",
             data: songData
         }).then(res => {
-            alert("저장 완료"); //나중에 재 랜더링 넣기
+            setAddSongResult(!addSongResult);
+            closeAddSongModal(); //나중에 재 랜더링 넣기
         }).catch(error => {
             console.log(error);
         })
@@ -98,6 +105,7 @@ function AddSongModal(props) {
                         className="addsongmodalback-icon"
                         alt=""
                         src={backIcon}
+                        onClick={backButtonClick}
                     />
                 </div>
                 {youtubeAddResult && youtubeAddResult.length > 0 ? (
@@ -106,7 +114,7 @@ function AddSongModal(props) {
                             <img
                                 className="addsongmodalcover-icon"
                                 alt=""
-                                src={youtubeAddResult[0]?.snippet?.thumbnails?.standard?.url}
+                                src={`https://i.ytimg.com/vi/${youtubeAddResult[0]?.id}/sddefault.jpg`}
                             />
                             <div className="addsongmodalinfos">
                                 <div className="addsongmodaltitle">
@@ -128,13 +136,13 @@ function AddSongModal(props) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="addsongmodaladdbutton">
+                                    <div className="addsongmodaladdbutton" onClick={saveSong}>
                                         <img
                                             className="addsongmodaladdbuttonicon"
                                             alt=""
                                             src={PlayListDetaliAddMusic}
                                         />
-                                        <div className="addsongmodaladdbuttontxt" onClick={saveSong}>추가</div>
+                                        <div className="addsongmodaladdbuttontxt">추가</div>
                                     </div>
                                 </div>
                             </div>

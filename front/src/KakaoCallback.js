@@ -4,23 +4,24 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from 'recoil';
 import { SignUpModalOpen, emailState, socialtypeState } from './recoil/FindIdModalAtom';
 import { LoginStatusAtom } from './recoil/LoginStatusAtom';
-
+import "./Kakao.css";
 function KakaoCallback() {
     const navi = useNavigate();
     const [signUpModalOpen, setSignUpModalOpen] = useRecoilState(SignUpModalOpen);
     const [email, setEmail] = useRecoilState(emailState);
     const [socialtype, setSocialtype] = useRecoilState(socialtypeState);
     const [loginStatus,setLoginStatus] = useRecoilState(LoginStatusAtom);
-        // 회원가입 모달 오픈
-        const showSignUpModal = async () => {
-            setSignUpModalOpen(true);
-        };
+    // 회원가입 모달 오픈
+    const showSignUpModal = async () => {
+        setSignUpModalOpen(true);
+    };
+
     useEffect(() => {
         const params = new URL(document.location.toString()).searchParams;
         const code = params.get('code');
         const grantType = "authorization_code";
         const REST_API_KEY = "9d3f5e52469d4278fcbcbc2f8a944d2c";
-        const REDIRECT_URI = "http://localhost:3000/auth";
+        const REDIRECT_URI = "https://wepli.today/auth";
 
         axios.post(
             `https://kauth.kakao.com/oauth/token?grant_type=${grantType}&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}`,
@@ -45,17 +46,16 @@ function KakaoCallback() {
                             let email = kakao_account.email;
 
                             axios.post("/api/lv0/m/social", { email, socialtype: 'kakao' })
-                        .then(res => {
+                                .then(res => {
                                     if (res.data.result === 'true') {
                                         console.log("res.data입니당", res.data);
-
-                                        sessionStorage.setItem("data", JSON.stringify(res.data));
+                                        sessionStorage.setItem("data", JSON.stringify(res.data.data));
                                         setLoginStatus(true);
                                         navi("/", {
                                             state: {
                                                 data: kakao_account.email,
-                                            }
-                                        });
+                                                }
+                                            });
                                     }
                                 })
                                 .catch((error) => {
@@ -87,8 +87,10 @@ function KakaoCallback() {
     }, []);
 
     return (
-        <div>
-            <h1>카카오콜백JS</h1>
+        <div className={'callbak'}>
+        <div className="kkloading-bar">
+            로그인중
+        </div>
         </div>
     );
 }

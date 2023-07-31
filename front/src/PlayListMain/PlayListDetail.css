@@ -138,6 +138,9 @@
 .playlistdetaillistupdatebutton-icon:hover{
     cursor: pointer;
 }
+.playlistdetaillistupdatebutton-hidden{
+    display: none;
+}
 
 .playlistdetailbuttonbody {
     border-radius: var(--br-3xs);
@@ -301,6 +304,8 @@
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
+    background-color: rgba(0,0,0,0);
+    border: none;
 }
 .txtsinger {
     top: calc(50% - 14px);
@@ -314,12 +319,14 @@
     text-overflow:ellipsis;
     white-space:nowrap;
     line-height: 28px;
+    font-family: var(--font-bm-hanna-air);
+    font-size: 20px;
 }
 .txttitle {
     top: calc(50% - 14px);
     left: 11.56rem;
-    font-size: 1.5rem;
-    font-family: var(--font-abeezee);
+    font-size: 24px;
+    font-family: var(--font-bm-hanna-air);
     display: inline-block;
     width: 19.69rem;
 }
@@ -331,17 +338,13 @@
     height: 3.13rem;
     object-fit: cover;
 }
+
 .txtrank {
     position: absolute;
     top: calc(50% - 10px);
     left: 1.06rem;
-    font-size: var(--font-size-sm);
-    text-transform: capitalize;
-    font-family: var(--font-black-han-sans);
-    display: inline-block;
-    width: 2.19rem;
-    height: 1.25rem;
 }
+
 .playlistdetailitems {
     flex: 1;
     position: relative;
@@ -370,6 +373,9 @@
     max-height: 43.75rem;
     z-index: 1;
     text-align: center;
+}
+.playlistdetaillist::-webkit-scrollbar{
+    display: none;
 }
 .commettilte {
     position: absolute;
@@ -705,14 +711,14 @@
     border-radius: var(--br-11xl);
     background-color: var(--color-gray-300);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    height: 60.56rem;
+    /* height: 60.56rem; */
     flex-direction: column;
     padding: var(--padding-xl);
     align-items: center;
     justify-content: flex-start;
     gap: 2.5rem;
     max-width: 68.75rem;
-    max-height: 60.56rem;
+    /* max-height: 60.56rem; */
     overflow: auto;
 }
 
@@ -721,13 +727,13 @@
 }
 .playlistdetailframe {
     width: 100%;
-    height: 63.06rem;
+    /* height: 63.06rem; */
     flex-direction: row;
     padding: var(--padding-xl) 0;
     align-items: flex-start;
     justify-content: center;
-    min-height: 63.06rem;
-    max-height: 67.5rem;
+    /* min-height: 63.06rem; */
+    /* max-height: 67.5rem; */
     text-align: left;
     font-size: var(--font-size-xl);
     color: var(--color-black);
@@ -752,6 +758,10 @@
     transform: translate(3px, 3px);
     box-shadow: -2px -2px 2px rgba(0, 0, 0, 0.75);
 }
+
+.playlistdetailbuttonsHidden{
+    width: 150px !important;
+}
 .tagcontainer{
     height: 20px;
     min-width: 46.88rem;
@@ -762,12 +772,52 @@
 }
 .tagitems{
     left:80px ;
-    min-width: 23.44rem;
-    max-width: 33.125rem;
+    width: 300px;
+    display: inline-block;
+    /*min-width: 23.44rem;
+    max-width: 33.125rem;*/
     position: relative;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 .genreitems{
-    min-width: 23.44rem;
-    max-width: 33.125rem;
+    width: 300px;
+    display: inline-block;
+    /*min-width: 23.44rem;
+    max-width: 33.125rem;*/
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 
+.songImgInput{
+    position: absolute;
+    top: calc(50% - 25px);
+    left: 4.5rem;
+    width: 3.13rem;
+    height: 3.13rem;
+    object-fit: cover;
+    opacity: 0;
+}
+
+.changeSongImgBody:hover{
+    cursor: pointer;
+}
+
+.imgthumbnail-plus{
+    position: absolute;
+    top: calc(50% - 25px);
+    left: 4.5rem;
+    width: 3.13rem;
+    height: 3.13rem;
+    object-fit: cover;
+    opacity: 0;
+    z-index: 10;
+}
+
+.imgthumbnail-plus:hover{
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}

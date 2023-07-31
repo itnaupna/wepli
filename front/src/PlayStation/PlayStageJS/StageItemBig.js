@@ -4,6 +4,9 @@ import SLPMystagePeopleIcon from '../PlayStageImage/Icon/SLPMystagePeopleIcon.sv
 import SLPMystageQIcon from '../PlayStageImage/Icon/SLPMystageQIcon.svg';
 import SLPMystagePlayingTitleIcon from '../PlayStageImage/Icon/SLPMystagePlayingTitleIcon.svg';
 import CreateStageModal from "./CreateStageModal.js";
+import CSM from "./CSM";
+import { Modal } from "@mui/material";
+
 
 const StageItemBig = () => {
   // 모달창 노출
@@ -11,9 +14,12 @@ const StageItemBig = () => {
   const showModal = () => {
     setModalOpen(true);
   };
+  const [mo, setMo] = useState(false);
+  const handleMo = () => setMo(true);
+  const handleMc = () => setMo(false);
   const data =JSON.parse(sessionStorage.getItem("data"));
   const [checkStage, SetCheckStage] = useState(false);
-  
+
 
   useEffect(() => {
     if (data&&data.stageaddress === null) {
@@ -32,19 +38,19 @@ const StageItemBig = () => {
       {checkStage ? (
         // address가 null일 때 버튼을 렌더링합니다.
         <div className="StageModalContainer">
-          <button
-            onClick={showModal}
-            className="button button--nina button--round-l button--text-thick button--inverted makestageButton"
-            data-text="스테이지생성"
-          >
+          <button onClick={handleMo}
+          className="button button--nina button--round-l button--text-thick button--inverted makestageButton"
+          data-text="스테이지생성">
             <span>스</span>
             <span>테</span>
             <span>이</span>
             <span>지</span>
             <span>생</span>
             <span>성</span>
-          </button>
-          {modalOpen && <CreateStageModal setModalOpen={setModalOpen} />}
+        </button>
+      <Modal open={mo} onClose={handleMc}>
+        <CSM types={true} />
+      </Modal>
         </div>
       ) : (
         // address가 null이 아닐 때 스테이지 정보를 렌더링합니다.

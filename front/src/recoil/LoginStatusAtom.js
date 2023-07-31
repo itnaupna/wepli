@@ -14,7 +14,7 @@ export const emailConfirmState = selector({
     key: 'emailConfirmState',
     get: ({ get }) => {
         const data = get(DataState);
-        return JSON.stringify( data.emailconfirm);
+        return JSON.stringify(data.emailconfirm);
     },
 });
 
@@ -36,8 +36,28 @@ export const UserStorageNick = atom({
     default: null
 });
 
+export const UserStoragelstfollow = atom({
+    key : 'UserStoragelstfollow',
+    default: null
+})
+
+export const UserStoragelstblack = atom({
+    key : 'UserStoragelstblack',
+    default: null
+})
+
+export const UserStorageemail = atom({
+    key : 'UserStorageemail',
+    default: null
+})
+
 export const UserStorageDesc = atom({
     key: 'UserStorageDesc',
+    default: null
+});
+
+export const UserStorageEmailConfirm = atom({
+    key: 'UserStorageEmailConfirm',
     default: null
 });
 
@@ -52,6 +72,7 @@ export function useIsPasswordEntered() {
     return { isPasswordEntered, setIsPasswordEntered };
 }
 
+
 export const passwordRegexAtom = atom({
     key: 'passwordRegex',
     default: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/,
@@ -61,3 +82,4 @@ export const passwordRegexAtom = atom({
     key: 'emailRegex',
     default: /^[a-zA-Z0-9._+-,]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
 });
+

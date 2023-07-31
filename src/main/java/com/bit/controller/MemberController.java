@@ -105,7 +105,7 @@ public class MemberController {
     // 비밀번호 찾기 (인증 완료 시 비밀번호 변경)
     @PostMapping("/lv0/m/findPw")
     public void findPw(@RequestBody UserConfirmDto data){
-       uService.findPwCode(data.getType(),data.getPhone(),data.getEmail(),data.getNewPw());
+        uService.findPwCode(data.getType(),data.getPhone(),data.getEmail(),data.getNewPw());
     }
 
     // 닉넴 변경
@@ -123,7 +123,7 @@ public class MemberController {
     // 회원정보 변경
     @PatchMapping("/lv1/m/info")
     public Map<String, Object> patchInfo(@CookieValue String token, @RequestBody Map<String, Object> data,
-     HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mService.updateInfo(token, data, request, response);
     }
 
@@ -144,14 +144,14 @@ public class MemberController {
     @GetMapping("/lv0/m/mypage")
     public Map<String, Object> getMypageDto(@CookieValue(required = false) String token, @RequestParam(required = false) String userNick, HttpServletResponse response) {
         log.info("userNick -> {}", userNick);
-        return mService.selectMypageDto(token, userNick, response); 
+        return mService.selectMypageDto(token, userNick, response);
     }
 
     //로그인
     @PostMapping("/lv0/m/login")
     public Map<String, Object> access(String email, String pw,@RequestParam(required = false) boolean autoLogin,
-     HttpServletRequest request, HttpServletResponse response){
-            return mService.Login(email, pw, autoLogin, request, response); 
+                                      HttpServletRequest request, HttpServletResponse response){
+        return mService.Login(email, pw, autoLogin, request, response);
     }
     // 소셜 로그인 파라미터 -> email,socialtype
     @PostMapping("/lv0/m/social")
@@ -178,7 +178,7 @@ public class MemberController {
     public String storageUpload(@CookieValue String token, String directoryPath, MultipartFile upload) {
         return imgUploadService.storageImgUpload(token, directoryPath, upload);
     }
-    
+
     // 플레이리스트, 음악, 스테이지 insert, update 도중 취소 시(클라우드에 저장된 이미지 지움)
     @DeleteMapping("/lv1/os/imgdelete")
     public void storageDelete(@CookieValue String token, String directoryPath) {
@@ -188,16 +188,16 @@ public class MemberController {
     @GetMapping("/lv0/m/nlogin")
     public ResponseEntity<String> getAccessToken(@RequestParam String code, @RequestParam String state) {
         RestTemplate restTemplate = new RestTemplate();
-    
+
         String authUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code" +
                 "&client_id=" + "k0TZT6ixfVF9EUAC3ggO" +
                 "&client_secret=" + "ou4_VpnUXt" +
                 "&redirect_uri=" + "https://wepli.today/nlogin" +
                 "&code=" + code +
                 "&state=" + state;
-                
+
         ResponseEntity<String> response = restTemplate.exchange(authUrl, HttpMethod.GET, null, String.class);
-    
+
         return response;
     }
 
@@ -211,7 +211,6 @@ public class MemberController {
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
         ResponseEntity<String> response = restTemplate.exchange("https://openapi.naver.com/v1/nid/me", HttpMethod.GET, entity, String.class);
-    
         return response;
     }
 

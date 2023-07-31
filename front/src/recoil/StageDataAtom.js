@@ -16,6 +16,16 @@ export const IsInQueueAtom = atom({
     default: false,
 });
 
+export const VoteUpAtom = atom({
+    key:'VoteUpAtom',
+    default: false,
+});
+
+export const VoteDownAtom = atom({
+    key:'VoteDownAtom',
+    default: false,
+});
+
 export const ButtonTypeAtom = atom({
     key: 'ButtonTypeAtom',
     default: 'normal',
@@ -59,7 +69,7 @@ export const getIsGrabbingAtom = (index) => {
 };
 
 
-const parseDurationToSeconds = (duration) => {
+export const parseDurationToSeconds = (duration) => {
     const timeRegex = /PT(\d+H)?(\d+M)?(\d+S)?/;
     const matches = duration.match(timeRegex);
   
@@ -106,8 +116,52 @@ export const doGrab = async (playlistID, address) => {
     let result = await axios.post("/api/lv1/p/song",data);
 
     return result.data;
-    
-
-
-
 }
+
+export const doGrabHistory = async (playlistID, d) => {
+    let data = {...d};
+
+    data.songorigin = 'yt';
+    data.playlistID = playlistID;
+    let result = await axios.post("/api/lv1/p/song",data);
+
+    return result.data;
+}
+
+export const VoteUpCountAtom = atom({
+  key: 'VoteUpCountAtom',
+  default: 0,
+});
+
+export const VoteDownCountAtom = atom({
+  key: 'VoteDownCountAtom',
+  default: 0,
+});
+
+export const HistoryCountAtom = atom({
+    key: 'HistoryCountAtom',
+    default:0,
+});
+
+
+export const getTimeDifference = (targetDateTime) => {
+    const targetTime = new Date(targetDateTime).getTime();
+    const currentTime = new Date().getTime();
+    const timeDifferenceInMilliseconds = currentTime - targetTime;
+  
+    // 분 단위로 시간 차이 계산
+    const minutesDifference = Math.floor(timeDifferenceInMilliseconds / (1000 * 60));
+    if (minutesDifference < 60) {
+      return `${minutesDifference}분 전`;
+    }
+  
+    // 시간 단위로 시간 차이 계산
+    const hoursDifference = Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60));
+    if (hoursDifference < 24) {
+      return `${hoursDifference}시간 전`;
+    }
+  
+    // 일 단위로 시간 차이 계산
+    const daysDifference = Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60 * 24));
+    return `${daysDifference}일 전`;
+  }

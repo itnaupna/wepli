@@ -383,7 +383,7 @@ a:focus {
     width: 46.94rem;
     height: 31.69rem;
     opacity: 1;
-
+    
     
   }
   .Mcreatestagemodal-inner {
@@ -669,7 +669,7 @@ a:focus {
     top: 2.25rem;
     left: 2.69rem;
     width: 39.44rem;
-    height: 18.63rem;
+    height: 25.63rem;
     overflow: hidden;
     font-size: 0.94rem;
     color: #a2a7ad;
@@ -695,11 +695,25 @@ a:focus {
     position: absolute;
     width: 1000px;
     height: 700px;
-    top:0px;
+    top:20px;
     overflow: hidden;
     text-align: center;
     font-size: 1rem;
     color: #000;
     font-family: Inter;
     z-index: 999;
+    left: 300px;
+  }
+  .modal__background{
+    position: fixed;
+    top:0;left: 0;bottom: 0;right: 0;
+    background: rgba(0,0,0,0.8);
+  }
+  .MCrectangle-parent2{
+    position: absolute;
+    top: 305px;
+    left: 19.94rem;
+    width: 19.5rem;
+    height: 2.5rem;
+
   }
