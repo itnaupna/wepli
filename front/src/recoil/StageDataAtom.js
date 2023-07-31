@@ -142,3 +142,26 @@ export const HistoryCountAtom = atom({
     key: 'HistoryCountAtom',
     default:0,
 });
+
+
+export const getTimeDifference = (targetDateTime) => {
+    const targetTime = new Date(targetDateTime).getTime();
+    const currentTime = new Date().getTime();
+    const timeDifferenceInMilliseconds = currentTime - targetTime;
+  
+    // 분 단위로 시간 차이 계산
+    const minutesDifference = Math.floor(timeDifferenceInMilliseconds / (1000 * 60));
+    if (minutesDifference < 60) {
+      return `${minutesDifference}분 전`;
+    }
+  
+    // 시간 단위로 시간 차이 계산
+    const hoursDifference = Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60));
+    if (hoursDifference < 24) {
+      return `${hoursDifference}시간 전`;
+    }
+  
+    // 일 단위로 시간 차이 계산
+    const daysDifference = Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60 * 24));
+    return `${daysDifference}일 전`;
+  }

@@ -187,7 +187,7 @@ public class UserConfirmService {
                     +"<span style=\"font-size:39px; font-weight:bold; color:#5DC1FE;\">"+ code +"</span>"
                     +"</div>"
                     +"<div style=\"margin: 50px auto 0 auto; background-color: #5DC1FE;border-radius: 15px;  padding: 20px;box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25); \">"
-                    + "<a href=\"http://localhost:3001\" style=\"text-decoration:none; color:black;\">"
+                    + "<a href=\"https://wepli.today\" style=\"text-decoration:none; color:black;\">"
                     +"<span>wepli 바로가기</span>"
                     +"</a>"
                     +"</div>"
