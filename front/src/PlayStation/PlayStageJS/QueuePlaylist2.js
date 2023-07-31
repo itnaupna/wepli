@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import QueuePlayItemButtonSet from './QueuePlayItemButtonSet';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ButtonTypeAtom, GetBucketImgString, SecondToHMS, getIsGrabbingAtom } from '../../recoil/StageDataAtom';
+import { ButtonTypeAtom, GetBucketImgString, SecondToHMS, getIsGrabbingAtom, getTimeDifference } from '../../recoil/StageDataAtom';
 import { LoginStatusAtom } from '../../recoil/LoginStatusAtom';
 import GrabToPlaylist from './GrabToPlaylist';
 
@@ -46,7 +46,7 @@ const QueuePlaylist2 = ({ data, rank, index, nick }) => {
                             {data.title}
                         </div>
                         <div style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                            {data.singer}{nick && " by " + nick}
+                            {data.singer}{nick && " by " + nick}{ButtonType==='history' && " by " + data.nick} {data.playdate && getTimeDifference(data.playdate)}
                         </div>
                     </div>
 
