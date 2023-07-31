@@ -9,9 +9,15 @@ import { StageUrlAtom } from '../../recoil/ChatItemAtom';
 import { handleSendMsg } from '../../recoil/SocketAtom';
 
 import { VoteDownAtom, VoteDownCountAtom, VoteUpAtom, VoteUpCountAtom } from '../../recoil/StageDataAtom';
+import CSM from "./CSM";
+import { Modal } from "@mui/material";
+
 
 const StageLeftSide = () => {
 
+    const [mo, setMo] = useState(false);
+    const handleMo = () => setMo(true);
+    const handleMc = () => setMo(false);
 
     const [leftType, setLeftType] = useState(true);
     // console.log(YTPO);
@@ -139,7 +145,7 @@ const StageLeftSide = () => {
                         margin: 'auto',
                         left: '0',
                         right: '0',
-                        top:'10px',
+                        top: '10px',
                         position: 'absolute',
                         visibility: 'hidden'
                     }} id='YTPPosi' />
@@ -176,7 +182,13 @@ const StageLeftSide = () => {
                 <div style={{ display: !leftType ? 'block' : 'none', width: '100%' }}>
                     <QueueComponent />
                 </div>
+                {/* <button onClick={handleMo}>에오오!</button>
+            <Modal open={mo} onClose={handleMc}>
+                <CSM types={false} />
+            </Modal> */}
+
             </div>
+
         </div>
     );
 };

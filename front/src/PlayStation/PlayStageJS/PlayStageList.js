@@ -9,8 +9,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import SearchBar from "./PlayStageSearchBar.js";
 import StageSlide from './StageSlide.js';
-import { Modal } from "@mui/material";
-import CSM from "./CSM";
 
 
 function PlayStageList(props) {
@@ -34,7 +32,7 @@ function PlayStageList(props) {
       })
       .catch(res => console.log(res));
   }, [currentPage]);
-
+  
   //최신순(기본값) 인기순 토글 셀렉트
   const [type1, setType1] = useState(0);
   const [type2, setType2] = useState(0);
@@ -83,36 +81,34 @@ function PlayStageList(props) {
     }
   }, []);
 
-  // 스크롤 이벤트 핸들러
-  const handleScroll = () => {
-    const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
-    if (isAtBottom) {
-      setCurrentPage(prevPage => prevPage + 1);
-      console.log('무한 스크롤 작동!');
-    }
+
+
+// 스크롤 이벤트 핸들러
+const handleScroll = () => {
+  const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
+  if (isAtBottom) {
+    setCurrentPage(prevPage => prevPage + 1);
+    console.log('무한 스크롤 작동!');
+  }
+};
+
+useEffect(() => {
+  // 초기 로딩 시 스크롤 이벤트 발생시키기
+  handleScroll();
+
+
+
+  // 스크롤 이벤트 리스너 등록
+  window.addEventListener("scroll", handleScroll);
+
+  return () => {
+    // 스크롤 이벤트 리스너 해제
+    window.removeEventListener("scroll", handleScroll);
   };
-
-  const [mo, setMo] = useState(false);
-  const handleMo = () => setMo(true);
-  const handleMc = () => setMo(false);
-  useEffect(() => {
-    // 초기 로딩 시 스크롤 이벤트 발생시키기
-    handleScroll();
-
-    // 스크롤 이벤트 리스너 등록
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      // 스크롤 이벤트 리스너 해제
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+}, []);
 
   return (
     <div className="slp">
-      <Modal open={mo} onClose={handleMc}>
-        <CSM types={true} />
-      </Modal>
       {showTop && (
         <div className="slptop" style={{ display: 'flex' }}>
           <div className="slpmystagewrapper">
