@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import { LoginStatusAtom } from './recoil/LoginStatusAtom';
 import { SignUpModalOpen, emailState, socialtypeState } from './recoil/FindIdModalAtom';
 import { useNavigate } from "react-router-dom";
+import "./Naver.css";
 
 
 function NaverCallback() {
@@ -79,8 +80,10 @@ function NaverCallback() {
 
 
   return (
-    <div>
-      <h1>네이버 콜백 JS</h1>
+    <div className={'ncallback'}>
+      <div className='nloading-bar'>
+        Loading
+      </div>
     </div>
   )
 }
