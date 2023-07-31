@@ -59,6 +59,7 @@ const PlayListDetail = () => {
     const [plaListDetailSong, setPlaListDetailSong] = useState([]);
     const [plaListDetailplayUserImg, setPlaListDetailplayUserImg] = useState("");
     const [nickname, setNickname] = useState("");
+    const [userImg, setUserImg] = useState("");
 
     const plaListDetail = () => {
         const plaListDetailUrl = "/api/lv0/p/playdetail";
@@ -80,12 +81,15 @@ const PlayListDetail = () => {
             nickname = window.sessionStorage.getItem("data");
         }
 
-        if (nickname && nickname.includes("nick")) {
-            nickname = JSON.parse(nickname).nick;
+        if(nickname != null) {
+            setNickname(JSON.parse(nickname).nick);
+            setUserImg(JSON.parse(nickname).img);
+        } else {
+            setNickname(null);
+            setUserImg(null);
         }
-        setNickname(nickname);
         plaListDetail();
-    }, [loginStatus, addSongResult]);
+    }, [loginStatus, addSongResult, nickname]);
 
     const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
     const [addSongModalOpen, setAddSongModalOpen] = useRecoilState(AddSongModalOpen);
@@ -490,8 +494,7 @@ const PlayListDetail = () => {
                         )}
                 </div>
                 <div className="playlistdetailcommentframe">
-                    {
-                        sessionStorage.getItem("data") == null ? null :
+                    
                             <div className="playlistdetailcommentgroup1">
                                 <div className="playlistdetailcommentheader">
                                     <div className="commettilte">댓글</div>
@@ -501,6 +504,7 @@ const PlayListDetail = () => {
                                         src={weplilogo}
                                     />
                                 </div>
+                            {nickname == null || nickname === "" ? "" :
                                 <div className="playlistdetailcommentform">
                                     <textarea className="txtplaylistdetailform" placeholder="최대 길이는 200자 입니다" maxLength="200" value={commentContent} onChange={commentContentOnChange}>
                                     </textarea>
@@ -508,16 +512,17 @@ const PlayListDetail = () => {
                                         <img
                                             className="playlistdetailcreaatecommentpr-icon"
                                             alt=""
-                                            src={bucketURl + "/profile/" + JSON.parse(sessionStorage.getItem("data")).img}
+                                            src={userImg != null ? `${bucketURl}/profile/${userImg}` : weplilogo}
                                         />
                                         <div
-                                            className="playlistdetailcreatecommentpro">{JSON.parse(sessionStorage.getItem("data")).nick}</div>
+                                            className="playlistdetailcreatecommentpro">{nickname}</div>
                                         <div className="playlistdetailcreatecommentcre">댓글작성</div>
                                         <div className="playlistdetailcreatecommentcre1" onClick={writeComment}>작성</div>
                                     </div>
                                 </div>
+                            }
                             </div>
-                    }
+                    
                     {
                         plaListDetailComment.map((commentList, idx) =>
                             <div className="playlistdetailcommentswrapper" key={idx}>
