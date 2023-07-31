@@ -56,6 +56,10 @@ const StageItemBig = () => {
         });
         setStageInfo(response.data);
         }
+
+
+
+        
       }catch(error){
         console.log('가져오는데 실패함 ㅠ',error);
       }
