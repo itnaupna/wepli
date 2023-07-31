@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from 'recoil';
 import { SignUpModalOpen, emailState, socialtypeState } from './recoil/FindIdModalAtom';
 import { LoginStatusAtom } from './recoil/LoginStatusAtom';
-
+import "./Kakao.css";
 function KakaoCallback() {
     const navi = useNavigate();
     const [signUpModalOpen, setSignUpModalOpen] = useRecoilState(SignUpModalOpen);
@@ -87,8 +87,10 @@ function KakaoCallback() {
     }, []);
 
     return (
-        <div>
-            <h1>카카오콜백JS</h1>
+        <div className={'callbak'}>
+        <div className="kkloading-bar">
+            Loading
+        </div>
         </div>
     );
 }
