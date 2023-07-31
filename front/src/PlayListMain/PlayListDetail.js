@@ -74,8 +74,6 @@ const PlayListDetail = () => {
         }
         setNickname(nickname);
         plaListDetail();
-        console.log(nickname);
-        console.log(plaListDetailInfo.img);
     }, [loginStatus]);
 
     const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
@@ -112,7 +110,7 @@ const PlayListDetail = () => {
             }
         })
     }
-
+    
     //내것만 삭제하게 변경 (조건 추가해야함) 삭제완료후 댓글리스트 다시 불러오기
     const deleteComment = (commentIndex) =>{
         const commetdata = {

@@ -70,8 +70,8 @@ function MyPliSlider() {
                                         </div>
                                     </div>
                                     <div className="myplaylistitemtags">
-                                        <div className="myplaylistitemtag">{item.tag === ""?null:"#" + item.tag.split(",")[0]}</div>
-                                        <div className="myplaylistitemcategory">{item.genre===""?null:"#" + item.genre?.split(",")[0]}</div>
+                                        <div className="myplaylistitemtag">{item.tag == null ? "" : "#" + item.tag.split(",")[0]}</div>
+                                        <div className="myplaylistitemcategory">{item.genre == null ? "" : "#" + item.genre?.split(",")[0]}</div>
                                     </div>
                                     <div className="myplaylistitemlikewrapper">
                                         <div className="myplaylistitemlikecount">{item.likescount}</div>
