@@ -84,8 +84,6 @@ const PlayListDetail = () => {
         }
         setNickname(nickname);
         plaListDetail();
-        console.log(nickname);
-        console.log(plaListDetailInfo.img);
     }, [loginStatus]);
 
     const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
