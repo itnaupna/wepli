@@ -26,7 +26,7 @@ function PlayListUpdate(props) {
     const navigate = useNavigate();
     const [isPublicCheckBox, setIsPublicCheckBox] = useState(false);
 
-
+    const closBacknavigate = useNavigate();
     const pliTitleOnChange = useCallback(e => {
         setPliTitle(e.target.value);
     });
