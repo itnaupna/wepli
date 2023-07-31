@@ -32,7 +32,7 @@ function PlayStageList(props) {
       })
       .catch(res => console.log(res));
   }, [currentPage]);
-  
+
   //최신순(기본값) 인기순 토글 셀렉트
   const [type1, setType1] = useState(0);
   const [type2, setType2] = useState(0);
@@ -83,29 +83,29 @@ function PlayStageList(props) {
 
 
 
-// 스크롤 이벤트 핸들러
-const handleScroll = () => {
-  const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
-  if (isAtBottom) {
-    setCurrentPage(prevPage => prevPage + 1);
-    console.log('무한 스크롤 작동!');
-  }
-};
-
-useEffect(() => {
-  // 초기 로딩 시 스크롤 이벤트 발생시키기
-  handleScroll();
-
-
-
-  // 스크롤 이벤트 리스너 등록
-  window.addEventListener("scroll", handleScroll);
-
-  return () => {
-    // 스크롤 이벤트 리스너 해제
-    window.removeEventListener("scroll", handleScroll);
+  // 스크롤 이벤트 핸들러
+  const handleScroll = () => {
+    const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
+    if (isAtBottom) {
+      setCurrentPage(prevPage => prevPage + 1);
+      console.log('무한 스크롤 작동!');
+    }
   };
-}, []);
+
+  useEffect(() => {
+    // 초기 로딩 시 스크롤 이벤트 발생시키기
+    handleScroll();
+
+
+
+    // 스크롤 이벤트 리스너 등록
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      // 스크롤 이벤트 리스너 해제
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div className="slp">
@@ -113,12 +113,6 @@ useEffect(() => {
         <div className="slptop" style={{ display: 'flex' }}>
           <div className="slpmystagewrapper">
             <StageItemBig />
-            {/* <div className="StageModalContainer" style={{display :(IsCheckStage ? 'flex':'none')}}>                
-                <button onClick={showModal} className="button button--nina button--round-l button--text-thick button--inverted" data-text="스테이지생성">
-                <span>스</span><span>테</span><span>이</span><span>지</span><span>생</span><span>성</span>
-                </button>
-                {modalOpen && <CreateStageModal setModalOpen={setModalOpen}/>}
-        </div> */}
           </div>
           <div className="slpfollowwrapper">
             <StageSlide />
@@ -127,7 +121,7 @@ useEffect(() => {
       )}
       <div className="slpbottom">
         <div className="slpsearchwrapper">
-            <SearchBar />
+          <SearchBar />
         </div>
         <div className="slpresult">
           {

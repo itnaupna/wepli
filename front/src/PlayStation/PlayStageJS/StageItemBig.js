@@ -67,14 +67,6 @@ const StageItemBig = () => {
             <div className="slpitembiginfo">
               <div className="slpitembiglikewrapper">
                 <img
-                  className="slpmystagelikeicon"
-                  alt=""
-                  src={SLPMystageLikeIcon}
-                />
-                <div className="slpmystagelikecount">1000</div>
-              </div>
-              <div className="slpitembiglikewrapper">
-                <img
                   className="slpmystagepeopleicon"
                   alt=""
                   src={SLPMystagePeopleIcon}

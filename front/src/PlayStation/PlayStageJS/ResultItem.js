@@ -37,7 +37,8 @@ const ResultItem = ({data}) => {
             </div>
             <div className="slpresultitembottom">
               <div className="slpresultitemtitle">
-                {data.pw ? "🔒" : null} {data.title}
+                {/* {data.pw ? "🔒" : null} */}
+                 {data.title}
                 </div>
               <div className="slpresultitemdescription">
                 {data.desc}
