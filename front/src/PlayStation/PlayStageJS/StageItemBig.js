@@ -17,19 +17,19 @@ const StageItemBig = () => {
   const [mo, setMo] = useState(false);
   const handleMo = () => setMo(true);
   const handleMc = () => setMo(false);
-  const data =JSON.parse(sessionStorage.getItem("data"));
+  const data = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem('data'));
   const [checkStage, SetCheckStage] = useState(false);
 
 
   useEffect(() => {
-    if (data&&data.stageaddress === null) {
+    if (data && data.stageaddress === null) {
       SetCheckStage(true);
     } else {
       SetCheckStage(false);
     }
   }, [data]);
 
-  if(!data){
+  if (!data) {
     return null;
   }
 
@@ -39,18 +39,18 @@ const StageItemBig = () => {
         // address가 null일 때 버튼을 렌더링합니다.
         <div className="StageModalContainer">
           <button onClick={handleMo}
-          className="button button--nina button--round-l button--text-thick button--inverted makestageButton"
-          data-text="스테이지생성">
+            className="button button--nina button--round-l button--text-thick button--inverted makestageButton"
+            data-text="스테이지생성">
             <span>스</span>
             <span>테</span>
             <span>이</span>
             <span>지</span>
             <span>생</span>
             <span>성</span>
-        </button>
-      <Modal open={mo} onClose={handleMc}>
-        <CSM types={true} />
-      </Modal>
+          </button>
+          <Modal open={mo} onClose={handleMc}>
+            <CSM types={true} />
+          </Modal>
         </div>
       ) : (
         // address가 null이 아닐 때 스테이지 정보를 렌더링합니다.
