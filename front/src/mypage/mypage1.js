@@ -166,6 +166,12 @@ function Mypage1(props) {
     const [userStorageDesc, setUserStorageDesc] = useRecoilState(UserStorageDesc);
 
     const handleDescChange = async () => {
+
+        if(desc.length > 50){
+            alert("자기소개는 최대 50글자까지 입력 가능합니다");
+            return;
+        }
+
         const url = "/api/lv1/m/desc";
         axios({
             method: "patch",

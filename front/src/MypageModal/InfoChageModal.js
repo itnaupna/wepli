@@ -49,6 +49,11 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
     const handleinfoChnage = async () => {
         const emailRegex = new RegExp("^[a-zA-Z0-9._+-,]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
 
+        if (nick.length > 10) {
+            alert("닉네임은 최대 10글자까지 입력할 수 있습니다.");
+            return;
+        }
+
         if (!pw) {
             alert("회원정보를 입력해주세요");
             return;
