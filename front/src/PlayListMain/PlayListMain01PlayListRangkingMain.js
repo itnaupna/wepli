@@ -41,12 +41,12 @@ function PlayListMain01PlayListRangkingMain(props) {
             );
     }, []);
 
+
     useEffect( ()  => {
         setLikeTop50(rankingData.likeTopPli);
         setFollowTop50(rankingData.followTop);
         setMyLikeList(rankingData.likePli);
     }, [rankingData]);
-
     useEffect(() => {
         const RankingDataUrl = "/api/lv0/p/plimaindata";
         Axios.get(RankingDataUrl)

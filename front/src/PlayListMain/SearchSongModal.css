@@ -11,6 +11,21 @@
     font-size: 40px;
     text-align: center;
 }
+@media (max-width: 1250px) {
+    .searchsongmodalgroup {
+        left: 30% !important;
+    }
+}
+@media (max-width: 930px) {
+    .searchsongmodalgroup {
+        left: 20% !important;
+    }
+}
+@media (max-width: 800px) {
+    .searchsongmodalgroup {
+        left: 10.5% !important;
+    }
+}
 .searchsongmodalsearchbody {
     position: absolute;
     top: 0;

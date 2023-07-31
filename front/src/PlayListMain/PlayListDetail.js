@@ -7,6 +7,7 @@ import SearchCommentIcon from "../MainIMG/SearchCommentIcon.png";
 import CommentIcon from "../MainIMG/CommentImg.png";
 import PlayListPlayIcon from "../MainIMG/PlayListDetailPlayIcon.png";
 import PlayListDetailHeart from "../MainIMG/PlayListDetailHeartIcon.png";
+import PlayListDetailHoverHeart from "../MainIMG/PlayListDetailHeartHoverIcon.png";
 import PlayListDetaliAddMusic from "../MainIMG/PlayListDetailAddMusic.png";
 import PlayListDetailOption from "../MainIMG/PlayListDetailOption.png";
 import PlayListDetailDelete from "../MainIMG/PlayListDetailDelete.png";
@@ -28,6 +29,7 @@ const PlayListDetail = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
     const idx = useParams().pliId;
     const loginStatus = useRecoilValue(LoginStatusAtom);
+    const [heartHover, setHeartHover] = useState(false);
     const onIconsClick = useCallback(() => {
         // Please sync "PlayListMain03MyPlayListMain" to the project
     }, []);
@@ -246,11 +248,8 @@ const PlayListDetail = () => {
         setSongTitle(songTitle);
         setSongSinger(songSinger);
     }
-
-
     const updateSong = (index) => {
         const updateSongURl = "/api/lv1/p/song";
-        alert(songTitle + "+" + songSinger + "+" + uploadSongImgName + "+" + idx + "+" + index);
         const updateSongData = {
             playlistID: idx,
             title: songTitle,
@@ -260,11 +259,9 @@ const PlayListDetail = () => {
             singer: songSinger ,
             idx: index
         };
-
-
         Axios.patch(updateSongURl, updateSongData)
             .then(res =>
-                alert("수정 완료")
+                plaListDetail()
             )
             .catch((error) => {
                 alert("실패애러" + error)
@@ -317,18 +314,20 @@ const PlayListDetail = () => {
                         </div>
                         <div className="playlistdetailinplaylistinfobu">
                             <div className="playlistdetailbuttonbody">
-                                <div className={nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"}>
+                                <div className={sessionStorage.getItem("data") === null ? "playlistdetailbuttons playlistdetailbuttonNologinPlay" : nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"}>
                                     <img
                                         className="playlistdetailplaybutton-icon"
                                         alt=""
                                         src={PlayListPlayIcon}
                                     />
                                 </div>
-                                <div className={nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"} onClick={likeOnClick}>
+                                <div className={sessionStorage.getItem("data") === null ? "playlistdetailbuttons playlistdetailbuttonNologin" :  nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"} onClick={likeOnClick}
+                                     onMouseOver={() => setHeartHover(true)}
+                                     onMouseOut={() => setHeartHover(false)}>
                                     <img
                                         className="playlistdetaillikebutton-icon"
                                         alt=""
-                                        src={PlayListDetailHeart}
+                                        src={heartHover? PlayListDetailHoverHeart : PlayListDetailHeart}
                                     />
                                 </div>
                                 {nickname === plaListDetailInfo.nick ?
@@ -450,8 +449,6 @@ const PlayListDetail = () => {
                         )}
                 </div>
                 <div className="playlistdetailcommentframe">
-                    {
-                        sessionStorage.getItem("data") == null ? null :
                         <div className="playlistdetailcommentgroup1">
                             <div className="playlistdetailcommentheader">
                                 <div className="commettilte">댓글</div>
@@ -461,6 +458,8 @@ const PlayListDetail = () => {
                                     src={SearchCommentIcon}
                                 />
                             </div>
+                    {
+                        sessionStorage.getItem("data") == null ? null :
                             <div className="playlistdetailcommentform">
                             <textarea className="txtplaylistdetailform" placeholder="최대 길이는 200자 입니다" maxLength="200" value={commentContent} onChange={commentContentOnChange}>
                             </textarea>
@@ -476,8 +475,8 @@ const PlayListDetail = () => {
                                     <div className="playlistdetailcreatecommentcre1" onClick={writeComment}>작성</div>
                                 </div>
                             </div>
-                        </div>
                     }
+                        </div>
                     {
                         plaListDetailComment.map((commentList, idx) =>
                             <div className="playlistdetailcommentswrapper" key={idx}>

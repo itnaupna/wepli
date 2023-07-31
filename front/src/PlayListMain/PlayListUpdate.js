@@ -50,17 +50,8 @@ function PlayListUpdate(props) {
         console.log(tag);
     }
 
-    const closBack = async ()  => {
-       await Axios({
-            method: "delete",
-            url: "/api/lv1/os/imgdelete",
-            directoryPath : "playlist"
-        })
-            .then(res => {
-            })
-            .catch(error => {
-            })
-        navigate("/pli/" + idx);
+    const closBack = ()  => {
+        closBacknavigate(-1);
     };
 
     const savePliImg = (e) => {
