@@ -1,6 +1,6 @@
 .mainsection4{
     width: 100vw;
-    height: 130vh;
+    height: 120vh;
     background: white;
 }
 
@@ -37,13 +37,17 @@
 
 
 .bluetubegroup1{
+    top: 20%;
     position: relative;
     float: right;
     right: 10%;
+    border: 1px solid red;
+    margin-right: 300px;
 }
 
 .bluetube1{
-    width: 21vw;
+    width: 20vw;
+    position: absolute;
 }
 
 .bluetubetext11{
@@ -64,4 +68,9 @@
     position: relative;
     right: -5%;
     text-align: right;
+}
+
+.mainsectiongroup2{
+    position: relative;
+    bottom: 15%;
 }

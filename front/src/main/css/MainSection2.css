@@ -132,3 +132,19 @@
     width: 15vw;
     margin-left: 70px;
 }
+
+.mainsectiontoptext{
+    font-size: 47px;
+    width: 70vw;
+    left: 6%;
+    margin-top: 100px;
+    position: absolute;
+}
+
+.mainsectiontoptext1{
+    float: right;
+    position: relative;
+    margin-top: 800px;
+    font-size: 47px;
+    width: 70vw;
+}

@@ -15,6 +15,8 @@ function MainSection2(props) {
     const poster3Ref = useRef(null);
     const poster4Ref = useRef(null);
     const poster5Ref = useRef(null);
+    const mainsectiontoptextRef = useRef(null);
+    const mainsectiontoptext1Ref = useRef(null);
 
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
@@ -32,10 +34,15 @@ function MainSection2(props) {
 
         gsap.fromTo(poster5Ref.current, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 1, scrollTrigger: { trigger: poster5Ref.current, start: "top 80%", end: "top 50%", scrub: 1 } });
 
+        gsap.fromTo(mainsectiontoptextRef.current, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 1, scrollTrigger: { trigger: mainsectiontoptextRef.current, start: "top 80%", end: "top 50%", scrub: 1 } });
+
+        gsap.fromTo(mainsectiontoptext1Ref.current, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 1, scrollTrigger: { trigger: mainsectiontoptext1Ref.current, start: "top 80%", end: "top 80%", scrub: 1 } });
+
     }, []);
 
     return (
         <div className={'mainsection2'}>
+            <div className={'mainsectiontoptext'} ref={mainsectiontoptextRef}>실시간 스테이지에서 음악과 채팅을 함께 누려보세요!</div>
             <div className={'posthergroup'}>
                 <img src={posther1} className={'posther1'} ref={poster1Ref} />
                 <img src={posther2} className={'posther2'} ref={poster2Ref} />
@@ -43,6 +50,7 @@ function MainSection2(props) {
                 <img src={texts} className={'posther4'} ref={poster4Ref} />
                 <img src={posther2} className={'posther5'} ref={poster5Ref} />
             </div>
+            <div className={'mainsectiontoptext1'} ref={mainsectiontoptext1Ref}>음악을 만들고 공유하며, 친구들과 함께하는 유튜브 스타일의 즐거움!</div>
         </div>
     );
 }
