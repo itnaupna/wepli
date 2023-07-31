@@ -3,7 +3,7 @@
 <mapper namespace="com.bit.mapper.MemberMapper">
 
     <insert id="insertJoinMember" parameterType="MemberDto"> 
-        insert into tblMember (email, pw, nick, emailconfirm, phoneconfirm, socialtype, img) values (#{email},sha2(#{pw}, 256), #{nick}, #{emailconfirm}, 0, #{socialtype}, #{img})
+        insert into tblMember (email, pw, nick, emailconfirm, phoneconfirm, socialtype) values (#{email},sha2(#{pw}, 256), #{nick}, #{emailconfirm}, 0, #{socialtype})
     </insert>
 
     <select id="selectCheckEmailExists" parameterType="string">

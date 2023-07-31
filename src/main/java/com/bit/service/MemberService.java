@@ -55,12 +55,10 @@ public class MemberService {
         try {
             if(mDto.getSocialtype() == null) {
                 mDto.setEmailconfirm(0);
-                mDto.setImg("logo.png");
                  System.out.println(mDto);
             } else {
                 mDto.setEmailconfirm(1);
                 mDto.setPw(mDto.getEmail() + mDto.getNick() + mDto.getSocialtype());
-                mDto.setImg("logo.png");
             }
             mDto.setEmailconfirm(mDto.getSocialtype() == null ? 0 : 1);
             log.info("{}",mDto.getEmailconfirm());
