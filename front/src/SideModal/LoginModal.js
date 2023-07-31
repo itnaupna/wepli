@@ -90,14 +90,9 @@ function LoginModal() {
     }
 
 
-    const REDIRECT_URI = "http://localhost:3000/auth"
-    const REST_API_KEY = "9d3f5e52469d4278fcbcbc2f8a944d2c"
+    const REDIRECT_URI = "https://wepli.today/auth"
+    const REST_API_KEY = process.env.REACT_APP_KAKAO_API_KEY
     const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-    const location = useLocation();
-    const params = new URL(document.location.toString()).searchParams;
-    const code = new URL(window.location.href).searchParams.get("code");
-
-    const PARAMS = new URL(document.location).searchParams
     
     const handlekakao = () => {
         window.location.href = KAKAO_AUTH_URL;

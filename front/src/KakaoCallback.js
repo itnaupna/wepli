@@ -89,7 +89,7 @@ function KakaoCallback() {
     return (
         <div className={'callbak'}>
         <div className="kkloading-bar">
-            Loading
+            로그인중
         </div>
         </div>
     );
