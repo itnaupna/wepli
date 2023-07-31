@@ -108,3 +108,27 @@
     }
 }
 
+.posthergroup{
+    height: 40vh;
+    width: 100%;
+    position: absolute;
+    left: 5%;
+    margin-top: 250px;
+
+}
+
+.posther1{
+    width: 15vw;
+}
+
+.posther2{
+    width: 15vw;
+    margin-left: 70px;
+}
+
+.posther3,
+.posther4,
+.posther5{
+    width: 15vw;
+    margin-left: 70px;
+}

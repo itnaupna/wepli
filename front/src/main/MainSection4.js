@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import "./css/MainSection4.css";
 import heart from "./photo/bluetube.jpg";
+import typho from "./photo/typho.png";
 
 function MainSection4(props) {
     const bluetubeRef = useRef(null);
@@ -62,7 +63,7 @@ function MainSection4(props) {
             </div>
             <div className={'bluetubetextgroup'} ref={bluetubetextRef}>
                 <div className={'bluetubetext'}>
-                    플레이리스트
+                    <span style={{color:'white'}}>플레</span>이리스트
                 </div>
                 <div className={'bluetubetext1'}>
                     나만의 플리 생성
@@ -71,10 +72,10 @@ function MainSection4(props) {
             </div>
             <div className={'mainsectiongroup2'}>
                 <div className={'bluetubegroup1'} ref={bluetube1Ref}>
-                    <img src={heart} className={'bluetube1'} />
+                    <img src={typho} className={'bluetube1'} />
                 </div>
                 <div className={'bluetubetext11'} ref={bluetubetext11Ref}>
-                    스테이지
+                    스테<span style={{color:'white'}}>이지</span>
                 </div>
                 <div className={'bluetubetext1-1'} ref={bluetubetext1InnerRef}>
                     소통과 공유
