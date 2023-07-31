@@ -127,6 +127,7 @@ function CreateStageModal({ setModalOpen }) {
               </form>
             </div>
           </div>
+      </div>
           {/* <a href='./PlayStage.js'>
     try {
       const res = await axios.post(url, { title, pw: pw, tag, genre });

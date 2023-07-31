@@ -4,11 +4,15 @@ import YouTube from 'react-youtube';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { YTPOptionAtom, YoutubeAtom, loadVideoById } from '../../recoil/YoutubeAtom';
 import SettingModal from './SettingModal.js';
-
+import CSM from "./CSM";
+import { Modal } from "@mui/material";
 
 
 const StageLeftSide = () => {
 
+    const [mo, setMo] = useState(false);
+    const handleMo = () => setMo(true);
+    const handleMc = () => setMo(false);
 
 
     const [leftType, setLeftType] = useState(true);
@@ -154,6 +158,11 @@ const StageLeftSide = () => {
                         </svg>
                     </div>
                 </div> */}
+          <button onClick={handleMo}>에오오!</button>
+            <Modal open={mo} onClose={handleMc}>
+                <CSM types={false} />
+            </Modal>
+  
             </div>
             <div style={{ display: !leftType ? 'block' : 'none', width: '100%' }}>
                 <QueueComponent />

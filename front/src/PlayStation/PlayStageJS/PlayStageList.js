@@ -9,8 +9,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import SearchBar from "./PlayStageSearchBar.js";
 import StageSlide from './StageSlide.js';
-import { Modal } from "@mui/material";
-import CSM from "./CSM";
 
 
 function PlayStageList(props) {
@@ -82,9 +80,7 @@ function PlayStageList(props) {
     }
   }, []);
 
-  const [mo, setMo] = useState(false);
-  const handleMo = () => setMo(true);
-  const handleMc = () => setMo(false);
+
 
 // 스크롤 이벤트 핸들러
 const handleScroll = () => {
@@ -112,10 +108,6 @@ useEffect(() => {
 
   return (
     <div className="slp">
-      <button onClick={handleMo}>sdfiojweofijsdoguierhtiordfj애옹</button>
-      <Modal open={mo} onClose={handleMc}>
-        <CSM types={true} />
-      </Modal>
       {showTop && (
         <div className="slptop" style={{ display: 'flex' }}>
           <div className="slpmystagewrapper">
