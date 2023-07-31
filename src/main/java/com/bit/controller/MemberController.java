@@ -192,7 +192,7 @@ public class MemberController {
         String authUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code" +
                 "&client_id=" + "k0TZT6ixfVF9EUAC3ggO" +
                 "&client_secret=" + "ou4_VpnUXt" +
-                "&redirect_uri=" + "http://localhost:3000/nlogin" +
+                "&redirect_uri=" + "https://wepli.today/nlogin" +
                 "&code=" + code +
                 "&state=" + state;
                 

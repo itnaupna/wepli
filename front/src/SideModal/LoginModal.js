@@ -105,7 +105,7 @@ function LoginModal() {
 
 
     const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
-    const NREDIRECT_URI = "http://localhost:3000/nlogin";
+    const NREDIRECT_URI = "https://wepli.today/nlogin";
     const STATE = "1234";
     const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&state=${STATE}&redirect_url=${NREDIRECT_URI}`;
 

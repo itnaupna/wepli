@@ -22,19 +22,17 @@ function NaverCallback() {
     const code = urlParams.get('code');
     const state = urlParams.get('state');
 
-    axios.get(`http://localhost:3000/api/lv0/m/nlogin?code=${code}&state=${state}`)
+    axios.get(`https://wepli.today/api/lv0/m/nlogin?code=${code}&state=${state}`)
     .then(response => {
       const token = response.data.access_token;
       if (token) {
         localStorage.setItem('token', token);
-        alert(token);
        
         // 사용자 정보 요청
-        axios.get(`http://localhost:3000/api/lv0/m/userinfo?token=${token}`)
+        axios.get(`https://wepli.today/api/lv0/m/userinfo?token=${token}`)
         .then(response => {
             console.log(response.data.response); 
             const id = response.data.response.email;
-            alert(response.data.response.email);
 
             axios.post("/api/lv0/m/social", { email:id, socialtype: 'naver' })
                         .then(res => {
