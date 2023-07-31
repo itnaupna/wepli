@@ -77,13 +77,13 @@ const QueueComponent = () => {
         setButtonType('myqueue');
         setSearchResult(MyQList);
     }
-    
-    useEffect(()=>{
-        if(ButtonType==='myqueue')
+
+    useEffect(() => {
+        if (ButtonType === 'myqueue')
             setSearchResult(MyQList);
-        else if(ButtonType === 'stagequeue')
+        else if (ButtonType === 'stagequeue')
             setSearchResult(RoomQList);
-    },[MyQList,RoomQList,ButtonType]);
+    }, [MyQList, RoomQList, ButtonType]);
 
     const loadStageQueue = () => {
         setButtonType('stagequeue');
@@ -95,8 +95,8 @@ const QueueComponent = () => {
         loadMyPlaylists()
     }, [IsLogin]);
 
-    const loadHistory = async () =>{
-        let result = await axios.get("/api/lv0/s/stagehistory",{params:{stageaddress:su}});
+    const loadHistory = async () => {
+        let result = await axios.get("/api/lv0/s/stagehistory", { params: { stageaddress: su } });
         setButtonType('history');
         setSearchResult(result.data);
     }
@@ -148,12 +148,12 @@ const QueueComponent = () => {
                 </div>
                 <div className="queuelistrightside">
                     <div className="queuelistbtns">
-                        <div className="queueallbutton">
+                        {/* <div className="queueallbutton">
                             <img className="playlist-icon" alt="" src={Qplaylist} />
                         </div>
                         <div className="queueallbutton">
                             <img className="delete-icon" alt="" src={Qdelete} />
-                        </div>
+                        </div> */}
                     </div>
                     <div className="qplaylistitems" ref={listRef}>
                         {
