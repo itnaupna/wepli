@@ -51,7 +51,7 @@ function App() {
             <SideBar />
             {/* {videoInfo.isPlaying ? <MusicPlayerBar/> : null} */}
             {/*<MusicPlayerBar/>*/}
-            {/*<div className="backgroundImgDiv" />*/}
+            <div className="backgroundImgDiv" />
             <Routes>
                 <Route path="/" element={<MainPage />} />
 

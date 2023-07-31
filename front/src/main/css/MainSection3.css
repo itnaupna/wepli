@@ -1,7 +1,8 @@
 .mainsection3 {
     width: 100vw;
-    height: 100vh;
-    background-color: #5ea6ff
+    height: 110vh;
+    background-color: #5ea6ff;
+    cursor: none;
 }
 
 .mscontainer {
@@ -22,18 +23,31 @@
     background-position-x: 100%;
     color: transparent;
     -webkit-background-clip: text;
-    margin-bottom: -200px;
-    margin-left: 70px;
+    margin-bottom: -180px;
+    margin-left: 120px;
     margin-right: 50px;
+    font-family: 'SUIT1', serif;
 }
 
-.wepli1min{
+.text1{
+    font-size: 38px;
+}
+
+.text2,
+.text3{
+    margin-top: 200px;
+    font-size: 100px;
+}
+
+.msimg{
     width: 20vw;
-    height: 50vh;
 }
 
-.wepli1mingroup{
-    position: absolute;
-    left: 50%;
+.msimggroup{
+    width: 20vw;
+    float: right;
+    margin-right: 100px;
+    margin-top: 50px;
 }
+
 

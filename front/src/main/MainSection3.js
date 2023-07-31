@@ -22,16 +22,17 @@ function MainSection3(props) {
 
     return (
         <div className="mainsection3">
-            <div className={"wepli1mingroup"}>
-                <img src={wepli1min} className={'wepli1min'}/>
+            <div className={'msimggroup'}>
+                <img className={'msimg'} src={wepli1min}/>
             </div>
             <div className="mscontainer">
                 <div className="mstext">
-                    <p className="text1">위플리</p>
-                    <p className="text2">노래가 좋아</p>
-                    <p className="text3">유튜브가 좋아</p>
+                    <p className="text1">새로운 노래를 들을 수 있어요</p>
+                    <p className="text2">플레이리스트 공유</p>
+                    <p className="text3">장르, 분위기 선택</p>
                 </div>
             </div>
+
         </div>
     );
 }
