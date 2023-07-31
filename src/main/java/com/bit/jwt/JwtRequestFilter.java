@@ -65,10 +65,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             token = Arrays.stream(request.getCookies())
             .filter(c -> c.getName().equals("token"))
             .findFirst().map(Cookie::getValue)
-            .orElse("");
+            .orElse(null);
         }
 
-        //  log.info("token: {}", token);
+         log.info("token: {}", token);
 
         String nick = null;
         String accessToken = null;
@@ -76,16 +76,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String authValue = "";
         MypageDto userDto;
         String path = request.getServletPath();
-        // log.info(path);
+        log.info(path);
 
         // 비회원일경우
         if((token == null || token.equals("")) && (path.startsWith("/api/lv0") && !path.equals("/api/lv0/m/logout"))) {
             // log.info("JwtRequestFilter -> no member");
         } else if(token.startsWith("Bearer") && jwtTokenProvider.expiredCheck(token.substring(6)).equals("expired")) {
             // access token이 만료되었을경우
-            // log.info("[doFilterInternal] expired");
+            log.info("[doFilterInternal] expired");
             String refreshToken = ts.accessToRefresh(token);
-            // log.info("doFilterInternal -> {}",refreshToken);
+            log.info("doFilterInternal -> {}",refreshToken);
             if(refreshToken != null && !jwtTokenProvider.expiredCheck(refreshToken.substring(6)).equals("expired")) {
                 refreshToken = refreshToken.substring(6);
                 // log.info("doFilterInternal refToken after -> {}",refreshToken);
@@ -103,7 +103,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     // log.info(getToken);
                     accessToken = URLEncoder.encode(getToken, "utf-8");
                     ts.updateAccessToken("Bearer" + refreshToken, "Bearer" + accessToken);
-                    //  log.info("[JWT regen] accessToken : {}", accessToken);
+                     log.info("[JWT regen] accessToken : {}", accessToken);
 
                     Cookie[] cookies = request.getCookies();
                     for (int i = 0; i < cookies.length; i++) {
@@ -120,7 +120,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     cookie.setHttpOnly(true);
 
                     response.addCookie(cookie);
-                    // log.info("[reGenerateAccessToken] accessToken Regen");
+                    log.info("[reGenerateAccessToken] accessToken Regen");
 
                 // refreshToken 사용이 불가능한 경우
                 } else {
@@ -128,7 +128,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 }
             } else {
                 // 기존 쿠키 삭제
-                //  log.info("expired cookie remove");
+                 log.info("expired cookie remove");
                 Cookie cookie = new Cookie("token", null);
                 cookie.setPath("/");
                 cookie.setMaxAge(0);
@@ -138,7 +138,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             // Bearer token인 경우 JWT 토큰 유효성 검사 진행
             if (token != null && token.startsWith("Bearer")) {
                 accessToken = token.substring(6);
-                // log.info("token: {}", accessToken);
+                log.info("token: {}", accessToken);
                 try {
                     nick = jwtTokenProvider.getUsernameFromToken(accessToken);
                     // db에서 메일, 문자 인증 받았는지 여부에 따라 권한 부여
@@ -147,16 +147,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     rules.put("roles",
                             userDto.getEmailconfirm() + userDto.getPhoneconfirm() > 0 ? "ROLE_auth2" : "ROLE_auth");
                 } catch (SignatureException e) {
-                    // log.error("Invalid JWT signature: {}", e.getMessage());
+                    log.error("Invalid JWT signature: {}", e.getMessage());
                 } catch (MalformedJwtException e) {
-                    // log.error("Invalid JWT token: {}", e.getMessage());
+                    log.error("Invalid JWT token: {}", e.getMessage());
                 } catch (UnsupportedJwtException e) {
-                    // log.error("JWT token is unsupported: {}", e.getMessage());
+                    log.error("JWT token is unsupported: {}", e.getMessage());
                 } catch (IllegalArgumentException e) {
-                    // log.error("JWT claims string is empty: {}", e.getMessage());
+                    log.error("JWT claims string is empty: {}", e.getMessage());
                 }
             } else {
-                // logger.warn("JWT Token does not begin with Bearer String");
+                logger.warn("JWT Token does not begin with Bearer String");
             }
         }
         if(nick != null && SecurityContextHolder.getContext().getAuthentication() == null) {

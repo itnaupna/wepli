@@ -38,6 +38,8 @@ const PlayListDetail = () => {
     const setYTPList = useSetRecoilState(YTPListAtom);
     const [stageUrl, setStageUrl] = useRecoilState(StageUrlAtom);
     const socket = useRecoilValue(SocketAtom);
+    const [addSongResult, setAddSongResult] = useRecoilState(AddSongResult);
+
     const onIconsClick = useCallback(() => {
         // Please sync "PlayListMain03MyPlayListMain" to the project
     }, []);
@@ -60,10 +62,9 @@ const PlayListDetail = () => {
 
     const plaListDetail = () => {
         const plaListDetailUrl = "/api/lv0/p/playdetail";
-        Axios.get(plaListDetailUrl, { params: { idx: idx, curr: 1, cpp: 6 } })
+        Axios.get(plaListDetailUrl, { params: { idx: idx} })
             .then(res => {
                 setPlaListDetailResult(res.data);
-                console.log(res.data);
                 setPlaListDetailComment(res.data.comment);
                 setPlaListDetailInfo(res.data.play);
                 setPlaListDetailSong(res.data.song);
@@ -84,7 +85,7 @@ const PlayListDetail = () => {
         }
         setNickname(nickname);
         plaListDetail();
-    }, [loginStatus]);
+    }, [loginStatus, addSongResult]);
 
     const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
     const [addSongModalOpen, setAddSongModalOpen] = useRecoilState(AddSongModalOpen);
@@ -169,6 +170,13 @@ const PlayListDetail = () => {
             setAddSongResult(!addSongResult);
         }).catch(error => {
             console.log(error);
+            if (error.response.status === 401) {
+                alert("로그인 후 사용가능한 기능입니다");
+            } else if (error.response.status === 403) {
+                alert("메일 또는 문자인증 후 사용 가능합니다");
+            } else {
+                alert("알수없는 오류");
+            }
         })
     }
 
@@ -282,13 +290,6 @@ const PlayListDetail = () => {
             }
             )
     }
-
-    const [addSongResult, setAddSongResult] = useRecoilState(AddSongResult);
-
-    useEffect(() => {
-        plaListDetail();
-    }, [addSongResult]);
-    const pliProfileImg = JSON.parse(sessionStorage.getItem("data")).img;
 
     return (
         <div className="playlistdetailframe">
@@ -497,7 +498,7 @@ const PlayListDetail = () => {
                                     <img
                                         className="commettilteiconbody"
                                         alt=""
-                                        src={pliProfileImg ? bucketURl + "/profile/" + pliProfileImg : weplilogo}
+                                        src={weplilogo}
                                     />
                                 </div>
                                 <div className="playlistdetailcommentform">
@@ -544,7 +545,7 @@ const PlayListDetail = () => {
                                                 <img
                                                     className="playlistdetailcommentprofileim-icon"
                                                     alt=""
-                                                    src={bucketURl + "/profile/" + commentList.img}
+                                                    src={commentList.img != null ? `${bucketURl}/profile/${commentList.img}` : weplilogo}
                                                 />
                                             </div>
                                             <div className="playlistdetailcommentnicknameb">
