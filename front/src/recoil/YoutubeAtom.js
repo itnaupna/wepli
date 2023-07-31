@@ -41,3 +41,9 @@ export const YoutubeAtom = atom({
     default: null,
     dangerouslyAllowMutability: true
 });
+
+export const YoutubeInStageAtom = atom({
+    key: 'YoutubeInStageAtom',
+    default: null,
+    dangerouslyAllowMutability: true
+})

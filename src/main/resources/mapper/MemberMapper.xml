@@ -7,7 +7,7 @@
     </insert>
 
     <select id="selectCheckEmailExists" parameterType="string">
-        select count(*) from tblMember where email=#{email} 
+        select count(*) from tblMember where email=#{email}
     </select>
 
     <select id="selectCheckNickExists" parameterType="string">
@@ -26,26 +26,37 @@
         select count(*) from tblMember where nick=#{nick} and pw=sha2(#{pw},256)
     </select>
 
-    <select id="selectCheckEmailConfirm" parameterType="string">
-        select count(emailconfirm) from tblMember where email=#{email}
+    <select id="selectCheckEmailConfirm" parameterType="hashMap" resultType="int">
+        select IFNULL(emailconfirm , 0) as emailconfirm from tblMember where email = #{email} and nick = #{nick}
     </select>
 
     <select id="selectLogin" parameterType="Map" resultType="int">
         select count(*) from tblMember where email=#{email} and pw=sha2(#{pw},256)
     </select>
 
-    <select id="selectCheckPhoneConfirm" parameterType="string">
-        select count(phoneconfirm) from tblMember where phone=#{phone}
+    <select id="selectCheckPhoneConfirm" parameterType="hashMap" resultType="int">
+        select exists(select phoneconfirm from tblMember where nick = #{nick} and phone=#{phone})
+    </select>
+
+    <select id="selectFindPhoneConfirm" parameterType="string" resultType="int">
+        select phoneconfirm from tblMember where phone = #{phone}
+    </select>
+    
+    <select id="selectFindEmailConfirm" parameterType="string" resultType="int">
+        select emailconfirm from tblMember where email = #{email}
     </select>
 
     <update id="updateEmailConfirm" parameterType="string">
         update tblMember set emailconfirm=1 where email=#{email}
     </update>
     <update id="updatePhoneConfirm" parameterType="string">
-        update tblMember set phoneconfirm=1 where email=#{email}
+        update tblMember set phoneconfirm=1 where phone=#{phone}
+    </update>
+    <update id="updatePhone" parameterType="hashMap">
+        update tblMember set phone = #{phone} where nick = #{nick}
     </update>
     <update id="updateNick" parameterType="Map">
-        update tblMember set nick=#{newNick} where nick=#{nick}    
+        update tblMember set nick=#{newNick} where nick=#{nick}
     </update>
     <update id="updatePw" parameterType="Map">
         update tblMember set pw=sha2(#{pw},256) where nick=#{nick}
@@ -78,7 +89,7 @@
         (select count(*) from tblFollow where target = #{nick}) followerCnt
         from vwMypage where nick = #{nick}
     </select>
-    
+
     <select id="selectMypageDtoByEmail" parameterType="string">
         select * from vwMypage where email=#{email}
     </select>
@@ -88,7 +99,7 @@
     </select>
 
     <select id="FindCheckPhoneCode" parameterType="string">
-            select email from tblMember where phone=#{phone};
+        select email from tblMember where phone=#{phone};
     </select>
 
     <update id="FindCheckPhonePw" parameterType="hashMap">
@@ -100,7 +111,7 @@
     </update>
 
     <select id="selectMemberImgByNick" parameterType="string" resultType="string">
-          select img from tblMember where nick=#{nick}
+        select img from tblMember where nick=#{nick}
     </select>
 
     <select id="selectMemberAllImg" parameterType="String" resultType="String">
@@ -112,5 +123,7 @@
         union
         select img from tblSongs where playlistID IN (select idx from tblPlaylist where nick = #{nick});
     </select>
+
+
 
 </mapper>

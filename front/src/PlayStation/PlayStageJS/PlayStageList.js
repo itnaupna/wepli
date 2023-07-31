@@ -18,14 +18,14 @@ function PlayStageList(props) {
     setModalOpen(true);
   };
   const [resItems, setResItems] = useState([]);
-  const [currentPage,setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   // useEffect(() => {
   //   axios.get("/api/lv0/s/stage", { params: { curr: 1, cpp: 3} })
   //     .then(res => { setResItems(res.data); console.log(res.data); })
   //     .catch(res => console.log(res));
   // }, []);
   useEffect(() => {
-    axios.get("/api/lv0/s/stage", { params: { curr: currentPage, cpp: 3} })
+    axios.get("/api/lv0/s/stage", { params: { curr: currentPage, cpp: 3 } })
       .then(res => {
         setResItems(prevItems => [...prevItems, ...res.data]);
         console.log(res.data);
@@ -43,6 +43,7 @@ function PlayStageList(props) {
   const [isLogin, setIsLogin] = useState(false);
   const [checkStage, SetCheckStage] = useState(false);
   const [confirmAccount, SetConfirmAccount] = useState(0);
+
   const toggle1Dropdown = () => {
     setIsOpen1(!isOpen1);
   };
@@ -137,7 +138,7 @@ useEffect(() => {
                   fill="none" xmlns="http://www.w3.org/2000/svg"
                   className="playlistmainsearchtoggle-icon"
                 >
-                  <path id="Intersect" d="M1.50972 2.35292C2.44299 4.70758 4.44138 9.36599 5.6433 9.36291C6.84522 9.35984 8.8249 4.69125 9.74872 2.33184C10.0015 1.68631 9.52123 1.00203 8.82811 1.00381L2.42499 1.02019C1.73187 1.02197 1.25438 1.70869 1.50972 2.35292Z" fill="#D7E0FF" stroke="#4147D5" stroke-width="1.5" />
+                  <path id="Intersect" d="M1.50972 2.35292C2.44299 4.70758 4.44138 9.36599 5.6433 9.36291C6.84522 9.35984 8.8249 4.69125 9.74872 2.33184C10.0015 1.68631 9.52123 1.00203 8.82811 1.00381L2.42499 1.02019C1.73187 1.02197 1.25438 1.70869 1.50972 2.35292Z" fill="#D7E0FF" stroke="#4147D5" strokeWidth="1.5" />
                 </svg>
                 <div className="slpsort-selectoption" onClick={toggle1Dropdown}>{
                   toggleOption1[type1]}
@@ -151,7 +152,7 @@ useEffect(() => {
                         xmlns="http://www.w3.org/2000/svg"
                         className="playlistmainsearchtoggleUP-icon"
                       >
-                        <path id="Intersect" d="M9.75359 8.03251C8.82635 5.67547 6.83989 1.01196 5.63797 1.01196C4.43605 1.01196 2.44442 5.67547 1.51457 8.03251C1.26016 8.67739 1.73865 9.36289 2.43177 9.36289H8.83491C9.52803 9.36289 10.0073 8.67739 9.75359 8.03251Z" fill="#D7E0FF" stroke="#4147D5" stroke-width="1.5" />
+                        <path id="Intersect" d="M9.75359 8.03251C8.82635 5.67547 6.83989 1.01196 5.63797 1.01196C4.43605 1.01196 2.44442 5.67547 1.51457 8.03251C1.26016 8.67739 1.73865 9.36289 2.43177 9.36289H8.83491C9.52803 9.36289 10.0073 8.67739 9.75359 8.03251Z" fill="#D7E0FF" stroke="#4147D5" strokeWidth="1.5" />
                       </svg>
                       <option className='slpsort-selectDropDown' onClick={SelectOption1} option={0}>최신순</option>
                       <option className="slpsort-selectDropDown" onClick={SelectOption1} option={1}>인기순</option>
@@ -166,11 +167,13 @@ useEffect(() => {
           </div>
         </div>
         <div className="slpresult">
-        {resItems.map((v, i) => (
-          <Link to={"/stage/" + v.address} key={v.id}>
-            <ResultItem data={v} />
-          </Link>
-        ))}       
+          {
+            resItems.map((v, i) =>
+              <Link to={"/stage/" + v.address} key={i}>
+                <ResultItem data={v} />
+              </Link>
+            )
+          }
         </div>
       </div>
     </div>

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import '../PlayStageCss/LoadingScreen.css';
-const LoadingScreen = ({ msg, isLoading,setShowLoading }) => {
-    let [show, setShow] = useState(true);
-    if (show)
+const LoadingScreen = ({ msg, isLoading,setShow}) => {
+    // let [show, setShow] = useState(true);
+    
         return (
             <div id="wrapper" onClick={()=>{
-                if(!isLoading) {setShow(false); setShowLoading(false);}
+                if(!isLoading) {setShow(false);}
             }}>
                 {isLoading && <>
                     <div className="profile-main-loader">
@@ -27,8 +27,6 @@ const LoadingScreen = ({ msg, isLoading,setShowLoading }) => {
                 </>}
             </div>
         );
-    else
-        return null;
 };
 
 export default LoadingScreen;

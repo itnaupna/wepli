@@ -7,10 +7,11 @@ import arrow from "./svg/backarrow.svg";
 import axios from "axios";
 import {Await, useLocation, useNavigate} from "react-router-dom";
 import { LoginStatusAtom } from '../recoil/LoginStatusAtom';
-import {useRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {findIdModalOpenState, FindPassModalOpen, LoginModalOpen, SignUpModalOpen} from "../recoil/FindIdModalAtom";
 import FindPassModal from "./FindPassModal";
 import FindIdModal from "./FindIdModal";
+import { StageUrlAtom } from '../recoil/ChatItemAtom';
 
 
 
@@ -45,11 +46,11 @@ function LoginModal() {
         setSignUpModalOpen(true);
     };
 
-    //로그인 모달 닫는 이벤트
+    //로그인 모달 닫는 이벤트n
     const closeModal = () => {
         setloginmodalopen(false);
     }
-
+    const setsu = useSetRecoilState(StageUrlAtom);
     const handleLogin = (e) => {
         const url = "/api/lv0/m/login";
         axios.post(
@@ -63,6 +64,7 @@ function LoginModal() {
                 let data = JSON.stringify(res.data.data)
                 isChecked ? localStorage.setItem('data',data) : sessionStorage.setItem('data',data);
                 setUserData(JSON.parse(data));
+                setsu(null);
                 navi(window.location.pathname);
                 setloginmodalopen(false);
             }else if(res.data.result==="error"){
@@ -90,14 +92,9 @@ function LoginModal() {
     }
 
 
-    const REDIRECT_URI = "http://localhost:3000/auth"
-    const REST_API_KEY = "9d3f5e52469d4278fcbcbc2f8a944d2c"
+    const REDIRECT_URI = "https://wepli.today/auth"
+    const REST_API_KEY = process.env.REACT_APP_KAKAO_API_KEY
     const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-    const location = useLocation();
-    const params = new URL(document.location.toString()).searchParams;
-    const code = new URL(window.location.href).searchParams.get("code");
-
-    const PARAMS = new URL(document.location).searchParams
     
     const handlekakao = () => {
         window.location.href = KAKAO_AUTH_URL;
@@ -105,7 +102,7 @@ function LoginModal() {
 
 
     const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
-    const NREDIRECT_URI = "http://localhost:3000/nlogin";
+    const NREDIRECT_URI = "https://wepli.today/nlogin";
     const STATE = "1234";
     const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&state=${STATE}&redirect_url=${NREDIRECT_URI}`;
 
@@ -113,6 +110,12 @@ function LoginModal() {
         window.location.href = NAVER_AUTH_URL;
 
     }
+
+    const LoginEnter = (e) =>{
+        if (e.key === 'Enter') {
+            handleLogin();
+        }
+    };
 
 
     return (
@@ -186,7 +189,7 @@ function LoginModal() {
                         <div className="loginmodalgosignupbtn">
                             <input type={'email'} className="loginmodalpassrectangle-child"
                                 placeholder={'아이디를 입력해주세요'}
-                                value={email} onChange={handleInputEmail}></input>
+                                value={email} onChange={handleInputEmail} onKeyPress={LoginEnter}></input>
                         </div>
                     </div>
                 </div>
@@ -195,7 +198,7 @@ function LoginModal() {
                         <div className="loginmodalgosignupbtn">
                             <input type={'password'} className="loginmodalpassrectangle-child"
                                 placeholder={'비밀번호를 입력해주세요'}
-                                value={pw} onChange={handleInputPw}></input>
+                                value={pw} onChange={handleInputPw} onKeyPress={LoginEnter}></input>
                         </div>
                     </div>
                 </div>

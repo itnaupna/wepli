@@ -52,7 +52,7 @@
     </select>
 
     <select id="selectMyPliToIdx" parameterType="int" resultType="PlaylistDto">
-        select * from tblPlaylist where idx = #{idx}
+        select * from vwPlaylist where idx = #{idx}
     </select>
  
     <select id="selectUserFromPublicPli" parameterType="String" resultType="PlaylistDto">
@@ -171,7 +171,7 @@
 
     <update id="updateSong" parameterType="SongDto">
         update tblSongs
-        set playlistID=#{playlistID}, title=#{title}, songlength=#{songlength}, genre=#{genre}, img = #{img}, tag=#{tag}, singer=#{singer}, songaddress=#{songaddress}, songorigin=#{songorigin}  
+        set playlistID=#{playlistID}, title=#{title}, img = #{img}, genre=#{genre}, tag=#{tag}, singer=#{singer} 
         where idx=#{idx}
     </update>
 

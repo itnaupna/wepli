@@ -70,7 +70,7 @@ function PlayStageSearchBar(props) {
                                 fill="none" xmlns="http://www.w3.org/2000/svg"
                                 className="playlistmainsearchtoggle-icon"
                                 >
-                                <path id="Intersect" d="M1.50972 2.35292C2.44299 4.70758 4.44138 9.36599 5.6433 9.36291C6.84522 9.35984 8.8249 4.69125 9.74872 2.33184C10.0015 1.68631 9.52123 1.00203 8.82811 1.00381L2.42499 1.02019C1.73187 1.02197 1.25438 1.70869 1.50972 2.35292Z" fill="#D7E0FF" stroke="#4147D5" stroke-width="1.5"/>
+                                <path id="Intersect" d="M1.50972 2.35292C2.44299 4.70758 4.44138 9.36599 5.6433 9.36291C6.84522 9.35984 8.8249 4.69125 9.74872 2.33184C10.0015 1.68631 9.52123 1.00203 8.82811 1.00381L2.42499 1.02019C1.73187 1.02197 1.25438 1.70869 1.50972 2.35292Z" fill="#D7E0FF" stroke="#4147D5" strokeWidth="1.5"/>
                             </svg>
                             <div className="slpsort-playlistmainsearchoption" onClick={toggleDropdown}>{
                                 toggleOption[type]}

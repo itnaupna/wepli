@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 
 import com.bit.dto.BuiltStageDto;
 import com.bit.dto.MemberDto;
+import com.bit.dto.SocketDto;
+import com.bit.dto.SocketDto.Types;
 import com.bit.dto.SongDto;
 import com.bit.dto.StageDto;
 import com.bit.dto.StageHistoryDto;
@@ -62,12 +65,128 @@ public class StageService {
         builtStages.get(stageId).getUserQueue().remove(nick);
     }
 
-    public long getSongPos(String stageId){
-        return Duration.between(builtStages.get(stageId).getStartTime(),LocalDateTime.now()).getSeconds();
+    public void addVoteUp(String stageId, String nick) {
+        if (builtStages.get(stageId).getVoteup().contains(nick)) {
+            builtStages.get(stageId).getVoteup().remove(nick);
+        } else {
+            builtStages.get(stageId).getVoteup().add(nick);
+        }
+        builtStages.get(stageId).getVotedown().remove(nick);
     }
 
-    public SongDto getPlayingSong(String stageId){
+    public void clearVote(String stageId, String nick) {
+        builtStages.get(stageId).getVotedown().remove(nick);
+        builtStages.get(stageId).getVoteup().remove(nick);
+    }
+
+    public void addVoteDown(String stageId, String nick) {
+        if (builtStages.get(stageId).getVotedown().contains(nick)) {
+            builtStages.get(stageId).getVotedown().remove(nick);
+        } else {
+            builtStages.get(stageId).getVotedown().add(nick);
+        }
+        builtStages.get(stageId).getVoteup().remove(nick);
+    }
+
+    public Map<String, Integer> getVoteCount(String stageId) {
+        Map<String, Integer> result = new HashMap<>();
+
+        result.put("UP", builtStages.get(stageId).getVoteup().size());
+        result.put("DOWN", builtStages.get(stageId).getVotedown().size());
+
+        return result;
+    }
+
+    public long getSongPos(String stageId) {
+        return Duration.between(builtStages.get(stageId).getStartTime(), LocalDateTime.now()).getSeconds();
+    }
+
+    public SongDto getPlayingSong(String stageId) {
         return builtStages.get(stageId).getSongInfo();
+    }
+
+    public List<Map<String,Object>> getHistory(String stageId){
+        return sMapper.selectStageHistory(stageId);
+    }
+
+    public boolean saveHistory(String stageId) {
+        try{
+        // SocketDto m = new SocketDto();
+        // m.setType(Types.HISTORY);
+        // m.setStageId(stageId);
+        SongDto song = builtStages.get(stageId).getSongInfo();
+        if(song == null) return false;
+        Map<String, Integer> votecount = getVoteCount(stageId);
+        StageHistoryDto h = new StageHistoryDto();
+        h.setNick(song.getPlayerNick());
+        h.setStageaddress(stageId);
+        h.setLikes(votecount.get("UP"));
+        h.setDislikes(votecount.get("DOWN"));
+        h.setSongaddress(song.getSongaddress());
+        h.setTitle(song.getTitle());
+        h.setSinger(song.getSinger());
+        h.setSonglength(song.getSonglength());
+        h.setImg(song.getImg());
+        
+        return sMapper.insertStageHistory(h) > 0;
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public SongDto setNextSong(String stageId) {
+        try {
+            synchronized (builtStages.get(stageId)) {
+
+                // System.out.println("a1");
+                SongDto result = null;
+
+                builtStages.get(stageId).setVoteup(new HashSet<>());
+                builtStages.get(stageId).setVotedown(new HashSet<>());
+
+                if (builtStages.get(stageId).getQueueOrder().isEmpty()) {
+                    // System.out.println("다음 대기열 없음 ㅅㄱ");
+                    builtStages.get(stageId).setSongInfo(null);
+                    builtStages.get(stageId).setStartTime(null);
+                    return null;
+                }
+
+                String firstOrderUser = builtStages.get(stageId).getQueueOrder().get(0);
+                // System.out.println("a2");
+
+                if (firstOrderUser == null) {
+                    // System.out.println("a3");
+                    builtStages.get(stageId).setSongInfo(null);
+                    builtStages.get(stageId).setStartTime(null);
+                    return null;
+                }
+                result = builtStages.get(stageId).getUserQueue().get(firstOrderUser);
+                // System.out.println("a4");
+                if (result == null) {
+                    // System.out.println("a5");
+                    builtStages.get(stageId).setSongInfo(null);
+                    builtStages.get(stageId).setStartTime(null);
+                    return null;
+                }
+
+                // System.out.println("a6");
+                result.setPlayerNick(firstOrderUser);
+
+                builtStages.get(stageId).getUserQueue().put(firstOrderUser, null);
+                builtStages.get(stageId).getQueueOrder().remove(0);
+                builtStages.get(stageId).getQueueOrder().add(firstOrderUser);
+                builtStages.get(stageId).setStartTime(LocalDateTime.now());
+                builtStages.get(stageId).setSongInfo(result);
+
+                // System.out.println("a7");
+                return result;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public List<Map<String, SongDto>> getRoomQueueList(String stageId) {
@@ -83,6 +202,7 @@ public class StageService {
     }
 
     public boolean isPlaying(String stageId) {
+        // System.out.println(builtStages.get(stageId));
         return builtStages.get(stageId).getStartTime() != null;
     }
 
@@ -92,23 +212,22 @@ public class StageService {
         CompletableFuture.runAsync(() -> {
             builtStages.get(stageId).sNextSong();
             int delay = builtStages.get(stageId).gSongLength();
-            
-            
+
             builtStages.get(stageId).setSes(ses.schedule(() -> {
                 setVideoInStage(stageId);
             }, delay, TimeUnit.SECONDS));
         });
     }
-    
-    public SongDto requestNextSong(String stageId){
-        return builtStages.get(stageId).sNextSong();
-    } 
 
-    public void setSes(String stageId,ScheduledFuture<?> ses){
+    public SongDto requestNextSong(String stageId) {
+        return builtStages.get(stageId).sNextSong();
+    }
+
+    public void setSes(String stageId, ScheduledFuture<?> ses) {
         builtStages.get(stageId).setSes(ses);
     }
 
-    public void cancelSes(String stageId){
+    public void cancelSes(String stageId) {
         builtStages.get(stageId).cancelSES();
     }
 
@@ -122,7 +241,12 @@ public class StageService {
     }
 
     public boolean isInQueueAlready(String stageId, String nick) {
-        return builtStages.get(stageId).getQueueOrder().contains(nick);
+        try {
+            return builtStages.get(stageId).getQueueOrder().contains(nick);
+
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public int getUserCount(String stageUrl) {
@@ -137,6 +261,7 @@ public class StageService {
             v.getUsers().put(sessionId, "");
             return v;
         });
+        System.out.println("addusertostage");
     }
 
     public void subUserToStage(String stageUrl, String sessionId) {
@@ -163,7 +288,7 @@ public class StageService {
     }
 
     public List<StageUserListDto> getMembersListInStage(String stageUrl) {
-        System.out.println(_getMembersListInStage(stageUrl));
+        // System.out.println(_getMembersListInStage(stageUrl));
         return sMapper.selectStageUserList(_getMembersListInStage(stageUrl));
     }
 
@@ -174,13 +299,13 @@ public class StageService {
 
         // Stage 영문+숫자
         boolean checkAddress = Pattern.matches("^[0-9a-zA-Z]*$", sDto.getAddress());
-        if(!checkAddress)
-           return false;
-        
-        if(sDto.getDesc().length()>50)
+        if (!checkAddress)
             return false;
 
-        if(sDto.getImg() != null && !sDto.getImg().equals("")) {
+        if (sDto.getDesc().length() > 50)
+            return false;
+
+        if (sDto.getImg() != null && !sDto.getImg().equals("")) {
             imgUploadService.storageImgDelete(token, sDto.getImg(), "stage");
         }
         return sMapper.insertStage(sDto) > 0;
@@ -191,7 +316,7 @@ public class StageService {
         if (token != null)
             nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         Map<String, Object> data = new HashMap<>();
-        System.out.println(nick);
+        // System.out.println(nick);
         data.put("nick", nick);
         data.put("curr", (curr - 1) * cpp);
         data.put("cpp", cpp);

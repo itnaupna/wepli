@@ -9,6 +9,7 @@ public class SocketDto {
         ENTER,              //입장시
         EXIT,               //퇴장시
         SKIP,               //곡스킵
+        VOTE,               //투표
         VOTE_UP,            //추천
         VOTE_DOWN,          //비추
         KICK,               //강퇴
@@ -21,6 +22,8 @@ public class SocketDto {
         QUEUE_DATA,         //큐데이터
         CHAT,               //채팅
         PLAY,               //재생
+        STOP,               //정지명령 ㄱ
+        HISTORY,            //히스토리 정보
     }
 
     private Types type;

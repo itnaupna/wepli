@@ -12,8 +12,9 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { IsPlayingAtom, YTPListAtom, YoutubeAtom } from '../recoil/YoutubeAtom';
+import { StageUrlAtom } from '../recoil/ChatItemAtom';
 
 
 
@@ -27,10 +28,11 @@ const MusicBarV2 = () => {
     const [shuffle, setShuffle] = useState(false);
     const [mute, setMute] = useState(false);
     const [YTPList, setYTPList] = useRecoilState(YTPListAtom);
-    const [title,setTitle] = useState('');
-    const [author,setAuthor] = useState('');
-    const [playerNick,setPlayerNick] = useState('');
-    const [img,setImg] = useState('');
+    const [title, setTitle] = useState('');
+    const [author, setAuthor] = useState('');
+    const [playerNick, setPlayerNick] = useState('');
+    const [img, setImg] = useState('');
+    const su = useRecoilValue(StageUrlAtom);
 
     useEffect(() => {
         if (YTP) {
@@ -44,16 +46,17 @@ const MusicBarV2 = () => {
         }
     }, [YTP]);
 
-    useEffect(()=>{
-        let videoId = YTP?.getVideoUrl().split("?v=")[1]?.substr(0,11);
-        if(!videoId) return;
+    useEffect(() => {
+        let videoId = YTP?.getVideoUrl()?.split("?v=")[1]?.substr(0, 11);
+        // console.log(videoId);
+        if (!videoId) return;
         let data = YTPList[videoId];
         setTitle(data?.title);
         setAuthor(data?.singer);
         setPlayerNick(data?.playerNick);
         setImg(data?.img || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
-        
-    },[isp])
+
+    }, [isp])
 
 
 
@@ -61,13 +64,13 @@ const MusicBarV2 = () => {
     useEffect(() => {
         if (YTP)
             YTP?.setShuffle(shuffle);
-    }, [shuffle,YTPList]);
+    }, [shuffle, YTPList]);
 
     useEffect(() => {
         if (YTP)
             YTP?.setLoop(loop);
     }, [loop]);
-    
+
     useEffect(() => {
         mute ? YTP?.mute() : YTP?.unMute();
     }, [mute]);
@@ -86,52 +89,54 @@ const MusicBarV2 = () => {
             <div className='MPFBody' style={{ backgroundImage: `url("${img}")` }}>
                 <div className='MPFBlur' />
                 <div className='MPFInfo'>
-                    <div className='MPFImg' style={{backgroundImage:`url("${img}")`}}/>
+                    <div className='MPFImg' style={{ backgroundImage: `url("${img}")` }} />
                     <div className='MPFText'>
-                        <h3 style={{ fontSize: '180%' }}>{title}</h3>
-                        <font style={{ fontSize: '120%' }}>{author}{playerNick ? "by " + playerNick : null}</font>
+                        <h3 style={{ fontSize: '180%' }}>{title || "재생중인 곡이 없습니다."}</h3>
+                        <font style={{ fontSize: '120%' }}>{author}{playerNick ? " by " + playerNick : null}</font>
                     </div>
                 </div>
                 <div className='MPFController'>
-                    <div className='MPFButton'>
-                        <ToggleButtonGroup color='secondary'
-                            value={buttonvalue}
-                            onChange={handleBV}
-                            style={{ flex: '1', justifyContent: 'space-around' }}
-                        >
-                            <ToggleButton value="s" onClick={() => {
-                                setShuffle(!shuffle);
-                            }}>
-                                <ShuffleIcon />
-                            </ToggleButton>
-                            <ToggleButton  onClick={() => {
-                                if (YTP)
-                                    YTP?.previousVideo();
-                            }}>
-                                <SkipPreviousIcon />
-                            </ToggleButton>
-                            <ToggleButton 
-                                onClick={() => {
-                                    isp === 1 ? YTP?.pauseVideo() : YTP?.playVideo()
-                                }}
-                                style={{
-                                    background: 'linear-gradient(145deg, rgba(0, 0, 255, 0.1), rgba(0, 0, 255, 0.5))'
-                                }} >
-                                {isp === 1 ? <PauseIcon style={{ fill: '#fff' }} /> : <PlayArrowIcon style={{ fill: '#FFF' }} />}
-                            </ToggleButton>
-                            <ToggleButton  onClick={() => {
-                                if (YTP)
-                                    YTP?.nextVideo();
-                            }}>
-                                <SkipNextIcon />
-                            </ToggleButton>
-                            <ToggleButton value="l" onClick={() => {
-                                setLoop(!loop);
-                            }}>
-                                <RepeatIcon />
-                            </ToggleButton>
-                        </ToggleButtonGroup>
-                    </div>
+                    {su === null &&
+                        <div className='MPFButton'>
+                            <ToggleButtonGroup color='secondary'
+                                value={buttonvalue}
+                                onChange={handleBV}
+                                style={{ flex: '1', justifyContent: 'space-around' }}
+                            >
+                                <ToggleButton value="s" onClick={() => {
+                                    setShuffle(!shuffle);
+                                }}>
+                                    <ShuffleIcon />
+                                </ToggleButton>
+                                <ToggleButton onClick={() => {
+                                    if (YTP)
+                                        YTP?.previousVideo();
+                                }}>
+                                    <SkipPreviousIcon />
+                                </ToggleButton>
+                                <ToggleButton
+                                    onClick={() => {
+                                        isp === 1 ? YTP?.pauseVideo() : YTP?.playVideo()
+                                    }}
+                                    style={{
+                                        background: 'linear-gradient(145deg, rgba(0, 0, 255, 0.1), rgba(0, 0, 255, 0.5))'
+                                    }} >
+                                    {isp === 1 ? <PauseIcon style={{ fill: '#fff' }} /> : <PlayArrowIcon style={{ fill: '#FFF' }} />}
+                                </ToggleButton>
+                                <ToggleButton onClick={() => {
+                                    if (YTP)
+                                        YTP?.nextVideo();
+                                }}>
+                                    <SkipNextIcon />
+                                </ToggleButton>
+                                <ToggleButton value="l" onClick={() => {
+                                    setLoop(!loop);
+                                }}>
+                                    <RepeatIcon />
+                                </ToggleButton>
+                            </ToggleButtonGroup>
+                        </div>
+                    }
                     <div className='MPFSound'>
                         <span onClick={() => {
                             setMute(!mute);

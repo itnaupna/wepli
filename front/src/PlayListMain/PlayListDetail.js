@@ -1,9 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./PlayListDetail.css";
-import Molu from "../MainIMG/Molu.gif";
-import Aru from "../MainIMG/ARu.gif";
 import MusicList from "../MainIMG/MusicList.png";
-import Aris from "../MainIMG/Aris.gif";
 import Axios from "axios";
 import HeartImg from "../MainIMG/Heart.png";
 import SearchCommentIcon from "../MainIMG/SearchCommentIcon.png";
@@ -20,18 +17,23 @@ import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { AddSongModalOpen, SearchSongModalOpen, VideoId } from "../recoil/SearchSongAtom";
+import { AddSongModalOpen, SearchSongModalOpen, VideoId,AddSongResult } from "../recoil/SearchSongAtom";
 import SearchSongModal from "./SearchSongModal";
 import AddSongModal from "./AddSongModal";
 import { SecondToHMS } from "../recoil/StageDataAtom";
 import PlusIcon from "../MainIMG/plusIcon.png";
 import { YTPListAtom, YoutubeAtom } from "../recoil/YoutubeAtom";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { SocketAtom, unSubSocket } from "../recoil/SocketAtom";
+import { SocketAtom, UnSubSocket } from "../recoil/SocketAtom";
 import { StageUrlAtom } from "../recoil/ChatItemAtom";
+import { LoginStatusAtom } from "../recoil/LoginStatusAtom";
+import weplilogo from "../sidebar/photo/weplilogo.png";
+
+
 const PlayListDetail = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
     const idx = useParams().pliId;
+    const loginStatus = useRecoilValue(LoginStatusAtom);
     const YTP = useRecoilValue(YoutubeAtom);
     const setYTPList = useSetRecoilState(YTPListAtom);
     const [stageUrl, setStageUrl] = useRecoilState(StageUrlAtom);
@@ -54,26 +56,35 @@ const PlayListDetail = () => {
     const [plaListDetailInfo, setPlaListDetailInfo] = useState([]);
     const [plaListDetailSong, setPlaListDetailSong] = useState([]);
     const [plaListDetailplayUserImg, setPlaListDetailplayUserImg] = useState("");
+    const [nickname, setNickname] = useState("");
 
-
-    useEffect(() => {
+    const plaListDetail = () => {
         const plaListDetailUrl = "/api/lv0/p/playdetail";
         Axios.get(plaListDetailUrl, { params: { idx: idx, curr: 1, cpp: 6 } })
             .then(res => {
                 setPlaListDetailResult(res.data);
                 console.log(res.data);
                 setPlaListDetailComment(res.data.comment);
-                setPlaListDetailInfo(res.data.play[0]);
+                setPlaListDetailInfo(res.data.play);
                 setPlaListDetailSong(res.data.song);
                 setPlaListDetailplayUserImg(res.data.playUserImg);
             })
             .catch(res => console.log(res));
-    }, []);
+    }
+
 
     useEffect(() => {
-        // console.log(plaListDetailInfo.img);
-        
-    }, [plaListDetailResult]);
+        let nickname = window.localStorage.getItem("data");
+        if (nickname == null) {
+            nickname = window.sessionStorage.getItem("data");
+        }
+
+        if (nickname && nickname.includes("nick")) {
+            nickname = JSON.parse(nickname).nick;
+        }
+        setNickname(nickname);
+        plaListDetail();
+    }, [loginStatus]);
 
     const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
     const [addSongModalOpen, setAddSongModalOpen] = useRecoilState(AddSongModalOpen);
@@ -97,12 +108,19 @@ const PlayListDetail = () => {
             url: "/api/lv2/p/comment",
             data: commnetdata
         }).then(res => {
-            alert("작성완료");
+            setCommentContent("");
+            plaListDetail();
         }).catch(error => {
-            console.log(error);
+            if (error.response.status === 401) {
+                alert("로그인 후 사용가능한 기능입니다");
+            } else if (error.response.status === 403) {
+                alert("메일 또는 문자인증 후 사용 가능합니다");
+            } else {
+                alert("알수없는 오류");
+            }
         })
     }
-
+    
     //내것만 삭제하게 변경 (조건 추가해야함) 삭제완료후 댓글리스트 다시 불러오기
     const deleteComment = (commentIndex) => {
         const commetdata = {
@@ -114,9 +132,15 @@ const PlayListDetail = () => {
             url: "/api/lv2/p/comment",
             data: commetdata
         }).then(res => {
-            alert("삭제완효");
+            plaListDetail();
         }).catch(error => {
-            console.log(error);
+            if (error.response.status === 401) {
+                alert("로그인 후 사용가능한 기능입니다");
+            } else if (error.response.status === 403) {
+                alert("메일 또는 문자인증 후 사용 가능합니다");
+            } else {
+                alert("알수없는 오류");
+            }
         })
     }
 
@@ -142,7 +166,7 @@ const PlayListDetail = () => {
             url: "/api/lv2/p/like",
             params: { playlistID: idx, }
         }).then(res => {
-            alert("좋아요");
+            setAddSongResult(!addSongResult);
         }).catch(error => {
             console.log(error);
         })
@@ -152,7 +176,7 @@ const PlayListDetail = () => {
         if (window.confirm("정말 삭제하시겠습니까?")) {
             Axios.delete(`/api/lv1/p/song?idx=${idx}`)
                 .then(res => {
-                    alert("삭제완료");
+                    setAddSongResult(!addSongResult);
                 })
                 .catch(error => {
                     console.log(error);
@@ -167,11 +191,13 @@ const PlayListDetail = () => {
 
     const [txtsingerVal, setTxtsingerVal] = useState("");
 
+    const [songTitle, setSongTitle] = useState("");
+    const [songSinger, setSongSinger] = useState("");
     const handleChangeSinger = (index, value) => {
-
         setPlaListDetailSong(prevSongList => {
             const newSongList = [...prevSongList];
             newSongList[index] = { ...newSongList[index], singer: value };
+            setSongSinger(value);
             return newSongList;
         });
     };
@@ -180,6 +206,7 @@ const PlayListDetail = () => {
         setPlaListDetailSong(prevSongList => {
             const newSongList = [...prevSongList];
             newSongList[index] = { ...newSongList[index], title: value };
+            setSongTitle(value);
             return newSongList;
         });
     };
@@ -193,9 +220,10 @@ const PlayListDetail = () => {
 
     const handleSelectInput = (index) => {
         setSelectedInputIdx(index);
+        setSongImg("");
     };
 
-    const [uploadSongImgName, setUploadSongImgName] = useState("");
+    const [uploadSongImgName, setUploadSongImgName] = useState(null);
     const SongImgRef = useRef();
     const [songImg, setSongImg] = useState("");
 
@@ -224,6 +252,43 @@ const PlayListDetail = () => {
             };
         }
     };
+    const updateSongSetting = (songSinger, songTitle) => {
+        setSongTitle(songTitle);
+        setSongSinger(songSinger);
+    }
+
+
+    const updateSong = (index) => {
+        const updateSongURl = "/api/lv1/p/song";
+        alert(songTitle + "+" + songSinger + "+" + uploadSongImgName + "+" + idx + "+" + index);
+        const updateSongData = {
+            playlistID: idx,
+            title: songTitle,
+            img: uploadSongImgName,
+            genre: "",
+            tag: "",
+            singer: songSinger,
+            idx: index
+        };
+
+
+        Axios.patch(updateSongURl, updateSongData)
+            .then(res =>
+                alert("수정 완료")
+            )
+            .catch((error) => {
+                alert("실패애러" + error)
+
+            }
+            )
+    }
+
+    const [addSongResult, setAddSongResult] = useRecoilState(AddSongResult);
+
+    useEffect(() => {
+        plaListDetail();
+    }, [addSongResult]);
+    const pliProfileImg = JSON.parse(sessionStorage.getItem("data")).img;
 
     return (
         <div className="playlistdetailframe">
@@ -258,16 +323,16 @@ const PlayListDetail = () => {
                         </div>
                         <div className="playlistdetailinplaylistinfo">
                             {
-                                plaListDetailInfo.desc == "" ? null : plaListDetailInfo.desc
+                                plaListDetailInfo.desc === "" ? null : plaListDetailInfo.desc
                             }
                         </div>
                         <div className="playlistdetailinplaylistinfobu">
                             <div className="playlistdetailbuttonbody">
-                                <div className="playlistdetailbuttons" onClick={
+                                <div className={nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"} onClick={
                                     () => {
                                         if (stageUrl !== null && !window.confirm("스테이지에 입장한 상태입니다. 플리에서 직접 재생시 스테이지에서 퇴장됩니다. 계속 진행하시겠습니까?"))
                                             return;
-                                        unSubSocket();
+                                        UnSubSocket();
                                         setStageUrl(null);
                                         let data = [];
                                         let data2 = plaListDetailSong.reduce((pv, cv) => {
@@ -285,41 +350,47 @@ const PlayListDetail = () => {
                                         src={PlayListPlayIcon}
                                     />
                                 </div>
-                                <div className="playlistdetailbuttons">
+                                <div className={nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"} onClick={likeOnClick}>
                                     <img
                                         className="playlistdetaillikebutton-icon"
                                         alt=""
                                         src={PlayListDetailHeart}
-                                        onClick={likeOnClick}
                                     />
                                 </div>
-                                <div className="playlistdetailbuttons" onClick={ShowSearchModalOpen}>
-                                    <img
-                                        className="playlistdetailinsertmusicbutto-icon"
-                                        alt=""
-                                        src={PlayListDetaliAddMusic}
-                                    />
-                                </div>
-                                <Link to={"../pliupdate/" + idx} className="playlistdetailbuttons">
-                                    <img
-                                        className="playlistdetaillistupdatebutton-icon"
-                                        alt=""
-                                        src={PlayListDetailOption}
-                                    />
-                                </Link>
-                                <div className="playlistdetailbuttons">
-                                    <img
-                                        className="playlistdetailplaybutton-icon"
-                                        alt=""
-                                        src={PlayListDetailDelete}
-                                        onClick={deletePli}
-                                    />
-                                </div>
+                                {nickname === plaListDetailInfo.nick ?
+                                    <div className="playlistdetailbuttons" onClick={ShowSearchModalOpen}>
+                                        <img
+                                            className="playlistdetailinsertmusicbutto-icon"
+                                            alt=""
+                                            src={PlayListDetaliAddMusic}
+                                        />
+                                    </div> : ""
+                                }
+                                {nickname === plaListDetailInfo.nick ?
+                                    <Link to={"../pliupdate/" + idx} className="playlistdetailbuttons">
+                                        <img
+                                            className="playlistdetaillistupdatebutton-icon"
+                                            alt=""
+                                            src={PlayListDetailOption}
+                                        />
+                                    </Link> : ""
+                                }
+                                {nickname === plaListDetailInfo.nick ?
+                                    <div className="playlistdetailbuttons">
+                                        <img
+                                            className="playlistdetailplaybutton-icon"
+                                            alt=""
+                                            src={PlayListDetailDelete}
+                                            onClick={deletePli}
+                                        />
+                                    </div> : ""
+                                }
                             </div>
                             <div className="playlistdetailviewicons">
                                 <div className="playlistdetailviewicon">
                                     <div className="playlistdetailviewcomment">
                                         <div className="playlistmessegecount">{plaListDetailInfo.commentscount}</div>
+
                                         <img
                                             className="playlistmessegeicon"
                                             alt=""
@@ -353,26 +424,28 @@ const PlayListDetail = () => {
                     {
                         plaListDetailSong.map((songList, idx) =>
                             <div className="playlistdetailitems" key={idx}>
-                                <div className="grpbtnset">
-                                    <img
-                                        className={selectedInputIdx !== idx ? "playlistdetaillistupdatebutton-icon" : "playlistdetaillistupdatebutton-icon playlistdetaillistupdatebutton-hidden"}
-                                        alt=""
-                                        src={PlayListDetailOption}
-                                        onClick={() => handleSelectInput(idx)}
-                                    />
-                                    <img
-                                        className={selectedInputIdx === idx ? "playlistdetaillistupdatebutton-icon" : "playlistdetaillistupdatebutton-icon playlistdetaillistupdatebutton-hidden"}
-                                        alt=""
-                                        src={songUpdateSave}
-                                        onClick={() => handleSelectInput(-1)}
-                                    />
-                                    <img
-                                        className="playlistdetaillistdelete-icon"
-                                        alt=""
-                                        src={PlayListDetailClose}
-                                        onClick={() => songDelete(songList.idx)}
-                                    />
-                                </div>
+                                {nickname === plaListDetailInfo.nick ?
+                                    <div className="grpbtnset">
+                                        <img
+                                            className={selectedInputIdx !== idx ? "playlistdetaillistupdatebutton-icon" : "playlistdetaillistupdatebutton-icon playlistdetaillistupdatebutton-hidden"}
+                                            alt=""
+                                            src={PlayListDetailOption}
+                                            onClick={() => { updateSongSetting(songList.singer, songList.title); handleSelectInput(idx) }}
+                                        />
+                                        <img
+                                            className={selectedInputIdx === idx ? "playlistdetaillistupdatebutton-icon" : "playlistdetaillistupdatebutton-icon playlistdetaillistupdatebutton-hidden"}
+                                            alt=""
+                                            src={songUpdateSave}
+                                            onClick={() => { updateSong(songList.idx); handleSelectInput(-1) }}
+                                        />
+                                        <img
+                                            className="playlistdetaillistdelete-icon"
+                                            alt=""
+                                            src={PlayListDetailClose}
+                                            onClick={() => songDelete(songList.idx)}
+                                        />
+                                    </div> : ""
+                                }
                                 <div className="txtlength">{SecondToHMS(songList.songlength)}</div>
                                 <input className="txtsinger" maxLength={10} value={songList.singer} readOnly={selectedInputIdx !== idx} onChange={(e) => handleChangeSinger(idx, e.target.value)} />
                                 <input className="txttitle" maxLength={10} value={songList.title} readOnly={selectedInputIdx !== idx} onChange={(e) => handleChangeTitle(idx, e.target.value)} />
@@ -394,15 +467,15 @@ const PlayListDetail = () => {
                                         alt=""
                                         src={
                                             selectedInputIdx === idx
-                                                ? songImg !== null ? songImg : songList.img !== null ? `${bucketURl}/songimg/${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
-                                                : selectedInputIdx !== idx && songList.img !== null ? `${bucketURl}/songimg/${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
+                                                ? songImg !== "" ? songImg : songList.img !== null ? `${bucketURl}${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
+                                                : songList.img !== null ? `${bucketURl}${songList.img}` : `https://i.ytimg.com/vi/${songList.songaddress}/sddefault.jpg`
                                         }
                                     />
                                 </label>
                                 <div className="txtrank" onClick={() => {
                                     if (stageUrl !== null && !window.confirm("스테이지에 입장한 상태입니다. 플리에서 직접 재생시 스테이지에서 퇴장됩니다. 계속 진행하시겠습니까?"))
                                         return;
-                                    unSubSocket();
+                                    UnSubSocket();
                                     setStageUrl(null);
                                     setYTPList({
                                         [songList.songaddress]: songList
@@ -424,7 +497,7 @@ const PlayListDetail = () => {
                                     <img
                                         className="commettilteiconbody"
                                         alt=""
-                                        src={SearchCommentIcon}
+                                        src={pliProfileImg ? bucketURl + "/profile/" + pliProfileImg : weplilogo}
                                     />
                                 </div>
                                 <div className="playlistdetailcommentform">
@@ -459,17 +532,19 @@ const PlayListDetail = () => {
                                                     작성일 : {dayjs(commentList.writeda).format('YYYY-MM-DD')}
                                                 </div>
                                             </div>
-                                            <img
-                                                className="playlistdetailcommentdeletefra-icon"
-                                                alt=""
-                                                src={PlayListDetailCommentDelete}
-                                                onClick={() => deleteComment(commentList.idx)}
-                                            />
+                                            {commentList.writer === nickname || plaListDetailInfo.nick === nickname ?
+                                                <img
+                                                    className="playlistdetailcommentdeletefra-icon"
+                                                    alt=""
+                                                    src={PlayListDetailCommentDelete}
+                                                    onClick={() => deleteComment(commentList.idx)}
+                                                /> : ""
+                                            }
                                             <div className="playlistdetailcommentprofileim">
                                                 <img
                                                     className="playlistdetailcommentprofileim-icon"
                                                     alt=""
-                                                    src={Molu}
+                                                    src={bucketURl + "/profile/" + commentList.img}
                                                 />
                                             </div>
                                             <div className="playlistdetailcommentnicknameb">

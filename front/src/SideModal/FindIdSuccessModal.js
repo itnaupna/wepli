@@ -4,15 +4,30 @@ import arrow from "./svg/backarrow.svg";
 import logo from "./photo/weplieonlylogoonlylogo.png";
 import btnarrow from "./svg/btnarrow.svg";
 import {useRecoilState, useRecoilValue} from "recoil";
-import {findIdSuccessModalOpenState, recoveredEmailState} from "../recoil/FindIdModalAtom";
+import {findIdSuccessModalOpenState, LoginModalOpen, recoveredEmailState} from "../recoil/FindIdModalAtom";
+import { useNavigate } from 'react-router-dom';
 function FindIdSuccessModal() {
 
     const [findIdSuccessModalopen,setfindIdSuccessModalopen] = useRecoilState(findIdSuccessModalOpenState);
+    const [loginmodalopen, setloginmodalopen] = useRecoilState(LoginModalOpen);
+
     const closeFindIdSuccessModal = () => {
         setfindIdSuccessModalopen(false);
     }
 
+    const navi = useNavigate()
+
+    const moveMain = () => {
+        setfindIdSuccessModalopen(false);
+        navi("/");
+    }
+
     const recoveredEmail = useRecoilValue(recoveredEmailState);
+
+    const closeNowModal = async () => {
+        await setfindIdSuccessModalopen(false);
+        setloginmodalopen(true);
+    }
 
     return (
         <div>
@@ -26,6 +41,7 @@ function FindIdSuccessModal() {
                             className="findidsuccessmodalarrowgroup-icon"
                             alt=""
                             src={arrow}
+                            onClick={closeNowModal}
                         />
                         <img
                             className="findidsuccessmodalweplilogo-icon"
@@ -37,9 +53,9 @@ function FindIdSuccessModal() {
                         {recoveredEmail ? `회원님의 아이디는 ${recoveredEmail}입니다.` : '아이디가 없어요'}
                     </div>
 
-                    <div className="findidsuccessmodalbtngroup">
+                    <div className="findidsuccessmodalbtngroup" onClick={moveMain}>
                         <div className="findidsuccessmypagebtn">
-                            <div className="findidsuccessmodalbtnrectangle" />
+                            <div className="findidsuccessmodalbtnrectangle"/>
                             <div className="findidsuccessmodalbtntext">확인</div>
                         </div>
                         <img

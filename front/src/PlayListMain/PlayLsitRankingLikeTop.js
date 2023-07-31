@@ -4,12 +4,12 @@ import HeartImg from "../MainIMG/Heart.png";
 import dayjs from 'dayjs';
 import Axios from "axios";
 
-function PlayLsitRankingLikeTop({item, ranking}) {
+function PlayLsitRankingLikeTop({item, ranking, pliDetail}) {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
 
 
     return (
-            <div className="playlistrankinglistitem">
+            <div className="playlistrankinglistitem" onClick={() => pliDetail(item.idx)}>
                 <div className="playlistrankinglistitemnumber">{ranking + 1}</div>
                 <img
                     className="playlistrankinglistitemthumbna-icon"

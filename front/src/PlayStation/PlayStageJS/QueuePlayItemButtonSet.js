@@ -15,13 +15,13 @@ const QPlayButton = ({ data, index, ks }) => {
         if (ks === 'search')
             data = await GetSongInfoByYoutubeApi(0, data.id.videoId);
         const item = {
-            idx: data.idx,
-            playlistID: data.playlistID,
+            idx: data.idx || 0,
+            playlistID: data.playlistID || 0,
             singer: data.singer,
             title: data.title,
             songaddress: data.songaddress,
-            songlength: data.songlength,
-            songorigin: data.songorigin,
+            songlength: data.songlength || 0,
+            songorigin: data.songorigin || 'yt',
             genre: data.genre,
             tag: data.tag,
             img: data.img

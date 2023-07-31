@@ -749,3 +749,101 @@
     color: var(--color-black);
     font-family: var(--font-bm-hanna-air);
 }
+
+/* 토글 버튼 css */
+
+.button-cover,
+.knobs,
+.layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.isPublictoggle {
+    position: relative;
+    top: 50%;
+    width: 74px;
+    height: 36px;
+    margin: -30px auto -30px auto;
+    overflow: hidden;
+    left: 46%;
+}
+
+.isPublicCheckbox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.knobs {
+    z-index: 2;
+}
+
+.layer {
+    width: 100%;
+    background-color: #ebf7fc;
+    transition: 0.3s ease all;
+    z-index: 1;
+}
+
+.isPublictoggle.isPublictoggle-r,
+.isPublictoggle.isPublictoggle-r .layer {
+    border-radius: 100px;
+}
+
+#isPublictoggle-3 .knobs:before {
+    content: "YES";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 20px;
+    height: 10px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    padding: 9px 4px;
+    background-color: #03a9f4;
+    border-radius: 50%;
+    transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
+}
+
+#isPublictogglen-3 .isPublicCheckbox:active + .knobs:before {
+    width: 46px;
+    border-radius: 100px;
+}
+
+#isPublictoggle-3 .isPublicCheckbox:checked:active + .knobs:before {
+    margin-left: -26px;
+}
+
+#isPublictoggle-3 .isPublicCheckbox:checked + .knobs:before {
+    content: "NO";
+    left: 42px;
+    background-color: #f44336;
+}
+
+#isPublictoggle-3 .isPublicCheckbox:checked ~ .layer {
+    background-color: #fcebeb;
+}
+
+.isPublictoggleBody{
+    position: relative;
+    height: auto;
+    width: auto;
+    left: 43%;
+    margin: -30px auto 0 auto;
+}
+.isPublictoggleText{
+    font-family: var(--font-bm-dohyeon);
+    font-size: 16px;
+}

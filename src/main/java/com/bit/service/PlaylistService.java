@@ -125,7 +125,7 @@ public class PlaylistService {
     // 내플레이리스트 or 타인의 공개된 플레이리스트 가져오기
     public List<PlaylistDto> selectPli(String token, String userNick) {
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        log.info("userNick -> {}", userNick);
+        // log.info("userNick -> {}", userNick);
         if(userNick == null) {
             return pMapper.selectMyPli(nick);
         } else {
@@ -145,10 +145,10 @@ public class PlaylistService {
         cdata.put("cpp",cpp);
 
         List<PliCommentDto> comment = pMapper.selectPliComments(cdata);
-        List<PlaylistDto> play = pMapper.detailPlayList(idx);
+        PlaylistDto play = pMapper.selectMyPliToIdx(idx);
 
         // 플리 작성자 닉네임
-        String nick = play.get(0).getNick();
+        String nick = play.getNick();
         MypageDto mypageDto = memberMapper.selectMypageDto(nick);
     
         Map<String,Object> data = new HashMap<>();
@@ -164,10 +164,10 @@ public class PlaylistService {
     // 미인증회원 검증절차
     public boolean uncertifiMemberChk(String nick) {
         MypageDto mDto = memberMapper.selectMypageDto(nick);
-        log.info("uncertifiMemberChk member -> {}", mDto);
+        // log.info("uncertifiMemberChk member -> {}", mDto);
         boolean authChk = mDto.getEmailconfirm() + mDto.getPhoneconfirm() > 0 ?
             true : false;
-        log.info("uncertifiMemberChk -> {}", authChk);
+        // log.info("uncertifiMemberChk -> {}", authChk);
         return authChk;
         
     }
@@ -178,8 +178,56 @@ public class PlaylistService {
 
         String genres[] = data.getGenre().split(",");
         String tags[] = data.getTag().split(",");
+        
+        if (genres.length > 4 || tags.length > 4) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return false;
+        }
 
+        for (String tag : tags) {
+            if (tag.length() > 10) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return false;
+            }
+        }
+        for (String genre : genres) {
+            if (genre.length() > 10) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return false;
+            }
+        }
+
+        if(data.getDesc().length()>50){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return false;
+        }
         if(uncertifiMemberChk(data.getNick())) {
+
+            if(data.getImg() != null && !data.getImg().equals("")) {
+                imgUploadService.storageImgDelete(token, data.getImg(), "playlist");
+            }
+            return pMapper.insertPlaylist(data)>0;
+        } else {
+            if(data.getIsPublic() == 0) {
+                if(data.getImg() != null && !data.getImg().equals("")) {
+                    imgUploadService.storageImgDelete(token, data.getImg(), "playlist");
+                }
+                return pMapper.insertPlaylist(data)>0;
+            } else {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return false;
+            }
+        }
+    }
+
+    public boolean updatePlaylist(String token, PlaylistDto data, HttpServletResponse response){
+        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
+        data.setNick(nick);
+        String genres[] = data.getGenre().split(",");
+        String tags[] = data.getTag().split(",");
+        
+        if(pMapper.selectMyPliToIdx(data.getIdx()).getNick().equals(nick)) {
+
             if (genres.length > 4 || tags.length > 4) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return false;
@@ -199,36 +247,10 @@ public class PlaylistService {
             }
 
             if(data.getDesc().length()>50){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return false;
             }
-            return pMapper.insertPlaylist(data)>0;
-        } else {
-            if(data.getIsPublic() == 0) {
-                if(data.getImg() != null && !data.getImg().equals("")) {
-                    imgUploadService.storageImgDelete(token, data.getImg(), "playlist");
-                }
-                return pMapper.insertPlaylist(data)>0;
-            } else {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return false;
-            }
-        }
-    }
-
-    public boolean updatePlaylist(String token, PlaylistDto data, HttpServletResponse response){
-        String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
-        data.setNick(nick);
-        if(uncertifiMemberChk(data.getNick())) {
-            if(data.getImg() != null && !data.getImg().equals("")) {
-                imgUploadService.storageImgDelete(token, data.getImg(), "playlist");
-                String img = pMapper.selectMyPliToIdx(data.getIdx()).getImg();
-                if(img != null && !img.equals("")) {
-                    ncpObjectStorageService.deleteFile(BUCKET_NAME, "playlist", img);
-                }
-            }
-            return pMapper.updatePlaylist(data)>0;
-        } else {
-            if(data.getIsPublic() == 0) {
+            if(uncertifiMemberChk(data.getNick())) {
                 if(data.getImg() != null && !data.getImg().equals("")) {
                     imgUploadService.storageImgDelete(token, data.getImg(), "playlist");
                     String img = pMapper.selectMyPliToIdx(data.getIdx()).getImg();
@@ -238,15 +260,30 @@ public class PlaylistService {
                 }
                 return pMapper.updatePlaylist(data)>0;
             } else {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return false;
+                if(data.getIsPublic() == 0) {
+                    if(data.getImg() != null && !data.getImg().equals("")) {
+                        imgUploadService.storageImgDelete(token, data.getImg(), "playlist");
+                        String img = pMapper.selectMyPliToIdx(data.getIdx()).getImg();
+                        if(img != null && !img.equals("")) {
+                            ncpObjectStorageService.deleteFile(BUCKET_NAME, "playlist", img);
+                        }
+                    }
+                    return pMapper.updatePlaylist(data)>0;
+                } else {
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    return false;
+                }
             }
+        } else {
+            response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
+            return false;
         }
+
     }
 
     public List<Object> togglePlaylist(String token, int playlistID){
         List<Object> result = new ArrayList<>();
-        log.info("togglePlaylist -> {}",playlistID);
+        // log.info("togglePlaylist -> {}",playlistID);
         String nick = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         try {
             Map<String,Object> data = new HashMap<>();
@@ -256,13 +293,13 @@ public class PlaylistService {
 
             boolean processResult;
 
-            log.info("togglePlaylist -> {}", isLike);
+            // log.info("togglePlaylist -> {}", isLike);
             if(isLike){
-                log.info("togglePlaylist -> {}", isLike);
+                // log.info("togglePlaylist -> {}", isLike);
                 pMapper.deleteLike(data);
                 processResult = false;
             }else{
-                log.info("togglePlaylist -> {}", isLike);
+                // log.info("togglePlaylist -> {}", isLike);
                 pMapper.insertLike(data);
                 processResult = true;
             }
@@ -271,7 +308,7 @@ public class PlaylistService {
 
             return result;
         } catch (Exception e) {
-            log.info(e.getMessage());
+            // log.info(e.getMessage());
             result.add(false);
             return result;
         }
@@ -383,7 +420,7 @@ public class PlaylistService {
         boolean checkCommnetLength = Pattern.matches("^.{1,100}$", data.getContent());
 
         if(!checkCommnetLength) {
-            log.info("실패");
+            // log.info("실패");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return false;
         }
@@ -410,8 +447,8 @@ public class PlaylistService {
     public boolean deletePliComment(String token, PliCommentDto data, HttpServletResponse response){
         String writer = jwtTokenProvider.getUsernameFromToken(token.substring(6));
         String pliOwnerNick = pMapper.selectMyPliToIdx(data.getPlaylistID()).getNick();
-        log.info(writer);
-        log.info(pliOwnerNick);
+        // log.info(writer);
+        // log.info(pliOwnerNick);
 
         if(pMapper.selectPliCommentToIdx(data.getIdx()).getWriter().equals(writer) || writer.equals(pliOwnerNick)) {
             return pMapper.deletePliComment(data.getIdx()) > 0;
