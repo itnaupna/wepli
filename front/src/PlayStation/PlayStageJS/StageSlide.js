@@ -36,7 +36,7 @@ function StageSlider() {
   const [noLogin, setNoLogin] = useState("팔로우한 스테이지가 없습니다.");
 
   useEffect(() => {
-    if (sessionStorage.getItem("data") !== null) {
+    if (sessionStorage.getItem("data") !== null && localStorage.getItem("data") != null) {
       const FollowStageUrl = "/api/lv2/s/fstage";
       axios.get(FollowStageUrl)
         .then(res => setFollowStage(res.data))

@@ -34,9 +34,11 @@ import com.bit.mapper.BlacklistMapper;
 import com.bit.mapper.MemberMapper;
 import com.bit.mapper.StageMapper;
 
+import lombok.extern.slf4j.Slf4j;
 import naver.cloud.NcpObjectStorageService;
 
 @Service
+@Slf4j
 public class StageService {
     @Autowired
     StageMapper sMapper;
@@ -392,6 +394,10 @@ public class StageService {
     public List<StageDto> selectSearchStage(String token, String queryString, String type, boolean orderByDay, int curr,
             int cpp) {
         String typeString[] = { "title", "nick", "genre", "tag", null };
+        log.info("queryString -> {}",queryString);
+        log.info("type -> {}",type);
+        log.info("orderbyday -> {}", orderByDay);
+
 
         Map<String, Object> data = new HashMap<>();
         data.put("orderByDay", orderByDay);

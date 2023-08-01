@@ -24,7 +24,7 @@ const ResultItem = ({data}) => {
                     alt=""
                     src={SLPMystagePeopleIcon}
                   />
-                  <div className="slpmystagelikecount">{Object.keys(data.info.users).length}</div>
+                  {/* <div className="slpmystagelikecount">{Object.keys(data.info.users).length}</div> */}
                 </div>
                 <div className="slpresultitemowner">@{data.nick}</div>
                 <div className="slpresultitemcategory">

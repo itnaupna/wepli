@@ -9,9 +9,12 @@ import { Modal } from "@mui/material";
 import  Axios  from 'axios';
 import { useParams } from 'react-router-dom';
 import Wepli from '../../sidebar/photo/weplilogo.png';
+import { useRecoilValue } from 'recoil';
+import { LoginStatusAtom } from '../../recoil/LoginStatusAtom';
 
 const StageItemBig = () => {
   const [stageInfo,setStageInfo] = useState({});
+
 
   const {userNick} = useParams();
 
@@ -21,8 +24,8 @@ const StageItemBig = () => {
   const [mo, setMo] = useState(false);
   const handleMo = () => setMo(true);
   const handleMc = () => setMo(false);
-  const data = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem('data'));
   const [checkStage, SetCheckStage] = useState(false);
+  const data = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem('data'));
 
   useEffect(() => {
     if (data && data.stageaddress === null) {
@@ -30,11 +33,12 @@ const StageItemBig = () => {
     } else {
       SetCheckStage(false);
     }
-  }, [data]);
+    console.log(checkStage);
+  }, []);
 
-  if (!data) {
-    return null;
-  }
+  // if (!data) {
+  //   return null;
+  // }
 
 
   return (
@@ -45,6 +49,7 @@ const StageItemBig = () => {
           <button onClick={handleMo}
             className="button button--nina button--round-l button--text-thick button--inverted makestageButton"
             data-text="스테이지생성">
+  
             <span>스</span>
             <span>테</span>
             <span>이</span>

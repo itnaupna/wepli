@@ -29,8 +29,8 @@ const CSM = ({ types, onClose}) => {
     const [StageGenres, setStageGenres] = useState("");
     const [StageDesc, setStageDesc] = useState("");
     const StageImgRef = useRef();
-    const [StageImg, setStageImg] = useState(bucketURl + "/stage/03ea9232-a177-41a1-9a4d-6481d2dbd76d");
-    const [uploadStageImgName, setUploadStageImgName] = useState("/stage/03ea9232-a177-41a1-9a4d-6481d2dbd76d");
+    const [StageImg, setStageImg] = useState(bucketURl + "/stage/4a878683-bb43-4391-a228-b5eabaeb51c3");
+    const [uploadStageImgName, setUploadStageImgName] = useState("/stage/4a878683-bb43-4391-a228-b5eabaeb51c3");
     const navigate = useNavigate();
     const [fetchedStageData,setFechedStageData] = useState(null);
     const [initialDataLoaded,setInitialDataLoaded] = useState(false);
