@@ -1,104 +1,209 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './CSM.css';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LayersClearIcon from '@mui/icons-material/LayersClear';
 import Upload from '../PlayStageImage/Icon/upload.svg';
-import axios, { Axios } from 'axios';
+import Axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
-function makeAddress(length){
+function makeAddress(length) {
+
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
-    let counter =0;
-    while (counter <length){
-        result +=characters.charAt(Math.floor(Math.random()*charactersLength));
-        counter +=1;
+    let counter = 0;
+    while (counter < length) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
     }
     return result;
 }
-const CSM = ({types}) => {
-    const initialAddress =makeAddress(5);//address길이를 5로 설정
-    const [uploadImgName,setuploadStageImgName]=useState(null);
+const CSM = ({ types, onClose}) => {
+    const bucketURl = process.env.REACT_APP_BUCKET_URL;
+    const initialAddress = makeAddress(5);//address길이를 5로 설정
+    const [StageTitle, setStageTitle] = useState("");
+    const [StageAddress, setStageAddress] = useState(initialAddress);
+    const [StagePw, setStagePw] = useState(null);
+    const [StageTags, setStageTags] = useState("");
+    const [StageGenres, setStageGenres] = useState("");
+    const [StageDesc, setStageDesc] = useState("");
     const StageImgRef = useRef();
-    const [stageData,setStageData] = useState({
-        address:initialAddress,
-        title:'',
-        password:null,
-        tags:'',
-        genres:'',
-        description:'',
-        img:null,
+    const [StageImg, setStageImg] = useState(bucketURl + "/stage/03ea9232-a177-41a1-9a4d-6481d2dbd76d");
+    const [uploadStageImgName, setUploadStageImgName] = useState("/stage/03ea9232-a177-41a1-9a4d-6481d2dbd76d");
+    const navigate = useNavigate();
+    const [fetchedStageData,setFechedStageData] = useState(null);
+    const [initialDataLoaded,setInitialDataLoaded] = useState(false);
+    
+
+    const [isEditMode,setIsEditMode] = useState(types === false);
+    const stageUrl = useParams().stageUrl;
+    useEffect(()=>{
+        if(types ===false && !initialDataLoaded){
+ 
+                Axios({
+                    method:"get",
+                    url:"/api/lv0/s/stageinfo",
+                    params:{address:stageUrl},
+                })
+                .then((response)=>{
+                    const StageData = response.data;
+                    setFechedStageData(StageData);
+                    setInitialDataLoaded(true);
+                    setStageTitle(StageData.title);
+                    setStagePw(StageData.maxlength);
+                    setStageTags(StageData.tag);
+                    setStageGenres(StageData.genre);
+                    setStageDesc(StageData.desc);
+                    setStageImg(bucketURl + StageData.img);
+                    setUploadStageImgName(StageData.img);
+                    console.log(response.data);
+                })
+                .catch((error)=>{
+                    console.error("스테이지 정보 가져오는데 에러발생",error);
+                });
+            
+        }
+    },[types,initialDataLoaded,StageAddress,isEditMode,fetchedStageData]);
+
+
+
+    useEffect(()=>{
+        setIsEditMode(types === false);
+    },[types])
+    
+    const handleCreateOrUpdate = () =>{
+        if(isEditMode){
+            updateStage();
+        }else{
+            CreateStage();
+        }
+    }
+    
+  const updateStageData = {
+    title: StageTitle,
+    maxlength: StagePw,
+    address:stageUrl,
+    tag: StageTags,
+    genre: StageGenres,
+    desc: StageDesc,
+    nick: JSON.parse(sessionStorage.getItem('data') || localStorage.getItem('data')).nick,
+    img: uploadStageImgName,
+  };
+
+  const updateStage = () => {
+    Axios.patch('/api/lv2/s/stage', updateStageData)
+      .then((res) => {
+        if (res.data) {
+          if (localStorage.getItem('data')) {
+            let d = JSON.parse(localStorage.getItem('data'));
+            d.stagetitle = StageTitle;
+            localStorage.setItem('data', JSON.stringify(d));
+          } else if (sessionStorage.getItem('data')) {
+            let d = JSON.parse(sessionStorage.getItem('data'));
+            d.stagetitle = StageTitle;
+            sessionStorage.setItem('data', JSON.stringify(d));
+          }
+          navigate(0);
+        } else {
+          alert('스테이지 수정 실패');
+        }
+      })
+      .catch((error) => {
+        alert('스테이지 수정 에러: ' + error);
+      });
+  };
+    
+
+    const StageTitleOnChange = useCallback(e => {
+        setStageTitle(e.target.value);
     });
-    const saveStageImg = (e) =>{
+    const StageDescOnChange = useCallback(e => {
+        setStageDesc(e.target.value);
+    });
+    const StagePwOnChange = useCallback(e => {
+        setStagePw(e.target.value);
+    });
+    const StageTagsOnChange = useCallback(e => {
+        setStageTags(e.target.value);
+    });
+    const StageGenresOnChange = useCallback(e => {
+        setStageGenres(e.target.value);
+    });
+    const onClickImageUpload = () =>{
+        StageImgRef.current.click();
+    };
+
+    const saveStageImg = (e) => {
         const uploadStageImg = new FormData();
         uploadStageImg.append('directoryPath', "stage");
-        uploadStageImg.append('upload',e.target.files[0]);
-        axios({
-            method:"post",
-            url:"/api/lv1/os/imgupload",
-            data:uploadStageImg,
-            headers:{"Content-Type":"multipart/form-data"}
-        }).then(res=>{
-            setuploadStageImgName(res.data);
-        }).catch(error=>{
+        uploadStageImg.append('upload', e.target.files[0]);
+        Axios({
+            method: "post",
+            url: "/api/lv1/os/imgupload",
+            data: uploadStageImg,
+            headers: { "Content-Type": "multipart/form-data" }
+        }).then(res => {
+            setUploadStageImgName(res.data);
+        }).catch(error => {
             console.log(error);
         })
-        // setUploadStageImgName(uploadStageImg);
-        const ImgFile = StageImgRef.current.files[0];
-    }
-    const fileInputRef = useRef(null);
-    const onUpload =(e)=>{
-        const file = e.target.files[0];
-        if(!file){
-            return;
-        }
+        setUploadStageImgName(uploadStageImg);
+        const StageImgfile = StageImgRef.current.files[0];
         const reader = new FileReader();
-        reader.readAsDataURL(file);
-
-        reader.onload = () =>{
-            setStageData({...stageData,img: reader.result});
+        reader.readAsDataURL(StageImgfile);
+        reader.onload = () => {
+            setStageImg(reader.result);
         };
     };
-    const handleInputChange = (e)=>{
-        const {name,value} = e.target;
-        setStageData({...stageData,[name]:value});
-    };
-    const CreateStage = () =>{
-        fetch('api/lv2/s/stage',{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json',
-            },
-            body:JSON.stringify({
-                address:stageData.address,
-                title:stageData.title,
-                desc:stageData.description,
-                genre:stageData.genres,
-                tag:stageData.tags,
-                pw:stageData.password,
-                img:stageData.img,
-            }),
-        })
-        .then((response)=>response.json())
-        .then((data)=>{
-            console.log(data);
-        })
-        .catch((error)=>{
-            console.log('Error:',error);
-        });
-    };
-    //파일 업로드 /미리보기 이벤트
-    const handleImageClick = () => {
-        if (fileInputRef.current) {
-          fileInputRef.current.click(); // ref를 사용하여 파일 업로드 input 요소 클릭 이벤트 호출
+    
+    const AddStageData = {
+        title: StageTitle,
+        address: StageAddress,
+        maxlength: StagePw,
+        tag: StageTags,
+        genre: StageGenres,
+        desc: StageDesc,
+        nick: JSON.parse(sessionStorage.getItem("data") || localStorage.getItem('data')).nick,
+        img: uploadStageImgName
+    }
+
+    const CreateStage = () => {
+        if (StageTitle === "") {
+            alert("정보를 입력해주세요.");
+            return;
         }
-      };
-    //스테이지 생성 버튼을 클릭할 때 서버로 데이터를 보내는 함수
+        const CreateStageUrl = "/api/lv2/s/stage";
+        Axios.post(CreateStageUrl, AddStageData)
+            .then(res => {
+                if (res.data) {
+                    if (localStorage.getItem('data')) {
+                        let d = JSON.parse(localStorage.getItem('data'));
+                        d.stagetitle = StageTitle;
+                        d.stageaddress = StageAddress;
+                        localStorage.setItem('data',JSON.stringify(d));
+                    } else if (sessionStorage.getItem('data')) {
+                        let d = JSON.parse(sessionStorage.getItem('data'));
+                        d.stagetitle = StageTitle;
+                        d.stageaddress = StageAddress;
+                        sessionStorage.setItem('data',JSON.stringify(d));
+                    }
+                    navigate(`${StageAddress}`);
+                }
+                else {
+                    alert('생성실패');
+                }
+            })
+            .catch((error) => {
+                alert("실패에러" + error)
+            })
+    };
+
+
     return (
         <div className='CSMWrapper'>
             <div className='CSMContent CSMlv1'>
-                <div className='btnCSM'><ArrowBackIcon /></div>
+                <div className='btnCSM'  onClick={onClose}>{<ArrowBackIcon/>}</div>
                 <div className='btnCSMTitle'>
                     <h1 style={{ textAlign: 'center' }}>
                         스테이지  {types ? '생성' : '수정'}
@@ -107,36 +212,37 @@ const CSM = ({types}) => {
                 <div className='btnCSM'>{!types && <LayersClearIcon />}</div>
             </div>
             <div className='CSMContent CSMlv2'>
-  {/* File input element */}
-  <input
-    className='CSMFileInput' // Add a class name to style the file input element if needed
-    type='file'
-    accept='image/*'
-    multiple
-    ref={fileInputRef} // Connect the ref to the file input element
-    style={{ display: 'none' }} // Hide the file input element
-    onChange={onUpload} // Handle the file selection in the onChange event
-  />
-  {/* Display the selected image or a background image */}
-  <div
-    className='CSMImg'
-    style={{ backgroundImage: stageData.img ? `url(${stageData.img})` : '' }}
-    onClick={handleImageClick} // Trigger the file input click when the image is clicked
-  />
+                {/* File input element */}
+                <input
+                    className='CSMFileInput' // Add a class name to style the file input element if needed
+                    type='file'
+                    accept='image/*'
+                    multiple
+                    ref={StageImgRef} // Connect the ref to the file input element
+                    onChange={saveStageImg} // Handle the file selection in the onChange event
+                />
+                {/* Display the selected image or a background image */}
+                <div
+                    className='CSMImg'
+                    src={StageImg}
+                    style={{ backgroundImage: StageImg ? `url(${StageImg})` : 'none' }}
+                    onClick={onClickImageUpload}
+                // Trigger the file input click when the image is clicked
+                />
                 <div className='CSMInfo'>
-                    <input className='CSMInput' name='title' placeholder='제목' value={stageData.title} onChange={handleInputChange} />
-                    <input className='CSMInput' name='pw' placeholder='비밀번호, 입력시 비밀방이 됩니다.' value={stageData.pw || ''} type='password' onChange={handleInputChange}/>
-                    <input className='CSMInput' name='tag' value={stageData.tags} onChange={handleInputChange} placeholder='태그 ( , 로 구분) / 최대 4개' />
-                    <input className='CSMInput' name='genre' value={stageData.genres} onChange={handleInputChange} placeholder='장르 ( , 로 구분) / 최대 4개' />
+                    <input className='CSMInput' name='title' placeholder='제목' value={StageTitle} onChange={StageTitleOnChange} />
+                    <input className='CSMInput' name='maxlength' type='number' min={'0'} placeholder='최대길이(초), 0 무제한' value={StagePw} onChange={StagePwOnChange} />
+                    <input className='CSMInput' name='tags' value={StageTags} onChange={StageTagsOnChange} placeholder='태그 ( , 로 구분) / 최대 4개' />
+                    <input className='CSMInput' name='genres' value={StageGenres}  onChange={StageGenresOnChange} placeholder='장르 ( , 로 구분) / 최대 4개' />
                 </div>
             </div>
             <div className='CSMContent CSMlv3'>
-                <input className='CSMDetail' name='description' value={stageData.description} onChange={handleInputChange} placeholder='간단한 소개를 입력하세요. (최대 50자)'/>
+                <input className='CSMDetail' name='description' value={StageDesc} onChange={StageDescOnChange} placeholder='간단한 소개를 입력하세요. (최대 50자)' />
             </div>
             <div className='CSMContent CSMlv4'>
-                <button onClick={CreateStage}>
-                    스테이지 {types ? '생성' : '수정'}                    
-                </button>   
+                <button onClick={handleCreateOrUpdate}>
+                    스테이지 {types ? '생성' : '수정'}
+                </button>
             </div>
         </div>
     );

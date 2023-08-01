@@ -54,7 +54,7 @@ function StageSlider() {
         <AliceCarousel
           mouseTracking
           infinite // 무한 슬라이드를 구현하기 위해 infinite 속성을 설정
-          animationDuration={1000}
+          animationDuration={200}
           stagePadding={[stagePaddingConfig]}
           disableDotsControls
         //   disableButtonsControls={false} 
