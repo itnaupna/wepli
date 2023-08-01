@@ -5,6 +5,7 @@ import LayersClearIcon from '@mui/icons-material/LayersClear';
 import Upload from '../PlayStageImage/Icon/upload.svg';
 import Axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 
 function makeAddress(length) {
@@ -34,8 +35,8 @@ const CSM = ({ types, onClose}) => {
     const navigate = useNavigate();
     const [fetchedStageData,setFechedStageData] = useState(null);
     const [initialDataLoaded,setInitialDataLoaded] = useState(false);
-    
-
+    const [pw, setPw] = useState('');
+    const [isPasswordEntered, setIsPasswordEntered] = useState(false);    
     const [isEditMode,setIsEditMode] = useState(types === false);
     const stageUrl = useParams().stageUrl;
     useEffect(()=>{
@@ -198,7 +199,66 @@ const CSM = ({ types, onClose}) => {
                 alert("실패에러" + error)
             })
     };
-
+    const DeleteStage = async () => {
+        const enteredPw = prompt('비밀번호를 입력하세요.');
+        if (enteredPw) {
+          const url = `/api/lv1/m/checkpassword?pw=${enteredPw}`;
+          try {
+            const res = await axios.post(url, { pw: enteredPw });
+            if (res.data === true) {
+              const confirmation = prompt('스테이지를 삭제하시려면 "확인"을 입력하세요.');
+              if (confirmation === '확인') {
+                // 비밀번호가 맞고 확인이 "확인"인 경우에만 스테이지 삭제 로직을 진행합니다
+                const deleteUrl = `/api/lv2/s/stage`;
+                try {
+                  const response = await axios.delete(deleteUrl, {
+                    params: {
+                      token: 'your-token-here',
+                      pw: enteredPw,
+                      title: StageTitle,
+                    },
+                  });
+                  
+                  if (response.data) {
+                    alert('스테이지가 삭제되었습니다.');
+                    setIsPasswordEntered(true); // 비밀번호가 올바르게 입력되었음을 표시하는 상태를 설정합니다
+                    if (localStorage.getItem('data')) {
+                      let s = JSON.parse(localStorage.getItem('data'));
+                      s.stagetitle = StageTitle;
+                      s.stageaddress = StageAddress;
+                      localStorage.setItem('data', JSON.stringify(s));
+                    } else if (sessionStorage.getItem('data')) {
+                      let s = JSON.parse(sessionStorage.getItem('data'));
+                      s.stagetitle = StageTitle;
+                      s.stageaddress = StageAddress;
+                      sessionStorage.setItem('data', JSON.stringify(s));
+                    }
+                    // 원하는 페이지로 이동합니다 (예: '/mypage')
+                    navigate('/stage');
+                  } else {
+                    alert('스테이지 삭제 실패');
+                  }
+                } catch (error) {
+                  console.error('스테이지 삭제 에러:', error);
+                  alert('스테이지 삭제 에러: ' + error);
+                }
+              } else {
+                alert('스테이지 삭제를 원하시면 확인을 입력해주세요.');
+              }
+            } else {
+              setIsPasswordEntered(false); // 올바르지 않은 경우 결과를 UI에 표시하기 위해 false로 설정
+              alert('비밀번호를 정확히 입력해주세요.');
+            }
+          } catch (error) {
+            console.error(error);
+            setIsPasswordEntered(false); // 올바르지 않은 경우 결과를 UI에 표시하기 위해 false로 설정
+            alert('오류가 발생했습니다. 리액트 펀치가즈아');
+          }
+        } else {
+          alert('비밀번호를 입력하지 않아 스테이지 삭제가 취소되었습니다.');
+        }
+      };
+      
 
     return (
         <div className='CSMWrapper'>
@@ -209,7 +269,7 @@ const CSM = ({ types, onClose}) => {
                         스테이지  {types ? '생성' : '수정'}
                     </h1>
                 </div>
-                <div className='btnCSM'>{!types && <LayersClearIcon />}</div>
+                <div className='btnCSM' onClick={DeleteStage}>{!types && <LayersClearIcon />}</div>
             </div>
             <div className='CSMContent CSMlv2'>
                 {/* File input element */}
