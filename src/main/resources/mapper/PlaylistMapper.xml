@@ -7,8 +7,7 @@
         from tblPlaylistComment p
         join tblMember m ON p.writer = m.nick
         where p.playlistID = #{playlistID}
-        order by p.writeday desc 
-        limit #{curr}, #{cpp};
+        order by p.writeday desc
     </select>
 
     <select id= "selectPliCommentToIdx" parameterType="int" resultType="PliCommentDto">

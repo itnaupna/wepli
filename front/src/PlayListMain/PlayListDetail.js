@@ -288,7 +288,6 @@ const PlayListDetail = () => {
     useEffect(() => {
         plaListDetail();
     }, [addSongResult]);
-    const pliProfileImg = JSON.parse(sessionStorage.getItem("data")).img;
 
     return (
         <div className="playlistdetailframe">
@@ -315,7 +314,7 @@ const PlayListDetail = () => {
                             <img
                                 className="playlistdetailprofileimage-icon"
                                 alt=""
-                                src={`${bucketURl}/profile/${plaListDetailplayUserImg}`}
+                                src={plaListDetailplayUserImg ? `${bucketURl}/profile/${plaListDetailplayUserImg}` : weplilogo}
                             />
                             <div className="playlistdetailinplaylistnickna">
                                 {plaListDetailInfo.nick}
@@ -497,7 +496,7 @@ const PlayListDetail = () => {
                                     <img
                                         className="commettilteiconbody"
                                         alt=""
-                                        src={pliProfileImg ? bucketURl + "/profile/" + pliProfileImg : weplilogo}
+                                        src={`${plaListDetailplayUserImg} ? ${bucketURl}/profile/${plaListDetailplayUserImg} : ${weplilogo}`}
                                     />
                                 </div>
                                 <div className="playlistdetailcommentform">

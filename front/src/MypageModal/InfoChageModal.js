@@ -47,8 +47,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
     }, [prevEmail]);
 
     const handleinfoChnage = async () => {
-        const emailRegex = /^[a-zA-Z0-9]+@[0-9a-zA-Z]+\.[a-z]+$/;
-
+        const emailRegex = /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
         if (nick.length > 10) {
             alert("닉네임은 최대 10글자까지 입력할 수 있습니다.");
@@ -75,7 +74,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
 
         const url = "/api/lv1/m/info";
         const requestData = {
-            email: selectedEmail,
+            email: selectedEmail, // Use selectedEmail
             newNick: nick,
             pw: pw,
         };
@@ -83,7 +82,6 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
         try {
             const res = await axios.patch(url, requestData, {
                 headers: { 'Content-Type': 'application/json' },
-
             });
 
             if (res.data) {
@@ -116,8 +114,6 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
             alert('요청에 실패했습니다. 다시 시도해주세요.');
         }
     };
-
-
 
     const InfoChangeEnter = (e) =>{
         if (e.key === 'Enter') {
