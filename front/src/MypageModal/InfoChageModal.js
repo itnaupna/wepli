@@ -6,13 +6,13 @@ import logo from "./photo/weplieonlylogoonlylogo.png";
 import {UserStorageNick} from "../recoil/LoginStatusAtom";
 import {useRecoilState, useRecoilValue} from "recoil";
 import axios from "axios";
+import {emailState} from "../recoil/LoginStatusAtom";
 function InfoChageModal({setIsInfoChangeModalOpen}) {
 
     const [nick, setNickName] = useState('');
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
     const [userStorageNick, setUserStorageNick] = useRecoilState(UserStorageNick);
-
 
     const closeInfoChangeModal = async () => {
         await setIsInfoChangeModalOpen(false);
@@ -47,7 +47,8 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
     }, [prevEmail]);
 
     const handleinfoChnage = async () => {
-        const emailRegex = /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const emailRegex = /^[a-zA-Z0-9]+@[0-9a-zA-Z]+\.[a-z]+$/;
+
 
         if (nick.length > 10) {
             alert("닉네임은 최대 10글자까지 입력할 수 있습니다.");
@@ -74,7 +75,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
 
         const url = "/api/lv1/m/info";
         const requestData = {
-            email: selectedEmail, // Use selectedEmail
+            email: selectedEmail,
             newNick: nick,
             pw: pw,
         };
@@ -82,6 +83,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
         try {
             const res = await axios.patch(url, requestData, {
                 headers: { 'Content-Type': 'application/json' },
+
             });
 
             if (res.data) {
@@ -114,6 +116,8 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
             alert('요청에 실패했습니다. 다시 시도해주세요.');
         }
     };
+
+
 
     const InfoChangeEnter = (e) =>{
         if (e.key === 'Enter') {
@@ -151,7 +155,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
                 {/*이메일 입력*/}
                 <div className="mypageinfochangemodalpassnickn">
                     <input placeholder={
-                        emailconfirm != 1
+                        emailconfirm !== 1
                             ? '이메일을 입력해주세요'
                             : '이미 이메일이 인증이되어 변경할 수 없습니다.'
                     } className="mypageinfochangemodalnicknamei"

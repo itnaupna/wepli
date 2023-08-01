@@ -33,9 +33,6 @@
     margin-bottom: 20px;
 }
 
-
-
-
 .mainsection2photogroup1{
     float: right;
 }
@@ -47,7 +44,6 @@
     align-items: center;
     bottom: 0;
 }
-
 
 @keyframes moveRight {
     0% {
@@ -112,3 +108,45 @@
     }
 }
 
+.posthergroup{
+    height: 40vh;
+    width: 90%;
+    position: absolute;
+    left: 5%;
+    margin-top: 250px;
+
+}
+
+.posther1{
+    width: 15vw;
+}
+
+.posther2{
+    width: 15vw;
+    margin-left: 70px;
+}
+
+.posther3,
+.posther4,
+.posther5{
+    width: 15vw;
+    margin-left: 70px;
+}
+
+.mainsectiontoptext{
+    font-family: 'SUIT1', serif;
+    font-size: 47px;
+    width: 70vw;
+    left: 6%;
+    margin-top: 100px;
+    position: absolute;
+}
+
+.mainsectiontoptext1{
+    font-family: 'SUIT1', serif;
+    float: right;
+    position: relative;
+    margin-top: 800px;
+    font-size: 47px;
+    width: 70vw;
+}
