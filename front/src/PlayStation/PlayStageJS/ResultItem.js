@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SLPMystagePeopleIcon from '../PlayStageImage/Icon/SLPMystagePeopleIcon.svg';
 import SLPMystagePlayingTitleIcon from '../PlayStageImage/Icon/SLPMystagePlayingTitleIcon.svg';
 // import TestImg from '../PlayStageImage/img/SLPMystageImg.png';
 
 const ResultItem = ({data}) => {
+  // useEffect(()=>{
+  //   // console.log(data);
+  // },[data])
     return (
         <div className="slpresultitem">
             <div className="slpitembigheader">
@@ -21,7 +24,7 @@ const ResultItem = ({data}) => {
                     alt=""
                     src={SLPMystagePeopleIcon}
                   />
-                  <div className="slpmystagelikecount">{data.info.users.length}</div>
+                  <div className="slpmystagelikecount">{Object.keys(data.info.users).length}</div>
                 </div>
                 <div className="slpresultitemowner">@{data.nick}</div>
                 <div className="slpresultitemcategory">
@@ -34,7 +37,8 @@ const ResultItem = ({data}) => {
             </div>
             <div className="slpresultitembottom">
               <div className="slpresultitemtitle">
-                {data.pw ? "🔒" : null} {data.title}
+                {/* {data.pw ? "🔒" : null} */}
+                 {data.title}
                 </div>
               <div className="slpresultitemdescription">
                 {data.desc}

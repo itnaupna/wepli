@@ -32,7 +32,7 @@ function PlayStageList(props) {
       })
       .catch(res => console.log(res));
   }, [currentPage]);
-  
+
   //최신순(기본값) 인기순 토글 셀렉트
   const [type1, setType1] = useState(0);
   const [type2, setType2] = useState(0);
@@ -83,29 +83,29 @@ function PlayStageList(props) {
 
 
 
-// 스크롤 이벤트 핸들러
-const handleScroll = () => {
-  const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
-  if (isAtBottom) {
-    setCurrentPage(prevPage => prevPage + 1);
-    console.log('무한 스크롤 작동!');
-  }
-};
-
-useEffect(() => {
-  // 초기 로딩 시 스크롤 이벤트 발생시키기
-  handleScroll();
-
-
-
-  // 스크롤 이벤트 리스너 등록
-  window.addEventListener("scroll", handleScroll);
-
-  return () => {
-    // 스크롤 이벤트 리스너 해제
-    window.removeEventListener("scroll", handleScroll);
+  // 스크롤 이벤트 핸들러
+  const handleScroll = () => {
+    const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
+    if (isAtBottom) {
+      setCurrentPage(prevPage => prevPage + 1);
+      console.log('무한 스크롤 작동!');
+    }
   };
-}, []);
+
+  useEffect(() => {
+    // 초기 로딩 시 스크롤 이벤트 발생시키기
+    handleScroll();
+
+
+
+    // 스크롤 이벤트 리스너 등록
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      // 스크롤 이벤트 리스너 해제
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div className="slp">
@@ -113,12 +113,6 @@ useEffect(() => {
         <div className="slptop" style={{ display: 'flex' }}>
           <div className="slpmystagewrapper">
             <StageItemBig />
-            {/* <div className="StageModalContainer" style={{display :(IsCheckStage ? 'flex':'none')}}>                
-                <button onClick={showModal} className="button button--nina button--round-l button--text-thick button--inverted" data-text="스테이지생성">
-                <span>스</span><span>테</span><span>이</span><span>지</span><span>생</span><span>성</span>
-                </button>
-                {modalOpen && <CreateStageModal setModalOpen={setModalOpen}/>}
-        </div> */}
           </div>
           <div className="slpfollowwrapper">
             <StageSlide />
@@ -127,44 +121,7 @@ useEffect(() => {
       )}
       <div className="slpbottom">
         <div className="slpsearchwrapper">
-          <div className="slpsortwrapper">
-            <div className="slpsort">
-              <div className="slpsort-selectbox">
-                <div className="slpsort-selectboxbody" />
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 11 11"
-                  fill="none" xmlns="http://www.w3.org/2000/svg"
-                  className="playlistmainsearchtoggle-icon"
-                >
-                  <path id="Intersect" d="M1.50972 2.35292C2.44299 4.70758 4.44138 9.36599 5.6433 9.36291C6.84522 9.35984 8.8249 4.69125 9.74872 2.33184C10.0015 1.68631 9.52123 1.00203 8.82811 1.00381L2.42499 1.02019C1.73187 1.02197 1.25438 1.70869 1.50972 2.35292Z" fill="#D7E0FF" stroke="#4147D5" strokeWidth="1.5" />
-                </svg>
-                <div className="slpsort-selectoption" onClick={toggle1Dropdown}>{
-                  toggleOption1[type1]}
-                  {isOpen1 && (
-                    <div className="slpsort-selectDropDownBody">
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 11 11"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="playlistmainsearchtoggleUP-icon"
-                      >
-                        <path id="Intersect" d="M9.75359 8.03251C8.82635 5.67547 6.83989 1.01196 5.63797 1.01196C4.43605 1.01196 2.44442 5.67547 1.51457 8.03251C1.26016 8.67739 1.73865 9.36289 2.43177 9.36289H8.83491C9.52803 9.36289 10.0073 8.67739 9.75359 8.03251Z" fill="#D7E0FF" stroke="#4147D5" strokeWidth="1.5" />
-                      </svg>
-                      <option className='slpsort-selectDropDown' onClick={SelectOption1} option={0}>최신순</option>
-                      <option className="slpsort-selectDropDown" onClick={SelectOption1} option={1}>인기순</option>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="slpsearchwrapper">
-            <SearchBar />
-          </div>
+          <SearchBar />
         </div>
         <div className="slpresult">
           {

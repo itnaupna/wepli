@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bit.dto.StageDto;
@@ -65,11 +67,12 @@ public class StageController {
     //     return sService.selectStageOneByMasterNick(nick);
     // }
 
-    // //특정 주소 스테이지 가져오기
-    // @GetMapping("/lv0/s/stage/{address}")
-    // public StageDto getStageByAddress(String address) {
-    //     return sService.selectStageOneByAddress(address);
-    // }
+    //특정 주소 스테이지 가져오기
+    @GetMapping("/lv0/s/stageinfo")
+    public StageDto getStageByAddress(String address) {
+        System.out.println(address);
+        return sService.selectStageOneByAddress(address);
+    }
 
     // 스테이지 생성
     // 데이터 -> address, title, desc, genre, tag, nick, makeday, img, maxlength, skipratio

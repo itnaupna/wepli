@@ -101,10 +101,15 @@ function PlayListUpdate(props) {
                 navigate("/pli/" + idx)
             )
             .catch((error) => {
-                    alert("실패애러" + error)
+                    if (error.response.status === 401) {
+                        alert("로그인 후 사용가능한 기능입니다");
+                    } else if (error.response.status === 403) {
+                        alert("메일 또는 문자인증 후 사용 가능합니다");
+                    } else {
+                        alert("잘못된 접근입니다");
+                    }
 
-                }
-            )
+                })
     };
 
     const [plaListDetailResult, setPlaListDetailResult] = useState([]);
