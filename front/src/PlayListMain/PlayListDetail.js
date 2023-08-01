@@ -333,7 +333,7 @@ const PlayListDetail = () => {
                         </div>
                         <div className="playlistdetailinplaylistinfobu">
                             <div className="playlistdetailbuttonbody">
-                                <div className={nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"} onClick={
+                                <div className={sessionStorage.getItem("data") === null ? "playlistdetailbuttons playlistdetailbuttonNologinPlay" : nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"} onClick={
                                     () => {
                                         if (stageUrl !== null && !window.confirm("스테이지에 입장한 상태입니다. 플리에서 직접 재생시 스테이지에서 퇴장됩니다. 계속 진행하시겠습니까?"))
                                             return;
@@ -514,7 +514,7 @@ const PlayListDetail = () => {
                                         <img
                                             className="playlistdetailcreaatecommentpr-icon"
                                             alt=""
-                                            src={userImg != null ? `${bucketURl}/profile/${userImg}` : weplilogo}
+                                            src={userImg != null && userImg != "" ? `${bucketURl}/profile/${userImg}` : weplilogo}
                                         />
                                         <div
                                             className="playlistdetailcreatecommentpro">{nickname}</div>
@@ -552,7 +552,7 @@ const PlayListDetail = () => {
                                                 <img
                                                     className="playlistdetailcommentprofileim-icon"
                                                     alt=""
-                                                    src={commentList.img != null ? `${bucketURl}/profile/${commentList.img}` : weplilogo}
+                                                    src={commentList.img != "" && commentList.img != null ? `${bucketURl}/profile/${commentList.img}` : weplilogo}
                                                 />
                                             </div>
                                             <div className="playlistdetailcommentnicknameb">

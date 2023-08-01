@@ -39,7 +39,7 @@ function PlayListMain01PlayListRangkingMain(props) {
         Axios.get(RankingDataUrl)
             .then(res => {
                 setRankingData(res.data);
-
+                setMyLikeList(res.data.likePli);
             }
             );
     }, [loginStatus]);
