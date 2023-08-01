@@ -421,8 +421,13 @@ public class StageService {
                     .collect(Collectors.toList());
             searchAndBlack.put("list", queryStrings);
         }
+        List<StageDto> result = sMapper.selectSearchStage(searchAndBlack, data, typeString[(type == null ? 4 : Integer.parseInt(type))]);
 
-        return sMapper.selectSearchStage(searchAndBlack, data, typeString[(type == null ? 4 : Integer.parseInt(type))]);
+        for (StageDto stage : result) {
+            stage.setInfo(builtStages.getOrDefault(stage.getAddress(), new BuiltStageDto()));
+        }
+
+        return result;
 
     }
 
