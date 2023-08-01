@@ -197,6 +197,7 @@ function PlayStage() {
             case 'QUEUE_ORDER_SONG':
                 break;
             case 'CHAT':
+
                 addChatLog({
                     type: data.type,
                     img: `${BUCKET_URL}/profile/${data.img}`,

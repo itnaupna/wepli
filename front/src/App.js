@@ -79,6 +79,7 @@ function App() {
                     position: 'absolute'
                 }} onReady={(e) => { setYTP(e.target); }} onStateChange={(e) => {
                     setShowController(e.target.getPlayerState());
+                    document.title = e.target.getPlayerState();
                 }} opts={opt} />
             </div>
             <SideBar />

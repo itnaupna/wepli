@@ -102,11 +102,20 @@
     .mainsectiontoptext, .mainsectiontoptext2{
         font-size: 30px;
     }
+    .mainsectiontoptext1{
+        position: relative;
+        float: right;
+    }
+
+
 }
 
 @media (max-width: 768px) {
     .posthergroup img {
         width: 24vw;
+    }
+    .mainsectiontoptext1{
+        top: -22%;
     }
 
 }

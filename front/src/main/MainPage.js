@@ -7,6 +7,7 @@ import MainSection2 from "./MainSection2";
 import MainSection3 from "./MainSection3";
 import MainSection4 from "./MainSection4";
 import MainSection5 from "./MainSection5";
+import MainSection6 from "./MainSection6";
 
 function MainPage(props) {
     return (
@@ -16,6 +17,7 @@ function MainPage(props) {
             <MainSection3/>
             <MainSection4/>
             <MainSection5/>
+            <MainSection6/>
             {/*<MainWrapper4/>*/}
         </div>
     );

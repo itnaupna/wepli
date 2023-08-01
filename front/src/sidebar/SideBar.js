@@ -87,7 +87,6 @@ function SideBar(props) {
         axios
             .post(url)
             .then(res => {
-                setLoginStatus(false);
             })
             .catch(error => {
                 if (error.response && error.response.status === 405) {
@@ -96,6 +95,9 @@ function SideBar(props) {
                 } else {
                     console.log('오류:', error.message);
                 }
+            })
+            .finally(()=>{
+                setLoginStatus(false);
             });
     };
 
