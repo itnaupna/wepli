@@ -11,6 +11,7 @@ import { handleSendMsg } from '../../recoil/SocketAtom';
 import { VoteDownAtom, VoteDownCountAtom, VoteUpAtom, VoteUpCountAtom } from '../../recoil/StageDataAtom';
 import CSM from "./CSM";
 import { Modal } from "@mui/material";
+import StageInfoModal from './StageInfoModal';
 
 
 const StageLeftSide = () => {
@@ -46,6 +47,14 @@ const StageLeftSide = () => {
         handleResize();
         // document.getElementById('YTPFrame').parentElement.style.display = 'block';
         window.addEventListener('resize', handleResize);
+
+        let udata = JSON.parse(sessionStorage.getItem('data') || localStorage.getItem('data'));
+        let userNick = udata?.nick;
+        let s = window.location.pathname.split('/stage/')[1];
+        console.log(s===udata?.stageaddress);
+        
+        setIO(s === udata?.stageaddress);
+
 
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -89,6 +98,9 @@ const StageLeftSide = () => {
     const handleSkip = () => {
         handleSendMsg("SKIP", null, su);
     }
+    const [isOwner, setIO] = useState(false);
+
+
 
     // const AAA = <YouTube onReady={(e)=>{setYTA([ e.target);}}/>;
     return (
@@ -130,7 +142,10 @@ const StageLeftSide = () => {
                         {/* <div className="stage-button-skip-text">SKIP</div> */}
                     </div>
 
-                    <div className="stage-button-grab stagebutton" >
+                    <div className="stage-button-grab stagebutton" onClick={() => {
+
+                        handleMo();
+                    }}>
                         {/* <GrabIcon/> */}
                         <SettingsIcon style={{ width: '50px', height: '50px' }} />
                     </div>
@@ -182,10 +197,12 @@ const StageLeftSide = () => {
                 <div style={{ display: !leftType ? 'block' : 'none', width: '100%' }}>
                     <QueueComponent />
                 </div>
-                {/* <button onClick={handleMo}>에오오!</button>
-            <Modal open={mo} onClose={handleMc}>
-                <CSM types={false} />
-            </Modal> */}
+                <Modal open={mo} onClose={handleMc}>
+                    {isOwner
+                        ? <CSM types={false} />
+                        : <StageInfoModal />
+                    }
+                </Modal>
 
             </div>
 

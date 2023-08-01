@@ -37,6 +37,7 @@ function PlayStage() {
     useEffect(() => {
 
         return () => {
+            document.getElementById('YTPFrame').parentElement.style.opacity = '1';
             document.getElementById('YTPFrame').parentElement.style.display = 'none';
         }
     }, []);
@@ -224,20 +225,20 @@ function PlayStage() {
                         return a;
                     });
                     if (userNick !== null) {
-                        // document.getElementsByClassName('stage-button-up')[0].style.display = 'none';
-                        // document.getElementsByClassName('stage-button-down')[0].style.display = 'none';
+                        document.getElementsByClassName('stage-button-up')[0].style.display = 'none';
+                        document.getElementsByClassName('stage-button-down')[0].style.display = 'none';
                     }
                     document.getElementsByClassName('stage-button-skip')[0].style.display = 'flex';
                 } else {
                     if (userNick !== null) {
-                        // document.getElementsByClassName('stage-button-up')[0].style.display = 'flex';
-                        // document.getElementsByClassName('stage-button-down')[0].style.display = 'flex';
+                        document.getElementsByClassName('stage-button-up')[0].style.display = 'flex';
+                        document.getElementsByClassName('stage-button-down')[0].style.display = 'flex';
                     }
                     document.getElementsByClassName('stage-button-skip')[0].style.display = 'none';
                 }
                 //테스트용
-                document.getElementsByClassName('stage-button-up')[0].style.display = 'flex';
-                document.getElementsByClassName('stage-button-down')[0].style.display = 'flex';
+                // document.getElementsByClassName('stage-button-up')[0].style.display = 'flex';
+                // document.getElementsByClassName('stage-button-down')[0].style.display = 'flex';
                 //테스트용끝
                 //방장이면 스킵버튼은 항상 띄운다.
                 let s = window.location.pathname.split('/stage/')[1];
