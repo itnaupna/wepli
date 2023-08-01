@@ -3,18 +3,20 @@ import "./css/MainWrapper4.css";
 import heart from "./photo/heart.png";
 import Axios from "axios";
 import {gsap} from "gsap";
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {ScrollTrigger} from 'gsap/ScrollTrigger';
+
 function MainWrapper4(props) {
-    const [orderByDay ,setOrderByDay] = useState(false);
+    const [orderByDay, setOrderByDay] = useState(false);
     const [likeTop3, setLikeTop3] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         const LikeTop3Url = "/api/lv0/p/list";
-        Axios.get(LikeTop3Url,{ params: {orderByDay}})
+        Axios.get(LikeTop3Url, {params: {orderByDay}})
             .then(res =>
                 setLikeTop3(res.data));
+        console.log(likeTop3);
 
-    },[]);
+    }, []);
 
 
     const profileimg = process.env.REACT_APP_BUCKET_URL;
@@ -27,7 +29,7 @@ function MainWrapper4(props) {
     const textref = useRef(null);
     const textref1 = useRef(null);
 
-    useEffect(()=> {
+    useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
 
         gsap.fromTo(textref.current, {opacity: 0, x: 50}, {
@@ -42,7 +44,7 @@ function MainWrapper4(props) {
             duration: 1,
             scrollTrigger: {trigger: textref1.current, start: "top 80%", end: "top 50%", scrub: 1}
         });
-    },[]);
+    }, []);
 
 
     return (
@@ -51,13 +53,17 @@ function MainWrapper4(props) {
 
                 <div className="mainwrapper4toptextgroup">
                     <div className="mainwrappertoptitletextsection" ref={textref}>
-                        <div className="mainwrappertoptitletext" >실시간 플레이리스트 랭킹</div>
+                        <div className="mainwrappertoptitletext">실시간 플레이리스트 랭킹</div>
                     </div>
                     <div className="mainwrappertopsubtextsection">
                         <div className="mainwrappertopsubtext" ref={textref}>TOP 3</div>
                     </div>
                 </div>
-                    {likeTop3.map((item,idx) =>
+
+                {likeTop3.length === 0 ? (
+                    <div className="no-data-message">현재 랭킹이 없습니다</div>
+                ) : (
+                    likeTop3.map((item, idx) => (
                         <div className="mainwrapper4rankingsection" key={idx}>
                             <div className="mainwrapper4secondrankgroup">
                                 <div className="mainwrapper4secondrankimggroup">
@@ -73,7 +79,8 @@ function MainWrapper4(props) {
                                         alt=""
                                         src={heart}
                                     />
-                                    <div className="mainwrapper4secondrankingtext">{likeTop3[1].likescount} {likeTop3[1].title}</div>
+                                    <div
+                                        className="mainwrapper4secondrankingtext">{likeTop3[1].likescount} {likeTop3[1].title}</div>
                                 </div>
                             </div>
                             <div className="mainwrapper4firstrankgroup">
@@ -90,7 +97,8 @@ function MainWrapper4(props) {
                                         alt=""
                                         src={heart}
                                     />
-                                    <div className="mainwrapper4firstrankingtext">{likeTop3[0].likescount} {likeTop3[0].title}</div>
+                                    <div
+                                        className="mainwrapper4firstrankingtext">{likeTop3[0].likescount} {likeTop3[0].title}</div>
                                 </div>
                             </div>
                             <div className="mainwrapper4thirdrankgroup">
@@ -107,11 +115,13 @@ function MainWrapper4(props) {
                                         alt=""
                                         src={heart}
                                     />
-                                    <div className="mainwrapper4thirdrankingtext">{likeTop3[2].likescount} {likeTop3[2].title}</div>
+                                    <div
+                                        className="mainwrapper4thirdrankingtext">{likeTop3[2].likescount} {likeTop3[2].title}</div>
                                 </div>
                             </div>
                         </div>
-                    )}
+                    ))
+                )}
             </div>
         </div>
     );
