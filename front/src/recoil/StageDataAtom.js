@@ -37,8 +37,8 @@ export const ResultItemsInStageAtom = atom({
 });
 
 const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
-export const GetBucketImgString = (folder, filename) => {
-    return `${BUCKET_URL}/${folder}/${filename}`;
+export const GetBucketImgString = (filename) => {
+    return `${BUCKET_URL}${filename}`;
 }
 
 export const SecondToHMS = (second) => {

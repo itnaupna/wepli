@@ -70,7 +70,7 @@ public class StageController {
     //특정 주소 스테이지 가져오기
     @GetMapping("/lv0/s/stageinfo")
     public StageDto getStageByAddress(String address) {
-        System.out.println(address);
+        // System.out.println(address);
         return sService.selectStageOneByAddress(address);
     }
 

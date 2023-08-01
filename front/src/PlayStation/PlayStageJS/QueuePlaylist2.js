@@ -40,7 +40,7 @@ const QueuePlaylist2 = ({ data, rank, index, nick }) => {
                 ? <GrabToPlaylist data={data} index={index} />
                 : <>
                     <div>{rank}</div>
-                    <img src={data.img ? GetBucketImgString('songimg', data.img) : `https://i.ytimg.com/vi/${data.songaddress}/default.jpg`} alt='' style={{ width: '50px', height: '50px' }} />
+                    <img src={data.img ? GetBucketImgString(data.img) : `https://i.ytimg.com/vi/${data.songaddress}/default.jpg`} alt='' style={{minWidth:'50px', width: '50px', height: '50px' }} />
                     <div className='qpliinfo' style={{ flex: '1', maxWidth: '370px' }} ref={infoRef}>
                         <div style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                             {data.title}

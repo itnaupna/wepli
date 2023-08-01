@@ -6,31 +6,47 @@ import SLPMystagePlayingTitleIcon from '../PlayStageImage/Icon/SLPMystagePlaying
 import CreateStageModal from "./CreateStageModal.js";
 import CSM from "./CSM";
 import { Modal } from "@mui/material";
-import  Axios  from 'axios';
-import { useParams } from 'react-router-dom';
-import Wepli from '../../sidebar/photo/weplilogo.png';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 const StageItemBig = () => {
-  const [stageInfo,setStageInfo] = useState({});
-
-  const {userNick} = useParams();
-
+  const BUCKETURL = process.env.REACT_APP_BUCKET_URL;
+  const DEFAULTIMG = 'https://kr.object.ncloudstorage.com/wepli/playlist/88e584de-fb85-46ce-bc1a-8b2772babe42';
+  // 모달창 노출
+  const [modalOpen, setModalOpen] = useState(false);
   const showModal = () => {
     setMo(true)
   };
   const [mo, setMo] = useState(false);
   const handleMo = () => setMo(true);
   const handleMc = () => setMo(false);
-  const data = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem('data'));
-  const [checkStage, SetCheckStage] = useState(false);
+  const [data, setData] = useState();
+  const [checkStage, SetCheckStage] = useState(true);
 
   useEffect(() => {
-    if (data && data.stageaddress === null) {
+    setData(JSON.parse(sessionStorage.getItem("data") || localStorage.getItem('data')));
+  }, []);
+
+  useEffect(() => {
+    if (data?.stageaddress === null) {
       SetCheckStage(true);
     } else {
+      loadData();
       SetCheckStage(false);
     }
   }, [data]);
+
+
+
+  const [stageData, setStageData] = useState(false);
+
+  const loadData = async () => {
+    let address = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem('data')).stageaddress;
+    let result = await axios.get("/api/lv0/s/stageinfo", { params: { address } });
+    setStageData(result.data);
+    console.log(result.data);
+  }
 
   if (!data) {
     return null;
@@ -56,71 +72,71 @@ const StageItemBig = () => {
             <CSM types={true} onClose={handleMc}/>
           </Modal>
         </div>
-      ) : (
+      ) : (stageData &&
         // address가 null이 아닐 때 스테이지 정보를 렌더링합니다.
-        <div className="slpitembig">
-          <div className="slpitembigheader">
-            <div className="slpitembigimgwrapper" >
-              {stageInfo && stageInfo.img !== null?(
+        <Link to={"/stage/" + stageData.address}>
+          <div className="slpitembig" style={{
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('${stageData.img
+              ? BUCKETURL + stageData.img
+              : (stageData?.info?.songInfo?.img && BUCKETURL + stageData.info.songInfo.img) ||
+              DEFAULTIMG}')`
+          }}>
+            <div className="slpitembigheader">
+              <div className="slpitembigimgwrapper" >
                 <img
-                  className='slpitembigimg-icon'
-                  alt='썸네일'
-                  src={stageInfo.img}
-                />
-                ):(
-                  <img
-                  className='slpitembigimg-icon'
+                  className="slpitembigimg-icon"
                   alt="스테이지썸네일"
-                  src={Wepli}
+                  src={stageData.img
+                    ? BUCKETURL + stageData.img
+                    : (stageData?.info?.songInfo?.img && BUCKETURL + stageData.info.songInfo.img) ||
+                    DEFAULTIMG}
+                />
+                <div className="slpitembigday">생성일 : {stageData.makeday}</div>
+              </div>
+              <div className="slpitembiginfo">
+                <div className="slpitembiglikewrapper">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystagePeopleIcon}
                   />
-                )}
-                {stageInfo &&(
-              <div className="slpitembigday">생성일 : {stageInfo.makeday}</div>
-              )}
+                  <div className="slpmystagelikecount">{Object.keys(stageData.info.users).length}</div>
+                </div>
+                <div className="slpitembiglikewrapper">
+                  <img
+                    className="slpmystagepeopleicon"
+                    alt=""
+                    src={SLPMystageQIcon}
+                  />
+                  <div className="slpmystagelikecount">{Object.keys(stageData.info.userQueue).length}</div>
+                </div>
+                <div className="slpmystageowner">@{stageData.nick}</div>
+                <div className="slpmystagecategory">
+                  #{stageData.tag?.split(',')[0]}
+                </div>
+                <div className="slpmystagecategory">
+                  #{stageData.genre?.split(',')[0]}
+                </div>
+              </div>
             </div>
-            <div className="slpitembiginfo">
-              <div className="slpitembiglikewrapper">
+            <div className="slpitembigbody">
+              <div className="slpmystagetitle">{stageData.title}</div>
+              <div className="slpmystagedescription">
+                {stageData.desc}
+              </div>
+              <div className="slpmystageplayingtitlewrapper">
                 <img
                   className="slpmystagepeopleicon"
                   alt=""
-                  src={SLPMystagePeopleIcon}
+                  src={SLPMystagePlayingTitleIcon}
                 />
-                <div className="slpmystagelikecount">{stageInfo.likes}</div>
-              </div>
-              <div className="slpitembiglikewrapper">
-                <img
-                  className="slpmystagepeopleicon"
-                  alt=""
-                  src={SLPMystageQIcon}
-                />
-                <div className="slpmystagelikecount">220</div>
-              </div>
-              <div className="slpmystageowner">@{stageInfo.nick}</div>
-              <div className="slpmystagecategory">
-                #{stageInfo.tag}
-              </div>
-              <div className="slpmystagecategory">
-                #{stageInfo.genre}
+                <div className="slpmystageplayingtitle">
+                  {stageData.info?.songInfo?.title || "재생중인 곡이 없습니다."}
+                </div>
               </div>
             </div>
           </div>
-          <div className="slpitembigbody">
-            <div className="slpmystagetitle">내 스테이지 입장</div>
-            <div className="slpmystagedescription">
-                {stageInfo.desc}
-            </div>
-            <div className="slpmystageplayingtitlewrapper">
-              <img
-                className="slpmystagepeopleicon"
-                alt=""
-                src={SLPMystagePlayingTitleIcon}
-              />
-              <div className="slpmystageplayingtitle">
-                  {stageInfo.singer} - {stageInfo.title}
-              </div>
-            </div>
-          </div>
-        </div>
+        </Link>
       )}
     </>
   );

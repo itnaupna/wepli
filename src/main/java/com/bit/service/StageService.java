@@ -136,6 +136,10 @@ public class StageService {
         }
     }
 
+    public int getMaxSongLength(String stageId){
+        return sMapper.selectStageOneByAddress(stageId).getMaxlength();
+    }
+
     public SongDto setNextSong(String stageId) {
         try {
             synchronized (builtStages.get(stageId)) {
@@ -336,7 +340,9 @@ public class StageService {
     }
 
     public StageDto selectStageOneByAddress(String address) {
-        return sMapper.selectStageOneByAddress(address);
+        StageDto result = sMapper.selectStageOneByAddress(address);
+        result.setInfo(builtStages.getOrDefault(result.getAddress(), new BuiltStageDto()));
+        return result;
     }
 
     public StageDto selectStageOneByMasterNick(String token) {
