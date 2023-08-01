@@ -5,11 +5,14 @@ import logo from "../mypage/photo/wplieonlylogo.png";
 import PlusIcon from "../MainIMG/plusIcon.png";
 import PlayListSave from "../MainIMG/playListSave.png";
 import PlayListDetailClose from "../MainIMG/PlayListDetailClose.png";
+import weplilogo from "../sidebar/photo/weplilogo.png";
 import "./PlayListUpdate.css";
+
 
 function PlayListUpdate(props) {
     const idx = useParams().pliId;
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
+    const pliProfileImg = JSON.parse(sessionStorage.getItem("data")).img;
     const [pliTitle, setPliTitle] = useState("");
     const [pliDesc, setPliDesc] = useState("");
     const [nick, setNick] = useState("");
@@ -37,30 +40,20 @@ function PlayListUpdate(props) {
     const genreOnChange = (e, idx) => {
         const updatedGenre = [...genre];
         updatedGenre[idx] = e.target.value;
-        setGenre(updatedGenre);
-        setGenres(updatedGenre.join(","));
-        console.log(genres);
-        console.log(genre);
+        const filteredGenre = updatedGenre.filter((element) => element.trim() !== "");
+        setGenre(filteredGenre);
+        setGenres(filteredGenre.join(","));
     }
     const tagOnChange = (e, idx) => {
         const updatedTag = [...tag];
         updatedTag[idx] = e.target.value;
-        setTag(updatedTag);
-        setTags(updatedTag.join(","));
-        console.log(tag);
+        const filteredTag = updatedTag.filter((element) => element.trim() !== "");
+        setTag(filteredTag);
+        setTags(filteredTag.join(","));
     }
 
-    const closBack = async ()  => {
-       await Axios({
-            method: "delete",
-            url: "/api/lv1/os/imgdelete",
-            directoryPath : "playlist"
-        })
-            .then(res => {
-            })
-            .catch(error => {
-            })
-        navigate("/pli/" + idx);
+    const closBack = ()  => {
+        closBacknavigate(-1);
     };
 
     const savePliImg = (e) => {
@@ -108,10 +101,15 @@ function PlayListUpdate(props) {
                 navigate("/pli/" + idx)
             )
             .catch((error) => {
-                    alert("실패애러" + error)
+                    if (error.response.status === 401) {
+                        alert("로그인 후 사용가능한 기능입니다");
+                    } else if (error.response.status === 403) {
+                        alert("메일 또는 문자인증 후 사용 가능합니다");
+                    } else {
+                        alert("잘못된 접근입니다");
+                    }
 
-                }
-            )
+                })
     };
 
     const [plaListDetailResult, setPlaListDetailResult] = useState([]);
@@ -119,7 +117,7 @@ function PlayListUpdate(props) {
 
     useEffect(() => {
         const plaListDetailUrl = "/api/lv0/p/playdetail";
-        Axios.get(plaListDetailUrl, {params: {idx: idx, curr: 1, cpp: 6}})
+        Axios.get(plaListDetailUrl, {params: {idx: idx}})
             .then(res => {
                 setUSN(res.data.play.nick);
                 setPlaListDetailResult(res.data);
@@ -131,16 +129,17 @@ function PlayListUpdate(props) {
                 setNick(res.data.play.nick);
                 if(res.data.play.genre != null) {
                     setGenre((res.data.play.genre).split(","));
+                    setGenres(res.data.play.genre);
                 }
                 if(res.data.play.tag != null) {
                     setTag((res.data.play.tag).split(","));
+                    setTags(res.data.play.tag);
                 }
                 setPliImg(bucketURl + res.data.play.img);
                 setUploadPliImgName(res.data.play.img);
                 setIsPublicCheckBox(res.data.play.isPublic === 0);
                 setUpdateNick(res.data.play.nick);
                 setUpdatePlayUserImg(res.data.playUserImg);
-                // console.log(res.data.play.nick);
 
                 let nickname = window.localStorage.getItem("data");
                 if(nickname == null) {
@@ -186,7 +185,7 @@ function PlayListUpdate(props) {
                             <img
                                 className="playlistaddprofileimage-icon"
                                 alt=""
-                                src={userImg != null ? `${bucketURl}/profile/${userImg}` : logo }
+                                src={pliProfileImg ? bucketURl + "/profile/" + pliProfileImg : weplilogo}
                             />
                             <div className="playlistaddinplaylistnickna">
                                 {nick}

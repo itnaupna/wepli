@@ -112,6 +112,9 @@
     background-color: #d0e0f4;
     border: none;
 }
+.mypagepwchkmodalbtntext1:hover{
+    cursor: pointer;
+}
 .mypagepwchkmodalmypagebtn {
     position: absolute;
     top: 0;

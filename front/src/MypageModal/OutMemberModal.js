@@ -73,7 +73,7 @@ function OutMemberModal({setIsOutMemberModalOpen}) {
                     </div>
                     <div className="mypageoutmemebermodalpassinput">
                         <input type={'password'} value={pw} onChange={handleInputPw} className="mypageoutmemebermodalpassinput1"
-                        onKeyPress={OutMemberEnter}></input>
+                        onKeyPress={OutMemberEnter} autoFocus placeholder="비밀번호를 입력해 주세요"></input>
                     </div>
 
                     <div className="mypageoutmemebermodalbtngroup">

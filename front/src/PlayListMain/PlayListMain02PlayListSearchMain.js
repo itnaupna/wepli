@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import "./PlayListMain02PlayListSearchMain.css";
 import PlayListSearchlogoTitle from "../MainIMG/PlayListSearchlogoTitle.png";
 import SearchBarIcon from "../MainIMG/SearchBarIcon.png";
@@ -12,8 +12,7 @@ import Axios from "axios";
 function PlayListMain02PlayListSearchMain(props) {
     const [type, setType] = useState(0);
     const [queryString , setQueryString] = useState("");
-    const [curr, setCurr] = useState(1);
-    const [cpp, setCpp] = useState(1000);
+
     const [orderByDay ,setOrderByDay] = useState(true);
     const [searchDetail, setSearchDetail] = useState([]);
     const [searchResult, setSearchResult] = useState();
@@ -33,7 +32,7 @@ function PlayListMain02PlayListSearchMain(props) {
 
     useEffect(()=>{
         const searchDetailUrl = "/api/lv0/p/list";
-        Axios.get(searchDetailUrl,{ params: {orderByDay, curr, cpp}})
+        Axios.get(searchDetailUrl,{ params: {orderByDay}})
             .then(res =>
                 setSearchDetail(res.data));
     },[]);
@@ -41,28 +40,29 @@ function PlayListMain02PlayListSearchMain(props) {
 
     const NoSearch =() =>{
         const searchDetailUrl = "/api/lv0/p/list";
-        Axios.get(searchDetailUrl,{ params: {orderByDay, curr, cpp}})
+        Axios.get(searchDetailUrl,{ params: {orderByDay}})
             .then(res =>
                 setSearchResult(res.data));
     };
 
-    const SearchButton = () => {
+    const SearchButton = async () => {
         // const SearchURl = "/api/lv0/p/search";
         const SearchURl = "/api/lv0/p/list";
         queryString === ""? NoSearch():
-        Axios.get(SearchURl,{ params: {type, queryString,orderByDay, curr,cpp}})
+        await Axios.get(SearchURl,{ params: {type, queryString,orderByDay}})
             .then(res =>
                 setSearchResult(res.data));
     };
     const SearchEnter = (e) =>{
         if (e.key === 'Enter') {
-                SearchButton();
+            SearchButton();
+            document.activeElement.blur();
         }
     };
 
     const SelectSearchOption = (e) =>{
         setType(e.target.getAttribute("value"));
-
+       
     }
 
 
@@ -97,8 +97,8 @@ function PlayListMain02PlayListSearchMain(props) {
                             </div>
                         </div>
                         <div className="playlistsearchbar">
-                            <input className="playlsitsearchbarbody" onKeyPress={SearchEnter} value={queryString} type="text" placeholder="검색할 내용을 입력해 주세요"  onChange={searchOnChange}/>
-                                <img onClick={SearchButton}
+                            <input className="playlsitsearchbarbody" onKeyDown={SearchEnter} value={queryString} type="text" placeholder="검색할 내용을 입력해 주세요"  onChange={searchOnChange}/>
+                                <img onClick={() => SearchButton }
                                     className="playlsitsearchicons"
                                     alt=""
                                     src={SearchBarIcon}

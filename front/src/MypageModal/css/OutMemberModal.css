@@ -78,6 +78,9 @@
     background-color: #d0e0f4;
     border: none;
 }
+.mypageoutmemebermodalbtntext:hover{
+    cursor: pointer;
+}
 .mypageoutmemebermodalmypagebtn {
     position: absolute;
     top: 0;

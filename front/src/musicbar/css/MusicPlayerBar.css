@@ -168,6 +168,6 @@
     text-align: left;
     font-size: 22px;
     color: #000;
-    font-family: "BM DoHyeon";
+    font-family: var(--font-bm-dohyeon);
   }
   
