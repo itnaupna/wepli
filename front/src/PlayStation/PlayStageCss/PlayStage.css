@@ -105,7 +105,7 @@
 .stage-button-stage-text {
     color: #000000;
     text-align: center;
-    font: 400 20px "BM DoHyeon", sans-serif;
+    font: 400 20px var(--font-bm-dohyeon), sans-serif;
     position: relative;
     display: flex;
     align-items: center;
@@ -131,7 +131,7 @@
 .stage-button-queue-text {
     color: #000000;
     text-align: center;
-    font: 400 20px "BM DoHyeon", sans-serif;
+    font: 400 20px var(--font-bm-dohyeon), sans-serif;
     position: relative;
     display: flex;
     align-items: center;
@@ -251,7 +251,7 @@
 .stage-button-skip-text {
     color: #000000;
     text-align: center;
-    font: 400 25px "BM DoHyeon", sans-serif;
+    font: 400 25px var(--font-bm-dohyeon), sans-serif;
     position: relative;
     display: flex;
     align-items: center;
@@ -391,7 +391,7 @@
 .stage-button-people-count {
     color: #000000;
     text-align: center;
-    font: 400 20px "BM DoHyeon", sans-serif;
+    font: 400 20px var(--font-bm-dohyeon), sans-serif;
     position: relative;
     display: flex;
     align-items: center;
@@ -401,7 +401,7 @@
 /* . {
     color: #707070;
     text-align: center;
-    font: 400 15px "BM DoHyeon", sans-serif;
+    font: 400 15px var(--font-bm-dohyeon), sans-serif;
     position: relative;
     display: flex;
     align-items: center;
@@ -411,7 +411,7 @@
 .stage-button-guest-count {
     color: #707070;
     text-align: center;
-    font: 400 15px "BM DoHyeon", sans-serif;
+    font: 400 15px var(--font-bm-dohyeon), sans-serif;
     position: relative;
     display: flex;
     align-items: center;
@@ -614,7 +614,7 @@
 .stage-people-nickname {
     color: #000000;
     text-align: center;
-    font: 400 20px "BM DoHyeon", sans-serif;
+    font: 400 20px var(--font-bm-dohyeon), sans-serif;
     position: relative;
     display: flex;
     align-items: center;

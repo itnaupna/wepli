@@ -23,14 +23,13 @@ function NaverCallback() {
     const code = urlParams.get('code');
     const state = urlParams.get('state');
 
-    axios.get(`https://wepli.today/api/lv0/m/nlogin?code=${code}&state=${state}`)
+    axios.get(`http://localhost:3000/api/lv0/m/nlogin?code=${code}&state=${state}`)
     .then(response => {
       const token = response.data.access_token;
       if (token) {
-        localStorage.setItem('token', token);
        
         // 사용자 정보 요청
-        axios.get(`https://wepli.today/api/lv0/m/userinfo?token=${token}`)
+        axios.get(`http://localhost:3000/api/lv0/m/userinfo?token=${token}`)
         .then(response => {
             console.log(response.data.response); 
             const id = response.data.response.email;
@@ -40,7 +39,7 @@ function NaverCallback() {
                                     if (res.data.result === 'true') {
                                         console.log("res.data입니당", res.data);
 
-                                        sessionStorage.setItem("data", JSON.stringify(res.data));
+                                        sessionStorage.setItem("data", JSON.stringify(res.data.data));
                                         setSocialtype("naver");
                                         setLoginStatus(true);
                                         navi("/", {

@@ -105,24 +105,22 @@ function SignUpModal({setSignUpModalOpen}) {
                 setPwConfirm("");
                 return;
             }
-
         }
         try {
             const res = await axios.post(url, {email, pw: pw, nick, socialtype: socialtype});
-            console.log("호출해용2222");
+            // console.log("호출해용2222");
             if (res.data) {
-                alert("회원가입됨");
+                // alert("회원가입됨");
                 await setSignUpModalOpen(false);
-                window.location.reload();
+                // window.location.reload();
                 navigate("/");
             } else {
                 alert("다시 입력해주십쇼 -_-");
             }
         } catch (error) {
-            console.log(error);
-            alert(error);
+            // console.log(error);
+            // alert(error);
         }
-
     };
 
     // 닉네임 중복체크
