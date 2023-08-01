@@ -838,3 +838,6 @@
     background-color: rgba(0, 0, 0, 0.5);
     cursor: pointer;
 }
+.txtrank:hover{
+    cursor: pointer;
+}

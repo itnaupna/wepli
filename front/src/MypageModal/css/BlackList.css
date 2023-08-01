@@ -133,6 +133,9 @@
     gap: 0.19rem;
     margin-top: 15px;
 }
+.blacklistmodallist:hover{
+    cursor: pointer;
+}
 .blacklistmodallayout,
 .blacklistmodalveticalframe {
     display: flex;

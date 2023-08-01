@@ -42,7 +42,7 @@ function PlayListMain01PlayListRangkingMain(props) {
                 setMyLikeList(res.data.likePli);
             }
             );
-    }, [loginStatus]);
+    },[loginStatus]);
 
     useEffect(()  => {
         setLikeTop50(rankingData.likeTopPli);
