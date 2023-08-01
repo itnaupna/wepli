@@ -33,6 +33,11 @@
     --br-3xs: 10px;
     --br-8xs: 5px;
 }
+@media (max-width: 1250px) {
+    .playlistaddframe {
+        padding-left: 170px !important;
+    }
+}
 .playlistaddcover-icon {
     position: relative;
     border-radius: var(--br-xl);

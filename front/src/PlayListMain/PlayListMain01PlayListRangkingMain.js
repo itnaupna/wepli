@@ -10,7 +10,8 @@ import MyFollowList from "./MyFollowList";
 import FollowToggleButton from "../MainIMG/FollowToggleButton.png";
 import { useNavigate } from 'react-router-dom';
 import {LikeMyPli} from "../recoil/SearchSongAtom";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
+import { LoginStatusAtom } from '../recoil/LoginStatusAtom';
 
 function PlayListMain01PlayListRangkingMain(props) {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ function PlayListMain01PlayListRangkingMain(props) {
     const [isLikeHidden, setIsLikeHidden] = useState(true);
     const [isFollowHidden, setIsFollowHidden] = useState(false);
     const [nickname, setNickname] = useState("");
+    const loginStatus = useRecoilValue(LoginStatusAtom);
 
     useEffect(() => {
         let nickname = window.localStorage.getItem("data");
@@ -36,26 +38,17 @@ function PlayListMain01PlayListRangkingMain(props) {
         const RankingDataUrl = "/api/lv0/p/plimaindata";
         Axios.get(RankingDataUrl)
             .then(res => {
-                setRankingData(res.data)
+                setRankingData(res.data);
+                setMyLikeList(res.data.likePli);
             }
             );
-    }, []);
+    },[loginStatus]);
 
-    useEffect( ()  => {
+    useEffect(()  => {
         setLikeTop50(rankingData.likeTopPli);
         setFollowTop50(rankingData.followTop);
         setMyLikeList(rankingData.likePli);
     }, [rankingData]);
-
-    useEffect(() => {
-        const RankingDataUrl = "/api/lv0/p/plimaindata";
-        Axios.get(RankingDataUrl)
-            .then(res => {
-                setMyLikeList(res.data.likePli);
-                }
-            );
-    },[sessionStorage.getItem("data")])
-
 
 
     const clickMypageHandler = (target) => {
@@ -125,7 +118,7 @@ function PlayListMain01PlayListRangkingMain(props) {
                         className="playlistrankinglistwrapper">
                         <div className="playlistrankinglistitemswrappe">
                             {
-                                sessionStorage.getItem("data") == null ?
+                                sessionStorage.getItem("data") == null && localStorage.getItem("data") == null ?
                                     <div className="MyLikePliNoLoging">로그인 후 이용하실 수 있습니다</div> :
                                     myLikeList === undefined ? <div className="MyLikePliNoLoging">Loading...</div> :
                                         myLikeList.length === 0 ?
@@ -146,7 +139,7 @@ function PlayListMain01PlayListRangkingMain(props) {
                         className="playlistrankinglistwrapper">
                         <div className="playlistrankinglistitemswrappe">
                             {
-                                sessionStorage.getItem("data") == null ?
+                                sessionStorage.getItem("data") == null && localStorage.getItem("data") == null ?
                                     <div className="MyLikePliNoLoging">로그인 후 이용하실 수 있습니다</div> :
                                     myFollowList === undefined ? <div className="MyLikePliNoLoging">Loading...</div> :
                                     myFollowList.length === 0 ?

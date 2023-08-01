@@ -37,6 +37,12 @@ function PwChkModal({setpwChkmodalOpen}) {
         }
     };
 
+    const EnterKeyPress = (e) =>{
+        if (e.key === 'Enter') {
+            pwChkHandler();
+        }
+    };
+
     return (
         <div >
             <div className="mypagepwchkmodalframe" onClick={closePwChkModal}></div>
@@ -62,7 +68,7 @@ function PwChkModal({setpwChkmodalOpen}) {
                 </div>
                 <div className="mypagepwchkmodalpassinputgroup">
                     <input className="mypagepwchkmodalpassinput"
-                           type="password" onChange={(e) => setPwChk(e.target.value)}></input>
+                           type="password" onChange={(e) => setPwChk(e.target.value)} onKeyPress={EnterKeyPress} autoFocus></input>
                 </div>
                 <div className="mypagepwchkmodalbtngroup">
                     <div className="mypagepwchkmodalmypagebtn">

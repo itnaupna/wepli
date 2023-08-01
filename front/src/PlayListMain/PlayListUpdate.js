@@ -40,30 +40,20 @@ function PlayListUpdate(props) {
     const genreOnChange = (e, idx) => {
         const updatedGenre = [...genre];
         updatedGenre[idx] = e.target.value;
-        setGenre(updatedGenre);
-        setGenres(updatedGenre.join(","));
-        console.log(genres);
-        console.log(genre);
+        const filteredGenre = updatedGenre.filter((element) => element.trim() !== "");
+        setGenre(filteredGenre);
+        setGenres(filteredGenre.join(","));
     }
     const tagOnChange = (e, idx) => {
         const updatedTag = [...tag];
         updatedTag[idx] = e.target.value;
-        setTag(updatedTag);
-        setTags(updatedTag.join(","));
-        console.log(tag);
+        const filteredTag = updatedTag.filter((element) => element.trim() !== "");
+        setTag(filteredTag);
+        setTags(filteredTag.join(","));
     }
 
-    const closBack = async ()  => {
-       await Axios({
-            method: "delete",
-            url: "/api/lv1/os/imgdelete",
-            directoryPath : "playlist"
-        })
-            .then(res => {
-            })
-            .catch(error => {
-            })
-        navigate("/pli/" + idx);
+    const closBack = ()  => {
+        closBacknavigate(-1);
     };
 
     const savePliImg = (e) => {
@@ -122,7 +112,7 @@ function PlayListUpdate(props) {
 
     useEffect(() => {
         const plaListDetailUrl = "/api/lv0/p/playdetail";
-        Axios.get(plaListDetailUrl, {params: {idx: idx, curr: 1, cpp: 6}})
+        Axios.get(plaListDetailUrl, {params: {idx: idx}})
             .then(res => {
                 setUSN(res.data.play.nick);
                 setPlaListDetailResult(res.data);
@@ -134,16 +124,17 @@ function PlayListUpdate(props) {
                 setNick(res.data.play.nick);
                 if(res.data.play.genre != null) {
                     setGenre((res.data.play.genre).split(","));
+                    setGenres(res.data.play.genre);
                 }
                 if(res.data.play.tag != null) {
                     setTag((res.data.play.tag).split(","));
+                    setTags(res.data.play.tag);
                 }
                 setPliImg(bucketURl + res.data.play.img);
                 setUploadPliImgName(res.data.play.img);
                 setIsPublicCheckBox(res.data.play.isPublic === 0);
                 setUpdateNick(res.data.play.nick);
                 setUpdatePlayUserImg(res.data.playUserImg);
-                // console.log(res.data.play.nick);
 
                 let nickname = window.localStorage.getItem("data");
                 if(nickname == null) {

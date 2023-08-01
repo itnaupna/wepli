@@ -7,6 +7,7 @@ import SearchCommentIcon from "../MainIMG/SearchCommentIcon.png";
 import CommentIcon from "../MainIMG/CommentImg.png";
 import PlayListPlayIcon from "../MainIMG/PlayListDetailPlayIcon.png";
 import PlayListDetailHeart from "../MainIMG/PlayListDetailHeartIcon.png";
+import PlayListDetailHoverHeart from "../MainIMG/PlayListDetailHeartHoverIcon.png";
 import PlayListDetaliAddMusic from "../MainIMG/PlayListDetailAddMusic.png";
 import PlayListDetailOption from "../MainIMG/PlayListDetailOption.png";
 import PlayListDetailDelete from "../MainIMG/PlayListDetailDelete.png";
@@ -34,10 +35,13 @@ const PlayListDetail = () => {
     const bucketURl = process.env.REACT_APP_BUCKET_URL;
     const idx = useParams().pliId;
     const loginStatus = useRecoilValue(LoginStatusAtom);
+    const [heartHover, setHeartHover] = useState(false);
     const YTP = useRecoilValue(YoutubeAtom);
     const setYTPList = useSetRecoilState(YTPListAtom);
     const [stageUrl, setStageUrl] = useRecoilState(StageUrlAtom);
     const socket = useRecoilValue(SocketAtom);
+    const [addSongResult, setAddSongResult] = useRecoilState(AddSongResult);
+
     const onIconsClick = useCallback(() => {
         // Please sync "PlayListMain03MyPlayListMain" to the project
     }, []);
@@ -57,13 +61,13 @@ const PlayListDetail = () => {
     const [plaListDetailSong, setPlaListDetailSong] = useState([]);
     const [plaListDetailplayUserImg, setPlaListDetailplayUserImg] = useState("");
     const [nickname, setNickname] = useState("");
+    const [userImg, setUserImg] = useState("");
 
     const plaListDetail = () => {
         const plaListDetailUrl = "/api/lv0/p/playdetail";
-        Axios.get(plaListDetailUrl, { params: { idx: idx, curr: 1, cpp: 6 } })
+        Axios.get(plaListDetailUrl, { params: { idx: idx} })
             .then(res => {
                 setPlaListDetailResult(res.data);
-                console.log(res.data);
                 setPlaListDetailComment(res.data.comment);
                 setPlaListDetailInfo(res.data.play);
                 setPlaListDetailSong(res.data.song);
@@ -79,12 +83,15 @@ const PlayListDetail = () => {
             nickname = window.sessionStorage.getItem("data");
         }
 
-        if (nickname && nickname.includes("nick")) {
-            nickname = JSON.parse(nickname).nick;
+        if(nickname != null) {
+            setNickname(JSON.parse(nickname).nick);
+            setUserImg(JSON.parse(nickname).img);
+        } else {
+            setNickname(null);
+            setUserImg(null);
         }
-        setNickname(nickname);
         plaListDetail();
-    }, [loginStatus]);
+    }, [loginStatus, addSongResult, nickname]);
 
     const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
     const [addSongModalOpen, setAddSongModalOpen] = useRecoilState(AddSongModalOpen);
@@ -164,11 +171,18 @@ const PlayListDetail = () => {
         Axios({
             method: "post",
             url: "/api/lv2/p/like",
-            params: { playlistID: idx, }
+            params:{playlistID: idx,}
         }).then(res => {
             setAddSongResult(!addSongResult);
         }).catch(error => {
             console.log(error);
+            if (error.response.status === 401) {
+                alert("로그인 후 사용가능한 기능입니다");
+            } else if (error.response.status === 403) {
+                alert("메일 또는 문자인증 후 사용 가능합니다");
+            } else {
+                alert("알수없는 오류");
+            }
         })
     }
 
@@ -270,11 +284,9 @@ const PlayListDetail = () => {
             singer: songSinger,
             idx: index
         };
-
-
         Axios.patch(updateSongURl, updateSongData)
             .then(res =>
-                alert("수정 완료")
+                plaListDetail()
             )
             .catch((error) => {
                 alert("실패애러" + error)
@@ -282,12 +294,6 @@ const PlayListDetail = () => {
             }
             )
     }
-
-    const [addSongResult, setAddSongResult] = useRecoilState(AddSongResult);
-
-    useEffect(() => {
-        plaListDetail();
-    }, [addSongResult]);
 
     return (
         <div className="playlistdetailframe">
@@ -327,7 +333,7 @@ const PlayListDetail = () => {
                         </div>
                         <div className="playlistdetailinplaylistinfobu">
                             <div className="playlistdetailbuttonbody">
-                                <div className={nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"} onClick={
+                                <div className={sessionStorage.getItem("data") === null ? "playlistdetailbuttons playlistdetailbuttonNologinPlay" : nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"} onClick={
                                     () => {
                                         if (stageUrl !== null && !window.confirm("스테이지에 입장한 상태입니다. 플리에서 직접 재생시 스테이지에서 퇴장됩니다. 계속 진행하시겠습니까?"))
                                             return;
@@ -349,11 +355,13 @@ const PlayListDetail = () => {
                                         src={PlayListPlayIcon}
                                     />
                                 </div>
-                                <div className={nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"} onClick={likeOnClick}>
+                                <div className={sessionStorage.getItem("data") === null ? "playlistdetailbuttons playlistdetailbuttonNologin" :  nickname === plaListDetailInfo.nick ? "playlistdetailbuttons" : "playlistdetailbuttons playlistdetailbuttonsHidden"} onClick={likeOnClick}
+                                     onMouseOver={() => setHeartHover(true)}
+                                     onMouseOut={() => setHeartHover(false)}>
                                     <img
                                         className="playlistdetaillikebutton-icon"
                                         alt=""
-                                        src={PlayListDetailHeart}
+                                        src={heartHover? PlayListDetailHoverHeart : PlayListDetailHeart}
                                     />
                                 </div>
                                 {nickname === plaListDetailInfo.nick ?
@@ -488,17 +496,17 @@ const PlayListDetail = () => {
                         )}
                 </div>
                 <div className="playlistdetailcommentframe">
-                    {
-                        sessionStorage.getItem("data") == null ? null :
+
                             <div className="playlistdetailcommentgroup1">
                                 <div className="playlistdetailcommentheader">
                                     <div className="commettilte">댓글</div>
                                     <img
                                         className="commettilteiconbody"
                                         alt=""
-                                        src={`${plaListDetailplayUserImg} ? ${bucketURl}/profile/${plaListDetailplayUserImg} : ${weplilogo}`}
+                                        src={SearchCommentIcon}
                                     />
                                 </div>
+                            {nickname == null || nickname === "" ? "" :
                                 <div className="playlistdetailcommentform">
                                     <textarea className="txtplaylistdetailform" placeholder="최대 길이는 200자 입니다" maxLength="200" value={commentContent} onChange={commentContentOnChange}>
                                     </textarea>
@@ -506,16 +514,17 @@ const PlayListDetail = () => {
                                         <img
                                             className="playlistdetailcreaatecommentpr-icon"
                                             alt=""
-                                            src={bucketURl + "/profile/" + JSON.parse(sessionStorage.getItem("data")).img}
+                                            src={userImg != null && userImg != "" ? `${bucketURl}/profile/${userImg}` : weplilogo}
                                         />
                                         <div
-                                            className="playlistdetailcreatecommentpro">{JSON.parse(sessionStorage.getItem("data")).nick}</div>
+                                            className="playlistdetailcreatecommentpro">{nickname}</div>
                                         <div className="playlistdetailcreatecommentcre">댓글작성</div>
                                         <div className="playlistdetailcreatecommentcre1" onClick={writeComment}>작성</div>
                                     </div>
                                 </div>
+                            }
                             </div>
-                    }
+
                     {
                         plaListDetailComment.map((commentList, idx) =>
                             <div className="playlistdetailcommentswrapper" key={idx}>
@@ -543,7 +552,7 @@ const PlayListDetail = () => {
                                                 <img
                                                     className="playlistdetailcommentprofileim-icon"
                                                     alt=""
-                                                    src={bucketURl + "/profile/" + commentList.img}
+                                                    src={commentList.img != "" && commentList.img != null ? `${bucketURl}/profile/${commentList.img}` : weplilogo}
                                                 />
                                             </div>
                                             <div className="playlistdetailcommentnicknameb">

@@ -6,6 +6,10 @@
     position: relative;
 }
 
+.mypagepwchkmodalarrowgroup-icon:hover{
+    cursor: pointer;
+}
+
 .mypageheader {
     display: grid;
     gap: 10px;
@@ -26,7 +30,7 @@
     width: 350px;
     height: 300px;
     border-radius: 30px;
-    margin-left: 50px;
+/*    margin-left: 50px;*/
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -41,7 +45,11 @@
 
 .mypageleftheader{
     position: fixed;
-    left: 0;
+    left: 50px;
+    width: 44%;
+}
+.mypageleftheader:hover{
+    cursor: pointer;
 }
 
 .mypagerightheader {
@@ -385,7 +393,7 @@
 
     .mypageuserprofile{
         width: 300px;
-        margin-left: 30px;
+/*        margin-left: 30px;*/
         margin-top: 15px;
     }
 
