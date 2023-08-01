@@ -93,6 +93,7 @@
     align-items: flex-start;
     gap: var(--gap-3xs);
     min-width: 20.63rem;
+    justify-content: flex-start !important;
 }
 .playlistbuttonlist,
 .playlistrankingheader {
@@ -589,4 +590,20 @@
 .rankingtoggleText{
     font-family: var(--font-bm-dohyeon);
     font-size: 16px;
+}
+
+@media (max-width: 1200px) {
+    .playlistrankingbody{
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: inherit;
+        height:auto;
+        margin:auto;
+    }
+}
+
+@media (max-width:1659px){
+    .playlistrankingbody{
+        justify-content: space-around;
+    }
 }

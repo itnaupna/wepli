@@ -71,7 +71,7 @@
 .signupduplicationemailnbtn,
 .signuemailduplicationbtn {
     background-color: #d0e0f4;
-    width: 4rem;
+    /* width: 4rem; */
     height: 1.88rem;
     cursor: pointer;
     border-radius: 8px;
@@ -82,7 +82,7 @@
     position: absolute;
     top: 1.2rem;
     left: 13.75rem;
-    width: 4rem;
+    /* width: 4rem; */
     height: 1.88rem;
 }
 .signupinputemailgroup {

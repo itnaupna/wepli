@@ -132,7 +132,7 @@ function PlayStage() {
     const [vdc, setVdc] = useRecoilState(VoteDownCountAtom);
     const setHistoryCount = useSetRecoilState(HistoryCountAtom);
     const handleSocketData = (data) => {
-        console.log(data);
+        // console.log(data);
         // console.log("패킷수신 " + data.msg);
         switch (data.type) {
             case 'ENTER':
