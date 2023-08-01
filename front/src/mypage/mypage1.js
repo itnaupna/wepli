@@ -323,27 +323,27 @@ function Mypage1(props) {
                 <button className="hamburger-button" onClick={handleMenuToggle}>메뉴</button>
                 <ul className={`mypageul ${isMenuOpen ? 'open' : ''}`}>
                     <li onClick={showInfoChangeModal}>
-                        회원정보수정
+                        회원 정보 수정
                     </li>
                     {emailconfirm=== 1 ?
                         <li onClick={emailconfirm === 1 ? null : showEmailConfirmModal}>
-                            이메일인증완료
+                            이메일 인증 완료
                         </li> :
                         <li onClick={showEmailConfirmModal}>
-                            이메일인증
+                            이메일 인증
                         </li>
                     }
                     {phoneconfirm === 1 ?
                         <li onClick={phoneconfirm === 1 ? null : showPhoneConfirmModal}>
-                            전화번호인증완료
+                            전화번호 인증 완료
                         </li> :
                         <li onClick={showPhoneConfirmModal}>
-                            전화번호인증
+                            전화번호 인증
                         </li>
                     }
 
                     <li onClick={showBlackListOptionModal}>
-                        블랙리스트옵션
+                        블랙리스트 옵션
                     </li>
 
                     <li onClick={showOutMemberModal}>

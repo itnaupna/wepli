@@ -4,6 +4,7 @@ import message from "./svg/message.svg";
 import { useParams } from 'react-router-dom';
 import FollowingAndFollowerModal from "../MypageModal/FollowingAndFollowerModal";
 import Axios from "axios";
+import weplilogo from "./photo/wplieonlylogo.png";
 
 function UserMypage(props) {
     const bucket = process.env.REACT_APP_BUCKET_URL;
@@ -84,7 +85,7 @@ function UserMypage(props) {
         <div className="mypagemainframe">
             <div className="mypageheader">
                 <div className="mypageleftheader">
-                    <img src={`${bucket}/profile/${data.img}`}
+                    <img src={data.img ? `${bucket}/profile/${data.img}` : weplilogo}
                          alt="Profile" className="mypageuserprofile"/>
                 </div>
                 <div className='mypagerightheader'>
