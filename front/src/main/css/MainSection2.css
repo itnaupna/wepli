@@ -16,18 +16,6 @@
     animation: moveRight 15s infinite ;
 }
 
-.main2img2 {
-    width: 100%;
-    height: auto;
-    animation: moveLeft 15s infinite ;
-}
-
-.mainsection2photogroup,
-.mainsection2photogroup1 {
-    position: relative;
-    top: 10%;
-    opacity: 0.6;
-}
 
 .mainsection2photogroup{
     margin-bottom: 20px;
@@ -45,76 +33,16 @@
     bottom: 0;
 }
 
-@keyframes moveRight {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-    100% {
-    transform: translate3d(-50%, 0, 0);
-    }
-}
-
-@keyframes moveLeft {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-    100% {
-        transform: translate3d(50%, 0, 0);
-    }
-}
-
-@media (max-width: 1024px) {
-    .mainsection2{
-        max-width: 100vw;
-    }
-
-    .main2img,
-    .main2img2 {
-        width: 230vw;
-    }
-}
-
-@media (max-width: 768px) {
-
-    .main2img,
-    .main2img2 {
-        width: 230vw;
-    }
-
-    @keyframes moveRightSmall {
-        0% {
-            transform: translateX(-100%);
-        }
-        100% {
-            transform: translateX(100%);
-        }
-    }
-
-    @keyframes moveLeftSmall {
-        0% {
-            transform: translateX(100%);
-        }
-        100% {
-            transform: translateX(-100%);
-        }
-    }
-
-    .main2img {
-        animation: moveRightSmall 25s linear infinite alternate;
-    }
-
-    .main2img2 {
-        animation: moveLeftSmall 25s linear infinite alternate;
-    }
-}
-
 .posthergroup{
     height: 40vh;
     width: 90%;
     position: absolute;
     left: 5%;
     margin-top: 250px;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .posther1{
@@ -149,4 +77,36 @@
     margin-top: 800px;
     font-size: 47px;
     width: 70vw;
+}
+
+
+@media (max-width: 1024px) {
+    .mainsection2{
+        max-width: 100vw;
+    }
+
+    .mainsectiontoptext, .mainsectiontoptext1 {
+        font-size: 25px;
+    }
+
+    .mainsectiontoptext{
+        margin-left: 50px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .posthergroup img {
+        width: 20vw;
+    }
+
+    .mainsectiontoptext, .mainsectiontoptext2{
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .posthergroup img {
+        width: 24vw;
+    }
+
 }

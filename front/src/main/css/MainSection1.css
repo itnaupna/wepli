@@ -57,6 +57,7 @@
     font-family: 'SUIT1', serif;
     position: relative;
     transition: color 0.5s ease;
+    align-self: stretch;
 }
 
 .mainsection1text:hover{
@@ -121,6 +122,7 @@
     justify-content: center;
     text-align: center;
     top: 62vh;
+    align-self: stretch;
 }
 
 .mainsection1subtext1,
@@ -146,13 +148,11 @@
         top: 30%;
     }
     .mainsection1text {
-        left: 4vh;
         font-size: 150px;
     }
     #mainsection1subtextgroup {
         font-size: 20px;
         top: 60vh;
-        left: 4vh;
     }
 
     .mainsectionimg2 {
