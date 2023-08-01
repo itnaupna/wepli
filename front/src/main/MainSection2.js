@@ -6,6 +6,7 @@ import posther1 from "./photo/poster1.png";
 import posther2 from "./photo/posther2.png";
 import star from "./photo/star.png";
 import texts from "./photo/3dtext.png";
+import typho from "./photo/typho.png";
 
 function MainSection2(props) {
     const youtubeRef = useRef(null);
@@ -48,7 +49,7 @@ function MainSection2(props) {
                 <img src={posther2} className={'posther2'} ref={poster2Ref} />
                 <img src={star} className={'posther3'} ref={poster3Ref} />
                 <img src={texts} className={'posther4'} ref={poster4Ref} />
-                <img src={posther2} className={'posther5'} ref={poster5Ref} />
+                <img src={typho} className={'posther5'} ref={poster5Ref} />
             </div>
             <div className={'mainsectiontoptext1'} ref={mainsectiontoptext1Ref}>음악을 만들고 공유하며, 친구들과 함께하는 유튜브 스타일의 즐거움!</div>
         </div>
