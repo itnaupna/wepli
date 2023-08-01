@@ -103,7 +103,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     // log.info(getToken);
                     accessToken = URLEncoder.encode(getToken, "utf-8");
                     ts.updateAccessToken("Bearer" + refreshToken, "Bearer" + accessToken);
-                     log.info("[JWT regen] accessToken : {}", accessToken);
+                    //  log.info("[JWT regen] accessToken : {}", accessToken);
 
                     Cookie[] cookies = request.getCookies();
                     for (int i = 0; i < cookies.length; i++) {
