@@ -128,7 +128,7 @@ function PlayStageList(props) {
           <SearchBar listHandler={listHandler}/>
         </div>
         <div className="slpresult">
-          {
+          {  searchStageAtom.length === 0 ? <h2>검색결과가 없습니다</h2> :
             searchStageAtom.map((v, i) =>
               <Link to={"/stage/" + v.address} key={i}>
                 <ResultItem data={v} />
