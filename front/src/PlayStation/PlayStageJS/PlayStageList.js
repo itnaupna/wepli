@@ -93,8 +93,6 @@ function PlayStageList(props) {
   };
 
   useEffect(() => {
-    // 초기 로딩 시 스크롤 이벤트 발생시키기
-    handleScroll();
 
 
 

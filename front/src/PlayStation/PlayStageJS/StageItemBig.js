@@ -34,6 +34,7 @@ const StageItemBig = () => {
     } else {
       loadData();
       SetCheckStage(false);
+      console.log("성공")
     }
   }, [data]);
 
