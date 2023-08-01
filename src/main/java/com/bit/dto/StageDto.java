@@ -14,7 +14,7 @@ public class StageDto {
     private String genre;
     private String tag;
     private String nick;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private Timestamp makeday;
     private String img;
     private String pw;

@@ -15,6 +15,7 @@ import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { IsPlayingAtom, YTPListAtom, YoutubeAtom } from '../recoil/YoutubeAtom';
 import { StageUrlAtom } from '../recoil/ChatItemAtom';
+import { GetBucketImgString } from '../recoil/StageDataAtom';
 
 
 
@@ -54,7 +55,7 @@ const MusicBarV2 = () => {
         setTitle(data?.title);
         setAuthor(data?.singer);
         setPlayerNick(data?.playerNick);
-        setImg(data?.img || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
+        setImg((data?.img && GetBucketImgString(data.img)) || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
 
     }, [isp])
 

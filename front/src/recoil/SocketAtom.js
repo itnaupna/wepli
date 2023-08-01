@@ -4,7 +4,7 @@ import * as StompJS from '@stomp/stompjs';
 import { ChatItemsAtom } from './ChatItemAtom';
 
 // const [ws, setWs] = useRecoilState();
-const sc = new SockJS("https://localhost/ws");
+const sc = new SockJS("https://wepli.today/ws");
 const ws = StompJS.Stomp.over(sc);
 
 let subs = null;

@@ -6,13 +6,13 @@ import logo from "./photo/weplieonlylogoonlylogo.png";
 import {UserStorageNick} from "../recoil/LoginStatusAtom";
 import {useRecoilState, useRecoilValue} from "recoil";
 import axios from "axios";
+import {emailState} from "../recoil/LoginStatusAtom";
 function InfoChageModal({setIsInfoChangeModalOpen}) {
 
     const [nick, setNickName] = useState('');
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
     const [userStorageNick, setUserStorageNick] = useRecoilState(UserStorageNick);
-
 
     const closeInfoChangeModal = async () => {
         await setIsInfoChangeModalOpen(false);
@@ -151,7 +151,7 @@ function InfoChageModal({setIsInfoChangeModalOpen}) {
                 {/*이메일 입력*/}
                 <div className="mypageinfochangemodalpassnickn">
                     <input placeholder={
-                        emailconfirm != 1
+                        emailconfirm !== 1
                             ? '이메일을 입력해주세요'
                             : '이미 이메일이 인증이되어 변경할 수 없습니다.'
                     } className="mypageinfochangemodalnicknamei"

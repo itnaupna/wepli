@@ -54,7 +54,7 @@
 }
 .followermodalmembercounttext {
     font-size: 0.81rem;
-    font-family: "BM HANNA Air";
+    font-family: var(--font-bm-hanna-air);
     height: 0.94rem;
 }
 .followermodalinfogroup {
@@ -145,7 +145,7 @@
     align-items: center;
     text-align: left;
     font-size: 1.06rem;
-    font-family: "BM HANNA_TTF";
+    font-family: var(--font-bm-hanna_ttf);
 }
 .followermodallayout {
     border-radius: 20px;

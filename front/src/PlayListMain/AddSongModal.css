@@ -1,8 +1,8 @@
 .addsongmodals {
     /* fonts */
-    --font-kbo-dia-gothic: "KBO Dia Gothic";
+    /* --font-kbo-dia-gothic: "KBO Dia Gothic";
     --font-bm-hanna_ttf: "BM HANNA_TTF";
-    --font-bm-dohyeon: "BM DoHyeon";
+    --font-bm-dohyeon: "BM DoHyeon"; */
 
     /* font sizes */
     --font-size-16xl: 2.19rem;
@@ -16,6 +16,46 @@
     /* Paddings */
     --padding-8xs: 0.31rem;
 }
+@media (max-width: 1911px) {
+    .addsongmodalsubjecttxt{
+        width: 900px !important;
+    }
+    .addsongmodaltitle{
+        width: 600px;
+    }
+    .addsongmodalbuttons{
+        margin-bottom: 20px;
+    }
+}
+@media (max-width: 1600px) {
+    .addsongmodalsubjecttxt{
+        width: 800px !important;
+    }
+    .addsongmodaltitle{
+        width: 600px;
+    }
+    .addsongmodalbuttons{
+     margin-bottom: 20px;
+    }
+}
+@media (max-width: 1250px) {
+    .addsongmodal {
+       left: 30% !important;
+    }
+    .addsongmodaltitle{
+        width: 500px;
+    }
+}
+@media (max-width: 930px) {
+    .addsongmodal {
+        left: 20% !important;
+    }
+}
+@media (max-width: 800px) {
+    .addsongmodal {
+        left: 10.5% !important;
+    }
+}
 
 .addsongmodalsubjecttxt {
     position: absolute;
@@ -24,11 +64,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 64.38rem;
+    width: 1000px !important;
     height: 3.13rem;
     font-family: var(--font-bm-dohyeon);
     font-size: 40px;
     text-align: center;
+
 }
 .addsongmodalback-icon {
     position: absolute;

@@ -138,6 +138,10 @@ public class StageService {
         }
     }
 
+    public int getMaxSongLength(String stageId){
+        return sMapper.selectStageOneByAddress(stageId).getMaxlength();
+    }
+
     public SongDto setNextSong(String stageId) {
         try {
             synchronized (builtStages.get(stageId)) {
@@ -338,7 +342,9 @@ public class StageService {
     }
 
     public StageDto selectStageOneByAddress(String address) {
-        return sMapper.selectStageOneByAddress(address);
+        StageDto result = sMapper.selectStageOneByAddress(address);
+        result.setInfo(builtStages.getOrDefault(result.getAddress(), new BuiltStageDto()));
+        return result;
     }
 
     public StageDto selectStageOneByMasterNick(String token) {
@@ -394,10 +400,6 @@ public class StageService {
     public List<StageDto> selectSearchStage(String token, String queryString, String type, boolean orderByDay, int curr,
             int cpp) {
         String typeString[] = { "title", "nick", "genre", "tag", null };
-        log.info("queryString -> {}",queryString);
-        log.info("type -> {}",type);
-        log.info("orderbyday -> {}", orderByDay);
-
 
         Map<String, Object> data = new HashMap<>();
         data.put("orderByDay", orderByDay);
