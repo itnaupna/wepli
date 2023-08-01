@@ -85,7 +85,7 @@ function App() {
             <SideBar />
             {(showController > 0 || su !== null) && <MusicBarV2 />}
             <div className="backgroundImgDiv" />
-            <div style={{ paddingBottom: showController !== 0 ? '100px' : '0' , overflow:"auto"}}>
+            <div style={{ paddingBottom: showController > 0 ? '100px' : '0' , overflow:"auto"}}>
                 <Routes>
                     <Route path="/" element={<MainPage />} />
 
