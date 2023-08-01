@@ -199,7 +199,7 @@ const StageLeftSide = () => {
                 </div>
                 <Modal open={mo} onClose={handleMc}>
                     {isOwner
-                        ? <CSM types={false} />
+                        ? <CSM types={false} onClose={handleMc} />
                         : <StageInfoModal />
                     }
                 </Modal>

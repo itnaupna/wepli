@@ -33,11 +33,7 @@ function PlayStageList(props) {
 
     axios.get("/api/lv0/s/search", { params: {type: type == null ? 0 : type, orderByDay: orderByDay == null ? true : orderByDay, queryString: queryString, curr: 1, cpp: currentPage } })
     .then(res => {
-      if(queryString == null || queryString === "") {
         setSearchStageAtom([...res.data]);
-      } else {
-        setSearchStageAtom([...res.data]);
-      }
     })
     .catch(res => console.log(res));
   }
@@ -81,7 +77,7 @@ function PlayStageList(props) {
   const data = JSON.parse(sessionStorage.getItem("data"));
 
   const isAuthenticated = (data) => {
-    return data.emailconfirm === 1 && data.phoneconfirm === 1;
+    return data.emailconfirm === 1 || data.phoneconfirm === 1;
   };
   const [showTop, setShowTop] = useState(false);
 
