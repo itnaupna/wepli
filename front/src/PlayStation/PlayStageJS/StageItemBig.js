@@ -14,10 +14,9 @@ const StageItemBig = () => {
   const [stageInfo,setStageInfo] = useState({});
 
   const {userNick} = useParams();
-  // 모달창 노출
-  const [modalOpen, setModalOpen] = useState(false);
+
   const showModal = () => {
-    setModalOpen(true);
+    setMo(true)
   };
   const [mo, setMo] = useState(false);
   const handleMo = () => setMo(true);
@@ -25,7 +24,6 @@ const StageItemBig = () => {
   const data = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem('data'));
   const [checkStage, SetCheckStage] = useState(false);
 
-//세션스토리지 최신화
   useEffect(() => {
     if (data && data.stageaddress === null) {
       SetCheckStage(true);
@@ -38,10 +36,6 @@ const StageItemBig = () => {
     return null;
   }
 
-
-
-        
-     
 
   return (
     <>
@@ -58,8 +52,8 @@ const StageItemBig = () => {
             <span>생</span>
             <span>성</span>
           </button>
-          <Modal open={mo} onClose={handleMc}>
-            <CSM types={true} />
+          <Modal open={mo}  onClose={handleMc}>
+            <CSM types={true} onClose={handleMc}/>
           </Modal>
         </div>
       ) : (
