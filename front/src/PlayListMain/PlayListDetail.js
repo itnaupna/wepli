@@ -274,7 +274,6 @@ const PlayListDetail = () => {
 
     const updateSong = (index) => {
         const updateSongURl = "/api/lv1/p/song";
-        alert(songTitle + "+" + songSinger + "+" + uploadSongImgName + "+" + idx + "+" + index);
         const updateSongData = {
             playlistID: idx,
             title: songTitle,
