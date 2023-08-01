@@ -6,7 +6,7 @@ import Upload from '../PlayStageImage/Icon/upload.svg';
 import Axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-
+import Logo from '../../mypage/photo/wplieonlylogo.png';
 
 function makeAddress(length) {
 
@@ -30,8 +30,9 @@ const CSM = ({ types, onClose}) => {
     const [StageGenres, setStageGenres] = useState("");
     const [StageDesc, setStageDesc] = useState("");
     const StageImgRef = useRef();
-    const [StageImg, setStageImg] = useState(bucketURl + "/stage/03ea9232-a177-41a1-9a4d-6481d2dbd76d");
-    const [uploadStageImgName, setUploadStageImgName] = useState("/stage/03ea9232-a177-41a1-9a4d-6481d2dbd76d");
+    const [StageImg, setStageImg] = useState(bucketURl + "/stage/4a878683-bb43-4391-a228-b5eabaeb51c3");
+    // const [StageImg,setStageImg] = useState(null);
+    const [uploadStageImgName, setUploadStageImgName] = useState("/stage/4a878683-bb43-4391-a228-b5eabaeb51c3");
     const navigate = useNavigate();
     const [fetchedStageData,setFechedStageData] = useState(null);
     const [initialDataLoaded,setInitialDataLoaded] = useState(false);
@@ -135,28 +136,76 @@ const CSM = ({ types, onClose}) => {
         StageImgRef.current.click();
     };
 
+    // const saveStageImg = (e) => {
+    //     const uploadStageImg = new FormData();
+    //     uploadStageImg.append('directoryPath', "stage");
+    //     uploadStageImg.append('upload', e.target.files[0]);
+    //     Axios({
+    //         method: "post",
+    //         url: "/api/lv1/os/imgupload",
+    //         data: uploadStageImg,
+    //         headers: { "Content-Type": "multipart/form-data" }
+    //     }).then(res => {
+    //         setUploadStageImgName(res.data);
+    //     }).catch(error => {
+    //         console.log(error);
+    //     })
+    //     setUploadStageImgName(uploadStageImg);
+    //     const StageImgfile = StageImgRef.current.files[0];
+    //     const reader = new FileReader();
+    //     reader.readAsDataURL(StageImgfile);
+    //     reader.onload = () => {
+    //         setStageImg(reader.result);
+    //     };
+    // };
     const saveStageImg = (e) => {
-        const uploadStageImg = new FormData();
-        uploadStageImg.append('directoryPath', "stage");
-        uploadStageImg.append('upload', e.target.files[0]);
-        Axios({
+        if (e.target.files.length === 0) {
+          // 사용자가 이미지를 업로드하지 않은 경우, 기본 로고 이미지를 사용합니다.
+          setUploadStageImgName("/stage/logo-image.png"); // 파일명을 적절히 변경합니다.
+          setStageImg(bucketURl + "/stage/logo-image.png"); // 파일명을 적절히 변경합니다.
+          // Axios를 발동하여 Bucket에 기본 로고 이미지를 올립니다.
+          const uploadStageImg = new FormData();
+          uploadStageImg.append('directoryPath', "stage");
+          uploadStageImg.append('upload', {Logo}); // 기본 로고 이미지 파일을 추가합니다.
+          Axios({
             method: "post",
             url: "/api/lv1/os/imgupload",
             data: uploadStageImg,
             headers: { "Content-Type": "multipart/form-data" }
-        }).then(res => {
-            setUploadStageImgName(res.data);
-        }).catch(error => {
+          }).then(res => {
+            // Bucket에 기본 로고 이미지가 업로드된 후, 아무런 작업 없이 그대로 둡니다.
+          }).catch(error => {
             console.log(error);
-        })
-        setUploadStageImgName(uploadStageImg);
-        const StageImgfile = StageImgRef.current.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(StageImgfile);
-        reader.onload = () => {
+          });
+          return;
+        }
+      
+        // 사용자가 이미지를 업로드한 경우, 기존 로직과 동일하게 처리합니다.
+        const uploadStageImg = new FormData();
+        uploadStageImg.append('directoryPath', "stage");
+        uploadStageImg.append('upload', e.target.files[0]);
+        Axios({
+          method: "post",
+          url: "/api/lv1/os/imgupload",
+          data: uploadStageImg,
+          headers: { "Content-Type": "multipart/form-data" }
+        }).then(res => {
+          setUploadStageImgName(res.data);
+      
+          // 사용자가 이미지를 업로드한 경우에만 StageImg 상태를 업데이트합니다.
+          const StageImgfile = StageImgRef.current.files[0];
+          const reader = new FileReader();
+          reader.readAsDataURL(StageImgfile);
+          reader.onload = () => {
             setStageImg(reader.result);
-        };
-    };
+          };
+        }).catch(error => {
+          console.log(error);
+        });
+      };
+      
+      
+      
     
     const AddStageData = {
         title: StageTitle,
@@ -213,7 +262,6 @@ const CSM = ({ types, onClose}) => {
                 try {
                   const response = await axios.delete(deleteUrl, {
                     params: {
-                      token: 'your-token-here',
                       pw: enteredPw,
                       title: StageTitle,
                     },
@@ -223,15 +271,15 @@ const CSM = ({ types, onClose}) => {
                     alert('스테이지가 삭제되었습니다.');
                     setIsPasswordEntered(true); // 비밀번호가 올바르게 입력되었음을 표시하는 상태를 설정합니다
                     if (localStorage.getItem('data')) {
-                      let s = JSON.parse(localStorage.getItem('data'));
-                      s.stagetitle = StageTitle;
-                      s.stageaddress = StageAddress;
-                      localStorage.setItem('data', JSON.stringify(s));
+                      let d = JSON.parse(localStorage.getItem('data'));
+                      d.stagetitle = null;
+                      d.stageaddress = null;
+                      localStorage.setItem('data', JSON.stringify(d));
                     } else if (sessionStorage.getItem('data')) {
-                      let s = JSON.parse(sessionStorage.getItem('data'));
-                      s.stagetitle = StageTitle;
-                      s.stageaddress = StageAddress;
-                      sessionStorage.setItem('data', JSON.stringify(s));
+                      let d = JSON.parse(sessionStorage.getItem('data'));
+                      d.stagetitle = null;
+                      d.stageaddress = null;
+                      sessionStorage.setItem('data', JSON.stringify(d));
                     }
                     // 원하는 페이지로 이동합니다 (예: '/mypage')
                     navigate('/stage');
@@ -285,7 +333,7 @@ const CSM = ({ types, onClose}) => {
                 <div
                     className='CSMImg'
                     src={StageImg}
-                    style={{ backgroundImage: StageImg ? `url(${StageImg})` : 'none' }}
+                    style={{ backgroundImage: StageImg ? `url(${StageImg})` : `url(${Logo})` }}
                     onClick={onClickImageUpload}
                 // Trigger the file input click when the image is clicked
                 />
@@ -300,7 +348,8 @@ const CSM = ({ types, onClose}) => {
                 <input className='CSMDetail' name='description' value={StageDesc} onChange={StageDescOnChange} placeholder='간단한 소개를 입력하세요. (최대 50자)' />
             </div>
             <div className='CSMContent CSMlv4'>
-                <button onClick={handleCreateOrUpdate}>
+                <button className="button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper"
+                onClick={handleCreateOrUpdate}>
                     스테이지 {types ? '생성' : '수정'}
                 </button>
             </div>

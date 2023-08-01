@@ -67,7 +67,7 @@ function PlayStageList(props) {
   const data = JSON.parse(sessionStorage.getItem("data"));
 
   const isAuthenticated = (data) => {
-    return data.emailconfirm === 1 && data.phoneconfirm === 1;
+    return data.emailconfirm === 1 || data.phoneconfirm === 1;
   };
   const [showTop, setShowTop] = useState(false);
 
