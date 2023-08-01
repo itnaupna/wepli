@@ -65,7 +65,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             token = Arrays.stream(request.getCookies())
             .filter(c -> c.getName().equals("token"))
             .findFirst().map(Cookie::getValue)
-            .orElse(null);
+            .orElse("");
         }
 
          log.info("token: {}", token);
@@ -136,7 +136,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         } else {
             // Bearer token인 경우 JWT 토큰 유효성 검사 진행
-            if (token != null && token.startsWith("Bearer")) {
+            if ((token != null || !token.equals("")) && token.startsWith("Bearer")) {
                 accessToken = token.substring(6);
                 // log.info("token: {}", accessToken);
                 try {

@@ -3,14 +3,12 @@ import "./css/MainWrapper4.css";
 import heart from "./photo/heart.png";
 import Axios from "axios";
 function MainWrapper4(props) {
-    const [curr, setCurr] = useState(1);
-    const [cpp, setCpp] = useState(3);
     const [orderByDay ,setOrderByDay] = useState(false);
     const [likeTop3, setLikeTop3] = useState([]);
 
     useEffect(()=>{
         const LikeTop3Url = "/api/lv0/p/list";
-        Axios.get(LikeTop3Url,{ params: {orderByDay, curr, cpp}})
+        Axios.get(LikeTop3Url,{ params: {orderByDay}})
             .then(res =>
                 setLikeTop3(res.data));
 

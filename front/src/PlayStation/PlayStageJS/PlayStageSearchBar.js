@@ -49,7 +49,7 @@ function PlayStageSearchBar(props) {
     };
     const SearchEnter = (e) =>{
         if (e.key === 'Enter') {
-                SearchButton();
+            SearchButton();
         }
     };
 
@@ -93,7 +93,7 @@ function PlayStageSearchBar(props) {
                             </div>
                         </div>
                         <div className="slpsort-playlistsearchbar">
-                            <input className="slpsort-playlsitsearchbarbody" onKeyPress={SearchEnter} value={queryString} type="text" placeholder="검색할 내용을 입력해 주세요"  onChange={searchOnChange}/>
+                            <input className="slpsort-playlsitsearchbarbody" onKeyDown={SearchEnter} value={queryString} type="text" placeholder="검색할 내용을 입력해 주세요"  onChange={searchOnChange}/>
                             <svg 
                             width="24" 
                             height="24" 

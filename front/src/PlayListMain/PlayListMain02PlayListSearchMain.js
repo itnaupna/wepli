@@ -56,12 +56,13 @@ function PlayListMain02PlayListSearchMain(props) {
     const SearchEnter = (e) =>{
         if (e.key === 'Enter') {
             SearchButton();
+            document.activeElement.blur();
         }
     };
 
     const SelectSearchOption = (e) =>{
         setType(e.target.getAttribute("value"));
-
+       
     }
 
 
@@ -97,7 +98,7 @@ function PlayListMain02PlayListSearchMain(props) {
                         </div>
                         <div className="playlistsearchbar">
                             <input className="playlsitsearchbarbody" onKeyDown={SearchEnter} value={queryString} type="text" placeholder="검색할 내용을 입력해 주세요"  onChange={searchOnChange}/>
-                                <img onClick={SearchButton}
+                                <img onClick={() => SearchButton }
                                     className="playlsitsearchicons"
                                     alt=""
                                     src={SearchBarIcon}
