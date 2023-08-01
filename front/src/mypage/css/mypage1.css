@@ -171,6 +171,7 @@
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     max-width: 250px;
     color: #333;
+    margin-left: 20px;
 }
 
 .mypagedescinput:hover {
@@ -212,6 +213,7 @@
     color: #fff;
     border: none;
 }
+
 
 .mypagedescchangebtn:hover::before {
     transform: scaleX(1);
@@ -261,6 +263,11 @@
     padding: 0;
     margin: 0;
     display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
+    overflow: auto;
+    margin-top: 400px;
 }
 
 .mypageul li {
@@ -268,19 +275,20 @@
     align-items: center;
     justify-content: center;
     display: flex;
-    width: 130px;
-    height: 10vh;
+    width: 770px;
+    height: 9vh;
     gap: 8px;
     padding: 8px 12px 8px 16px;
-    margin-right: 50px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
+    border-radius: 40px;
     cursor: pointer;
+    border-color: rgba(255, 255, 255, 0.333);
     background: #056bfa27;
     font-weight: bold;
-    font-size: 20px;
-    margin-right: 30px;
-    
+    font-size: 20px; 
+    margin-left: -10px;
+    margin-top: 20px;
+
 }
 
 .mypageul li:hover {
@@ -422,6 +430,20 @@
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         font-size: 20px;
+        width: 00px;
+    }
+
+    .mypagelistmenu .mypageul::-webkit-scrollbar{
+        display: none;
+    }
+
+    .mypagelistmenu .mypageul{
+        overflow-y: scroll;
+    }
+
+    .mypagelistmenu{
+        display: none;
+        
     }
 
     .mypageul li:nth-child(n+2) {
@@ -451,7 +473,7 @@
     .mypageul.open {
         display: block;
         gap: 50px;
-        top: 5%;
+        top: 0;
         width: 360px;
         height: 700px;
         margin-top: 800px;
@@ -479,7 +501,7 @@
         width: 360px;
         top: 10%;
         position: absolute;
-        left: 43% !important;
+        left: 68% !important;
         background-color: #8ec5fc;
         border-radius: 10px;
         height: 5%;
@@ -498,12 +520,12 @@
 
 @media (max-width: 1310px){
     .mypagelistmenu{
-        margin-left: 165px;
+        margin-left: 0px;
     }
 
     .mypageul li{
-        width: 150px;
-        left: 10%;
+        width: 770px;
+        left: 0%;
     }
 }
 
@@ -519,13 +541,15 @@
         left: 25.5% !important;
     }
 
-
+    .mypagedescbtngroup{
+        margin-left: 0px;
+    }
     .mypagedescchangebtn{
         top: 7%;
         width: 60px;
         text-align: left;
         padding-left: 10px;
-        right: 10px;
+        margin-left: 0;
     }
 
     .button-content{
