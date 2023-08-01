@@ -167,6 +167,17 @@
 
 }
 
+@media (max-width: 500px){
+    .mainsection1text{
+        margin-left: 50px;
+        font-size: 90px;
+    }
+
+    .mainsection1subtextgroup{
+        font-size: 40px;
+    }
+}
+
 @keyframes fadeOut {
     from {
         opacity: 1;
