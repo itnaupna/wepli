@@ -6,6 +6,7 @@
     display: inline-block;
     width: 47.81rem;
 }
+
 .mainwrapperbottomtitletextsect {
     position: absolute;
     bottom: 1.81rem;
@@ -13,12 +14,14 @@
     width: 47.81rem;
     height: 4.63rem;
 }
+
 .mainwrapperbottomsubtext {
     position: absolute;
     bottom: 0;
     left: 0;
     font-weight: 500;
 }
+
 .mainwrapperbottomsubtextsectio {
     position: absolute;
     bottom: 0;
@@ -27,6 +30,7 @@
     height: 2.75rem;
     font-size: 2.75rem;
 }
+
 .mainwrapper4bottomtextgroup {
     position: absolute;
     bottom: 0;
@@ -34,6 +38,7 @@
     width: 47.81rem;
     height: 6.44rem;
 }
+
 .mainwrappertoptitletext {
     position: absolute;
     top: 0;
@@ -42,6 +47,7 @@
     display: inline-block;
     width: 49.13rem;
 }
+
 .mainwrappertoptitletextsection {
     position: absolute;
     top: 0;
@@ -49,12 +55,14 @@
     width: 49.13rem;
     height: 4.63rem;
 }
+
 .mainwrappertopsubtext {
     position: absolute;
     top: 0;
     right: 0;
     font-weight: 500;
 }
+
 .mainwrappertopsubtextsection {
     position: absolute;
     top: 4.63rem;
@@ -63,6 +71,7 @@
     height: 2.75rem;
     font-size: 2.75rem;
 }
+
 .mainwrapper4toptextgroup {
     position: absolute;
     top: 0;
@@ -70,6 +79,7 @@
     width: 49.13rem;
     height: 7.38rem;
 }
+
 .mainwrapper4secondrankimg-icon {
     position: absolute;
     width: 100%;
@@ -81,6 +91,7 @@
     height: 18.75rem;
     object-fit: cover;
 }
+
 .mainwrapper4secondrankimggroup {
     position: absolute;
     width: 100%;
@@ -89,6 +100,7 @@
     left: 0;
     height: 18.75rem;
 }
+
 .mainwrapper4seondheart-icon {
     position: absolute;
     top: calc(50% - 12px);
@@ -97,6 +109,7 @@
     height: 1.5rem;
     overflow: hidden;
 }
+
 .mainwrapper4secondrankingtext {
     position: absolute;
     top: calc(50% - 8px);
@@ -104,6 +117,7 @@
     font-weight: 500;
     width: 260px;
 }
+
 .mainwrapper4secondrankingtextg {
     position: absolute;
     top: calc(50% - 172px);
@@ -111,6 +125,7 @@
     width: 5.38rem;
     height: 1.5rem;
 }
+
 .mainwrapper4secondrankgroup {
     position: absolute;
     width: 20.83%;
@@ -119,6 +134,7 @@
     left: 0;
     height: 21.5rem;
 }
+
 .mainwrapper4firstrankimg-icon {
     position: absolute;
     width: 100%;
@@ -130,6 +146,7 @@
     height: 31.25rem;
     object-fit: cover;
 }
+
 .mainwrapper4firstrankimggroup {
     position: absolute;
     width: 100%;
@@ -138,6 +155,7 @@
     left: 0;
     height: 31.25rem;
 }
+
 .mainwrapper4firstrankingtext {
     position: absolute;
     top: calc(50% - 10px);
@@ -145,6 +163,7 @@
     font-weight: 500;
     width: 260px;
 }
+
 .mainwrapper4firstrankingtextgr {
     position: absolute;
     top: calc(50% - 272px);
@@ -152,6 +171,7 @@
     width: 5.38rem;
     height: 1.5rem;
 }
+
 .mainwrapper4firstrankgroup {
     position: absolute;
     width: 34.72%;
@@ -160,6 +180,7 @@
     left: 32.99%;
     height: 34rem;
 }
+
 .mainwrapper4thirdrankimg-icon {
     position: absolute;
     height: 100%;
@@ -173,6 +194,7 @@
     max-height: 100%;
     object-fit: cover;
 }
+
 .mainwrapper4thirdrankimggroup {
     position: absolute;
     height: 87.21%;
@@ -182,6 +204,7 @@
     bottom: 0;
     left: 0;
 }
+
 .mainwrapper4thirdheart-icon {
     position: absolute;
     height: 100%;
@@ -192,6 +215,7 @@
     width: 1.5rem;
     overflow: hidden;
 }
+
 .mainwrapper4thirdrankingtext {
     position: absolute;
     top: 8.33%;
@@ -199,6 +223,7 @@
     font-weight: 500;
     width: 260px;
 }
+
 .mainwrapper4thirdrankingtextgr {
     position: absolute;
     height: 6.98%;
@@ -207,6 +232,7 @@
     left: 0;
     width: 5.38rem;
 }
+
 .mainwrapper4thirdrankgroup {
     position: absolute;
     width: 20.83%;
@@ -215,6 +241,7 @@
     left: 79.17%;
     height: 21.5rem;
 }
+
 .mainwrapper4rankingsection {
     position: absolute;
     width: 82.62%;
@@ -224,6 +251,7 @@
     height: 34rem;
     font-size: 1.25rem;
 }
+
 .mainwrapper4group {
     position: absolute;
     bottom: 3.69rem;
@@ -231,6 +259,7 @@
     width: 108.94rem;
     height: 53.19rem;
 }
+
 .mainwrapper4 {
     position: relative;
     background-color: #fff;
@@ -240,5 +269,5 @@
     text-align: left;
     font-size: 4.63rem;
     color: #000;
-    font-family: "KBO Dia Gothic";
+    font-family: var(--font-kbo-dia-gothic);
 }

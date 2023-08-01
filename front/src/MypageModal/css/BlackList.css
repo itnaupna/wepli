@@ -5,6 +5,7 @@
     overflow: hidden;
     flex-shrink: 0;
 }
+
 .blacklistmodalwepli {
     position: absolute;
     height: 100%;
@@ -16,17 +17,20 @@
     align-items: center;
     justify-content: center;
 }
+
 .blacklistmodaltitle {
     position: relative;
     width: 9.06rem;
     height: 3.38rem;
 }
+
 .blacklistmodalwplieonlylogo-5-icon {
     position: relative;
     width: 3.13rem;
     height: 3.39rem;
     object-fit: cover;
 }
+
 .blacklistmodalheader {
     width: 18.75rem;
     display: flex;
@@ -35,6 +39,7 @@
     justify-content: flex-start;
     gap: 0.94rem;
 }
+
 .blacklistmodalthumbnail-icon {
     position: relative;
     width: 3.75rem;
@@ -42,6 +47,7 @@
     object-fit: cover;
     border-radius: 30px;
 }
+
 .blacklistmodalmembercounttext,
 .blacklistmodalmembernicknamete {
     align-self: stretch;
@@ -52,12 +58,14 @@
     height: 1.25rem;
     flex-shrink: 0;
 }
+
 .blacklistmodalmembercounttext {
     font-size: 0.81rem;
-    font-family: "BM HANNA Air";
+    font-family: var(--font-bm-hanna-air);
     height: 0.94rem;
     color: #ccc;
 }
+
 .blacklistmodalinfogroup {
     width: 9.38rem;
     height: 3.75rem;
@@ -83,6 +91,7 @@
     color: black;
     border: none;
 }
+
 .blacklistmodalblackbtnframe {
     position: absolute;
     top: calc(50% + 5px);
@@ -93,6 +102,7 @@
     height: 1.25rem;
     overflow: hidden;
 }
+
 .blacklistmodalfollowbtntext {
     position: absolute;
     width: 44%;
@@ -107,6 +117,7 @@
     width: 3.13rem;
     height: 3.13rem;
 }
+
 .blacklistmodalbtngroup {
     width: 3.25rem;
     display: flex;
@@ -115,8 +126,9 @@
     justify-content: flex-start;
     font-size: 0.5rem;
     color: #a649da;
-    font-family: "KBO Dia Gothic";
+    font-family: var(--font-kbo-dia-gothic);
 }
+
 .blacklistmodallist {
     border-radius: 20px;
     background-color: #fff;
@@ -133,12 +145,14 @@
     gap: 0.19rem;
     margin-top: 15px;
 }
+
 .blacklistmodallayout,
 .blacklistmodalveticalframe {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
+
 .blacklistmodalveticalframe {
     align-self: stretch;
     height: 32.19rem;
@@ -147,8 +161,9 @@
     align-items: center;
     text-align: left;
     font-size: 1.06rem;
-    font-family: "BM HANNA_TTF";
+    font-family: var(--font-bm-hanna_ttf);
 }
+
 .blacklistmodallayout {
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.4);
@@ -159,6 +174,7 @@
     align-items: flex-start;
     gap: 1.88rem;
 }
+
 .blacklistmodalgroup,
 .blacklistmodallayout {
     position: absolute;
@@ -169,6 +185,7 @@
     bottom: 0;
     left: 0;
 }
+
 .blacklistmodalwapper {
     position: fixed;
     top: 50%;
@@ -181,13 +198,14 @@
     z-index: 9999;
 }
 
-.blacklistmodalmodalarrow-icon{
+.blacklistmodalmodalarrow-icon {
     cursor: pointer;
 }
 
-.blacklistmodalveticalframe::-webkit-scrollbar{
+.blacklistmodalveticalframe::-webkit-scrollbar {
     display: none;
 }
+
 .blacklistmodalframe {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.2);
@@ -206,13 +224,13 @@
 }
 
 @media (max-width: 768px) {
-    .blacklistmodalframe{
+    .blacklistmodalframe {
         height: 100%;
         width: 100%;
         margin-left: 70px;
     }
 
-    .blacklistmodalwapper{
+    .blacklistmodalwapper {
         margin-left: 30px;
     }
 }

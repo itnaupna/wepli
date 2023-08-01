@@ -134,7 +134,7 @@
     width: 37.5rem;
     height: 37rem;
     font-size: 2.38rem;
-    font-family: "BM Dohyeon";
+    font-family: var(--font-bm-dohyeon);
 }
 .mainwrapper2leftalbumgroup {
     position: absolute;
@@ -143,7 +143,7 @@
     width: 46.25rem;
     height: 40.63rem;
     font-size: 2.13rem;
-    font-family: "BM Hanna Air";
+    font-family: var(--font-bm-hanna-air);
 }
 .mainwrapper2legtgroup {
     position: relative;
@@ -275,7 +275,7 @@
     width: 37.5rem;
     height: 37rem;
     font-size: 2.38rem;
-    font-family: "BM Dohyeon";
+    font-family: var(--font-bm-dohyeon);
 }
 .mainwrapper2rightalbumgroup {
     position: absolute;
@@ -284,7 +284,7 @@
     width: 46.25rem;
     height: 40.63rem;
     font-size: 2.13rem;
-    font-family: "BM Hanna Air";
+    font-family: var(--font-bm-hanna-air);
 }
 .mainwrapper2-8 {
     position: relative;
@@ -302,5 +302,5 @@
     text-align: left;
     font-size: 6.88rem;
     color: #000;
-    font-family: "KBO Dia Gothic";
+    font-family: var(--font-kbo-dia-gothic);
 }

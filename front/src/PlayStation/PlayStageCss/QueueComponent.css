@@ -226,7 +226,7 @@
 .qitemlength {
     position: relative;
     /* font-size: 0.69rem; */
-    font-family: "BM DoHyeon";
+    font-family: var(--font-bm-dohyeon);
     text-align: right;
     display: -webkit-inline-box;
     overflow: hidden;
@@ -252,7 +252,7 @@
     justify-content: flex-start;
     text-align: left;
     /* font-size: 1.25rem; */
-    font-family: "BM HANNA Air";
+    font-family: var(--font-bm-hanna-air);
     /* max-width:420px; */
 }
 
@@ -361,7 +361,7 @@
     align-items: center;
     justify-content: flex-start;
     /* font-size: 0.63rem; */
-    font-family: "BM DoHyeon";
+    font-family: var(--font-bm-dohyeon);
 }
 
 .qiteminfo1,
@@ -383,7 +383,7 @@
     flex-direction: column;
     text-align: left;
     /* font-size: 1.25rem; */
-    font-family: "BM HANNA Air";
+    font-family: var(--font-bm-hanna-air);
 }
 
 .qplaylistitems,
@@ -406,7 +406,8 @@
     border-radius: 0 10px 10px 0;
     /* text-align: center; */
     /* font-size: 0.88rem; */
-    font-family: "Black Han Sans";
+    /* font-family: "Black Han Sans"; */
+    font-family : var(--font-black-han-sans);
 }
 
 .queuelistrightside,
@@ -438,7 +439,7 @@
     text-align: left;
     /* font-size: 0.94rem; */
     color: #000;
-    font-family: "BM DoHyeon";
+    font-family: var(--font-bm-dohyeon);
 }
 
 .qhisdiv *,

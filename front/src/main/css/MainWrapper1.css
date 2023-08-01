@@ -148,7 +148,7 @@
     height: 9.5rem;
     font-size: 5.63rem;
     color: #fff;
-    font-family: "BM Dohyeon";
+    font-family: var(--font-bm-dohyeon);
 }
 .mainwrapper1section {
     position: absolute;

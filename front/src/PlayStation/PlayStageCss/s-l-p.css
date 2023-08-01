@@ -89,7 +89,7 @@
   gap: 5px;
   text-align: right;
   color: #000;
-  font-family: "BM HANNA_TTF";
+  font-family: var(--font-bm-hanna_ttf);
 }
 
 .slpitembigheader {
@@ -366,7 +366,7 @@
   align-items: center;
   justify-content: center;
   color: #000;
-  font-family: "BM HANNA_TTF";
+  font-family: var(--font-bm-hanna_ttf);
 }
 
 .slpresultitemowner {
@@ -377,6 +377,9 @@
 .slpresultitemowner {
   align-self: stretch;
   position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .slpresultiteminfo {
@@ -392,7 +395,7 @@
 
 .slpresultitemtitle {
   font-size: 30px;
-  font-family: "BM HANNA_TTF";
+  font-family: var(--font-bm-hanna_ttf);
   height: 40px;
 }
 
@@ -401,6 +404,9 @@
   align-self: stretch;
   position: relative;
   text-transform: capitalize;
+  overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .slpresultitemplayinginfo {
@@ -441,7 +447,7 @@
   padding: 20px;
   box-sizing: border-box;
   gap: 13px;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url("");
+  
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
@@ -497,7 +503,7 @@
   text-align: left;
   font-size: 20px;
   color: rgba(0, 0, 0, 0.5);
-  font-family: "BM HANNA Air";
+  font-family: var(--font-bm-hanna-air);
   margin: auto;
   margin-left: 70px;
 }
@@ -660,13 +666,13 @@
 }
 
 .slpsort-playlsitsearchbarbody {
-  position: absolute;
+  /* position: absolute; */
   right: 0;
   bottom: 0;
   border-radius: var(--br-xl);
   background-color: var(--color-white);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-  height: 3.13rem;
+  height: 48px;
   width: 16.097rem;
   padding-left: 50px;
   border-top-width: 0px;

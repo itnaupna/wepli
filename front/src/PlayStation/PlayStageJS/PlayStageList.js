@@ -121,6 +121,7 @@ function PlayStageList(props) {
       )}
       <div className="slpbottom">
         <div className="slpsearchwrapper">
+          <div></div>
           <SearchBar />
         </div>
         <div className="slpresult">
