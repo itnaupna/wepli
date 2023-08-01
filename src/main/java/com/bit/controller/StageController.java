@@ -43,6 +43,7 @@ public class StageController {
     //스테이지 목록 가져오기
     @GetMapping("/lv0/s/stage")
     public List<StageDto> getStage(@CookieValue(required=false) String token, int curr, int cpp) {
+        System.out.println("애오오오옹");
         return sService.selectStageAll(token, curr, cpp);
     }
 

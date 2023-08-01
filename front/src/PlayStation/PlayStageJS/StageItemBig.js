@@ -36,6 +36,7 @@ const StageItemBig = () => {
       SetCheckStage(false);
       console.log("성공")
     }
+    console.log(checkStage);
   }, [data]);
 
 
@@ -44,9 +45,11 @@ const StageItemBig = () => {
 
   const loadData = async () => {
     let address = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem('data')).stageaddress;
-    let result = await axios.get("/api/lv0/s/stageinfo", { params: { address } });
-    setStageData(result.data);
-    console.log(result.data);
+    if(address != null && address !== "") {
+      let result = await axios.get("/api/lv0/s/stageinfo", { params: { address } });
+      setStageData(result.data);
+      console.log(result.data);
+    }
   }
 
   if (!data) {
@@ -62,6 +65,7 @@ const StageItemBig = () => {
           <button onClick={handleMo}
             className="button button--nina button--round-l button--text-thick button--inverted makestageButton"
             data-text="스테이지생성">
+  
             <span>스</span>
             <span>테</span>
             <span>이</span>

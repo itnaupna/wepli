@@ -9,6 +9,9 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import SearchBar from "./PlayStageSearchBar.js";
 import StageSlide from './StageSlide.js';
+import { useRecoilState, useRecoilValue } from "recoil";
+import { QueryStringAtom, SearchStageAtom } from "../../recoil/StageSearchAtom";
+import { LoginStatusAtom } from "../../recoil/LoginStatusAtom";
 
 
 function PlayStageList(props) {
@@ -18,19 +21,29 @@ function PlayStageList(props) {
     setModalOpen(true);
   };
   const [resItems, setResItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(9);
+  const [searchStageAtom, setSearchStageAtom] = useRecoilState(SearchStageAtom);
+  const queryString = useRecoilValue(QueryStringAtom);
   // useEffect(() => {
   //   axios.get("/api/lv0/s/stage", { params: { curr: 1, cpp: 3} })
   //     .then(res => { setResItems(res.data); console.log(res.data); })
   //     .catch(res => console.log(res));
   // }, []);
+  const listHandler = (type, orderByDay) => { 
+
+    axios.get("/api/lv0/s/search", { params: {type: type == null ? 0 : type, orderByDay: orderByDay == null ? true : orderByDay, queryString: queryString, curr: 1, cpp: currentPage } })
+    .then(res => {
+      if(queryString == null || queryString === "") {
+        setSearchStageAtom([...res.data]);
+      } else {
+        setSearchStageAtom([...res.data]);
+      }
+    })
+    .catch(res => console.log(res));
+  }
+
   useEffect(() => {
-    axios.get("/api/lv0/s/stage", { params: { curr: currentPage, cpp: 3 } })
-      .then(res => {
-        setResItems(prevItems => [...prevItems, ...res.data]);
-        console.log(res.data);
-      })
-      .catch(res => console.log(res));
+    listHandler();
   }, [currentPage]);
 
   //최신순(기본값) 인기순 토글 셀렉트
@@ -43,6 +56,7 @@ function PlayStageList(props) {
   const [isLogin, setIsLogin] = useState(false);
   const [checkStage, SetCheckStage] = useState(false);
   const [confirmAccount, SetConfirmAccount] = useState(0);
+  const loginStatus = useRecoilValue(LoginStatusAtom);
 
   const toggle1Dropdown = () => {
     setIsOpen1(!isOpen1);
@@ -73,13 +87,13 @@ function PlayStageList(props) {
 
   useEffect(() => {
     //로그인된 사용자 정보 가져오기(sessionStorage)
-    const data = JSON.parse(sessionStorage.getItem("data"));
+    const data = JSON.parse(sessionStorage.getItem("data") || localStorage.getItem('data'));
     if (data) {
       setShowTop(isAuthenticated(data));
     } else {
       setShowTop(false)
     }
-  }, []);
+  }, [loginStatus]);
 
 
 
@@ -87,8 +101,7 @@ function PlayStageList(props) {
   const handleScroll = () => {
     const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
     if (isAtBottom) {
-      setCurrentPage(prevPage => prevPage + 1);
-      console.log('무한 스크롤 작동!');
+      setCurrentPage(prevPage => prevPage + 9);
     }
   };
 
@@ -110,21 +123,20 @@ function PlayStageList(props) {
       {showTop && (
         <div className="slptop" style={{ display: 'flex' }}>
           <div className="slpmystagewrapper">
-            <StageItemBig />
+            <StageItemBig/>
           </div>
           <div className="slpfollowwrapper">
-            <StageSlide />
+            <StageSlide/>
           </div>
         </div>
       )}
       <div className="slpbottom">
         <div className="slpsearchwrapper">
-          <div></div>
-          <SearchBar />
+          <SearchBar listHandler={listHandler}/>
         </div>
         <div className="slpresult">
           {
-            resItems.map((v, i) =>
+            searchStageAtom.map((v, i) =>
               <Link to={"/stage/" + v.address} key={i}>
                 <ResultItem data={v} />
               </Link>
