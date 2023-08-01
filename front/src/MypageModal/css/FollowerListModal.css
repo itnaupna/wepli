@@ -15,6 +15,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 38px;
 }
 .followermodaltitle {
     position: relative;
@@ -78,6 +79,7 @@
     height: 1.25rem;
     overflow: hidden;
 }
+.followermodalunfollowbtn,
 .followermodalfollowbtntext {
     position: absolute;
     height: 100%;
@@ -88,7 +90,6 @@
     left: 0;
     border-radius: 20px;
     background-color: rgba(166, 73, 218, 0.012);
-    box-shadow: 10px 10px 10px red;
     mix-blend-mode: normal;
     color: black;
     border: none;
@@ -165,6 +166,7 @@
     right: 0;
     bottom: 0;
     left: 0;
+    border-radius: 30px;
 }
 .followermodalwapper {
     position: fixed;
@@ -202,7 +204,7 @@
 .followermodalunfollowbtn{
     position: absolute;
     height: 20px;
-    width: 60px;
+    width: 50px;
     top: 50%;
     right: 0;
     bottom: 0;
@@ -215,6 +217,8 @@
     font-size: 12px;
     cursor: pointer;
     text-align: center;
+    border-radius: 20px;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .followermodalmodalarrow-icon{
