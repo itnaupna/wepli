@@ -118,7 +118,7 @@ function FollowerListModal(props) {
                                                     {item.isfollow === 0 ? "추가" : "삭제"}</button>
                                             </div>
                                             <button type={'button'} value={idx} className={'followermodalunfollowbtn'}
-                                                    onClick={(e)=> handleUnFollow(item.t,e.target.value)}>언팔로우</button>
+                                                    onClick={(e)=> handleUnFollow(item.t,e.target.value)}>언팔</button>
                                         </div>
                                     </div>
                                 </div>

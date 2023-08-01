@@ -198,7 +198,7 @@
 .highlight{
     position: absolute;
     bottom: 0;
-    left: 21.5%;
+    left: 9%;
     width: 0;
     height: 2px;
     background-color: #6c63ff;
@@ -206,7 +206,7 @@
 }
 
 .mypagedescinput:focus + .highlight {
-    width: 78.5%;
+    width: 90%;
 }
 
 .mypagedescchangebtn{
