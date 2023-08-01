@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import logo from "./photo/wplieonlylogo.png";
 import message from "./svg/message.svg";
-import { useParams } from 'react-router-dom';
+import {json, useParams} from 'react-router-dom';
 import FollowingAndFollowerModal from "../MypageModal/FollowingAndFollowerModal";
 import Axios from "axios";
 
@@ -36,8 +36,26 @@ function UserMypage(props) {
             params: {target : target}
         }).then(res => {
             setData({...data, followChk: res.data, blackChk: 0});
-
             console.log(res.data);
+
+            let d = JSON.parse((sessionStorage.getItem('data')||localStorage.getItem('data')));
+            let lst = JSON.parse(d.lstfollow) || [];
+            let lst2 = JSON.parse(d.lstblack) || [];
+            if(+res.data === 0)
+                lst = lst.filter((v,i)=>v!==target);
+            else {
+                lst = [...lst, target];
+                lst2 = lst2.filter((v,i)=>v!==target);
+            }
+            d.lstfollow = JSON.stringify(lst);
+            d.lstblack = JSON.stringify(lst2);
+            if(sessionStorage.getItem('data') !== null)
+                sessionStorage.setItem('data',JSON.stringify(d));
+            else
+                localStorage.setItem('data',JSON.stringify(d));
+
+
+            // console.log("eong" + target);
         }).catch(error => {
             if(error.response.status === 401) {
                 alert("로그인 후 사용가능한 기능입니다");
@@ -58,14 +76,32 @@ function UserMypage(props) {
             params: {target : target}
         }).then(res => {
             setData({...data, blackChk: res.data, followChk: 0});
-            console.log(data);
+
+            let d = JSON.parse((sessionStorage.getItem('data')||localStorage.getItem('data')));
+            let lst2 = JSON.parse(d.lstfollow) || [];
+            let lst = JSON.parse(d.lstblack) || [];
+            if(+res.data === 0)
+                lst = lst.filter((v,i)=>v!==target);
+            else {
+                lst = [...lst, target];
+                lst2 = lst2.filter((v,i)=>v!==target);
+            }
+            d.lstfollow = JSON.stringify(lst2);
+            d.lstblack = JSON.stringify(lst);
+
+            if(sessionStorage.getItem('data') !== null)
+                sessionStorage.setItem('data',JSON.stringify(d));
+            else
+                localStorage.setItem('data',JSON.stringify(d));
+
+            // console.log(data);
         }).catch(error => {
-            if(error.response.status === 401) {
+            if(error.response?.status === 401) {
                 alert("로그인 후 사용가능한 기능입니다");
-            } else if(error.response.status === 403) {
+            } else if(error.response?.status === 403) {
                 alert("메일 또는 문자인증 후 사용 가능합니다");
             } else {
-                alert("알수없는 오류");
+                alert("알수없는 오류" + error.toString());
             }
         })
     }

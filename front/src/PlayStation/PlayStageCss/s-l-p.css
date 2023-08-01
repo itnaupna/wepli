@@ -68,6 +68,10 @@
   position: relative;
   font-family: var(--font-bm-hanna-air);
   color: #0047ff;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+
 }
 
 .slpmystagecategory {
@@ -103,6 +107,9 @@
   align-self: stretch;
   position: relative;
   text-transform: capitalize;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .slpmystagetitle {
@@ -380,6 +387,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: right;
 }
 
 .slpresultiteminfo {
@@ -450,7 +458,7 @@
   
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: top;
+  background-position: center;
   min-width: 460px;
   height: 300px;
   max-height: 300px;

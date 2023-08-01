@@ -273,24 +273,50 @@ function Mypage1(props) {
                             <img src={logo} alt={'logo'} className={'mypageweplilogo'}/>
                         </div>
                     </div>
-                    {/*팔로잉리스트*/}
-                    <div className={'mypagefollowinggroup'}>
-                        <div className={'mypagefollowing'} onClick={()=>showFollowListModal("follower")}>
-                            <div className={'mypagefollowtext1'}>팔로잉 {userdata.followCnt}</div>
+                    {/* 팔로잉리스트 */}
+                    {emailconfirm !== 0 || phoneconfirm !== 0 ? (
+                        <div className="mypagefollowinggroup">
+                            <div className="mypagefollowing" onClick={() => showFollowListModal("follower")}>
+                                <div className="mypagefollowtext1">팔로잉 {userdata.followCnt}</div>
+                            </div>
                         </div>
-                    </div>
-                    {/*팔로워리스트*/}
-                    <div className={'mypagefollowegroup'} onClick={showTargetListModal}>
-                        <div className={'mypagefollowering'}>
-                            <div className={'mypagefollowertext1'}>팔로워 {userdata.followerCnt}</div>
+                    ) : (
+                        <div className="mypagefollowinggroup" onClick={() => alert("이메일 또는 휴대폰 인증을 먼저 완료해주세요.")}>
+                            <div className="mypagefollowing">
+                                <div className="mypagefollowtext1">팔로잉 {userdata.followCnt}</div>
+                            </div>
                         </div>
-                    </div>
-                    {/*블랙리스트*/}
-                    <div className={'mypageblackgroup'} onClick={showBlackListModal}>
-                        <div className={'mypageblacking'}>
-                            <div className={'mypageblacktext1'}>블랙리스트</div>
+                    )}
+
+                    {/* 팔로워리스트 */}
+                    {emailconfirm !== 0 || phoneconfirm !== 0 ? (
+                        <div className="mypagefollowegroup" onClick={showTargetListModal}>
+                            <div className="mypagefollowering">
+                                <div className="mypagefollowertext1">팔로워 {userdata.followerCnt}</div>
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="mypagefollowegroup" onClick={() => alert("이메일 또는 휴대폰 인증을 먼저 완료해주세요.")}>
+                            <div className="mypagefollowering">
+                                <div className="mypagefollowertext1">팔로워 {userdata.followerCnt}</div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* 블랙리스트 */}
+                    {emailconfirm !== 0 || phoneconfirm !== 0 ? (
+                        <div className="mypageblackgroup" onClick={showBlackListModal}>
+                            <div className="mypageblacking">
+                                <div className="mypageblacktext1">블랙리스트</div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="mypageblackgroup" onClick={() => alert("이메일 또는 휴대폰 인증을 먼저 완료해주세요.")}>
+                            <div className="mypageblacking">
+                                <div className="mypageblacktext1">블랙리스트</div>
+                            </div>
+                        </div>
+                    )}
                     <div className={'mypagedescgroup'}>
                         <div className={'mypagedesctext'}>
                             <img src={message} className={'mypagemessage'}/>

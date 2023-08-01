@@ -34,7 +34,7 @@ function MainSection2(props) {
 
         gsap.fromTo(mainsectiontoptextRef.current, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 1, scrollTrigger: { trigger: mainsectiontoptextRef.current, start: "top 80%", end: "top 50%", scrub: 1 } });
 
-        gsap.fromTo(mainsectiontoptext1Ref.current, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 1, scrollTrigger: { trigger: mainsectiontoptext1Ref.current, start: "top 80%", end: "top 80%", scrub: 1 } });
+        gsap.fromTo(mainsectiontoptext1Ref.current, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 1, scrollTrigger: { trigger: mainsectiontoptext1Ref.current, start: "top 80%", end: "top 50%", scrub: 1 } });
 
     }, []);
 

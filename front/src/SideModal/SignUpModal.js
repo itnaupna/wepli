@@ -106,23 +106,23 @@ function SignUpModal({setSignUpModalOpen}) {
                 return;
             }
 
-            try {
-                const res = await axios.post(url, {email, pw: pw, nick, socialtype: socialtype});
-                if (res.data) {
-                    alert("회원가입됨");
-                    await setSignUpModalOpen(false);
-                    window.location.reload();
-                    navigate("/");
-                } else {
-                    alert("다시 입력해주십쇼 -_-");
-                }
-            } catch (error) {
-                console.log(error);
-                alert(error);
+        }
+        try {
+            const res = await axios.post(url, {email, pw: pw, nick, socialtype: socialtype});
+            console.log("호출해용2222");
+            if (res.data) {
+                alert("회원가입됨");
+                await setSignUpModalOpen(false);
+                window.location.reload();
+                navigate("/");
+            } else {
+                alert("다시 입력해주십쇼 -_-");
             }
+        } catch (error) {
+            console.log(error);
+            alert(error);
         }
 
-        
     };
 
     // 닉네임 중복체크
@@ -184,7 +184,7 @@ function SignUpModal({setSignUpModalOpen}) {
             alert("이메일 중복체크 에러", error);
         }
     };
-    
+
     useEffect(() => {
         if(socialEmail != null && socialtype != null) {
             setEmail(socialEmail);
@@ -201,6 +201,7 @@ function SignUpModal({setSignUpModalOpen}) {
             signUpSubmit();
         }
     };
+
 
 
     return (
@@ -239,12 +240,12 @@ function SignUpModal({setSignUpModalOpen}) {
                         readOnly = {isSocial ? true : false}
                         onKeyPress={SignEnter}
                     />
-                    { isSocial ? "" : 
-                    <div className="signupemailbtngroup">
-                        <button onClick={checkEmail} className="signupduplicationemailnbtn">
-                            중복확인
-                        </button>
-                    </div>
+                    { isSocial ? "" :
+                        <div className="signupemailbtngroup">
+                            <button onClick={checkEmail} className="signupduplicationemailnbtn">
+                                중복확인
+                            </button>
+                        </div>
                     }
                 </div>
 
@@ -265,7 +266,7 @@ function SignUpModal({setSignUpModalOpen}) {
                         </button>
                     </div>
                 </div>
-                
+
                 {/* 비밀번호 입력 */}
                 {
                     isSocial ? "" :
@@ -283,29 +284,28 @@ function SignUpModal({setSignUpModalOpen}) {
                 }
                 {
                     isSocial ? "" :
-                     <div className="signupinputemailgroup">
-                        <input
-                            className="signupduplicationinputemail"
-                            placeholder={'비밀번호를 한번 더 입력해주세요'}
-                            type="password"
-                            value={pwConfirm}
-                            name="pwConfirm"
-                            onChange={handleInputPwConfirm}
-                            onKeyPress={SignEnter}
-                        />
-                    </div>
+                        <div className="signupinputemailgroup">
+                            <input
+                                className="signupduplicationinputemail"
+                                placeholder={'비밀번호를 한번 더 입력해주세요'}
+                                type="password"
+                                value={pwConfirm}
+                                name="pwConfirm"
+                                onChange={handleInputPwConfirm}
+                                onKeyPress={SignEnter}
+                            />
+                        </div>
                 }
-                       
-               
+
+
                 {/* 회원가입 버튼 */}
                 <div className="signupmodalbottombtngroup">
                     <div className="signupmodalbottombtn">
-                        <div className="signupmodalbottombtnrectangle"/>
+                        <div className="signupmodalbottombtnrectangle"/>signUpSubmit
                         <button
                             type="button"
                             className="signupmodalbottombtntext"
                             onClick={signUpSubmit}
-                            // disabled={!isEmailValid || !isNickValid || !isEmailChecked || !isNickChecked}
                         >
                             회원가입
                         </button>
