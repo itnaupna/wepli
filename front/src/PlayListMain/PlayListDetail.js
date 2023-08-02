@@ -215,6 +215,7 @@ const PlayListDetail = () => {
             return newSongList;
         });
     };
+
     const handleChangeTitle = (index, value) => {
         setPlaListDetailSong(prevSongList => {
             const newSongList = [...prevSongList];
