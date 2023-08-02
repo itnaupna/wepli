@@ -1,16 +1,16 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import "./AddSongModal.css";
-import {useRecoilState} from "recoil";
-import {AddSongModalOpen, SearchSongModalOpen, VideoId, YoutubeAddResult , AddSongResult} from "../recoil/SearchSongAtom";
+import { useRecoilState } from "recoil";
+import { AddSongModalOpen, SearchSongModalOpen, VideoId, YoutubeAddResult, AddSongResult } from "../recoil/SearchSongAtom";
 import backIcon from "../MainIMG/backarrow.svg";
 import MusicList from "../MainIMG/MusicList.png";
 import PlayListDetaliAddMusic from "../MainIMG/PlayListDetailAddMusic.png";
 import axios from "axios";
-import {useParams} from "react-router-dom";
-import {parseDurationToSeconds} from "../recoil/StageDataAtom";
+import { useParams } from "react-router-dom";
+import { parseDurationToSeconds } from "../recoil/StageDataAtom";
 
 
-function AddSongModal(props) {
+function AddSongModal({ data }) {
     const [addSongModalOpen, setAddSongModalOpen] = useRecoilState(AddSongModalOpen);
     const [searchSongModalOpen, setSearchSongModalOpen] = useRecoilState(SearchSongModalOpen);
     const [youtubeAddResult, setYoutubeAddResult] = useRecoilState(YoutubeAddResult);
@@ -24,8 +24,8 @@ function AddSongModal(props) {
     const closeAddSongModal = async () => {
         setAddSongModalOpen(false);
     }
-    const backButtonClick = async () => {
-        await setAddSongModalOpen(false);
+    const backButtonClick = () => {
+        setAddSongModalOpen(false);
         setSearchSongModalOpen(true);
     }
     useEffect(() => {
@@ -62,7 +62,7 @@ function AddSongModal(props) {
             songorigin: "yt"
         }
         axios({
-            method:"post",
+            method: "post",
             url: "/api/lv1/p/song",
             data: songData
         }).then(res => {
@@ -80,7 +80,7 @@ function AddSongModal(props) {
         const hours = parseInt(matches[1]) || 0;
         const minutes = parseInt(matches[2]) || 0;
         const seconds = parseInt(matches[3]) || 0;
-        
+
         const formattedHours = hours.toString().padStart(2, '0');
         const formattedMinutes = minutes.toString().padStart(2, '0');
         const formattedSeconds = seconds.toString().padStart(2, '0');
@@ -99,7 +99,7 @@ function AddSongModal(props) {
                     {youtubeAddResult && youtubeAddResult.length > 0 ? (
                         <div className="addsongmodalsubjecttxt">곡 추가</div>
                     ) : (
-                        <div>정보가 없습니다.</div>
+                        <div className='addsongmodalsubjecttxt'>정보가 없습니다.</div>
                     )}
                     <img
                         className="addsongmodalback-icon"

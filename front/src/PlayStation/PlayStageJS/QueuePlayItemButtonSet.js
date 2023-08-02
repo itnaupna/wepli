@@ -113,10 +113,10 @@ const QRemuserButton = ({ data }) => {
 const QueuePlayItemButtonSet = ({ keyString, data, index }) => {
     const set = {
         normal: {
-            e: [QPlayButton, QGrabButton, QDeleteButton],
+            e: [QPlayButton, QGrabButton]
         },
         stagequeue: {
-            e: [QOrderButton, QGrabButton, QRemuserButton, QDeleteButton],
+            e: [QOrderButton, QGrabButton, QRemuserButton],
         },
         history: {
             e: [QPlayButton, QGrabButton]

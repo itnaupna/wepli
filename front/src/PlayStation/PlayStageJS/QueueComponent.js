@@ -140,9 +140,9 @@ const QueueComponent = () => {
                             <div className="queueplaylistwrapper">
                                 {myPlaylists && myPlaylists.map((v, i) => <QueueMypliItem data={v} key={i} />)}
                             </div>
-                            <div className="btnmakepli" style={{ justifyContent: 'center' }}>
+                            {/* <div className="btnmakepli" style={{ justifyContent: 'center' }}>
                                 플리 생성
-                            </div>
+                            </div> */}
                         </div>
                     }
                 </div>
