@@ -59,11 +59,23 @@ function SearchSongModal(props) {
                 setSearchResults(response.data);
                 setNextPageTokenValue(false);
             }
+            setIsError(false);
         }).catch((error) => {
-            console.error('Error fetching data:', error);
+            if (selType === 'api') {
+                setSelType('force');
+                setIsError(true);
+            } else {
+                console.error('Error fetching data:', error);
+                setIsError(false);
+            }
         });
     };
-
+    const [isError,setIsError] = useState(false);
+    useEffect(()=>{
+        if(isError && selType==='force'){
+            handleSearch();
+        }
+    },[isError]);
     // useEffect(() => {
     //     console.log("업데이트된 nextPageTokenValue:", nextPageTokenValue);
     //     console.log("업데이트된 youtubeSearchParam:", youtubeSearchParam);
@@ -80,7 +92,7 @@ function SearchSongModal(props) {
     const youtubeSearchOnChange = (e) => {
         setYoutubeSearchParam(e.target.value);
     }
-    
+
     const modalContentRef = useRef();
 
     /*  const handleScroll = () => {
