@@ -255,6 +255,7 @@ function Mypage1(props) {
         <div className="mypagemainframe">
             <div className="mypageheader">
                 <div className="mypageleftheader">
+                    <label>
                     <img src={loginStatus && profileImageUrl ? `${bucket}/profile/${profileImageUrl}` : logo}
                          alt="Profile" className="mypageuserprofile"/>
                     <input
@@ -263,6 +264,7 @@ function Mypage1(props) {
                         className="file-input"
                         onChange={memberProfileChange}
                     />
+                    </label>
                 </div>
                 <div className='mypagerightheader'>
                     <div className={'mypageusernickgroup'}>
