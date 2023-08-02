@@ -11,21 +11,7 @@
     font-size: 40px;
     text-align: center;
 }
-@media (max-width: 1250px) {
-    .searchsongmodalgroup {
-        left: 30% !important;
-    }
-}
-@media (max-width: 930px) {
-    .searchsongmodalgroup {
-        left: 20% !important;
-    }
-}
-@media (max-width: 800px) {
-    .searchsongmodalgroup {
-        left: 10.5% !important;
-    }
-}
+
 .searchsongmodalsearchbody {
     position: absolute;
     top: 0;
@@ -226,4 +212,116 @@
 }
 .moreResult:hover{
     cursor: pointer;
+}
+
+.ssmg{
+    position: fixed;
+    top:50%;
+    left:50%;
+    background: white;
+    border:none;
+    border-radius: 30px;
+    z-index: 15000;
+    padding:20px;
+    transform: translate(-50%,-50%);
+    width:70%;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+}
+.ssmg>*{
+    align-self: stretch;
+    justify-content: space-between;
+    display:flex;
+}
+
+.ssmtitle{
+    font-size: 40px;
+    font-family: var(--font-bm-dohyeon);
+}
+
+.ssmquery{
+    font-family: var(--font-bm-hanna-air);
+    font-size: 30px;
+    background: transparent;
+    width:100%;
+    cursor: text;
+}
+
+.ssminputwrapper{
+    background:rgba(0,0,0,0.1);
+    border-radius: 10px;
+    height:4rem;
+}
+
+.ssmsicon{
+    margin: auto 10px;
+    width:2rem;
+    height:2rem;
+    cursor:pointer;
+}
+
+.ssmresult{
+    background: rgba(0,0,0,0.1);
+    border-radius:10px;
+    flex-direction: column;
+    gap:5px;
+    max-height: 350px;
+    overflow-y: auto;
+    padding:10px;
+}
+.isRemoving{
+    transition: all 1.2s ease;
+    opacity: 0;
+    transform: translateX(-110%);
+}
+.isRemoving>:nth-child(3){
+    display:none;
+}
+.isRemoved{
+    display:none !important;
+}
+
+.ssmresultitem{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:5px;
+}
+
+.ssmresultitem> :nth-child(1){
+    
+}
+.ssmresultitem> :nth-child(2){
+    display:flex;
+    flex:1;
+    align-items: center;
+    gap:10px;
+}
+.ssmresultitem> :nth-child(2){
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 120%;
+}
+.ssmresultitem> :nth-child(3)>svg{
+    outline: 2px solid black;
+    border-radius: 5px;
+}
+
+@media (max-width: 1250px) {
+    .ssmg {
+        width: 80%;
+    }
+}
+@media (max-width: 930px) {
+    .ssmg {
+        width: 85%;
+    }
+}
+@media (max-width: 800px) {
+    .ssmg {
+        width: 90%;
+    }
 }
