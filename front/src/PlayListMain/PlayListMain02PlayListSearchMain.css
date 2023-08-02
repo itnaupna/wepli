@@ -381,8 +381,8 @@
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
     overflow-y: auto;
     padding: 0 1.56rem 1.25rem 1.56rem;
-    justify-content: space-around;
-    height: 115%;
+    /*justify-content: space-around;*/
+    height: 616px;
 }
 .playlistitemwrapperframe::-webkit-scrollbar{
     display: none;

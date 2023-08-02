@@ -92,7 +92,7 @@ function SignUpModal({setSignUpModalOpen}) {
 
             // 비밀번호 정규식
             if (!passwordRegEx.test(pw)) {
-                alert("비밀번호는 영문 대소문자와 숫자로 구성된 8~20자여야 합니다.");
+                alert("비밀번호는 영문 숫자로 구성된 8~20자여야 합니다.");
                 setPw("");
                 setPwConfirm("");
                 return;
