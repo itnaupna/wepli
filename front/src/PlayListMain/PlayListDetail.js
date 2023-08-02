@@ -271,7 +271,6 @@ const PlayListDetail = () => {
         setSongSinger(songSinger);
     }
 
-
     const updateSong = (index) => {
         const updateSongURl = "/api/lv1/p/song";
         const updateSongData = {
