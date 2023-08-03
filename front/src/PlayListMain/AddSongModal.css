@@ -280,3 +280,6 @@
     z-index: 10000;
     font-family: var(--font-bm-dohyeon);
 }
+.ssmresultitem> :nth-child(3)>svg:hover{
+    cursor: pointer;
+}
