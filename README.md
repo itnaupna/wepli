@@ -4,8 +4,8 @@
 <h3>위플리는 여러 사람들이 함께 노래를 듣거나 영상을 시청할 수 있는 서비스를 제공합니다.<br/> 여러 사람들과 플레이리스트를 공유하고, 함께 음악을 듣고 즐겨보세요.<h3/>
 
 <br/>
-* <h2><a href="https://www.youtube.com/watch?v=InJvwMtLbrA">유튜브 시연연상</a><h2/>
-* <h2><a href="wepli.today">유튜브 시연연상</a><h2/>
+<h2><a href="https://www.youtube.com/watch?v=InJvwMtLbrA">유튜브 시연연상</a><h2/>
+<h2><a href="wepli.today">배포주소</a><h2/>
 ### 개발일정
 * 기간 : 2023.06.30 ~ 2023.08.04
 * 인원 : 6명
