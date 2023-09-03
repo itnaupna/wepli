@@ -4,9 +4,10 @@
 <h3>위플리는 여러 사람들이 함께 노래를 듣거나 영상을 시청할 수 있는 서비스를 제공합니다.<br/> 여러 사람들과 플레이리스트를 공유하고, 함께 음악을 듣고 즐겨보세요.<h3/>
 
 <br/>
-<h2><a href="https://www.youtube.com/watch?v=InJvwMtLbrA">유튜브 시연연상</a><h2/>
-<h2><a href="wepli.today">배포주소</a><h2/>
-### 개발일정
+<a href="https://www.youtube.com/watch?v=InJvwMtLbrA">유튜브 시연연상</a><br/>
+<a href="wepli.today">배포주소</a>
+
+## Development Schedule
 * 기간 : 2023.06.30 ~ 2023.08.04
 * 인원 : 6명
 
@@ -17,6 +18,7 @@
 
 <img width="800" alt="image" src="https://github.com/itnaupna/wepli/assets/124419012/95a364fa-7c19-4b64-844b-f6f6d986feb6">
 
+## MEMBERS
 
 <table width="800">
   <tr style="align-items: center;">
@@ -62,9 +64,7 @@
   </tr>
 </table>
 
-# 프로젝트 소개
-
-## 사용 기술
+## Technology used
 ### Front-End
 <div>
   <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
@@ -73,6 +73,9 @@
   <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white">
   <img src="https://img.shields.io/badge/reactrouter-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white">
   <img src="https://img.shields.io/badge/greensock-88CE02?style=for-the-badge&logo=greensock&logoColor=white">
+  <img src="https://img.shields.io/badge/recoil-5A29E4?style=for-the-badge&logo=recoil&logoColor=white">
+  <img src="https://img.shields.io/badge/stomp-5A29E4?style=for-the-badge&logo=stomp&logoColor=white">
+  <img src="https://img.shields.io/badge/jwt-5A29E4?style=for-the-badge&logo=jwt&logoColor=white">
 </div>
 
 ### Back-End
@@ -84,15 +87,13 @@
   <img src="https://img.shields.io/badge/mysql 8-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
   <img src="https://img.shields.io/badge/spring_boot-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> 
   <img src="https://img.shields.io/badge/Gradle-c71a36?style=for-the-badge&logo=Gradle&logoColor=white">
-  <img src="https://img.shields.io/badge/Naver-03C75A?style=for-the-badge&logo=Naver&logoColor=white">
   <img src="https://img.shields.io/badge/apachemaven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white">
   <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
   <img src="https://img.shields.io/badge/jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white">
   <img src="https://img.shields.io/badge/ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white">
-
+  <img src="https://img.shields.io/badge/stomp-5A29E4?style=for-the-badge&logo=stomp&logoColor=white">
+  <img src="https://img.shields.io/badge/jwt-5A29E4?style=for-the-badge&logo=jwt&logoColor=white">
 </div>
-
-
 
 ### Tools
 <div> 
@@ -102,6 +103,7 @@
   <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=Discord&logoColor=white">
   <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&c%2B%2B&logoColor=white">
   <img src="https://img.shields.io/badge/npm-F24E1E?style=for-the-badge&logo=npm&c%2B%2B&logoColor=white">
+  <img src="https://img.shields.io/badge/Naver-03C75A?style=for-the-badge&logo=Naver&logoColor=white">
 </div>
 
 
